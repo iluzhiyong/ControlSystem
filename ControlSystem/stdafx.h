@@ -13,6 +13,10 @@
 #define VC_EXTRALEAN            // Exclude rarely-used stuff from Windows headers
 #endif
 
+//电机相关用户消息
+#define WM_USER_IMAGE_ACQ			WM_USER + 1
+#define WM_USER_READ_MOTOR_STATUS	WM_USER + 2
+
 #include "targetver.h"
 
 #define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS      // some CString constructors will be explicit

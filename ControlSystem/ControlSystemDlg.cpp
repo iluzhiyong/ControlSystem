@@ -79,6 +79,8 @@ BEGIN_MESSAGE_MAP(CControlSystemDlg, CDialogEx)
 	ON_WM_CTLCOLOR()
 	ON_BN_CLICKED(IDC_CAMERA_PARAM, &CControlSystemDlg::OnBnClickedCameraParam)
 	ON_BN_CLICKED(IDC_BUTTON_IMAGE_PROC, &CControlSystemDlg::OnBnClickedButtonImageProc)
+	ON_MESSAGE(WM_USER_IMAGE_ACQ,AcquireImage)
+	ON_BN_CLICKED(IDC_START, &CControlSystemDlg::OnBnClickedStart)
 END_MESSAGE_MAP()
 
 
@@ -349,4 +351,19 @@ void CControlSystemDlg::OnBnClickedButtonImageProc()
 {
 	// TODO: Add your control notification handler code here
 	action();
+}
+
+LRESULT CControlSystemDlg::AcquireImage(WPARAM wParam,LPARAM lParam)
+{
+	return 0;
+}
+
+void CControlSystemDlg::OnBnClickedStart()
+{
+	// TODO: Add your control notification handler code here
+	//创建电机监控线程
+	//m_pMotorCtrl = (CMotorCtrl*)AfxBeginThread(RUNTIME_CLASS(CMotorCtrl));
+
+	//Sleep(500); 
+	//m_pMotorCtrl->PostThreadMessage(WM_USER_READ_MOTOR_STATUS, NULL, NULL);
 }

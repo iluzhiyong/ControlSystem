@@ -4,20 +4,11 @@
 
 #pragma once
 
+#include "MotorCtrl.h"
+
 // CControlSystemDlg dialog
 class CControlSystemDlg : public CDialogEx
 {
-public:
-	// Local iconic variables
-  //HObject  ho_Rim, ho_Edges, ho_Holes, ho_Hole;
-
-  // Local control variables
-  //HTuple  hv_Width, hv_Height, hv_WindowID, hv_Row;
-  //HTuple  hv_Column, hv_Radius, hv_Number, hv_i, hv_DistanceMin;
-  //HTuple  hv_DistanceMax, hv_SVal, hv_Ascent, hv_Descent;
-  //HTuple  hv_Width1, hv_Height1;
-
-
 // Construction
 public:
 	CControlSystemDlg(CWnd* pParent = NULL);	// standard constructor
@@ -46,4 +37,10 @@ public:
 	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 	afx_msg void OnBnClickedCameraParam();
 	afx_msg void OnBnClickedButtonImageProc();
+
+protected:
+	CMotorCtrl* m_pMotorCtrl;
+	afx_msg LRESULT AcquireImage(WPARAM wParam,LPARAM lParam);
+public:
+	afx_msg void OnBnClickedStart();
 };
