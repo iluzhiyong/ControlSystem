@@ -232,6 +232,9 @@ void CControlSystemDlg::OnBnClickedImport()
 	int UsedColumnNum = excelApp.GetColumnCount();
 	CString strItemName;
 
+	//Çå³þ²ÐÁôÊý¾Ý
+	m_ListData.DeleteAllItems();
+
 	for (int j = 0; j < UsedColumnNum; j++)
 	{
 		m_ListData.InsertColumn(j,"",LVCFMT_CENTER, 60);
