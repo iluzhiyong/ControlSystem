@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.1" halcon_version="12.0">
+<procedure name="main">
+<interface/>
+<body>
+<c>* Example program for distance_pc</c>
+<c>* Determine the minimal and maximal radius of drill holes</c>
+<c>* </c>
+<l>dev_close_window ()</l>
+<l>read_image (Rim, 'G:/Machine Vision/picture.png')</l>
+<l>get_image_size (Rim, Width, Height)</l>
+<l>dev_open_window (0, 0, Width, Height, 'black', WindowID)</l>
+<l>dev_display (Rim)</l>
+<l>set_display_font (WindowID, 14, 'mono', 'false', 'false')</l>
+<c>* Segment the circular holes</c>
+<c>* The alpha parameter was choosen different than the default value</c>
+<c>* to ensure stronger smoothing and thusmore connected edge components</c>
+<l>edges_sub_pix (Rim, Edges, 'canny', 4, 20, 40)</l>
+<l>select_shape_xld (Edges, Holes, 'circularity', 'and', 0.7, 1.0)</l>
+<l>sort_contours_xld (Holes, Holes, 'upper_left', 'true', 'row')</l>
+<c>* Determine the midpoints</c>
+<l>smallest_circle_xld (Holes, Row, Column, Radius)</l>
+<l>count_obj (Holes, Number)</l>
+<l>dev_set_color ('red')</l>
+<l>*stop()</l>
+<c>* For all boles ...</c>
+<l>for i := 1 to 1 by 1</l>
+<l>    select_obj (Holes, Hole, i)</l>
+<l>    dev_display (Rim)</l>
+<l>    dev_display (Hole)</l>
+<c>    * Compute the minimal and maximal radius of the holes by computing the</c>
+<c>    * distance of the midpoint to the contour</c>
+<l>    distance_pc (Hole, Row[i - 1], Column[i - 1], DistanceMin, DistanceMax)</l>
+<c>    * And visualize the results (minimal and maximal radius)</c>
+<l>    disp_cross (WindowID, Row[i - 1], Column[i - 1], 20, 0)</l>
+<l>    tuple_string (DistanceMin, '.3f', SVal)</l>
+<l>    get_string_extents (WindowID, 'min: ' + SVal, Ascent, Descent, Width1, Height1)</l>
+<l>    *disp_message (WindowID, 'min: ' + SVal, 'image', Row[i - 1] - 2 * Ascent, Column[i - 1] - Radius[i - 1] - Width1 - 10, 'black', 'true')</l>
+<l>    *disp_message (WindowID, 'max: ' + DistanceMax$'.3f', 'image', Row[i - 1], Column[i - 1] - Radius[i - 1] - Width1 - 10, 'black', 'true')</l>
+<l>    *disp_message (WindowID, 'X:' + Row$'.3f', 'image', 300, 300, 'black', 'true')</l>
+<c>    </c>
+<l>    disp_continue_message (WindowID, 'black', 'true')</l>
+<c>    </c>
+<l>    *stop ()</l>
+<l>endfor</l>
+<l>disp_message (WindowID, 'X:' + Row[0]$'.3f' + ' Y:' + Column[0]$'.3f', 'image', 300, 300, 'black', 'true')</l>
+<l>disp_cross (WindowID, (Height/2), (Width/2), 20, 0)</l>
+<l>disp_message (WindowID, 'X: ' + (Width/2)$'.3f' + ' Y:' + (Height/2)$'.3f', 'image', (Height/2), (Width/2),  'black', 'true')</l>
+<c></c>
+<l>*stop()</l>
+<l>*dev_close_window ()</l>
+<c>*****************************************</c>
+<c>*XLD fit</c>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>

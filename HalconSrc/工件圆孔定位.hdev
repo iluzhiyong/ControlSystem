@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.1" halcon_version="12.0">
+<procedure name="main">
+<interface/>
+<body>
+<l>dev_close_window ()</l>
+<l>read_image (Capture1, 'G:/Machine Vision/Study/练习/Test_Image.png')</l>
+<l>get_image_size (Capture1, Width, Height)</l>
+<l>dev_open_window (0, 0, Width, Height, 'black', WindowID)</l>
+<l>dev_display (Capture1)</l>
+<l>set_display_font (WindowID, 14, 'mono', 'false', 'false')</l>
+<c></c>
+<c></c>
+<l>threshold(Capture1, Region, 0, 46)</l>
+<l>connection(Region, ConnectedRegions)</l>
+<l>select_shape (ConnectedRegions, SelectedRegions, ['area','roundness'], 'and', [4380.86,0.64634], [6369.61,0.92589])</l>
+<c></c>
+<l>dilation_circle(SelectedRegions, RegionDilation, 3.5)</l>
+<l>fill_up(RegionDilation, RegionFillUp)</l>
+<c></c>
+<l>rgb1_to_gray(Capture1, GrayImage)</l>
+<l>reduce_domain(GrayImage, RegionFillUp,ImageReduced)</l>
+<l>edges_sub_pix(ImageReduced, Edges, 'canny', 1, 20, 40)</l>
+<c></c>
+<l>length_xld(Edges, Length)</l>
+<l>tuple_max(Length, Max)</l>
+<l>select_shape_xld(Edges, SelectedXLD, 'contlength', 'and', Max, Max)</l>
+<c></c>
+<l>fit_circle_contour_xld(SelectedXLD, 'algebraic', -1, 0, 0, 3, 2, Row, Column, Radius, StartPhi, EndPhi, PointOrder)</l>
+<l>*disp_circle(3600, Row, Column, Radius)</l>
+<c></c>
+<l>dev_set_color ('red')</l>
+<c></c>
+<l>disp_cross (WindowID, Row, Column, 5, 0)</l>
+<l>disp_cross (WindowID, (Height/2), (Width/2), 5, 0)</l>
+<c></c>
+<l>disp_message (WindowID,'Circle' + 'X:' + Row$'.3f' + ' Y:' + Column$'.3f', 'image', 150, 0, 'black', 'true')</l>
+<l>disp_message (WindowID, 'Image' + 'X: ' + (Width/2)$'.3f' + ' Y:' + (Height/2)$'.3f', 'image', 180, 0,  'black', 'true')</l>
+<c></c>
+<l>stop()</l>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>

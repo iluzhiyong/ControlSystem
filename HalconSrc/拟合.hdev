@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.1" halcon_version="12.0">
+<procedure name="main">
+<interface/>
+<body>
+<l>read_image(Image,'pumpe')</l>
+<l>edges_sub_pix(Image, Edges, 'lanser1', 0.5, 40, 60)</l>
+<l>segment_contours_xld(Edges, ContoursSplit, 'lines_circles', 5, 4, 2)</l>
+<l>count_obj(ContoursSplit, Number)</l>
+<l>gen_empty_obj(Lines)</l>
+<l>gen_empty_obj(Circles)</l>
+<l>for I := 1 to Number by 1</l>
+<l>    select_obj(ContoursSplit, Contour, I)</l>
+<l>    get_contour_global_attrib_xld(Contour, 'cont_approx', Attrib)</l>
+<l>    if (Attrib = -1)</l>
+<l>        concat_obj(Lines,Contour,Lines)</l>
+<l>    elseif (Attrib &gt; -1)</l>
+<l>        concat_obj(Circles, Contour, Circles)</l>
+<l>    endif</l>
+<l>endfor</l>
+<c></c>
+<l>fit_line_contour_xld(Lines,'tukey', -1, 0, 5, 2, RowBegin, ColBegin, \
+                     RowEnd, ColEnd, Nr, Nc, Dist)</l>
+<l>fit_circle_contour_xld(Circles,'algebraic', -1, 0, 0, 3, 2, Row, Column, \
+                       Radius, StartPhi, EndPhi, PointOrder)</l>
+<c></c>
+<l>gen_circle_contour_xld(ContCircle, Row, Column, Radius, 0, 6.28318, 'positive', 1)</l>
+<c></c>
+<c></c>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>
