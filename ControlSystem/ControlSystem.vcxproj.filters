@@ -13,6 +13,24 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\Excel">
+      <UniqueIdentifier>{78b31c2d-c554-403e-884c-9135e0770a60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Camera">
+      <UniqueIdentifier>{264e4625-2430-404b-99b2-bb27d250687f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Excel">
+      <UniqueIdentifier>{73e71108-45af-451b-9371-050db90cf028}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Camera">
+      <UniqueIdentifier>{d0b89338-ec83-4ae8-a1fc-fec1daa011ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\MotorCtrl">
+      <UniqueIdentifier>{a9657d1b-342e-44fc-9974-691e53bb458d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MotorCtrl">
+      <UniqueIdentifier>{8189c1da-1aad-45bf-bf8e-d7465f555b54}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -39,35 +57,35 @@
     <ClInclude Include="Resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files\Camera</Filter>
+    </ClInclude>
     <ClInclude Include="CApplication.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Excel</Filter>
     </ClInclude>
     <ClInclude Include="CRange.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Excel</Filter>
     </ClInclude>
     <ClInclude Include="CWorkbook.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Excel</Filter>
     </ClInclude>
     <ClInclude Include="CWorkbooks.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Excel</Filter>
     </ClInclude>
     <ClInclude Include="CWorksheet.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Excel</Filter>
     </ClInclude>
     <ClInclude Include="CWorksheets.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Excel</Filter>
     </ClInclude>
     <ClInclude Include="ExcelFileApp.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="HalconAction.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Excel</Filter>
     </ClInclude>
     <ClInclude Include="MotorCtrl.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\MotorCtrl</Filter>
+    </ClInclude>
+    <ClInclude Include="HalconAction.h">
+      <Filter>Header Files\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -80,17 +98,17 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ExcelFileApp.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Camera.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="ExcelFileApp.cpp">
+      <Filter>Source Files\Excel</Filter>
     </ClCompile>
     <ClCompile Include="HalconAction.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Camera</Filter>
     </ClCompile>
     <ClCompile Include="MotorCtrl.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\MotorCtrl</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
