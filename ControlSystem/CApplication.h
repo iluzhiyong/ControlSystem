@@ -1,19 +1,19 @@
 // Machine generated IDispatch wrapper class(es) created with Add Class from Typelib Wizard
 
-#ifndef _WIN64
-#import "C:\\Program Files (x86)\\Common Files\\Microsoft Shared\\OFFICE14\\MSO.DLL" \
-	rename("RGB", "MSORGB") \
-	rename("DocumentProperties", "MSODocumentProperties")
-
-#import "C:\\Program Files (x86)\\Common Files\\Microsoft Shared\\VBA\\VBA6\\VBE6EXT.OLB"
-
-#import "C:\\Program Files (x86)\\Microsoft Office\\Office14\\EXCEL.EXE" \
-	rename("DialogBox", "ExcelDialogBox") \
-	rename("RGB", "ExcelRGB") \
-	rename("CopyFile", "ExcelCopyFile") \
-	rename("ReplaceText", "ExcelReplaceText") \
-	no_auto_exclude
-#else
+//#ifndef _WIN64
+//#import "C:\\Program Files (x86)\\Common Files\\Microsoft Shared\\OFFICE14\\MSO.DLL" \
+//	rename("RGB", "MSORGB") \
+//	rename("DocumentProperties", "MSODocumentProperties")
+//
+//#import "C:\\Program Files (x86)\\Common Files\\Microsoft Shared\\VBA\\VBA6\\VBE6EXT.OLB"
+//
+//#import "C:\\Program Files (x86)\\Microsoft Office\\Office14\\EXCEL.EXE" \
+//	rename("DialogBox", "ExcelDialogBox") \
+//	rename("RGB", "ExcelRGB") \
+//	rename("CopyFile", "ExcelCopyFile") \
+//	rename("ReplaceText", "ExcelReplaceText") \
+//	no_auto_exclude
+//#else
 #import "C:\\Program Files\\Common Files\\Microsoft Shared\\OFFICE14\\MSO.DLL" \
 	rename("RGB", "MSORGB") \
 	rename("DocumentProperties", "MSODocumentProperties")
@@ -26,7 +26,7 @@
 	rename("CopyFile", "ExcelCopyFile") \
 	rename("ReplaceText", "ExcelReplaceText") \
 	no_auto_exclude
-#endif
+//#endif
 
 using namespace Office;
 using namespace VBIDE;

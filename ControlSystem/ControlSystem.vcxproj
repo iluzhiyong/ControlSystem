@@ -191,6 +191,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="CameraDlg.h" />
     <ClInclude Include="CApplication.h" />
     <ClInclude Include="ControlSystem.h" />
     <ClInclude Include="ControlSystemDlg.h" />
@@ -208,6 +209,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="CameraDlg.cpp" />
     <ClCompile Include="ControlSystem.cpp" />
     <ClCompile Include="ControlSystemDlg.cpp" />
     <ClCompile Include="ExcelFileApp.cpp" />

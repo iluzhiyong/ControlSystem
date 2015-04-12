@@ -13,7 +13,7 @@
 #include "CWorksheet.h"
 #include "CWorksheets.h"
 #include "ExcelFileApp.h"
-#include "Camera.h"
+#include "CameraDlg.h"
 #include "Halconcpp.h"
 #include "HalconAction.h"
 
@@ -68,6 +68,7 @@ void CControlSystemDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_LIST1, m_ListData);
+	DDX_Control(pDX, IDC_STATIC_VIDEO1, m_staticPicture);
 }
 
 BEGIN_MESSAGE_MAP(CControlSystemDlg, CDialogEx)
@@ -81,6 +82,7 @@ BEGIN_MESSAGE_MAP(CControlSystemDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON_IMAGE_PROC, &CControlSystemDlg::OnBnClickedButtonImageProc)
 	ON_MESSAGE(WM_USER_IMAGE_ACQ,AcquireImage)
 	ON_BN_CLICKED(IDC_START, &CControlSystemDlg::OnBnClickedStart)
+	ON_BN_CLICKED(IDC_BUTTON2, &CControlSystemDlg::OnBnClickedButton2)
 END_MESSAGE_MAP()
 
 
@@ -134,6 +136,18 @@ BOOL CControlSystemDlg::OnInitDialog()
 	//m_ListData.InsertColumn(3, _T("Y 坐标 mm"), LVCFMT_LEFT, 60);
 	//m_ListData.InsertColumn(4, _T("Z 坐标 mm"), LVCFMT_LEFT, 60);
 	//m_ListData.InsertColumn(5, _T("XX"), LVCFMT_LEFT, 60);
+
+	//初始化相机
+	m_pCamera = new Camera();
+	if(NULL != m_pCamera)
+	{
+		m_pCamera->Initialize();
+		RECT    rect;
+		m_staticPicture.GetClientRect( &rect );
+		m_pCamera->SetDispRect(rect);
+		m_pCamera->DoPlay(TRUE, m_staticPicture.m_hWnd);
+		m_pCamera->SetCamFeature();
+	}
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
@@ -335,7 +349,8 @@ void CControlSystemDlg::OnBnClickedCameraParam()
 {
 	// TODO: Add your control notification handler code here
 
-	CCamera cameraDlg;
+	CCameraParaDlg cameraDlg;
+	cameraDlg.SetCamera(m_pCamera);
 
 	int ret = cameraDlg.DoModal();
 
@@ -369,4 +384,27 @@ void CControlSystemDlg::OnBnClickedStart()
 
 	//Sleep(500); 
 	//m_pMotorCtrl->PostThreadMessage(WM_USER_READ_MOTOR_STATUS, NULL, NULL);
+}
+
+
+void CControlSystemDlg::OnBnClickedButton2()
+{
+	// TODO: Add your control notification handler code here
+	if(NULL != m_pCamera)
+	{
+		m_pCamera->DoCapture();
+	}
+}
+
+
+BOOL CControlSystemDlg::DestroyWindow()
+{
+	// TODO: Add your specialized code here and/or call the base class
+	if(NULL != m_pCamera)
+	{
+		//m_pCamera->Destroy();
+		delete m_pCamera;
+	}
+
+	return CDialogEx::DestroyWindow();
 }

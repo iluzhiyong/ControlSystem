@@ -5,6 +5,7 @@
 #pragma once
 
 #include "MotorCtrl.h"
+#include "Camera.h"
 
 // CControlSystemDlg dialog
 class CControlSystemDlg : public CDialogEx
@@ -40,7 +41,11 @@ public:
 
 protected:
 	CMotorCtrl* m_pMotorCtrl;
+	Camera		*m_pCamera;
 	afx_msg LRESULT AcquireImage(WPARAM wParam,LPARAM lParam);
 public:
 	afx_msg void OnBnClickedStart();
+	CStatic m_staticPicture;
+	afx_msg void OnBnClickedButton2();
+	virtual BOOL DestroyWindow();
 };
