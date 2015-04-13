@@ -54,8 +54,8 @@ void Camera::Initialize(void)
 	m_pRgbData = ( BYTE* ) new BYTE [ MAXWIDTH * MAXHEIGHT * 3 ];
 	memset( &m_CapInfo, 0, sizeof( CapInfoStruct ) );
 	m_CapInfo.Buffer = m_pRawData;
-	m_CapInfo.Width    = 640;
-	m_CapInfo.Height   = 480;
+	m_CapInfo.Width    = 640;	//1280, 640, 320
+	m_CapInfo.Height   = 480;	//1024, 480, 240
 	m_CapInfo.Exposure = 60;
 	memset( m_CapInfo.Gain, 44, 3 );
 
@@ -184,7 +184,7 @@ int Camera::DoCapture(void)
 		}
 		else
 		{
-			m_strFileName = _T( "../Rgb.bmp" );
+			m_strFileName = _T( "Rgb.bmp" );
 			HqDLGetRgbFrameToBmp( m_hDevice, &m_CapInfo, NULL, m_strFileName );
 			AfxMessageBox(m_strFileName + " ≈ƒ…„≥…π¶£°");
 		}
@@ -193,19 +193,11 @@ int Camera::DoCapture(void)
 	return ret;
 }
 
-int Camera::SetCapInfo(CapInfoStruct *pCapInfo )
+int Camera::SetCapInfo(void)
 {
-	int ret = 0;
-	if(pCapInfo == NULL)
-	{
-		ret = -1;
-	}
-	else
-	{
-		HqDLSetCapInfo( m_hDevice, pCapInfo );
-	}
+	HqDLSetCapInfo( m_hDevice, &m_CapInfo );
 
-	return ret;
+	return 0;
 }
 
 void Camera::EnableColorOffset(int nRedOffset, int nGreenOffset, int nBlueOffset, BOOL bColorOffset )

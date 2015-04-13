@@ -11,7 +11,6 @@ class CCameraParaDlg : public CDialog
 	DECLARE_DYNAMIC(CCameraParaDlg)
 
 public:
-	void SetCamFeature();
 	void SetCamera(Camera *pCamera) {m_pCamera = pCamera;};
 
 public:
@@ -36,10 +35,8 @@ public:
 
 private:
 	int				m_nROff, m_nGOff, m_nBOff;
-	CapInfoStruct	m_CapInfo;
-	CAMFEATURE		m_CamFeature;
-
 	Camera			*m_pCamera;
+
 public:
 	virtual BOOL OnInitDialog();
 	afx_msg void OnBnClickedCheckPlay();
@@ -55,5 +52,4 @@ public:
 	afx_msg void OnBnClickedCheckClear();
 	afx_msg void OnBnClickedButtonAwb();
 	afx_msg void OnBnClickedButtonAe();
-	afx_msg void OnBnClickedCheckPause();
 };
