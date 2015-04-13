@@ -18,15 +18,16 @@
 	rename("RGB", "MSORGB") \
 	rename("DocumentProperties", "MSODocumentProperties")
 
-#import "C:\\Program Files\\Common Files\\Microsoft Shared\\VBA\\VBA6\\VBE6EXT.OLB"
-
+#ifdef _WIN64
+  #import "C:\\Program Files\\Common Files\\Microsoft Shared\\VBA\\VBA6\\VBE6EXT.OLB"
+#else
 #import "C:\\Program Files\\Microsoft Office\\Office14\\EXCEL.EXE" \
 	rename("DialogBox", "ExcelDialogBox") \
 	rename("RGB", "ExcelRGB") \
 	rename("CopyFile", "ExcelCopyFile") \
 	rename("ReplaceText", "ExcelReplaceText") \
 	no_auto_exclude
-//#endif
+#endif
 
 using namespace Office;
 using namespace VBIDE;

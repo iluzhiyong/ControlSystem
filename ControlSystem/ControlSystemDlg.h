@@ -8,11 +8,15 @@
 #include "Camera.h"
 
 // CControlSystemDlg dialog
+class IMotorCtrl;
+class IImageProcess;
+class IHeightDectector;
 class CControlSystemDlg : public CDialogEx
 {
 // Construction
 public:
 	CControlSystemDlg(CWnd* pParent = NULL);	// standard constructor
+	~CControlSystemDlg();
 
 // Dialog Data
 	enum { IDD = IDD_CONTROLSYSTEM_DIALOG };
@@ -49,4 +53,10 @@ public:
 	afx_msg void OnBnClickedButton2();
 	virtual BOOL DestroyWindow();
 	afx_msg void OnBnClickedAutoMear();
+
+public:
+	IMotorCtrl* m_IMotoCtrl;
+	IImageProcess* m_IImageProcess;
+	IHeightDectector* m_IHeightDectector;
+	bool CalculatePoint(float x, float y, float z, float &retx, float &rety, float &retz);
 };

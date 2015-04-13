@@ -16,6 +16,9 @@
 #include "CameraDlg.h"
 #include "Halconcpp.h"
 #include "HalconAction.h"
+#include "IMotorCtrl.h"
+#include "IImageProcess.h"
+#include "IHeightDectector.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -62,6 +65,27 @@ CControlSystemDlg::CControlSystemDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(CControlSystemDlg::IDD, pParent)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
+	m_IMotoCtrl = NULL;
+	m_IImageProcess = NULL;
+	m_IHeightDectector = NULL;
+}
+
+CControlSystemDlg::~CControlSystemDlg()
+{
+	if(m_IMotoCtrl != NULL)
+	{
+		delete m_IMotoCtrl;
+	}
+
+	if(m_IImageProcess != NULL)
+	{
+		delete m_IImageProcess;
+	}
+
+	if(m_IHeightDectector != NULL)
+	{
+		delete m_IHeightDectector;
+	}
 }
 
 void CControlSystemDlg::DoDataExchange(CDataExchange* pDX)
@@ -411,9 +435,40 @@ BOOL CControlSystemDlg::DestroyWindow()
 
 void CControlSystemDlg::OnBnClickedAutoMear()
 {
-	// TODO: Add your control notification handler code here
-	//while(1)
-	{
-		
-	}
+	
 }
+
+bool CControlSystemDlg ::CalculatePoint(float x, float y, float z, float &retx, float &rety, float &retz)
+{
+	bool ret = ((NULL != m_IMotoCtrl) && (NULL != m_pCamera) && (NULL != m_IImageProcess));
+	if(ret)
+	{
+		ret = m_IMotoCtrl->MoveTo(x, y, z);
+	}
+	if(ret)
+	{
+		while(1)
+		{
+			if(m_IMotoCtrl->IsOnMoving() == false)
+			{
+				break;
+			}
+			Sleep(100);
+		}
+	}
+	if(ret)
+	{
+		ret = (m_pCamera->DoCapture() == 0);
+	}
+	if(ret)
+	{
+		ret = m_IImageProcess->Process(x, y, retx, rety);
+	}
+
+	if(ret)
+	{
+		ret = m_IHeightDectector->Dectect(z, retz);
+	}
+	return ret;
+}
+

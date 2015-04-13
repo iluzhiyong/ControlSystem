@@ -202,6 +202,9 @@
     <ClInclude Include="CWorksheets.h" />
     <ClInclude Include="ExcelFileApp.h" />
     <ClInclude Include="HalconAction.h" />
+    <ClInclude Include="IHeightDectector.h" />
+    <ClInclude Include="IImageProcess.h" />
+    <ClInclude Include="IMotorCtrl.h" />
     <ClInclude Include="MotorCtrl.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />

@@ -162,11 +162,11 @@ void Camera::DoPlay( bool bPlay, HWND hwndParent )
 
 int Camera::DoCapture(void)
 {
-	int ret = 0;
+	int ret = 1;
 
 	if( m_hDevice == NULL )
 	{
-		ret = -1;
+		ret = 0;
 	}
 	else
 	{
