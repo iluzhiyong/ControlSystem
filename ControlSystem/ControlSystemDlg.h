@@ -48,4 +48,5 @@ public:
 	CStatic m_staticPicture;
 	afx_msg void OnBnClickedButton2();
 	virtual BOOL DestroyWindow();
+	afx_msg void OnBnClickedAutoMear();
 };

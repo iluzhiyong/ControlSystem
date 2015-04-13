@@ -64,14 +64,15 @@ void Camera::Initialize(void)
 	{
 		HqDLUninitialize( &m_hDevice );
 		m_hDevice = NULL;
-		::MessageBox( NULL, _T("相机初始化失败"), _T("Demo"), 0 );
+		::MessageBox( NULL, _T("相机初始化失败! 请检查相机是否正常连接。"), _T("警告"), 0 );
 		return;
 	}
 
 	m_CamFeature.bBW = 0;
+	m_CamFeature.bRawDataShow = 0;
+	m_CamFeature.bClearView = 0;
+	m_CamFeature.bUpDown = 0;
 	SetCamFeature();
-
-	HqDLEnableColorOffset( m_hDevice, 0, 0, 0, TRUE );
 }
 
 void Camera::Destroy(void)
@@ -147,7 +148,7 @@ void Camera::DoPlay( bool bPlay, HWND hwndParent )
 
 	if( m_bPlay )
 	{
-		HqDLStartView( m_hDevice, _T("Digital Lab"), WS_CHILD | WS_VISIBLE, 0, 0, m_DispRect.right, m_DispRect.bottom, hwndParent, NULL );
+		HqDLStartView( m_hDevice, _T("Digital Lab"), WS_CHILD | WS_VISIBLE, m_DispRect.left, m_DispRect.top, m_DispRect.right - m_DispRect.left, m_DispRect.bottom - m_DispRect.top, hwndParent, NULL );
 		// You must call HqDLSetFrameCallback After Video Show - Warning!!!!!!!!!!!!
 		HqDLSetFrameCallback( m_hDevice, FrameCallBack, this );
 	}
@@ -183,7 +184,7 @@ int Camera::DoCapture(void)
 		}
 		else
 		{
-			m_strFileName = _T( "Rgb.bmp" );
+			m_strFileName = _T( "../Rgb.bmp" );
 			HqDLGetRgbFrameToBmp( m_hDevice, &m_CapInfo, NULL, m_strFileName );
 			AfxMessageBox(m_strFileName + " 拍摄成功！");
 		}

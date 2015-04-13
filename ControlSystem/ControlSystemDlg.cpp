@@ -83,6 +83,7 @@ BEGIN_MESSAGE_MAP(CControlSystemDlg, CDialogEx)
 	ON_MESSAGE(WM_USER_IMAGE_ACQ,AcquireImage)
 	ON_BN_CLICKED(IDC_START, &CControlSystemDlg::OnBnClickedStart)
 	ON_BN_CLICKED(IDC_BUTTON2, &CControlSystemDlg::OnBnClickedButton2)
+	ON_BN_CLICKED(IDC_AUTO_MEAR, &CControlSystemDlg::OnBnClickedAutoMear)
 END_MESSAGE_MAP()
 
 
@@ -146,7 +147,6 @@ BOOL CControlSystemDlg::OnInitDialog()
 		m_staticPicture.GetClientRect( &rect );
 		m_pCamera->SetDispRect(rect);
 		m_pCamera->DoPlay(TRUE, m_staticPicture.m_hWnd);
-		m_pCamera->SetCamFeature();
 	}
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
@@ -402,9 +402,18 @@ BOOL CControlSystemDlg::DestroyWindow()
 	// TODO: Add your specialized code here and/or call the base class
 	if(NULL != m_pCamera)
 	{
-		//m_pCamera->Destroy();
 		delete m_pCamera;
 	}
 
 	return CDialogEx::DestroyWindow();
+}
+
+
+void CControlSystemDlg::OnBnClickedAutoMear()
+{
+	// TODO: Add your control notification handler code here
+	//while(1)
+	{
+		
+	}
 }
