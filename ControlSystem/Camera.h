@@ -30,21 +30,24 @@ public:
 	void DoPlay( bool bPlay, HWND hwndParent );
 	void SetDispRect(RECT rect) {m_DispRect = rect;}
 	int DoCapture(void);
-	int SetCapInfo(CapInfoStruct *pCapInfo );
+	int SetCapInfo(void);
 	void EnableColorOffset(int nRedOffset, int nGreenOffset, int nBlueOffset, BOOL bColorOffset );
 	void SetParam( DLPARAM  DLParam, ULONG  Value );
 	void SetDoAWB(void);
 	void SetDoAE(void);
 	void PauseView( BOOL bPause );
 
+public:
+	CapInfoStruct	m_CapInfo;
+	CAMFEATURE		m_CamFeature;
+	CString			m_strFileName;
+
 private:
 	HANDLE			m_hDevice;
-	CAMFEATURE		m_CamFeature;
-	CapInfoStruct	m_CapInfo;
+	
 	BOOL			m_bPlay;
 	RECT			m_DispRect;
 	BYTE			*m_pRawData;
 	BYTE			*m_pRgbData;
-	CString			m_strFileName;
 };
 
