@@ -440,10 +440,10 @@ void CControlSystemDlg::OnBnClickedAutoMear()
 
 bool CControlSystemDlg ::CalculatePoint(float x, float y, float z, float &retx, float &rety, float &retz)
 {
-	bool ret = ((NULL != m_IMotoCtrl) && (NULL != m_pCamera) && (NULL != m_IImageProcess));
+	bool ret = ((NULL != m_IMotoCtrl) && (NULL != m_pCamera) && (NULL != m_IImageProcess) && (NULL != m_IHeightDectector));
 	if(ret)
 	{
-		ret = m_IMotoCtrl->MoveTo(x, y, z);
+		ret = m_IMotoCtrl->MoveTo(x, y, 0);
 	}
 	if(ret)
 	{
@@ -460,6 +460,7 @@ bool CControlSystemDlg ::CalculatePoint(float x, float y, float z, float &retx, 
 	{
 		ret = (m_pCamera->DoCapture() == 0);
 	}
+
 	if(ret)
 	{
 		ret = m_IImageProcess->Process(x, y, retx, rety);
