@@ -19,6 +19,7 @@
 #include "IMotorCtrl.h"
 #include "IImageProcess.h"
 #include "IHeightDectector.h"
+#include "ImageProcess.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -68,6 +69,8 @@ CControlSystemDlg::CControlSystemDlg(CWnd* pParent /*=NULL*/)
 	m_IMotoCtrl = NULL;
 	m_IImageProcess = NULL;
 	m_IHeightDectector = NULL;
+
+	m_IImageProcess = new CImageProcess();
 }
 
 CControlSystemDlg::~CControlSystemDlg()
@@ -435,7 +438,14 @@ BOOL CControlSystemDlg::DestroyWindow()
 
 void CControlSystemDlg::OnBnClickedAutoMear()
 {
-	
+	// Test
+	float x = 0.0, y = 0.0;
+	m_IImageProcess->Process(10,20, x, y);
+	CString msg;
+
+	msg.Format(_T("x: %.3f mm , y: %.3f mm"),  (float)x, (float)y);
+
+	MessageBox(msg);
 }
 
 bool CControlSystemDlg ::CalculatePoint(float x, float y, float z, float &retx, float &rety, float &retz)

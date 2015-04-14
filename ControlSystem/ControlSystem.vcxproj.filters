@@ -99,6 +99,9 @@
     <ClInclude Include="IImageProcess.h">
       <Filter>Header Files\Camera</Filter>
     </ClInclude>
+    <ClInclude Include="ImageProcess.h">
+      <Filter>Header Files\Camera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ControlSystem.cpp">
@@ -124,6 +127,9 @@
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageProcess.cpp">
+      <Filter>Header Files\Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
