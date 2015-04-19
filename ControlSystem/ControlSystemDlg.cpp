@@ -20,6 +20,9 @@
 #include "IImageProcess.h"
 #include "IHeightDectector.h"
 #include "ImageProcess.h"
+#include <ctype.h>
+
+using namespace std;
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -69,6 +72,10 @@ CControlSystemDlg::CControlSystemDlg(CWnd* pParent /*=NULL*/)
 	m_IMotoCtrl = NULL;
 	m_IImageProcess = NULL;
 	m_IHeightDectector = NULL;
+
+    m_excelLoaded = false;
+	m_columnNum = 0;
+	m_rowNum = 0;
 
 	m_IImageProcess = new CImageProcess();
 }
@@ -275,6 +282,9 @@ void CControlSystemDlg::OnBnClickedImport()
 
 	//Çå³þ²ÐÁôÊý¾Ý
 	m_ListData.DeleteAllItems();
+	m_excelLoaded = false;
+	m_columnNum = 0;
+	m_rowNum = 0;
 
 	for (int j = 0; j < UsedColumnNum; j++)
 	{
@@ -295,6 +305,10 @@ void CControlSystemDlg::OnBnClickedImport()
 
 	excelApp.CloseExcelFile();
 	excelApp.ReleaseExcel();
+	m_excelLoaded = true;
+
+	m_columnNum = UsedColumnNum;
+	m_rowNum = UsedRowNum;
 }
 
 
@@ -438,18 +452,117 @@ BOOL CControlSystemDlg::DestroyWindow()
 
 void CControlSystemDlg::OnBnClickedAutoMear()
 {
-	// Test
-	float x = 0.0, y = 0.0;
-	m_IImageProcess->Process(10,20, x, y);
-	CString msg;
+	const int StartRow = 4;
+	const int XColumn = 2; const int XResultColumn = 5;
+	const int YColumn = 3; const int YResultColumn = 6;
+	const int ZColumn = 4; const int ZResultColumn = 7;
 
-	msg.Format(_T("x: %.3f mm , y: %.3f mm"),  (float)x, (float)y);
+	if(!m_excelLoaded)
+	{
+		AfxMessageBox("Please load measure parameter excel first.");
+		return;
+	}
 
-	MessageBox(msg);
+	float x, y, z;
+	float retX, retY, retZ;
+	for(int i = StartRow; i < m_rowNum; i++)
+	{
+		if(GetMeasureTargetValue(i, x, y, z))
+		{
+			if(CalculatePoint(x, y, z, retX, retY, retZ))
+			{
+				SetMeasureResultValue(i, retX, retY, retZ);
+			}
+		}
+	}
 }
+
+bool CControlSystemDlg::GetFloatItem(int row, int column, float &value)
+{
+	try
+	{
+		CString buffer=""; 
+		buffer+=m_ListData.GetItemText(row,column);
+		if(buffer != "")
+		{
+			char *endptr;
+			endptr = NULL;
+			double d;
+			d = strtod(buffer, &endptr);
+			if (errno != 0 || (endptr != NULL && *endptr != '\0'))
+			{
+				return false;
+			}
+			else
+			{
+				value = (float)d;
+				return true;
+			}
+		}
+	}
+	catch(...)
+	{
+	}
+	return false;
+}
+
+
+bool CControlSystemDlg::SetFloatItem(int row, int column, float value)
+{
+	try
+	{
+		CString buffer=""; 
+		buffer.Format("%f", value);
+		m_ListData.SetItemText(row,column, buffer);
+		return true;
+	}
+	catch(...)
+	{
+	}
+	return false;
+}
+
+bool CControlSystemDlg :: GetMeasureTargetValue(int row, float &x, float &y, float &z)
+{
+	const int XColumn = 2;
+	const int YColumn = 3;
+	const int ZColumn = 4;
+
+	if(GetFloatItem(row, XColumn, x))
+	{
+		if(GetFloatItem(row, YColumn, y))
+		{
+			if(GetFloatItem(row, ZColumn, z))
+			{
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
+bool CControlSystemDlg :: SetMeasureResultValue(int row, float resultX, float resultY, float resultZ)
+{
+	const int XResultColumn = 5;
+	const int YResultColumn = 6;
+	const int ZResultColumn = 7;
+
+	SetFloatItem(row, XResultColumn, resultX);
+	SetFloatItem(row, YResultColumn, resultY);
+	SetFloatItem(row, ZResultColumn, resultZ);
+
+	return true;
+}
+
 
 bool CControlSystemDlg ::CalculatePoint(float x, float y, float z, float &retx, float &rety, float &retz)
 {
+	retx = x + 10;
+	rety = y + 10;
+	retz = z + 10;
+	return true;
+
 	bool ret = ((NULL != m_IMotoCtrl) && (NULL != m_pCamera) && (NULL != m_IImageProcess) && (NULL != m_IHeightDectector));
 	if(ret)
 	{
