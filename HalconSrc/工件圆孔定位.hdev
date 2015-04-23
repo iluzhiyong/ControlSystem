@@ -4,7 +4,7 @@
 <interface/>
 <body>
 <l>dev_close_window ()</l>
-<l>read_image (Capture1, 'G:/Machine Vision/Study/练习/Test_Image.png')</l>
+<l>read_image (Capture1, 'E:/Work/CamMeasure/Bin/Images/MeasureImages/p3.png')</l>
 <l>get_image_size (Capture1, Width, Height)</l>
 <l>dev_open_window (0, 0, Width, Height, 'black', WindowID)</l>
 <l>dev_display (Capture1)</l>

@@ -3,13 +3,13 @@
 //
 
 #pragma once
-
+#include "HalconAction.h"
 #include "MotorCtrl.h"
 #include "Camera.h"
 
 // CControlSystemDlg dialog
 class IMotorCtrl;
-class IImageProcess;
+class CImageProcess;
 class IHeightDectector;
 class CControlSystemDlg : public CDialogEx
 {
@@ -55,17 +55,25 @@ public:
 	afx_msg void OnBnClickedAutoMear();
 
 public:
-	IMotorCtrl* m_IMotoCtrl;
-	IImageProcess* m_IImageProcess;
-	IHeightDectector* m_IHeightDectector;
 	bool CalculatePoint(float x, float y, float z, float &retx, float &rety, float &retz);
-
-public:
-	bool m_excelLoaded;
-	int m_columnNum;
-	int m_rowNum;
 	bool GetMeasureTargetValue(int row, float &x, float &y, float &z);
 	bool SetMeasureResultValue(int row, float resultX, float resultY, float resultZ);
 	bool GetFloatItem(int row, int column, float &value);
 	bool SetFloatItem(int row, int column, float value);
+	bool ConvertStringToFloat(CString buffer, float &value);
+	void OpenHalconWind();
+
+private:
+	IMotorCtrl* m_IMotoCtrl;
+	CImageProcess* m_IImageProcess;
+	IHeightDectector* m_IHeightDectector;
+	HTuple  hv_WindowID;
+	bool m_excelLoaded;
+	int m_columnNum;
+	int m_rowNum;
+public:
+	afx_msg void OnBnClickedCustomMear();
+	float m_CustomX;
+	float m_CustomY;
+	float m_CustomZ;
 };

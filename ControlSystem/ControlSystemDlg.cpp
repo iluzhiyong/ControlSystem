@@ -67,6 +67,9 @@ END_MESSAGE_MAP()
 
 CControlSystemDlg::CControlSystemDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(CControlSystemDlg::IDD, pParent)
+	, m_CustomX(0)
+	, m_CustomY(0)
+	, m_CustomZ(0)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 	m_IMotoCtrl = NULL;
@@ -103,6 +106,9 @@ void CControlSystemDlg::DoDataExchange(CDataExchange* pDX)
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_LIST1, m_ListData);
 	DDX_Control(pDX, IDC_STATIC_VIDEO1, m_staticPicture);
+	DDX_Text(pDX, IDC_CUSTOM_X, m_CustomX);
+	DDX_Text(pDX, IDC_CUSTOM_Y, m_CustomY);
+	DDX_Text(pDX, IDC_CUSTOM_Z, m_CustomZ);
 }
 
 BEGIN_MESSAGE_MAP(CControlSystemDlg, CDialogEx)
@@ -118,6 +124,7 @@ BEGIN_MESSAGE_MAP(CControlSystemDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_START, &CControlSystemDlg::OnBnClickedStart)
 	ON_BN_CLICKED(IDC_BUTTON2, &CControlSystemDlg::OnBnClickedButton2)
 	ON_BN_CLICKED(IDC_AUTO_MEAR, &CControlSystemDlg::OnBnClickedAutoMear)
+	ON_BN_CLICKED(IDC_CUSTOM_MEAR, &CControlSystemDlg::OnBnClickedCustomMear)
 END_MESSAGE_MAP()
 
 
@@ -405,11 +412,36 @@ void CControlSystemDlg::OnBnClickedCameraParam()
 	}
 }
 
+void CControlSystemDlg::OpenHalconWind()
+{
+	CRect rtWindow;
+
+	HWND hImgWnd = GetDlgItem( IDC_STATIC_VIDEO1)->m_hWnd;
+
+	GetDlgItem( IDC_STATIC_VIDEO1)->GetClientRect(&rtWindow);
+
+	HalconCpp::SetWindowAttr("background_color","black");
+
+	HalconCpp::OpenWindow(rtWindow.left,rtWindow.top, rtWindow.Width(),rtWindow.Height(),(Hlong)hImgWnd,"","",&hv_WindowID);
+
+	HalconCpp::SetPart(hv_WindowID, 0, 0, rtWindow.Height() -1, rtWindow.Width() - 1);
+
+	HDevWindowStack::Push(hv_WindowID);
+}
 
 void CControlSystemDlg::OnBnClickedButtonImageProc()
 {
-	// TODO: Add your control notification handler code here
-	action();
+	OpenHalconWind();
+	if((NULL != m_IImageProcess) && m_IImageProcess->LoadProcessImage())
+	{
+		float x = 0.0;
+		float y = 0.0;
+		bool ret = m_IImageProcess->FindTargetPoint(x, y);
+		if(!ret)
+		{
+			AfxMessageBox("Can not find target!");
+		}
+	}
 }
 
 LRESULT CControlSystemDlg::AcquireImage(WPARAM wParam,LPARAM lParam)
@@ -477,13 +509,11 @@ void CControlSystemDlg::OnBnClickedAutoMear()
 	}
 }
 
-bool CControlSystemDlg::GetFloatItem(int row, int column, float &value)
+bool CControlSystemDlg::ConvertStringToFloat(CString buffer, float &value)
 {
 	try
 	{
-		CString buffer=""; 
-		buffer+=m_ListData.GetItemText(row,column);
-		if(buffer != "")
+	    if(buffer != "")
 		{
 			char *endptr;
 			endptr = NULL;
@@ -499,6 +529,20 @@ bool CControlSystemDlg::GetFloatItem(int row, int column, float &value)
 				return true;
 			}
 		}
+	}
+	catch(...)
+	{
+	}
+	return false;
+}
+
+bool CControlSystemDlg::GetFloatItem(int row, int column, float &value)
+{
+	try
+	{
+		CString buffer=""; 
+		buffer+=m_ListData.GetItemText(row,column);
+		return ConvertStringToFloat(buffer, value);
 	}
 	catch(...)
 	{
@@ -596,3 +640,18 @@ bool CControlSystemDlg ::CalculatePoint(float x, float y, float z, float &retx, 
 	return ret;
 }
 
+void CControlSystemDlg::OnBnClickedCustomMear()
+{
+	UpdateData(true);
+	float x, y, z;
+	if(CalculatePoint(m_CustomX, m_CustomY, m_CustomZ, x, y, z))
+	{
+		CString buffer = "";
+		buffer.Format("测量结果： x=%f, y=%f, z=%f", x, y, z);
+		AfxMessageBox(buffer);
+	}
+	else
+	{
+		AfxMessageBox("测量失败！");
+	}
+}

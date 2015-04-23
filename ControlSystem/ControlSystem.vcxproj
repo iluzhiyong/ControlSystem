@@ -203,7 +203,6 @@
     <ClInclude Include="ExcelFileApp.h" />
     <ClInclude Include="HalconAction.h" />
     <ClInclude Include="IHeightDectector.h" />
-    <ClInclude Include="IImageProcess.h" />
     <ClInclude Include="ImageProcess.h" />
     <ClInclude Include="IMotorCtrl.h" />
     <ClInclude Include="MotorCtrl.h" />
@@ -217,7 +216,6 @@
     <ClCompile Include="ControlSystem.cpp" />
     <ClCompile Include="ControlSystemDlg.cpp" />
     <ClCompile Include="ExcelFileApp.cpp" />
-    <ClCompile Include="HalconAction.cpp" />
     <ClCompile Include="ImageProcess.cpp" />
     <ClCompile Include="MotorCtrl.cpp" />
     <ClCompile Include="stdafx.cpp">

@@ -82,6 +82,12 @@ bool CImageProcess::LoadProcessImage()
 		ret= false;
 	}
 
+	if(ret)
+	{
+		HTuple hv_width,hv_height;
+		HalconCpp::GetImageSize(m_hvImage, &hv_width, &hv_height);
+		HalconCpp::SetPart(HDevWindowStack::GetActive(), 0, 0, hv_height -1, hv_width - 1);
+	}
 	if(ret && HDevWindowStack::IsOpen())
 	{
 		HalconCpp::DispObj(m_hvImage, HDevWindowStack::GetActive());
@@ -132,7 +138,37 @@ bool CImageProcess::Process(float x, float y, float &cenertX, float &centerY)
 	}
 }
 
-bool CImageProcess::FindTargetPoint(float x, float y)
+bool CImageProcess::FindTargetPoint(float &x, float &y)
+{
+	try
+	{
+		if(Action())
+		{
+			return ConvertImagePoint(m_TargetRow, m_TargetColumn, x, y);
+		}
+	}
+	catch(...)
+	{
+
+	}
+	return false;
+}
+
+
+bool CImageProcess::ConvertImagePoint(float imgRow, float imgCol, float &wX, float &wY)
+{
+	if(!m_paramPoseLoaded)
+	{
+		return false;
+	}
+	HTuple hv_centX, hv_centY;
+	ImagePointsToWorldPlane(m_hvCamParam, m_hvCamPose, imgRow, imgCol, "mm", &hv_centX, &hv_centY);
+	wX = hv_centX;
+	wY = hv_centY;
+	return true;
+}
+
+bool CImageProcess::Action()
 {
 	// Local iconic variables
 	HObject  ho_Edges, ho_Holes, ho_Hole;
@@ -148,31 +184,14 @@ bool CImageProcess::FindTargetPoint(float x, float y)
 
 	if(hv_Number > 1)
 	{
-		/*if (HDevWindowStack::IsOpen())
+		if (HDevWindowStack::IsOpen())
 		{
 			DispObj(ho_Hole, HDevWindowStack::GetActive());
-			DispCross(HDevWindowStack::GetActive(), m_CRow, m_CCol, 10, 0);
-		}*/
-
-		HTuple hv_X, hv_Y;
-		return ConvertImagePoint(hv_Row[0], hv_Column[0], x, y);
+			DispCross(HDevWindowStack::GetActive(), hv_Row[0], hv_Column[0], 10, 0);
+		}
+		m_TargetRow = hv_Row[0];
+		m_TargetColumn = hv_Row[0];
+		return true;
 	}
-	else
-	{
-		return false;
-	}
-}
-
-
-bool CImageProcess::ConvertImagePoint(float imgRow, float imgCol, float &wX, float &wY)
-{
-	if(!m_paramPoseLoaded)
-	{
-		return false;
-	}
-	HTuple hv_centX, hv_centY;
-	ImagePointsToWorldPlane(m_hvCamParam, m_hvCamPose, imgRow, imgCol, "mm", &hv_centX, &hv_centY);
-	wX = hv_centX;
-	wY = hv_centY;
-	return true;
+	return false;
 }

@@ -4,9 +4,9 @@
 <interface/>
 <body>
 <c>*calibration</c>
-<l>ImgPath := '3d_machine_vision/calib/'</l>
+<l>ImgPath := 'C:/Users/zhatao/Desktop/标定图片/'</l>
 <l>dev_close_window ()</l>
-<l>dev_open_window (0, 0, 652, 494, 'black', WindowHandle)</l>
+<l>dev_open_window (0, 0, 640, 480, 'black', WindowHandle)</l>
 <l>dev_update_off ()</l>
 <l>dev_set_draw ('margin')</l>
 <l>dev_set_line_width (3)</l>
@@ -15,14 +15,15 @@
 <c>* </c>
 <c>* Calibrate the camera.</c>
 <c>* </c>
-<l>StartCamPar := [0.016,0,0.0000074,0.0000074,326,247,652,494]</l>
+<l>StartCamPar := [0.016,0,0.0000074,0.0000074,326,247,1280,1024]</l>
+<c></c>
 <l>create_calib_data ('calibration_object', 1, 1, CalibDataID)</l>
 <l>set_calib_data_cam_param (CalibDataID, 0, 'area_scan_division', StartCamPar)</l>
 <l>set_calib_data_calib_object (CalibDataID, 0, 'caltab_30mm.descr')</l>
 <l>NumImages := 10</l>
 <c>* Note, we do not use the image from which the pose of the measurement plane can be derived</c>
 <l>for I := 1 to NumImages by 1</l>
-<l>    read_image (Image, ImgPath + 'calib_' + I$'02d')</l>
+<l>    read_image (Image, ImgPath + I$'d')</l>
 <l>    dev_display (Image)</l>
 <l>    find_calib_object (Image, CalibDataID, 0, 0, I, [], [])</l>
 <l>    get_calib_data_observ_contours (Caltab, CalibDataID, 'caltab', 0, 0, I)</l>
@@ -40,7 +41,7 @@
 <l>stop()</l>
 <c></c>
 <c>*pose</c>
-<l>ImgPath := '3d_machine_vision/calib/'</l>
+<l>ImgPath := 'C:/Users/zhatao/Desktop/标定图片/'</l>
 <l>dev_close_window ()</l>
 <l>dev_open_window (0, 0, 652, 494, 'black', WindowHandle)</l>
 <l>dev_update_off ()</l>
@@ -60,7 +61,7 @@
 <c>* </c>
 <c>* The external camera parameters can be determined from an image, where the</c>
 <c>* calibration plate is positioned directly on the measurement plane</c>
-<l>read_image (Image, ImgPath + 'calib_11')</l>
+<l>read_image (Image, ImgPath + '11')</l>
 <l>dev_display (Image)</l>
 <l>CaltabName := 'caltab_30mm.descr'</l>
 <l>create_calib_data ('calibration_object', 1, 1, CalibDataID)</l>
@@ -91,7 +92,7 @@
 <c></c>
 <c></c>
 <c>*Cal Accuracy</c>
-<l>ImgPath := '3d_machine_vision/calib/'</l>
+<l>ImgPath := 'C:/Users/zhatao/Desktop/标定图片/'</l>
 <l>dev_close_window ()</l>
 <l>dev_open_window (0, 0, 652, 494, 'black', WindowHandle)</l>
 <l>dev_update_off ()</l>
@@ -111,7 +112,7 @@
 <c>* </c>
 <c>* The external camera parameters can be determined from an image, where the</c>
 <c>* calibration plate is positioned directly on the measurement plane</c>
-<l>read_image (Image, ImgPath + 'calib_11')</l>
+<l>read_image (Image, ImgPath + '11')</l>
 <l>dev_display (Image)</l>
 <l>CaltabName := 'caltab_30mm.descr'</l>
 <l>create_calib_data ('calibration_object', 1, 1, CalibDataID)</l>

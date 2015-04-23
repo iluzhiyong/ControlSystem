@@ -49,5 +49,12 @@ private:
 	RECT			m_DispRect;
 	BYTE			*m_pRawData;
 	BYTE			*m_pRgbData;
+
+	bool			m_AutoMeasure;
+public:
+	void SetAutoMeasure(bool isAuto)
+	{
+		m_AutoMeasure = isAuto;
+	}
 };
 

@@ -174,18 +174,22 @@ int Camera::DoCapture(void)
 		{
 			m_strFileName = _T( "Raw.bmp" );
 			HqDLGetRawFrameToBmp(m_hDevice, &m_CapInfo, m_strFileName );
-			AfxMessageBox(m_strFileName + " 拍摄成功！");
+			ret = 1;
 		}
 		else if( m_CamFeature.bPause  == TRUE)
 		{
 			m_strFileName = _T( "Pause.bmp" );
 			HqDLGetPausedFrameToBmp(m_hDevice, NULL, m_strFileName );
-			AfxMessageBox(m_strFileName + " 拍摄成功！");
+			ret = 1;
 		}
 		else
 		{
 			m_strFileName = _T( "Rgb.bmp" );
 			HqDLGetRgbFrameToBmp( m_hDevice, &m_CapInfo, NULL, m_strFileName );
+			ret = 1;
+		}
+		if((!m_AutoMeasure) && ret)
+		{
 			AfxMessageBox(m_strFileName + " 拍摄成功！");
 		}
 	}

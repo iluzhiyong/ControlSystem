@@ -14,12 +14,14 @@
 //	rename("ReplaceText", "ExcelReplaceText") \
 //	no_auto_exclude
 //#else
+
 #import "C:\\Program Files\\Common Files\\Microsoft Shared\\OFFICE14\\MSO.DLL" \
 	rename("RGB", "MSORGB") \
 	rename("DocumentProperties", "MSODocumentProperties")
 
 
 #import "C:\\Program Files (x86)\\Common Files\\Microsoft Shared\\VBA\\VBA6\\VBE6EXT.OLB"
+
 
 #import "C:\\Program Files\\Microsoft Office\\Office14\\EXCEL.EXE" \
 	rename("DialogBox", "ExcelDialogBox") \

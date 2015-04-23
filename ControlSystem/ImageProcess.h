@@ -2,7 +2,7 @@
 #include "iimageprocess.h"
 #include "HalconAction.h"
 
-class CImageProcess : public IImageProcess
+class CImageProcess
 {
 public:
 	CImageProcess(void);
@@ -21,7 +21,9 @@ public:
 
 	bool ConvertImagePoint(float imgX, float imgY, float &wX, float &wY);
 
-	bool FindTargetPoint(float x, float y);
+	bool FindTargetPoint(float &x, float &y);
+
+	bool Action();
 	
 private:
 	bool m_paramPoseLoaded;
@@ -29,5 +31,7 @@ private:
 	HTuple m_hvCamPose;
 
 	HObject m_hvImage;
+	float m_TargetRow;
+	float m_TargetColumn;
 };
 

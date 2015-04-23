@@ -126,30 +126,30 @@ void action()
   HTuple step_val20 = 1;
   for (hv_i=1; hv_i.Continue(end_val20, step_val20); hv_i += step_val20)
   {
-    SelectObj(ho_Holes, &ho_Hole, hv_i);
-    if (HDevWindowStack::IsOpen())
-      DispObj(ho_Rim, HDevWindowStack::GetActive());
-    if (HDevWindowStack::IsOpen())
-      DispObj(ho_Hole, HDevWindowStack::GetActive());
-    //Compute the minimal and maximal radius of the holes by computing the
-    //distance of the midpoint to the contour
-    DistancePc(ho_Hole, HTuple(hv_Row[hv_i-1]), HTuple(hv_Column[hv_i-1]), &hv_DistanceMin, 
-        &hv_DistanceMax);
-    //And visualize the results (minimal and maximal radius)
-    DispCross(hv_WindowID, HTuple(hv_Row[hv_i-1]), HTuple(hv_Column[hv_i-1]), 6, 
-        0);
-    TupleString(hv_DistanceMin, ".3f", &hv_SVal);
-    GetStringExtents(hv_WindowID, "min: "+hv_SVal, &hv_Ascent, &hv_Descent, &hv_Width1, 
-        &hv_Height1);
-    //disp_message(hv_WindowID, "min: "+hv_SVal, "image", HTuple(hv_Row[hv_i-1])-(2*hv_Ascent), 
-    //    ((HTuple(hv_Column[hv_i-1])-HTuple(hv_Radius[hv_i-1]))-hv_Width1)-10, "black", 
-    //    "true");
-    //disp_message(hv_WindowID, "max: "+(hv_DistanceMax.TupleString(".3f")), "image", 
-    //    HTuple(hv_Row[hv_i-1]), ((HTuple(hv_Column[hv_i-1])-HTuple(hv_Radius[hv_i-1]))-hv_Width1)-10, 
-    //    "black", "true");
-    //disp_continue_message(hv_WindowID, "black", "true");
-    // stop(); only in hdevelop
-  }
+		SelectObj(ho_Holes, &ho_Hole, hv_i);
+		if (HDevWindowStack::IsOpen())
+			DispObj(ho_Rim, HDevWindowStack::GetActive());
+		if (HDevWindowStack::IsOpen())
+			DispObj(ho_Hole, HDevWindowStack::GetActive());
+		//Compute the minimal and maximal radius of the holes by computing the
+		//distance of the midpoint to the contour
+		DistancePc(ho_Hole, HTuple(hv_Row[hv_i-1]), HTuple(hv_Column[hv_i-1]), &hv_DistanceMin, 
+			&hv_DistanceMax);
+		//And visualize the results (minimal and maximal radius)
+		DispCross(hv_WindowID, HTuple(hv_Row[hv_i-1]), HTuple(hv_Column[hv_i-1]), 6, 
+			0);
+		TupleString(hv_DistanceMin, ".3f", &hv_SVal);
+		GetStringExtents(hv_WindowID, "min: "+hv_SVal, &hv_Ascent, &hv_Descent, &hv_Width1, 
+			&hv_Height1);
+		//disp_message(hv_WindowID, "min: "+hv_SVal, "image", HTuple(hv_Row[hv_i-1])-(2*hv_Ascent), 
+		//    ((HTuple(hv_Column[hv_i-1])-HTuple(hv_Radius[hv_i-1]))-hv_Width1)-10, "black", 
+		//    "true");
+		//disp_message(hv_WindowID, "max: "+(hv_DistanceMax.TupleString(".3f")), "image", 
+		//    HTuple(hv_Row[hv_i-1]), ((HTuple(hv_Column[hv_i-1])-HTuple(hv_Radius[hv_i-1]))-hv_Width1)-10, 
+		//    "black", "true");
+		//disp_continue_message(hv_WindowID, "black", "true");
+		// stop(); only in hdevelop
+	 }
   }
   //if (HDevWindowStack::IsOpen())
   //  CloseWindow(HDevWindowStack::Pop());
