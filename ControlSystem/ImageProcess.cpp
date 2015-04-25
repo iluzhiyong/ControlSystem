@@ -1,15 +1,27 @@
 #include "StdAfx.h"
 #include "ImageProcess.h"
+#include "DetectCircularhole.h"
 
 CImageProcess::CImageProcess(void)
 {
 	m_paramPoseLoaded = LoadCamParamPoseFile();
+	m_CirleDetecter = NULL;
+	m_CirleDetecter = new CDetectCircularhole();
 }
 
 
 CImageProcess::~CImageProcess(void)
 {
+	if(NULL != m_CirleDetecter)
+	{
+		delete m_CirleDetecter;
+		m_CirleDetecter = NULL;
+	}
+}
 
+CDetectCircularhole* CImageProcess::GetCircleDetecter()
+{
+	return m_CirleDetecter;
 }
 
 bool CImageProcess::LoadCamParamPoseFile()
@@ -69,31 +81,25 @@ CString CImageProcess::GetCameraPoseFIlePath()
 
 bool CImageProcess::LoadProcessImage()
 {
-	bool ret = true;
 	HTuple hv_Exception;
 	try
 	{
 		HalconCpp::ReadImage(&m_hvImage, (char*)LPCTSTR(GetProcessImagePath()));
-	}
-	// catch (Exception) 
-	catch (HalconCpp::HException &HDevExpDefaultException)
-	{
-		HDevExpDefaultException.ToHTuple(&hv_Exception);
-		ret= false;
-	}
-
-	if(ret)
-	{
 		HTuple hv_width,hv_height;
 		HalconCpp::GetImageSize(m_hvImage, &hv_width, &hv_height);
-		HalconCpp::SetPart(HDevWindowStack::GetActive(), 0, 0, hv_height -1, hv_width - 1);
+		if(HDevWindowStack::IsOpen())
+		{
+			HalconCpp::SetPart(HDevWindowStack::GetActive(), 0, 0, hv_height -1, hv_width - 1);	
+			HalconCpp::DispObj(m_hvImage, HDevWindowStack::GetActive());
+		}
+		m_CirleDetecter->SetImageObject(m_hvImage);
+		return true;
 	}
-	if(ret && HDevWindowStack::IsOpen())
+	catch (...)
 	{
-		HalconCpp::DispObj(m_hvImage, HDevWindowStack::GetActive());
+		
 	}
-
-	return ret;
+	return false;
 }
 
 CString CImageProcess::GetProcessImagePath()
@@ -170,28 +176,29 @@ bool CImageProcess::ConvertImagePoint(float imgRow, float imgCol, float &wX, flo
 
 bool CImageProcess::Action()
 {
-	// Local iconic variables
-	HObject  ho_Edges, ho_Holes, ho_Hole;
-	HTuple  hv_Row, hv_Column, hv_Radius, hv_Number;
+	//// Local iconic variables
+	//HObject  ho_Edges, ho_Holes, ho_Hole;
+	//HTuple  hv_Row, hv_Column, hv_Radius, hv_Number;
 
-	EdgesSubPix(m_hvImage, &ho_Edges, "canny", 4, 20, 40);
-	SelectShapeXld(ho_Edges, &ho_Holes, "circularity", "and", 0.7, 1.0);
-	SortContoursXld(ho_Holes, &ho_Holes, "upper_left", "true", "row");
+	//EdgesSubPix(m_hvImage, &ho_Edges, "canny", 4, 20, 40);
+	//SelectShapeXld(ho_Edges, &ho_Holes, "circularity", "and", 0.7, 1.0);
+	//SortContoursXld(ho_Holes, &ho_Holes, "upper_left", "true", "row");
 
-	//Determine the midpoints
-	SmallestCircleXld(ho_Holes, &hv_Row, &hv_Column, &hv_Radius);
-	CountObj(ho_Holes, &hv_Number);
+	////Determine the midpoints
+	//SmallestCircleXld(ho_Holes, &hv_Row, &hv_Column, &hv_Radius);
+	//CountObj(ho_Holes, &hv_Number);
 
-	if(hv_Number > 1)
-	{
-		if (HDevWindowStack::IsOpen())
-		{
-			DispObj(ho_Hole, HDevWindowStack::GetActive());
-			DispCross(HDevWindowStack::GetActive(), hv_Row[0], hv_Column[0], 10, 0);
-		}
-		m_TargetRow = hv_Row[0];
-		m_TargetColumn = hv_Row[0];
-		return true;
-	}
-	return false;
+	//if(hv_Number > 1)
+	//{
+	//	if (HDevWindowStack::IsOpen())
+	//	{
+	//		DispObj(ho_Hole, HDevWindowStack::GetActive());
+	//		DispCross(HDevWindowStack::GetActive(), hv_Row[0], hv_Column[0], 10, 0);
+	//	}
+	//	m_TargetRow = hv_Row[0];
+	//	m_TargetColumn = hv_Row[0];
+	//	return true;
+	//}
+	return m_CirleDetecter->DetectCirleCenter(m_TargetRow, m_TargetColumn);
 }
+

@@ -6,6 +6,7 @@
 #include "HalconAction.h"
 #include "MotorCtrl.h"
 #include "Camera.h"
+#include "ImageProcSettingDlg.h"
 
 // CControlSystemDlg dialog
 class IMotorCtrl;
@@ -71,9 +72,15 @@ private:
 	bool m_excelLoaded;
 	int m_columnNum;
 	int m_rowNum;
+
+	bool m_HalconWndOpened;
+
+	CImageProcSettingDlg* m_ImageProcSetDlg;
+
 public:
 	afx_msg void OnBnClickedCustomMear();
 	float m_CustomX;
 	float m_CustomY;
 	float m_CustomZ;
+	afx_msg void OnBnClickedImageProcSettingBtn();
 };

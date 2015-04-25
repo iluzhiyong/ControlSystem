@@ -81,10 +81,19 @@ CControlSystemDlg::CControlSystemDlg(CWnd* pParent /*=NULL*/)
 	m_rowNum = 0;
 
 	m_IImageProcess = new CImageProcess();
+	m_ImageProcSetDlg = NULL;
+
+	m_HalconWndOpened = false;
 }
 
 CControlSystemDlg::~CControlSystemDlg()
 {
+	if(m_ImageProcSetDlg != NULL)
+	{
+		delete m_ImageProcSetDlg;
+		m_ImageProcSetDlg = NULL;
+	}
+
 	if(m_IMotoCtrl != NULL)
 	{
 		delete m_IMotoCtrl;
@@ -99,6 +108,8 @@ CControlSystemDlg::~CControlSystemDlg()
 	{
 		delete m_IHeightDectector;
 	}
+
+
 }
 
 void CControlSystemDlg::DoDataExchange(CDataExchange* pDX)
@@ -125,6 +136,7 @@ BEGIN_MESSAGE_MAP(CControlSystemDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON2, &CControlSystemDlg::OnBnClickedButton2)
 	ON_BN_CLICKED(IDC_AUTO_MEAR, &CControlSystemDlg::OnBnClickedAutoMear)
 	ON_BN_CLICKED(IDC_CUSTOM_MEAR, &CControlSystemDlg::OnBnClickedCustomMear)
+	ON_BN_CLICKED(IDC_IMAGE_PROC_SETTING_BTN, &CControlSystemDlg::OnBnClickedImageProcSettingBtn)
 END_MESSAGE_MAP()
 
 
@@ -414,6 +426,11 @@ void CControlSystemDlg::OnBnClickedCameraParam()
 
 void CControlSystemDlg::OpenHalconWind()
 {
+	if(m_HalconWndOpened)
+	{
+		return;
+	}
+
 	CRect rtWindow;
 
 	HWND hImgWnd = GetDlgItem( IDC_STATIC_VIDEO1)->m_hWnd;
@@ -427,11 +444,19 @@ void CControlSystemDlg::OpenHalconWind()
 	HalconCpp::SetPart(hv_WindowID, 0, 0, rtWindow.Height() -1, rtWindow.Width() - 1);
 
 	HDevWindowStack::Push(hv_WindowID);
+
+	m_HalconWndOpened = true;
 }
 
 void CControlSystemDlg::OnBnClickedButtonImageProc()
 {
 	OpenHalconWind();
+
+	if(HDevWindowStack::IsOpen())
+	{
+		ClearWindow(HDevWindowStack::GetActive());
+	}
+
 	if((NULL != m_IImageProcess) && m_IImageProcess->LoadProcessImage())
 	{
 		float x = 0.0;
@@ -440,6 +465,12 @@ void CControlSystemDlg::OnBnClickedButtonImageProc()
 		if(!ret)
 		{
 			AfxMessageBox("Can not find target!");
+		}
+		else
+		{
+			CString msg;
+			msg.Format("测量结果为x=%f, y=%f.", x, y);
+			AfxMessageBox(msg);
 		}
 	}
 }
@@ -467,8 +498,17 @@ void CControlSystemDlg::OnBnClickedButton2()
 	{
 		m_pCamera->DoCapture();
 	}
-}
 
+	OpenHalconWind();
+	if(HDevWindowStack::IsOpen())
+	{
+		ClearWindow(HDevWindowStack::GetActive());
+	}
+	if(NULL != m_IImageProcess)
+	{
+		m_IImageProcess->LoadProcessImage();
+	}
+}
 
 BOOL CControlSystemDlg::DestroyWindow()
 {
@@ -630,6 +670,7 @@ bool CControlSystemDlg ::CalculatePoint(float x, float y, float z, float &retx, 
 
 	if(ret)
 	{
+		m_IImageProcess->GetCircleDetecter()->ShowErrorMessage(false);
 		ret = m_IImageProcess->Process(x, y, retx, rety);
 	}
 
@@ -655,3 +696,27 @@ void CControlSystemDlg::OnBnClickedCustomMear()
 		AfxMessageBox("测量失败！");
 	}
 }
+
+void CControlSystemDlg::OnBnClickedImageProcSettingBtn()
+{
+	OpenHalconWind();
+	if(HDevWindowStack::IsOpen())
+	{
+		ClearWindow(HDevWindowStack::GetActive());
+	}
+	if(NULL != m_IImageProcess && m_IImageProcess->LoadProcessImage())
+	{
+		if(m_ImageProcSetDlg == NULL)
+		{
+			m_ImageProcSetDlg = new CImageProcSettingDlg();
+			m_ImageProcSetDlg->Create(CImageProcSettingDlg::IDD, this);
+		}
+		CDetectCircularhole* detecter = m_IImageProcess->GetCircleDetecter();
+		if(detecter != NULL)
+		{
+			m_ImageProcSetDlg->SetCircleDetecter(detecter);
+			m_ImageProcSetDlg->ShowWindow(SW_SHOW);
+		}
+	}
+}
+

@@ -1,5 +1,7 @@
 #pragma once
 #include "iimageprocess.h"
+#include "DetectCircularhole.h"
+
 #include "HalconAction.h"
 
 class CImageProcess
@@ -15,15 +17,14 @@ public:
 	bool LoadCamParamPoseFile();
 	CString GetCameraParamFilePath();
 	CString GetCameraPoseFIlePath();
-
 	bool LoadProcessImage();
 	CString GetProcessImagePath();
-
 	bool ConvertImagePoint(float imgX, float imgY, float &wX, float &wY);
-
 	bool FindTargetPoint(float &x, float &y);
-
 	bool Action();
+
+	CDetectCircularhole* GetCircleDetecter();
+	HObject GetProcessImage(){ return m_hvImage; }
 	
 private:
 	bool m_paramPoseLoaded;
@@ -33,5 +34,8 @@ private:
 	HObject m_hvImage;
 	float m_TargetRow;
 	float m_TargetColumn;
+
+	CDetectCircularhole* m_CirleDetecter;
+
 };
 
