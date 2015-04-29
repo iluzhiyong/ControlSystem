@@ -90,6 +90,7 @@
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\ControlSystem\include\halconcpp;..\ControlSystem\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <CallingConvention>Cdecl</CallingConvention>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -200,6 +201,7 @@
     <ClInclude Include="CWorkbooks.h" />
     <ClInclude Include="CWorksheet.h" />
     <ClInclude Include="CWorksheets.h" />
+    <ClInclude Include="DataUtility.h" />
     <ClInclude Include="DetectCircularhole.h" />
     <ClInclude Include="ExcelFileApp.h" />
     <ClInclude Include="HalconAction.h" />
@@ -208,6 +210,7 @@
     <ClInclude Include="ImageProcSetting.h" />
     <ClInclude Include="ImageProcSettingDlg.h" />
     <ClInclude Include="IMotorCtrl.h" />
+    <ClInclude Include="Log.h" />
     <ClInclude Include="MotorCtrl.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
@@ -218,10 +221,12 @@
     <ClCompile Include="CameraDlg.cpp" />
     <ClCompile Include="ControlSystem.cpp" />
     <ClCompile Include="ControlSystemDlg.cpp" />
+    <ClCompile Include="DataUtility.cpp" />
     <ClCompile Include="DetectCircularhole.cpp" />
     <ClCompile Include="ExcelFileApp.cpp" />
     <ClCompile Include="ImageProcess.cpp" />
     <ClCompile Include="ImageProcSettingDlg.cpp" />
+    <ClCompile Include="Log.cpp" />
     <ClCompile Include="MotorCtrl.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

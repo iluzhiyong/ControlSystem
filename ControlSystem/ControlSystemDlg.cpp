@@ -21,6 +21,8 @@
 #include "IHeightDectector.h"
 #include "ImageProcess.h"
 #include <ctype.h>
+#include "Log.h"
+#include "DataUtility.h"
 
 using namespace std;
 
@@ -82,12 +84,16 @@ CControlSystemDlg::CControlSystemDlg(CWnd* pParent /*=NULL*/)
 
 	m_IImageProcess = new CImageProcess();
 	m_ImageProcSetDlg = NULL;
-
 	m_HalconWndOpened = false;
+
+	CLog::Instance()->CreateLog(DataUtility::GetExePath() + _T("log.txt"), true);
+
 }
 
 CControlSystemDlg::~CControlSystemDlg()
 {
+	CLog::Instance()->CloseLog();
+
 	if(m_ImageProcSetDlg != NULL)
 	{
 		delete m_ImageProcSetDlg;
@@ -137,6 +143,12 @@ BEGIN_MESSAGE_MAP(CControlSystemDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_AUTO_MEAR, &CControlSystemDlg::OnBnClickedAutoMear)
 	ON_BN_CLICKED(IDC_CUSTOM_MEAR, &CControlSystemDlg::OnBnClickedCustomMear)
 	ON_BN_CLICKED(IDC_IMAGE_PROC_SETTING_BTN, &CControlSystemDlg::OnBnClickedImageProcSettingBtn)
+	ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST1, &CControlSystemDlg::OnItemchangedList)
+	ON_NOTIFY(LVN_COLUMNCLICK, IDC_LIST1, &CControlSystemDlg::OnColumnclickList1)
+	ON_NOTIFY(HDN_ITEMCLICK, 0, &CControlSystemDlg::OnItemclickList1)
+	ON_NOTIFY(LVN_LINKCLICK, IDC_LIST1, &CControlSystemDlg::OnLinkclickList1)
+	ON_NOTIFY(NM_CLICK, IDC_LIST1, &CControlSystemDlg::OnClickList1)
+	ON_NOTIFY(NM_DBLCLK, IDC_LIST1, &CControlSystemDlg::OnDblclkList1)
 END_MESSAGE_MAP()
 
 
@@ -459,6 +471,12 @@ void CControlSystemDlg::OnBnClickedButtonImageProc()
 
 	if((NULL != m_IImageProcess) && m_IImageProcess->LoadProcessImage())
 	{
+		CDetectCircularhole* detecter = m_IImageProcess->GetCircleDetecter();
+		if(detecter != NULL)
+		{
+			detecter->LoadConfig();
+		}
+		
 		float x = 0.0;
 		float y = 0.0;
 		bool ret = m_IImageProcess->FindTargetPoint(x, y);
@@ -521,13 +539,14 @@ BOOL CControlSystemDlg::DestroyWindow()
 	return CDialogEx::DestroyWindow();
 }
 
-
-void CControlSystemDlg::OnBnClickedAutoMear()
-{
 	const int StartRow = 4;
 	const int XColumn = 2; const int XResultColumn = 5;
 	const int YColumn = 3; const int YResultColumn = 6;
 	const int ZColumn = 4; const int ZResultColumn = 7;
+
+
+void CControlSystemDlg::OnBnClickedAutoMear()
+{
 
 	if(!m_excelLoaded)
 	{
@@ -535,14 +554,27 @@ void CControlSystemDlg::OnBnClickedAutoMear()
 		return;
 	}
 
+	CDetectCircularhole* detecter = m_IImageProcess->GetCircleDetecter();
+	if(detecter != NULL)
+	{
+		detecter->LoadConfig();
+	}
+
+	OpenHalconWind();
+
 	float x, y, z;
 	float retX, retY, retZ;
+	CString testNum;
 	for(int i = StartRow; i < m_rowNum; i++)
 	{
 		if(GetMeasureTargetValue(i, x, y, z))
 		{
+			testNum = m_ListData.GetItemText(i, 0);
 			if(CalculatePoint(x, y, z, retX, retY, retZ))
 			{
+				CString log;
+				log.Format(_T("Num %s, X=%f, Y=%f, Z=%f"),testNum, retX,  retY,  retZ);
+				CLog::Instance()->Log(log);
 				SetMeasureResultValue(i, retX, retY, retZ);
 			}
 		}
@@ -575,6 +607,7 @@ bool CControlSystemDlg::ConvertStringToFloat(CString buffer, float &value)
 	}
 	return false;
 }
+
 
 bool CControlSystemDlg::GetFloatItem(int row, int column, float &value)
 {
@@ -642,32 +675,33 @@ bool CControlSystemDlg :: SetMeasureResultValue(int row, float resultX, float re
 
 bool CControlSystemDlg ::CalculatePoint(float x, float y, float z, float &retx, float &rety, float &retz)
 {
-	retx = x + 10;
+	/*retx = x + 10;
 	rety = y + 10;
 	retz = z + 10;
-	return true;
+	return true;*/
 
-	bool ret = ((NULL != m_IMotoCtrl) && (NULL != m_pCamera) && (NULL != m_IImageProcess) && (NULL != m_IHeightDectector));
-	if(ret)
-	{
-		ret = m_IMotoCtrl->MoveTo(x, y, 0);
-	}
-	if(ret)
-	{
-		while(1)
-		{
-			if(m_IMotoCtrl->IsOnMoving() == false)
-			{
-				break;
-			}
-			Sleep(100);
-		}
-	}
-	if(ret)
-	{
-		ret = (m_pCamera->DoCapture() == 0);
-	}
+	//bool ret = ((NULL != m_IMotoCtrl) && (NULL != m_pCamera) && (NULL != m_IImageProcess) && (NULL != m_IHeightDectector));
+	//if(ret)
+	//{
+	//	ret = m_IMotoCtrl->MoveTo(x, y, 0);
+	//}
+	//if(ret)
+	//{
+	//	while(1)
+	//	{
+	//		if(m_IMotoCtrl->IsOnMoving() == false)
+	//		{
+	//			break;
+	//		}
+	//		Sleep(100);
+	//	}
+	//}
+	//if(ret)
+	//{
+	//	ret = (m_pCamera->DoCapture() == 0);
+	//}
 
+	bool ret = true;
 	if(ret)
 	{
 		m_IImageProcess->GetCircleDetecter()->ShowErrorMessage(false);
@@ -676,7 +710,8 @@ bool CControlSystemDlg ::CalculatePoint(float x, float y, float z, float &retx, 
 
 	if(ret)
 	{
-		ret = m_IHeightDectector->Dectect(z, retz);
+		//ret = m_IHeightDectector->Dectect(z, retz);
+		retz = z;
 	}
 	return ret;
 }
@@ -720,3 +755,68 @@ void CControlSystemDlg::OnBnClickedImageProcSettingBtn()
 	}
 }
 
+
+
+void CControlSystemDlg::OnItemchangedList(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR);
+	// TODO: Add your control notification handler code here
+	*pResult = 0;
+
+}
+
+
+void CControlSystemDlg::OnColumnclickList1(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR);
+	// TODO: Add your control notification handler code here
+	*pResult = 0;
+}
+
+
+void CControlSystemDlg::OnItemclickList1(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	LPNMHEADER phdr = reinterpret_cast<LPNMHEADER>(pNMHDR);
+	// TODO: Add your control notification handler code here
+	*pResult = 0;
+}
+
+
+void CControlSystemDlg::OnLinkclickList1(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	// TODO: Add your control notification handler code here
+	*pResult = 0;
+}
+
+
+void CControlSystemDlg::OnClickList1(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
+	// TODO: Add your control notification handler code here
+	*pResult = 0;
+   
+}
+
+
+void CControlSystemDlg::OnDblclkList1(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
+	// TODO: Add your control notification handler code here
+	*pResult = 0;
+
+	 try
+	{
+		float x, y, z;
+		if(GetMeasureTargetValue(pNMItemActivate->iItem, x, y, z))
+		{
+			this->m_CustomX = x;
+			this->m_CustomY = y;
+			this->m_CustomZ = z;
+			UpdateData(false);
+		}
+	}
+	catch(...)
+	{
+
+	}
+}

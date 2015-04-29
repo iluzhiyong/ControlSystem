@@ -108,6 +108,12 @@
     <ClInclude Include="ImageProcSettingDlg.h">
       <Filter>Header Files\Camera</Filter>
     </ClInclude>
+    <ClInclude Include="DataUtility.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Log.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ControlSystem.cpp">
@@ -139,6 +145,12 @@
     </ClCompile>
     <ClCompile Include="ImageProcSettingDlg.cpp">
       <Filter>Source Files\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="DataUtility.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Log.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

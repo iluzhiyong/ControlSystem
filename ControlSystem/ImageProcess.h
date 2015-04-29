@@ -19,6 +19,7 @@ public:
 	CString GetCameraPoseFIlePath();
 	bool LoadProcessImage();
 	CString GetProcessImagePath();
+	CString GetProcessConfigPath();
 	bool ConvertImagePoint(float imgX, float imgY, float &wX, float &wY);
 	bool FindTargetPoint(float &x, float &y);
 	bool Action();

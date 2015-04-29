@@ -1,12 +1,15 @@
 #include "StdAfx.h"
 #include "ImageProcess.h"
 #include "DetectCircularhole.h"
+#include "DataUtility.h"
 
 CImageProcess::CImageProcess(void)
 {
 	m_paramPoseLoaded = LoadCamParamPoseFile();
 	m_CirleDetecter = NULL;
 	m_CirleDetecter = new CDetectCircularhole();
+	m_CirleDetecter->SetConfigPath(GetProcessConfigPath());
+	m_CirleDetecter->LoadConfig();
 }
 
 
@@ -59,24 +62,21 @@ bool CImageProcess::LoadCamParamPoseFile()
 	return ret;
 }
 
-static CString GetExePath()
-{
-	TCHAR exeFullPath[MAX_PATH]; 
-	memset(exeFullPath,0,MAX_PATH);  
 
-	GetModuleFileName(NULL,exeFullPath,MAX_PATH);  
-	(_tcsrchr(exeFullPath, _T('\\')))[1] = 0;
-	return exeFullPath;
+
+CString CImageProcess::GetProcessConfigPath()
+{
+	return DataUtility::GetExePath() + _T("\\ProcessConfig\\ImageProcess.ini");
 }
 
 CString CImageProcess::GetCameraParamFilePath()
 {
-	return GetExePath() + _T("CameraConfigs\\camera_parameters.dat");
+	return DataUtility::GetExePath() + _T("CameraConfigs\\camera_parameters.dat");
 }
 
 CString CImageProcess::GetCameraPoseFIlePath()
 {
-	return GetExePath() + _T("CameraConfigs\\camera_pose.dat");
+	return DataUtility::GetExePath() + _T("CameraConfigs\\camera_pose.dat");
 }
 
 bool CImageProcess::LoadProcessImage()
@@ -104,7 +104,7 @@ bool CImageProcess::LoadProcessImage()
 
 CString CImageProcess::GetProcessImagePath()
 {
-	return GetExePath() + _T("Image\\process.png");
+	return DataUtility::GetExePath() + _T("Image\\process.png");
 }
 
 bool CImageProcess::Process(float x, float y, float &cenertX, float &centerY)
@@ -115,6 +115,7 @@ bool CImageProcess::Process(float x, float y, float &cenertX, float &centerY)
 	}
 	if(m_paramPoseLoaded && LoadProcessImage())
 	{
+		
 		bool ret = true;
 
 		//Image Center X,Y

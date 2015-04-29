@@ -83,4 +83,10 @@ public:
 	float m_CustomY;
 	float m_CustomZ;
 	afx_msg void OnBnClickedImageProcSettingBtn();
+	afx_msg void OnItemchangedList(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnColumnclickList1(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnItemclickList1(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnLinkclickList1(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnClickList1(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnDblclkList1(NMHDR *pNMHDR, LRESULT *pResult);
 };

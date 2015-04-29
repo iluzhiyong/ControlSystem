@@ -277,5 +277,10 @@ void CImageProcSettingDlg::OnBnClickedDetectBtn()
 void CImageProcSettingDlg::OnBnClickedApplyButton()
 {
 	ConvertSettingToDetecter();
+
+	if(NULL != m_CirleDetecter)
+	{
+		m_CirleDetecter->SaveConfig();
+	}
 	AfxMessageBox("±£´æ³É¹¦£¡");
 }

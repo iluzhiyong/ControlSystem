@@ -7,6 +7,11 @@ public:
 	CDetectCircularhole(void);
 	~CDetectCircularhole(void);
 
+public:
+	void LoadConfig();
+	void SaveConfig();
+	void SetConfigPath(CString path);
+
 
 public:
 	void SetImageObject(HObject ho_Capture1);
@@ -34,6 +39,10 @@ public:
 	float m_EdgeAlpha;
 	int m_EdgeMinThreld;
 	int m_EdgeMaxThreld;
+
+private:
+	CString m_ConfigPath;
+	CString GetFloatConfigString(CString section,  CString key,  CString defautValue="");
 
 public:
 	void ShowErrorMessage(bool show);
