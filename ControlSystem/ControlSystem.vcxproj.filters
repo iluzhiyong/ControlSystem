@@ -114,6 +114,9 @@
     <ClInclude Include="Log.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MT_API.h">
+      <Filter>Header Files\MotorCtrl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ControlSystem.cpp">
@@ -151,6 +154,9 @@
     </ClCompile>
     <ClCompile Include="Log.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IMotroCtrl.cpp">
+      <Filter>Source Files\MotorCtrl</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

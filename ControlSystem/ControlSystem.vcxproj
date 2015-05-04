@@ -95,7 +95,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>HQDLAPI.lib;halconcpp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>HQDLAPI.lib;halconcpp.lib;MT_API.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\ControlSystem\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <Midl>
@@ -212,6 +212,7 @@
     <ClInclude Include="IMotorCtrl.h" />
     <ClInclude Include="Log.h" />
     <ClInclude Include="MotorCtrl.h" />
+    <ClInclude Include="MT_API.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -226,6 +227,7 @@
     <ClCompile Include="ExcelFileApp.cpp" />
     <ClCompile Include="ImageProcess.cpp" />
     <ClCompile Include="ImageProcSettingDlg.cpp" />
+    <ClCompile Include="IMotroCtrl.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="MotorCtrl.cpp" />
     <ClCompile Include="stdafx.cpp">

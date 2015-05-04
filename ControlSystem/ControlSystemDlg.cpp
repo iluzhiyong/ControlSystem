@@ -72,6 +72,7 @@ CControlSystemDlg::CControlSystemDlg(CWnd* pParent /*=NULL*/)
 	, m_CustomX(0)
 	, m_CustomY(0)
 	, m_CustomZ(0)
+	, m_IMotoCtrl(NULL)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 	m_IMotoCtrl = NULL;
@@ -114,8 +115,6 @@ CControlSystemDlg::~CControlSystemDlg()
 	{
 		delete m_IHeightDectector;
 	}
-
-
 }
 
 void CControlSystemDlg::DoDataExchange(CDataExchange* pDX)
@@ -126,6 +125,11 @@ void CControlSystemDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_CUSTOM_X, m_CustomX);
 	DDX_Text(pDX, IDC_CUSTOM_Y, m_CustomY);
 	DDX_Text(pDX, IDC_CUSTOM_Z, m_CustomZ);
+	//  DDX_Control(pDX, IDC_CUR_POS_X, m_XPosAbs);
+	//  DDX_Control(pDX, IDC_CUR_POS_Y, m_YPosAbs);
+	DDX_Control(pDX, IDC_CUR_POS_Z, m_ZCurPosAbs);
+	DDX_Control(pDX, IDC_CUR_POS_X, m_XCurPosAbs);
+	DDX_Control(pDX, IDC_CUR_POS_Y, m_YCurPosAbs);
 }
 
 BEGIN_MESSAGE_MAP(CControlSystemDlg, CDialogEx)
@@ -149,6 +153,11 @@ BEGIN_MESSAGE_MAP(CControlSystemDlg, CDialogEx)
 	ON_NOTIFY(LVN_LINKCLICK, IDC_LIST1, &CControlSystemDlg::OnLinkclickList1)
 	ON_NOTIFY(NM_CLICK, IDC_LIST1, &CControlSystemDlg::OnClickList1)
 	ON_NOTIFY(NM_DBLCLK, IDC_LIST1, &CControlSystemDlg::OnDblclkList1)
+	ON_BN_CLICKED(IDC_MT_CONNECT, &CControlSystemDlg::OnBnClickedMtConnect)
+	ON_WM_CLOSE()
+	ON_WM_TIMER()
+	ON_BN_CLICKED(IDC_STOP, &CControlSystemDlg::OnBnClickedStop)
+	ON_BN_CLICKED(IDC_BUTTON4, &CControlSystemDlg::OnBnClickedButton4)
 END_MESSAGE_MAP()
 
 
@@ -212,6 +221,22 @@ BOOL CControlSystemDlg::OnInitDialog()
 		m_staticPicture.GetClientRect( &rect );
 		m_pCamera->SetDispRect(rect);
 		m_pCamera->DoPlay(TRUE, m_staticPicture.m_hWnd);
+	}
+
+	//初始化板卡
+	m_IMotoCtrl = new IMotorCtrl();
+	if(NULL != m_IMotoCtrl)
+	{
+		INT32 intResult = 0;
+		intResult = m_IMotoCtrl->Init();
+		if(0 != intResult)
+		{
+			AfxMessageBox(_T("初始化板卡失败."));
+		}
+		else
+		{
+			m_IMotoCtrl->SetAxisModePosition(0);
+		}
 	}
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
@@ -708,6 +733,12 @@ bool CControlSystemDlg ::CalculatePoint(float x, float y, float z, float &retx, 
 		ret = m_IImageProcess->Process(x, y, retx, rety);
 	}
 
+	//找到圆孔远心正上方。
+	if(ret)
+	{
+		ret = m_IMotoCtrl->MoveTo(retx, rety, 0);
+	}
+
 	if(ret)
 	{
 		//ret = m_IHeightDectector->Dectect(z, retz);
@@ -818,5 +849,92 @@ void CControlSystemDlg::OnDblclkList1(NMHDR *pNMHDR, LRESULT *pResult)
 	catch(...)
 	{
 
+	}
+}
+
+
+void CControlSystemDlg::OnBnClickedMtConnect()
+{
+	if(NULL != m_IMotoCtrl)
+	{
+		m_IMotoCtrl->CloseUSB();
+
+		//打开USB
+		INT32 iResult = m_IMotoCtrl->OpenUSB();
+		if(0 != iResult)
+		{
+			AfxMessageBox("打开USB失败。");
+			return;
+		}
+
+		//检测板卡
+		iResult = m_IMotoCtrl->Check();
+		if(0 != iResult)
+		{
+			AfxMessageBox("检测板卡失败。");
+			return;
+		}
+		else
+		{
+			AfxMessageBox("板卡正常。");
+		}
+
+		//启动定时器，在定时器中连续进行状态读取
+		SetTimer(1,1000,NULL);
+	}
+}
+
+
+void CControlSystemDlg::OnClose()
+{
+	// TODO: Add your message handler code here and/or call default
+
+	if(NULL != m_IMotoCtrl)
+	{
+		m_IMotoCtrl->DeInit();
+		
+		//关闭定时器
+		KillTimer(1);
+	}
+
+	CDialogEx::OnClose();
+}
+
+
+void CControlSystemDlg::OnTimer(UINT_PTR nIDEvent)
+{
+	//定制器中读取状态
+
+	if(NULL != m_IMotoCtrl)
+	{
+		//读取当前位置
+		INT32 iTempPos;
+		CString sTempPos;
+		m_IMotoCtrl->GetAxisSoftwarePNow(0,&iTempPos);
+		sTempPos.Format("%d", iTempPos);
+		m_XCurPosAbs.SetWindowText(sTempPos);
+	}
+
+	CDialogEx::OnTimer(nIDEvent);
+}
+
+
+void CControlSystemDlg::OnBnClickedStop()
+{
+	// TODO: Add your control notification handler code here
+	if(NULL != m_IMotoCtrl)
+	{
+		m_IMotoCtrl->SetAxisPositionStop(0);
+	}
+}
+
+
+void CControlSystemDlg::OnBnClickedButton4()
+{
+	if(NULL != m_IMotoCtrl)
+	{
+		UpdateData(true);
+		INT32 temp = (INT32)m_CustomX;
+		m_IMotoCtrl->SetAxisPositionPTargetAbs(0, temp);
 	}
 }

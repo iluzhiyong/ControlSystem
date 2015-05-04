@@ -89,4 +89,13 @@ public:
 	afx_msg void OnLinkclickList1(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnClickList1(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnDblclkList1(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnBnClickedMtConnect();
+	afx_msg void OnClose();
+
+	CEdit m_ZCurPosAbs;
+	CEdit m_XCurPosAbs;
+	CEdit m_YCurPosAbs;
+	afx_msg void OnTimer(UINT_PTR nIDEvent);
+	afx_msg void OnBnClickedStop();
+	afx_msg void OnBnClickedButton4();
 };
