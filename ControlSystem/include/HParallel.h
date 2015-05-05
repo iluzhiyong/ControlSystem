@@ -2,15 +2,21 @@
  * HParallel.h
  *****************************************************************************
  *
- * Project:      HALCON/HLib
+ * Project:      HALCOn/libhalcon
+ * Author:       M. Lueckenhaus
  * Description:  Basic constants for controlling the automatic 
  *               parallelization of HALCON operators and 
  *               programs (operator sequences)
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2009 by MVTec Software GmbH
  *                  www.mvtec.com
  *
- *****************************************************************************/
+ *****************************************************************************
+ *
+ * $Revision: 1.19 $
+ * $Date: 2010/07/01 13:03:43 $
+ *
+ */
 
 #ifndef HCPAR_H
 #define HCPAR_H
@@ -20,8 +26,8 @@ extern "C" {
 #endif
 
 /* --- Defines -------------------------------------------------- */
-# if defined(__sgi)||defined(HPPA2)||defined(__linux)||defined(__APPLE__)|| \
-  defined(__sun) ||defined(__alpha)||defined(__vxworks)
+# if defined(__sgi)||defined(HPPA2)||defined(__linux)||defined(__sun) \
+  ||defined(__alpha)||defined(__vxworks) 
 #  define H_POSIX_THREADS
 # elif defined(_WIN32)
 #  define H_WIN32_THREADS
@@ -141,7 +147,7 @@ extern "C" {
 #define HAG_PAR_PART          (1<<9)    /* partial automatic parallelization: 
                                          * an operator is parallelized 
                                          * manually within the hlib */
-#define HAG_PAR_PAIF          (1<<10)   /* internal domain parallelization */
+#define HAG_PAR_PAIF          (1<<10)
 
 
 /* constants for describing the overall processing context:                  */

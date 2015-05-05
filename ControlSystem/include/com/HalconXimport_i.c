@@ -20,8 +20,6 @@ extern "C"{
 #ifndef __IID_DEFINED__
 #define __IID_DEFINED__
 
-#pragma pack(push,8) /* sets the struct member alignment to 8 bytes (default)*/
-
 typedef struct _IID
 {
     unsigned long x;
@@ -29,8 +27,6 @@ typedef struct _IID
     unsigned short s2;
     unsigned char  c[8];
 } IID;
-
-#pragma pack(pop)
 
 #endif // __IID_DEFINED__
 

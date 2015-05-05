@@ -5,11 +5,13 @@
  * Project:     HALCON/C++
  * Description: Class HComputeDevice
  *
- * (c) 2009-2014 by MVTec Software GmbH
+ * (c) 2009-2010 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.1 $
+ * $Date: 2010/01/07 11:36:17 $
  *
  */
 

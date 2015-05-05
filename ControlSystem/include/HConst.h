@@ -5,13 +5,22 @@
  * Project:     HALCON/libhalcon
  * Description: Definition of constants
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2010 by MVTec Software GmbH
  *                  www.mvtec.com
  *
- *****************************************************************************/
+ *****************************************************************************
+ *
+ * $Revision: 1.5 $
+ * $Date: 2010/08/18 08:50:14 $
+ *
+ */
+
+
 
 #ifndef HCONST_H
 #define HCONST_H
+
+#include "HErrorDef.h"  /* defines return codes for errors */
 
 /*****************************************************************************/
 /*****************************************************************************/
@@ -46,6 +55,7 @@
 #define MAX_EDGE_LENGTH1          101     /* max. filter size                */
 #define MAX_CLUSTER               1024    /* LearnNDim,ClassNDim             */
 #define MAX_CONVOL                50000   /* IPConvol.c (> 10000!)           */
+#define MAX_LINE_NUM              2000    /* length of any normal text       */
 #define MAX_IMAGE_DIR             (16*MAX_STRING) /* length of the image dir */
 #define MAX_GRAPHIC_COLOR         64/* max. number of graphics colors in LUT */
 #define MAX_COLOR_NAME_LENGTH     40 /* max. length of a color name          */
@@ -65,6 +75,7 @@
 /*****************************************************************************/
 /* Core Interface and operator implementation                                */
 /*****************************************************************************/
+#define MAX_PROC                  3000    /* Maximum number of operators     */
 #define MAX_INP_OBJ_PAR           9       /* max # input object parameters   */
 #define MAX_OUTP_OBJ_PAR          9       /* max # output object parameters  */
 #define MAX_INP_CTRL_PAR          20      /* max # inpput control parameters */
@@ -111,7 +122,6 @@
 #define OCR_BOX_EXT               "obc"   /* OCR box classifier              */
 #define OCR_MLP_EXT               "omc"   /* OCR MLP classifier              */
 #define OCR_SVM_EXT               "osc"   /* OCR SVM classifier              */
-#define OCR_KNN_EXT               "okc"   /* OCR kNN classifier              */
 #define OCV_EXT                   "ocv"   /* OCV                             */
 #define PS_EXTENSION              "ps"    /* Postscript                      */
 #define TIFF_EXTENSION            "tiff"  /* TIFF                            */
@@ -187,7 +197,6 @@
 #define CLOCK_MODE_ELAPSED_TIME        1
 #define CLOCK_MODE_PERFORMANCE_COUNTER 2
 #define CLOCK_MODE_MULTIMEDIA_TIMER    3
-#define CLOCK_MODE_PROCESS_TIME        4
 #define OCR_TRAINFILE_VERSION1_0       1  /* file version when writing OCR */
 #define OCR_TRAINFILE_VERSION2_0       2  /* trainf */
 #define OCR_TRAINFILE_VERSION3_0       3  /* trainf + UINT2 images */

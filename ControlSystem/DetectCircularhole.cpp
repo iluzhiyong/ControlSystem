@@ -44,7 +44,7 @@ CDetectCircularhole::~CDetectCircularhole(void)
 {
 }
 
-void CDetectCircularhole::SetImageObject(HObject image)
+void CDetectCircularhole::SetImageObject(Hobject image)
 {
 	ho_Capture1 = image;
 }
@@ -53,8 +53,8 @@ bool CDetectCircularhole::DetectCirleCenter(float &row, float &column)
 {
 	if(RunFitCirle())
 	{
-		row = hv_Row;
-		column = hv_Column;
+		row = hv_Row[0].D();
+		column = hv_Column[0].D();
 		return true;
 	}
 	return false;
@@ -77,12 +77,12 @@ bool CDetectCircularhole::RunThreshold()
 {
 	try
 	{
-		Threshold(ho_Capture1, &ho_Region, m_MinGray, m_MaxGray);
+		threshold(ho_Capture1, &ho_Region, m_MinGray, m_MaxGray);
 		if (m_ShowProcessingImage && HDevWindowStack::IsOpen())
 		{
-			ClearWindow(HDevWindowStack::GetActive());
-			SetColor(HDevWindowStack::GetActive(),"red");
-			DispObj(ho_Region, HDevWindowStack::GetActive());
+			clear_window(HDevWindowStack::GetActive());
+			set_color(HDevWindowStack::GetActive(),"red");
+			disp_obj(ho_Region, HDevWindowStack::GetActive());
 		}
 	}
 	catch(...)
@@ -99,13 +99,13 @@ bool CDetectCircularhole::RunSelectCirles()
 	{
 		try
 		{
-			Connection(ho_Region, &ho_ConnectedRegions);
-			SelectShape(ho_ConnectedRegions, &ho_SelectedRegions, (HTuple("area").Append("roundness")), "and", (HTuple(m_MinCirleArea).Append(m_MinRoundness)), (HTuple(m_MaxCirleArea).Append(m_MaxRoundness)));
+			connection(ho_Region, &ho_ConnectedRegions);
+			select_shape(ho_ConnectedRegions, &ho_SelectedRegions, (HTuple("area").Append("roundness")), "and", (HTuple(m_MinCirleArea).Append(m_MinRoundness)), (HTuple(m_MaxCirleArea).Append(m_MaxRoundness)));
 			if (m_ShowProcessingImage && HDevWindowStack::IsOpen())
 			{
-				ClearWindow(HDevWindowStack::GetActive());
-				SetColor(HDevWindowStack::GetActive(),"green");
-				DispObj(ho_SelectedRegions, HDevWindowStack::GetActive());
+				clear_window(HDevWindowStack::GetActive());
+				set_color(HDevWindowStack::GetActive(),"green");
+				disp_obj(ho_SelectedRegions, HDevWindowStack::GetActive());
 			}
 			return true;
 		}
@@ -123,13 +123,13 @@ bool CDetectCircularhole::RunDilationCircle()
 	{
 		try
 		{
-			DilationCircle(ho_SelectedRegions, &ho_RegionDilation, m_DilationRadius);
-			FillUp(ho_RegionDilation, &ho_RegionFillUp);
+			dilation_circle(ho_SelectedRegions, &ho_RegionDilation, m_DilationRadius);
+			fill_up(ho_RegionDilation, &ho_RegionFillUp);
 			if (m_ShowProcessingImage && HDevWindowStack::IsOpen())
 			{
-				ClearWindow(HDevWindowStack::GetActive());
-				SetColor(HDevWindowStack::GetActive(),"blue");
-				DispObj(ho_RegionFillUp, HDevWindowStack::GetActive());
+				clear_window(HDevWindowStack::GetActive());
+				set_color(HDevWindowStack::GetActive(),"blue");
+				disp_obj(ho_RegionFillUp, HDevWindowStack::GetActive());
 			}
 			return true;
 		}
@@ -147,17 +147,17 @@ bool CDetectCircularhole::RunDetectEdges()
 	{
 		try
 		{
-			Rgb1ToGray(ho_Capture1, &ho_GrayImage);
-			ReduceDomain(ho_GrayImage, ho_RegionFillUp, &ho_ImageReduced);
+			rgb1_to_gray(ho_Capture1, &ho_GrayImage);
+			reduce_domain(ho_GrayImage, ho_RegionFillUp, &ho_ImageReduced);
 	
 			m_EdgeAlpha = (float)(m_EdgeAlpha < 0.0 ? 1.0 : m_EdgeAlpha);
-			EdgesSubPix(ho_ImageReduced, &ho_Edges, (char*)(LPCTSTR(m_EdgeFilter)), m_EdgeAlpha, m_EdgeMinThreld, m_EdgeMaxThreld);
+			edges_sub_pix(ho_ImageReduced, &ho_Edges, (char*)(LPCTSTR(m_EdgeFilter)), m_EdgeAlpha, m_EdgeMinThreld, m_EdgeMaxThreld);
 
 			if (m_ShowProcessingImage && HDevWindowStack::IsOpen())
 			{
-				ClearWindow(HDevWindowStack::GetActive());
-				SetColor(HDevWindowStack::GetActive(),"red");
-				DispObj(ho_Edges, HDevWindowStack::GetActive());
+				clear_window(HDevWindowStack::GetActive());
+				set_color(HDevWindowStack::GetActive(),"red");
+				disp_obj(ho_Edges, HDevWindowStack::GetActive());
 			}
 
 			return true;
@@ -176,19 +176,19 @@ bool CDetectCircularhole::RunFitCirle()
 	{
 		try
 		{
-			LengthXld(ho_Edges, &hv_Length);
-			TupleMax(hv_Length, &hv_Max);
-			SelectShapeXld(ho_Edges, &ho_SelectedXLD, "contlength", "and", hv_Max, hv_Max);
-			FitCircleContourXld(ho_SelectedXLD, "algebraic", -1, 0, 0, 3, 2, &hv_Row, &hv_Column, 
+			length_xld(ho_Edges, &hv_Length);
+			tuple_max(hv_Length, &hv_Max);
+			select_shape_xld(ho_Edges, &ho_SelectedXLD, "contlength", "and", hv_Max, hv_Max);
+			fit_circle_contour_xld(ho_SelectedXLD, "algebraic", -1, 0, 0, 3, 2, &hv_Row, &hv_Column, 
 				&hv_Radius, &hv_StartPhi, &hv_EndPhi, &hv_PointOrder);
 
 			if (m_ShowProcessingImage && HDevWindowStack::IsOpen())
 			{
-				ClearWindow(HDevWindowStack::GetActive());
-				SetColor(HDevWindowStack::GetActive(),"yellow");
-				DispObj(ho_Capture1, HDevWindowStack::GetActive());
-				DispObj(ho_Edges, HDevWindowStack::GetActive());
-				DispCross(HDevWindowStack::GetActive(), hv_Row, hv_Column, 20, 0);
+				clear_window(HDevWindowStack::GetActive());
+				set_color(HDevWindowStack::GetActive(),"yellow");
+				disp_obj(ho_Capture1, HDevWindowStack::GetActive());
+				disp_obj(ho_Edges, HDevWindowStack::GetActive());
+				disp_cross(HDevWindowStack::GetActive(), hv_Row, hv_Column, 20, 0);
 			}
 
 			return true;

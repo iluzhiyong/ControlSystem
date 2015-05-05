@@ -5,11 +5,13 @@
  * Project:     Halcon/libhalcon
  * Description: Geometric primitives (points, lines, contours, etc.)
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2008 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.26 $
+ * $Date: 2010/09/01 14:35:53 $
  *
  */
 
@@ -637,8 +639,8 @@ public:
   
   double Length(void) const 
    { return sqrt(double(x) * double(x) + 
-     double(y) * double(y) + 
-     double(z) * double(z)); }
+		 double(y) * double(y) + 
+		 double(z) * double(z)); }
   void Display(const HWindow &w) const; 
   void Transform(const HAffineTrans &transform)
    { transform.Transform(*this); }
@@ -747,7 +749,7 @@ public:
   double Parameter(const HPoint2D &p) const;
   HPoint2D ClosestPoint(const HPoint &p) const;
   HPoint2D Intersection(const HLine2D &line) const;
-     
+		     
   void Transform(const HAffineTrans &transform)
    { transform.Transform(start); transform.Transform(end); }
   void Display(const HWindow &w) const;

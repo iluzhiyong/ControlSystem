@@ -5,11 +5,13 @@
  * Project:     Halcon/C++
  * Description: Types for regions
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2005 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.14 $
+ * $Date: 2005/05/06 07:36:05 $
  *
  */
 

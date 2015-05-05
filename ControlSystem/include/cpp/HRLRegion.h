@@ -5,11 +5,13 @@
  * Project:     Halcon/C++
  * Description: Regions as run length encoding displayed  
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2005 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.15 $
+ * $Date: 2005/05/09 13:29:11 $
  *
  */
 
@@ -63,7 +65,7 @@ public:
   HDChord const & operator [] (Hlong i) const
   { if ((i < 0) || (i >= num))
     H_EXCEPTION("HDChord const & operator [] (Hlong i) const",
-                "index out of range")
+		 "index out of range")
     return rl[i]; }
   void Empty(void);
 private:

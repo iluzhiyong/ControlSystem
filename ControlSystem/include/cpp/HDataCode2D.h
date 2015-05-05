@@ -5,11 +5,13 @@
  * Project:     HALCON/C++
  * Description: Class HDataCode2D
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2008 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.7 $
+ * $Date: 2008/12/06 13:35:12 $
  *
  */
 
@@ -71,10 +73,6 @@ public:
   // parameters or objects that can be used in the other 2D data code
   // operators.
   virtual HTuple QueryDataCode2dParams(const char *QueryName) const;
-  // Deserialize a serialized 2D data code model.
-  virtual void DeserializeDataCode2dModel(const Halcon::HSerializedItem &SerializedItemHandle);
-  // Serialize a 2D data code model.
-  virtual HSerializedItem SerializeDataCode2dModel() const;
   // Read a 2D data code model from a file and create a new model.
   virtual void ReadDataCode2dModel(const Halcon::HTuple &FileName);
   // Read a 2D data code model from a file and create a new model.

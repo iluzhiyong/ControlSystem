@@ -5,11 +5,13 @@
  * Project:     HALCON/C++
  * Description: Class HBarCode
  *
- * (c) 2007-2014 by MVTec Software GmbH
+ * (c) 2007-2008 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.4 $
+ * $Date: 2008/12/06 13:35:12 $
  *
  */
 
@@ -45,18 +47,6 @@ public:
 
   // Tool-specific member functions
 
-  // Deserialize a bar code model.
-  virtual void DeserializeBarCodeModel(const Halcon::HSerializedItem &SerializedItemHandle);
-  // Serialize a bar code model.
-  virtual HSerializedItem SerializeBarCodeModel() const;
-  // Read a bar code model from a file and create a new model.
-  virtual void ReadBarCodeModel(const Halcon::HTuple &FileName);
-  // Read a bar code model from a file and create a new model.
-  virtual void ReadBarCodeModel(const char *FileName);
-  // Write a bar code model to a file.
-  virtual void WriteBarCodeModel(const Halcon::HTuple &FileName) const;
-  // Write a bar code model to a file.
-  virtual void WriteBarCodeModel(const char *FileName) const;
   // Get the alphanumerical results that were accumulated during the
   // decoding of bar code symbols.
   virtual HTuple GetBarCodeResult(const Halcon::HTuple &CandidateHandle, const Halcon::HTuple &ResultName) const;

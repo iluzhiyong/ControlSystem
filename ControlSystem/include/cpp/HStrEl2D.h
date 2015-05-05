@@ -5,11 +5,13 @@
  * Project:     Halcon/C++
  * Description: Structur elements for morphology with regions
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2005 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.9 $
+ * $Date: 2005/05/06 07:36:06 $
  *
  */
 

@@ -6,7 +6,7 @@
  * Description: Defines, types, and declarations for HALCON/COM,
  *              required for building COM extension packages
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2010 by MVTec Software GmbH
  *               www.mvtec.com 
  * 
  *****************************************************************************/
@@ -22,18 +22,6 @@
 #include "IPType.h"
 #include "HCtype.h"
 
-/* FindText, CreateMutex, CreateEvent, and DeleteFile are also functions of
- * the Windows API. They are defines on FindTextW, CreateMutexW, CreateEventW,
- * and DelteFileW if UNICODE is defined, otherwise they are defines on
- * FindTextA, CreateMutexA, CreateMutexA, and DeleteFileA.
- * These defines are undefined here. If you want to use the corresponding
- * Windows API calls, you must use FindTextA, FindTextW, CreateMutexA,
- * CreateMutexW, CreateEventA, CreateEventW, DeleteFileA, or DeleteFileW
- * directly. */
-#undef FindText
-#undef CreateMutex
-#undef CreateEvent
-#undef DeleteFile
 
 /* Error codes */
 
@@ -82,10 +70,16 @@ extern LIntExport Herror
 HcomStoreIO(Hproc_handle proc_handle,INT par,Hobject inObjVar);
 
 extern LIntExport Herror 
+HcomStoreAllIOs(Hproc_handle proc_handle,Hobject *inObjs);
+
+extern LIntExport Herror 
 HcomStoreICL(Hproc_handle proc_handle,INT par,Hlong value);
 
 extern LIntExport Herror 
 HcomStoreICD(Hproc_handle proc_handle,INT par,double value);
+
+extern LIntExport Herror 
+HcomStoreICS(Hproc_handle proc_handle,INT par,char *value);
 
 extern LIntExport Herror 
 HcomStoreICT(Hproc_handle proc_handle,INT par,Htuple value);
@@ -94,7 +88,13 @@ extern LIntExport Herror
 HcomStoreICTOOL(Hproc_handle proc_handle, INT par, Htuple value);
 
 extern LIntExport Herror 
+HcomStoreAllICs(Hproc_handle proc_handle,Htuple *inpCtrls);
+
+extern LIntExport Herror 
 HcomStoreOO(Hproc_handle proc_handle,INT par,Hobject *outObjVar,Herror err);
+
+extern LIntExport Herror 
+HcomStoreAllOOs(Hproc_handle proc_handle,Hobject **outObjVars,Herror err);
 
 extern LIntExport Herror 
 HcomStoreOCL(Hproc_handle proc_handle,INT par, Hlong *outCtrlVar,Herror err);
@@ -103,11 +103,17 @@ extern LIntExport Herror
 HcomStoreOCD(Hproc_handle proc_handle,INT par,double *outCtrlVar,Herror err);
 
 extern LIntExport Herror 
+HcomStoreOCS(Hproc_handle proc_handle,INT par,char *outCtrlVar,Herror err);
+
+extern LIntExport Herror 
 HcomStoreOCT(Hproc_handle proc_handle,INT par,Htuple *outCtrlVar,Herror err);
 
 extern LIntExport Herror 
 HcomStoreOCTOOL(Hproc_handle proc_handle, INT par, Htuple *outCtrlVar, 
                 Herror err);
+
+extern LIntExport Herror 
+HcomStoreAllOCs(Hproc_handle proc_handle,Htuple **outCtrlVars,Herror err);
 
 /* Higher level signatures based on COM types */
 
@@ -142,6 +148,11 @@ extern LIntExport Herror
 HcomStoreOCBSTR(Hproc_handle proc_handle, INT par, BSTR *value, Herror err);
 
 
+/* Error messages originating outside of HALCON library. */
+
+extern LIntExport char* HcomIntError(int code, char *data);
+
+
 #ifdef __cplusplus
 }
 #endif
@@ -162,13 +173,7 @@ extern LIntExport
 void varconvert(Htuple *dest, const BSTR arg, const char *par_name);
 
 extern LIntExport 
-void varconvert(Hctuple *dest, const BSTR arg, const char *par_name);
-
-extern LIntExport 
 void varconvert(Htuple *dest, const VARIANT &arg, const char *par_name);
-
-extern LIntExport 
-void varconvert(Hctuple *dest, const VARIANT &arg, const char *par_name);
 
 extern LIntExport 
 void tupleconvert(Htuple &val, INT_PTR *lVal, char *par_name);
@@ -183,13 +188,7 @@ extern LIntExport
 void tupleconvert(Htuple &val, BSTR *bstrVal, char *par_name);
 
 extern LIntExport 
-void tupleconvert(Hctuple *val, BSTR *bstrVal, char *par_name);
-
-extern LIntExport 
 void tupleconvert(Htuple &val, VARIANT *varVal, char *par_name);
-
-extern LIntExport 
-void tupleconvert(Hctuple *val, VARIANT *varVal, char *par_name);
 
 class ConversionException
 {
@@ -214,13 +213,10 @@ public:
 /* Macros for storing object parameters */
 
 #define HCOMSTOREIO(INDEX,NAME) \
-  if (NAME == NULL) \
-    errorStatus = HXC_NULL_POINTER - HALCONX_ERR_BASE; \
-  else \
-  { \
-    CComQIPtr<IHandleAccess, &IID_IHandleAccess> piha(NAME); \
-    errorStatus = HcomStoreIOHandleAccess(ph,INDEX,piha); \
-  }
+  if (NAME == NULL)                \
+    return this->Error(HcomIntError(0,#NAME),GUID_NULL,HXC_NULL_POINTER); \
+  CComQIPtr<IHandleAccess, &IID_IHandleAccess> piha(NAME);                \
+  errorStatus = HcomStoreIOHandleAccess(ph,INDEX,piha)
 
 #ifndef HALCON_COM_INTERNAL_H
 

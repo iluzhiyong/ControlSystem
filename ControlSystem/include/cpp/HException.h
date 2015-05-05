@@ -5,11 +5,13 @@
  * Project:     HALCON/C++
  * Description: Error handling
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2008 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.24 $
+ * $Date: 2010/09/13 13:14:25 $
  *
  */
 
@@ -111,7 +113,7 @@ catch (std::bad_alloc)                     \
     err = HGetHROSysPar(&(PROC_HANDLE));        \
     if (err != H_MSG_OK) {                      \
       char err_text[MAX_STRING];                \
-      (void)HErrorMessage(err,err_text);             \
+      (void)HMessage(err,err_text);             \
       H_LEAVE_CPP_CS;                           \
       H_EXCEPTION("",err_text);                 \
     }                                           \
@@ -119,16 +121,23 @@ catch (std::bad_alloc)                     \
 
 #define HCppGetHProc(PROC_HANDLE)               \
   {                                             \
-    PROC_HANDLE = HTSProcHandle();              \
+    Herror err;                                 \
+    err = HGetHProc(&(PROC_HANDLE));            \
+    if (err != H_MSG_OK) {                      \
+      char err_text[MAX_STRING];                \
+      (void)HMessage(err,err_text);             \
+      H_LEAVE_CPP_CS;                           \
+      H_EXCEPTION("",err_text);                 \
+    }                                           \
   }
 
 #define HCppCreateHProc(PROC_HANDLE)            \
   {                                             \
     Herror err;                                 \
-    err = HGetHProc(-1, &(PROC_HANDLE));        \
+    err = HGetHProc(&(PROC_HANDLE));            \
     if (err != H_MSG_OK) {                      \
       char err_text[MAX_STRING];                \
-      (void)HErrorMessage(err,err_text);             \
+      (void)HMessage(err,err_text);             \
       H_LEAVE_CPP_CS;                           \
       H_EXCEPTION("",err_text);                 \
     }                                           \
@@ -140,11 +149,13 @@ catch (std::bad_alloc)                     \
     err = HPutHProc((PROC_HANDLE));                   \
     if (err != H_MSG_OK) {                            \
       char err_text[MAX_STRING];                      \
-      (void)HErrorMessage(err,err_text);                   \
+      (void)HMessage(err,err_text);                   \
       H_LEAVE_CPP_CS;                                 \
       H_EXCEPTION("",err_text);                       \
     }                                                 \
   }
+
+
 
 #define HTextExLock(PROC) {                     \
     Hproc_handle_ ph;                           \
@@ -153,7 +164,7 @@ catch (std::bad_alloc)                     \
     Herror err = PROC; /* the procedure call */ \
     if (err != H_MSG_OK) {                      \
       char err_text[MAX_STRING];                \
-      (void)HErrorMessage(err,err_text);             \
+      (void)HMessage(err,err_text);             \
       H_LEAVE_CPP_CS;                           \
       H_EXCEPTION("",err_text);                 \
     }                                           \
@@ -167,7 +178,7 @@ catch (std::bad_alloc)                     \
     Herror err = PROC;                            \
     if (err != H_MSG_OK) {                        \
       char err_text[MAX_STRING];                  \
-      (void)HErrorMessage(err,err_text);               \
+      (void)HMessage(err,err_text);               \
       H_LEAVE_CPP_CS;                             \
       H_EXCEPTION("",err_text);                   \
     }                                             \

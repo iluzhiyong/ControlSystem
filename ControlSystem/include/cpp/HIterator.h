@@ -5,11 +5,13 @@
  * Project:     Halcon/C++
  * Description: Iterators for images, regions etc.
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2005 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.11 $
+ * $Date: 2005/05/06 07:36:05 $
  *
  */
 
@@ -81,17 +83,17 @@ class LIntExport HImageIterator: public HAbstractImageIterator {
 public:
   HImageIterator(void);
   HImageIterator(const HImage &image, const HRegion &reg, 
-                 int x1, int y1, int x2, int y2,
-                 int border_treatment = MirrorVal, double val = 0.0);
+		 int x1, int y1, int x2, int y2,
+		 int border_treatment = MirrorVal, double val = 0.0);
   HImageIterator(const HImage &image,  const HRegion &reg, 
-                 int width = 0, int height = 0,
-                 int border_treatment = MirrorVal, double val = 0.0);
+		 int width = 0, int height = 0,
+		 int border_treatment = MirrorVal, double val = 0.0);
   HImageIterator(const HImage &image, 
-                 int x1, int y1, int x2, int y2,
-                 int border_treatment = MirrorVal, double val = 0.0);
+		 int x1, int y1, int x2, int y2,
+		 int border_treatment = MirrorVal, double val = 0.0);
   HImageIterator(const HImage &image, 
-                 int width = 0, int height = 0,
-                 int border_treatment = MirrorVal, double val = 0.0);
+		 int width = 0, int height = 0,
+		 int border_treatment = MirrorVal, double val = 0.0);
   HImageIterator(const HImageIterator &it);
   ~HImageIterator(void);
   HImageIterator &operator = (const HImageIterator &it);
@@ -134,8 +136,8 @@ private:
   void Reset(void);
   
   void Create(const HImage &image, const HRegion &reg,
-              int x1, int y1, int x2, int y2,
-              int border_treatment, double Val);
+	      int x1, int y1, int x2, int y2,
+	      int border_treatment, double Val);
   void InitChord(void);
 };
 

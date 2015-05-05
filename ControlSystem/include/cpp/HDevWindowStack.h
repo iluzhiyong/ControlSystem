@@ -5,7 +5,7 @@
  * Project:     Halcon/C++
  * Description: Class HDevWindowStack
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2008 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************

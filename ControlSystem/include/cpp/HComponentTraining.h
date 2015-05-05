@@ -5,11 +5,13 @@
  * Project:     HALCON/C++
  * Description: Class HComponentTraining
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2008 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.6 $
+ * $Date: 2008/12/06 13:35:12 $
  *
  */
 
@@ -92,10 +94,6 @@ public:
   virtual HRegionArray GetTrainingComponents(const Halcon::HTuple &Components, const Halcon::HTuple &Image, const Halcon::HTuple &MarkOrientation, double *Row, double *Column, double *Angle, double *Score) const;
   // Modify the relations within a training result.
   virtual void ModifyComponentRelations(const Halcon::HTuple &ReferenceComponent, const Halcon::HTuple &ToleranceComponent, const Halcon::HTuple &PositionTolerance, const Halcon::HTuple &AngleTolerance) const;
-  // Deserialize a component training result.
-  virtual void DeserializeTrainingComponents(const Halcon::HSerializedItem &SerializedItemHandle);
-  // Serialize a component training result.
-  virtual HSerializedItem SerializeTrainingComponents() const;
   // Read a component training result from a file.
   virtual void ReadTrainingComponents(const Halcon::HTuple &FileName);
   // Read a component training result from a file.

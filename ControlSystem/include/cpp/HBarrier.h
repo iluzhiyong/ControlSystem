@@ -5,11 +5,13 @@
  * Project:     HALCON/C++
  * Description: Class HBarrier
  *
- * (c) 2009-2014 by MVTec Software GmbH
+ * (c) 2009-2010 by MVTec Software GmbH
  *               www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.1 $
+ * $Date: 2010/06/25 11:28:00 $
  *
  */
 
@@ -28,9 +30,9 @@ class LIntExport HBarrier: public HToolBase
 public:
 
   // Tool-specific functional class constructors
-  HBarrier(const HTuple &AttrName,const HTuple &AttrValue, const Hlong TeamSize);
-  //HBarrier(const char *AttrName,const char *AttrValue, const Hlong TeamSize);
-
+  HBarrier(const HTuple &AttrName,const HTuple &AttrValue, const long TeamSize);
+  //HBarrier(const char *AttrName,const char *AttrValue, const long TeamSize);
+	
   // Common tool class management functionality
 
   HBarrier();

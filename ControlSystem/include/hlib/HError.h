@@ -1,15 +1,17 @@
 /*****************************************************************************
  * HError.h
- *****************************************************************************
+ ***************************************************************************** 
  *
  * Project:     HALCON/libhalcon
  * Description: Error messages
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2008 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  * 
+ * $Revision: 1.13 $
+ * $Date: 2008/12/06 13:13:00 $
  *
  */
 
@@ -22,16 +24,11 @@
 extern "C" {
 #endif
 
-extern HLibExport Herror HSetExtendedErrorInfo(Hproc_handle ph,
-                                               INT4_8 error_code,
-                                               char const * error_message);
-extern HLibExport Herror HClearExtendedErrorInfo(Hproc_handle ph);
-
 extern HLibExport Herror HSetErrText(char *text);
 
 extern HLibExport Herror HErrText(Herror message,char *err_text);
 
-extern HLibExport Herror HErrorMessage(Herror message,char *msg_text);
+extern HLibExport Herror HMessage(Herror message,char *msg_text);
 
 
 

@@ -5,11 +5,13 @@
  * Project:     HALCON/C++
  * Description: Class HXLDContArray
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2008 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.18 $
+ * $Date: 2008/12/06 13:35:12 $
  *
  */
 
@@ -65,9 +67,9 @@ private:
   // Class Functions
 
 public:
-  // Compute the union of cotangential contours.
+  // Union of cotangential contours.
   virtual HXLDContArray UnionCotangentialContoursXld(const Halcon::HTuple &FitClippingLength, const Halcon::HTuple &FitLength, const Halcon::HTuple &MaxTangAngle, const Halcon::HTuple &MaxDist, const Halcon::HTuple &MaxDistPerp, const Halcon::HTuple &MaxOverlap, const Halcon::HTuple &Mode) const;
-  // Compute the union of cotangential contours.
+  // Union of cotangential contours.
   virtual HXLDContArray UnionCotangentialContoursXld(double FitClippingLength, double FitLength, double MaxTangAngle, double MaxDist, double MaxDistPerp, double MaxOverlap, const char *Mode) const;
   // Transform a contour in polar coordinates back to cartesian coordinates
   virtual HXLDContArray PolarTransContourXldInv(const Halcon::HTuple &Row, const Halcon::HTuple &Column, const Halcon::HTuple &AngleStart, const Halcon::HTuple &AngleEnd, const Halcon::HTuple &RadiusStart, const Halcon::HTuple &RadiusEnd, const Halcon::HTuple &WidthIn, const Halcon::HTuple &HeightIn, const Halcon::HTuple &Width, const Halcon::HTuple &Height) const;
@@ -77,17 +79,17 @@ public:
   virtual HXLDContArray PolarTransContourXld(const Halcon::HTuple &Row, const Halcon::HTuple &Column, const Halcon::HTuple &AngleStart, const Halcon::HTuple &AngleEnd, const Halcon::HTuple &RadiusStart, const Halcon::HTuple &RadiusEnd, const Halcon::HTuple &Width, const Halcon::HTuple &Height) const;
   // Transform a contour in an annular arc to polar coordinates.
   virtual HXLDContArray PolarTransContourXld(double Row, double Column, double AngleStart, double AngleEnd, double RadiusStart, double RadiusEnd, Hlong Width, Hlong Height) const;
-  // Compute the union of closed contours.
+  // Union of closed contours.
   virtual HXLDContArray Union2ClosedContoursXld(const HXLDContArray &Contours2) const;
-  // Compute the symmetric difference of closed contours.
+  // Symmetric difference of closed contours.
   virtual HXLDContArray SymmDifferenceClosedContoursXld(const HXLDContArray &Contours2) const;
-  // Compute the difference of closed contours.
+  // Difference of closed contours.
   virtual HXLDContArray DifferenceClosedContoursXld(const HXLDContArray &Sub) const;
-  // Intersect closed contours.
+  // Intersection of closed contours.
   virtual HXLDContArray IntersectionClosedContoursXld(const HXLDContArray &Contours2) const;
-  // Compute the union of contours that belong to the same circle.
+  // Merge contours that belong to the same circle.
   virtual HXLDContArray UnionCocircularContoursXld(const Halcon::HTuple &MaxArcAngleDiff, const Halcon::HTuple &MaxArcOverlap, const Halcon::HTuple &MaxTangentAngle, const Halcon::HTuple &MaxDist, const Halcon::HTuple &MaxRadiusDiff, const Halcon::HTuple &MaxCenterDist, const Halcon::HTuple &MergeSmallContours, const Halcon::HTuple &Iterations) const;
-  // Compute the union of contours that belong to the same circle.
+  // Merge contours that belong to the same circle.
   virtual HXLDContArray UnionCocircularContoursXld(double MaxArcAngleDiff, double MaxArcOverlap, double MaxTangentAngle, double MaxDist, double MaxRadiusDiff, double MaxCenterDist, const char *MergeSmallContours, Hlong Iterations) const;
   // Crop an XLD contour.
   virtual HXLDContArray CropContoursXld(const Halcon::HTuple &Row1, const Halcon::HTuple &Col1, const Halcon::HTuple &Row2, const Halcon::HTuple &Col2, const Halcon::HTuple &CloseContours) const;
@@ -125,39 +127,33 @@ public:
   virtual HTuple FitRectangle2ContourXld(const Halcon::HTuple &Algorithm, const Halcon::HTuple &MaxNumPoints, const Halcon::HTuple &MaxClosureDist, const Halcon::HTuple &ClippingEndPoints, const Halcon::HTuple &Iterations, const Halcon::HTuple &ClippingFactor, Halcon::HTuple *Column, Halcon::HTuple *Phi, Halcon::HTuple *Length1, Halcon::HTuple *Length2, Halcon::HTuple *PointOrder) const;
   // Fit rectangles to XLD contours.
   virtual HTuple FitRectangle2ContourXld(const char *Algorithm, Hlong MaxNumPoints, double MaxClosureDist, Hlong ClippingEndPoints, Hlong Iterations, double ClippingFactor, Halcon::HTuple *Column, Halcon::HTuple *Phi, Halcon::HTuple *Length1, Halcon::HTuple *Length2, Halcon::HTuple *PointOrder) const;
-  // Segment XLD contour parts whose local attributes fulfill given 
-  // conditions.
-  virtual HXLDContArray SegmentContourAttribXld(const Halcon::HTuple &Attribute, const Halcon::HTuple &Operation, const Halcon::HTuple &Min, const Halcon::HTuple &Max) const;
-  // Segment XLD contour parts whose local attributes fulfill given 
-  // conditions.
-  virtual HXLDContArray SegmentContourAttribXld(const char *Attribute, const char *Operation, double Min, double Max) const;
   // Segment XLD contours into line segments and circular or elliptic arcs.
   virtual HXLDContArray SegmentContoursXld(const Halcon::HTuple &Mode, const Halcon::HTuple &SmoothCont, const Halcon::HTuple &MaxLineDist1, const Halcon::HTuple &MaxLineDist2) const;
   // Segment XLD contours into line segments and circular or elliptic arcs.
   virtual HXLDContArray SegmentContoursXld(const char *Mode, Hlong SmoothCont, double MaxLineDist1, double MaxLineDist2) const;
-  // Approximate XLD contours by circles.
+  // Approximation of XLD contours by circles.
   virtual HTuple FitCircleContourXld(const Halcon::HTuple &Algorithm, const Halcon::HTuple &MaxNumPoints, const Halcon::HTuple &MaxClosureDist, const Halcon::HTuple &ClippingEndPoints, const Halcon::HTuple &Iterations, const Halcon::HTuple &ClippingFactor, Halcon::HTuple *Column, Halcon::HTuple *Radius, Halcon::HTuple *StartPhi, Halcon::HTuple *EndPhi, Halcon::HTuple *PointOrder) const;
-  // Approximate XLD contours by circles.
+  // Approximation of XLD contours by circles.
   virtual HTuple FitCircleContourXld(const char *Algorithm, Hlong MaxNumPoints, double MaxClosureDist, Hlong ClippingEndPoints, Hlong Iterations, double ClippingFactor, Halcon::HTuple *Column, Halcon::HTuple *Radius, Halcon::HTuple *StartPhi, Halcon::HTuple *EndPhi, Halcon::HTuple *PointOrder) const;
-  // Approximate XLD contours by line segments.
+  // Approximation of XLD contours by line segments.
   virtual HTuple FitLineContourXld(const Halcon::HTuple &Algorithm, const Halcon::HTuple &MaxNumPoints, const Halcon::HTuple &ClippingEndPoints, const Halcon::HTuple &Iterations, const Halcon::HTuple &ClippingFactor, Halcon::HTuple *ColBegin, Halcon::HTuple *RowEnd, Halcon::HTuple *ColEnd, Halcon::HTuple *Nr, Halcon::HTuple *Nc, Halcon::HTuple *Dist) const;
-  // Approximate XLD contours by line segments.
+  // Approximation of XLD contours by line segments.
   virtual HTuple FitLineContourXld(const char *Algorithm, Hlong MaxNumPoints, Hlong ClippingEndPoints, Hlong Iterations, double ClippingFactor, Halcon::HTuple *ColBegin, Halcon::HTuple *RowEnd, Halcon::HTuple *ColEnd, Halcon::HTuple *Nr, Halcon::HTuple *Nc, Halcon::HTuple *Dist) const;
-  // Compute the distance of contours to an ellipse.
+  // Distance of contours to an ellipse.
   virtual HTuple DistEllipseContourXld(const Halcon::HTuple &Mode, const Halcon::HTuple &MaxNumPoints, const Halcon::HTuple &ClippingEndPoints, const Halcon::HTuple &Row, const Halcon::HTuple &Column, const Halcon::HTuple &Phi, const Halcon::HTuple &Radius1, const Halcon::HTuple &Radius2, Halcon::HTuple *MaxDist, Halcon::HTuple *AvgDist, Halcon::HTuple *SigmaDist) const;
-  // Compute the distance of contours to an ellipse.
+  // Distance of contours to an ellipse.
   virtual HTuple DistEllipseContourXld(const char *Mode, Hlong MaxNumPoints, Hlong ClippingEndPoints, double Row, double Column, double Phi, double Radius1, double Radius2, Halcon::HTuple *MaxDist, Halcon::HTuple *AvgDist, Halcon::HTuple *SigmaDist) const;
-  // Approximate XLD contours by ellipses or elliptic arcs.
+  // Approximation of XLD contours by ellipses or elliptic arcs.
   virtual HTuple FitEllipseContourXld(const Halcon::HTuple &Algorithm, const Halcon::HTuple &MaxNumPoints, const Halcon::HTuple &MaxClosureDist, const Halcon::HTuple &ClippingEndPoints, const Halcon::HTuple &VossTabSize, const Halcon::HTuple &Iterations, const Halcon::HTuple &ClippingFactor, Halcon::HTuple *Column, Halcon::HTuple *Phi, Halcon::HTuple *Radius1, Halcon::HTuple *Radius2, Halcon::HTuple *StartPhi, Halcon::HTuple *EndPhi, Halcon::HTuple *PointOrder) const;
-  // Approximate XLD contours by ellipses or elliptic arcs.
+  // Approximation of XLD contours by ellipses or elliptic arcs.
   virtual HTuple FitEllipseContourXld(const char *Algorithm, Hlong MaxNumPoints, double MaxClosureDist, Hlong ClippingEndPoints, Hlong VossTabSize, Hlong Iterations, double ClippingFactor, Halcon::HTuple *Column, Halcon::HTuple *Phi, Halcon::HTuple *Radius1, Halcon::HTuple *Radius2, Halcon::HTuple *StartPhi, Halcon::HTuple *EndPhi, Halcon::HTuple *PointOrder) const;
   // Create XLD contours corresponding to circles or circular arcs.
   static HXLDContArray GenCircleContourXld(const Halcon::HTuple &Row, const Halcon::HTuple &Column, const Halcon::HTuple &Radius, const Halcon::HTuple &StartPhi, const Halcon::HTuple &EndPhi, const Halcon::HTuple &PointOrder, const Halcon::HTuple &Resolution);
   // Create XLD contours corresponding to circles or circular arcs.
   static HXLDContArray GenCircleContourXld(double Row, double Column, double Radius, double StartPhi, double EndPhi, const char *PointOrder, double Resolution);
-  // Create an XLD contour that corresponds to an elliptic arc.
+  // Creation of an XLD contour corresponding to an elliptic arc.
   static HXLDContArray GenEllipseContourXld(const Halcon::HTuple &Row, const Halcon::HTuple &Column, const Halcon::HTuple &Phi, const Halcon::HTuple &Radius1, const Halcon::HTuple &Radius2, const Halcon::HTuple &StartPhi, const Halcon::HTuple &EndPhi, const Halcon::HTuple &PointOrder, const Halcon::HTuple &Resolution);
-  // Create an XLD contour that corresponds to an elliptic arc.
+  // Creation of an XLD contour corresponding to an elliptic arc.
   static HXLDContArray GenEllipseContourXld(double Row, double Column, double Phi, double Radius1, double Radius2, double StartPhi, double EndPhi, const char *PointOrder, double Resolution);
   // Add noise to XLD contours.
   virtual HXLDContArray AddNoiseWhiteContourXld(const Halcon::HTuple &NumRegrPoints, const Halcon::HTuple &Amp) const;
@@ -185,28 +181,25 @@ public:
   virtual HXLDContArray LocalMaxContoursXld(const HImage &Image, const Halcon::HTuple &MinPercent, const Halcon::HTuple &MinDiff, const Halcon::HTuple &Distance) const;
   // Select XLD contours with a local maximum of gray values.
   virtual HXLDContArray LocalMaxContoursXld(const HImage &Image, Hlong MinPercent, Hlong MinDiff, Hlong Distance) const;
-  // Compute the union of neighboring straight contours that have a similar 
-  // distance from a given line.
+  // Merge neighboring straight contours having a similar distance from a
+  // given line.
   virtual HXLDContArray UnionStraightContoursHistoXld(HXLDContArray *SelectedContours, const Halcon::HTuple &RefLineStartRow, const Halcon::HTuple &RefLineStartColumn, const Halcon::HTuple &RefLineEndRow, const Halcon::HTuple &RefLineEndColumn, const Halcon::HTuple &Width, const Halcon::HTuple &MaxWidth, const Halcon::HTuple &FilterSize, Halcon::HTuple *HistoValues) const;
-  // Compute the union of neighboring straight contours that have a similar 
-  // distance from a given line.
+  // Merge neighboring straight contours having a similar distance from a
+  // given line.
   virtual HXLDContArray UnionStraightContoursHistoXld(HXLDContArray *SelectedContours, Hlong RefLineStartRow, Hlong RefLineStartColumn, Hlong RefLineEndRow, Hlong RefLineEndColumn, Hlong Width, Hlong MaxWidth, Hlong FilterSize, Halcon::HTuple *HistoValues) const;
-  // Compute the union of neighboring straight contours that have a similar 
-  // direction.
+  // Merge neighboring straight contours having a similar direction.
   virtual HXLDContArray UnionStraightContoursXld(const Halcon::HTuple &MaxDist, const Halcon::HTuple &MaxDiff, const Halcon::HTuple &Percent, const Halcon::HTuple &Mode, const Halcon::HTuple &Iterations) const;
-  // Compute the union of collinear contours 
-  // (operator with extended functionality).
+  // Union of collinear contours (operator with extended functionality).
   virtual HXLDContArray UnionCollinearContoursExtXld(const Halcon::HTuple &MaxDistAbs, const Halcon::HTuple &MaxDistRel, const Halcon::HTuple &MaxShift, const Halcon::HTuple &MaxAngle, const Halcon::HTuple &MaxOverlap, const Halcon::HTuple &MaxRegrError, const Halcon::HTuple &MaxCosts, const Halcon::HTuple &WeightDist, const Halcon::HTuple &WeightShift, const Halcon::HTuple &WeightAngle, const Halcon::HTuple &WeightLink, const Halcon::HTuple &WeightRegr, const Halcon::HTuple &Mode) const;
-  // Compute the union of collinear contours 
-  // (operator with extended functionality).
+  // Union of collinear contours (operator with extended functionality).
   virtual HXLDContArray UnionCollinearContoursExtXld(double MaxDistAbs, double MaxDistRel, double MaxShift, double MaxAngle, double MaxOverlap, double MaxRegrError, double MaxCosts, double WeightDist, double WeightShift, double WeightAngle, double WeightLink, double WeightRegr, const char *Mode) const;
-  // Unite approximately collinear contours.
+  // Union of collinear contours.
   virtual HXLDContArray UnionCollinearContoursXld(const Halcon::HTuple &MaxDistAbs, const Halcon::HTuple &MaxDistRel, const Halcon::HTuple &MaxShift, const Halcon::HTuple &MaxAngle, const Halcon::HTuple &Mode) const;
-  // Unite approximately collinear contours.
+  // Union of collinear contours.
   virtual HXLDContArray UnionCollinearContoursXld(double MaxDistAbs, double MaxDistRel, double MaxShift, double MaxAngle, const char *Mode) const;
-  // Compute the union of contours whose end points are close together.
+  // Union of contours of which the end points are close together.
   virtual HXLDContArray UnionAdjacentContoursXld(const Halcon::HTuple &MaxDistAbs, const Halcon::HTuple &MaxDistRel, const Halcon::HTuple &Mode) const;
-  // Compute the union of contours whose end points are close together.
+  // Union of contours of which the end points are close together.
   virtual HXLDContArray UnionAdjacentContoursXld(double MaxDistAbs, double MaxDistRel, const char *Mode) const;
   // Select XLD contours according to several features.
   virtual HXLDContArray SelectContoursXld(const Halcon::HTuple &Feature, const Halcon::HTuple &Min1, const Halcon::HTuple &Max1, const Halcon::HTuple &Min2, const Halcon::HTuple &Max2) const;
@@ -249,10 +242,6 @@ public:
   // Prepare a deformable model for planar uncalibrated matching
   // from XLD contours.
   virtual HDeformableModel CreatePlanarUncalibDeformableModelXld(const Halcon::HTuple &NumLevels, const Halcon::HTuple &AngleStart, const Halcon::HTuple &AngleExtent, const Halcon::HTuple &AngleStep, const Halcon::HTuple &ScaleRMin, const Halcon::HTuple &ScaleRMax, const Halcon::HTuple &ScaleRStep, const Halcon::HTuple &ScaleCMin, const Halcon::HTuple &ScaleCMax, const Halcon::HTuple &ScaleCStep, const Halcon::HTuple &Optimization, const Halcon::HTuple &Metric, const Halcon::HTuple &MinContrast, const Halcon::HTuple &ParamName, const Halcon::HTuple &ParamValue) const;
-  // Calculate the pointwise distance from one contour to another.
-  virtual HXLDContArray DistanceContoursXld(const HXLDContArray &ContourTo, const Halcon::HTuple &Mode) const;
-  // Calculate the pointwise distance from one contour to another.
-  virtual HXLDContArray DistanceContoursXld(const HXLDContArray &ContourTo, const char *Mode) const;
   // Calculate the minimum distance between two contours.
   virtual HTuple DistanceCcMin(const HXLDContArray &Contour2, const Halcon::HTuple &Mode) const;
   // Calculate the minimum distance between two contours.

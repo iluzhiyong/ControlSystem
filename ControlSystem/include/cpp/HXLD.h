@@ -5,7 +5,7 @@
  * Project:     HALCON/C++
  * Description: Class HXLD
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2008 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
@@ -56,12 +56,6 @@ public:
   virtual HImage PaintXld(const HImage &Image, const Halcon::HTuple &Grayval) const;
   // Paint XLD objects into an image.
   virtual HImage PaintXld(const HImage &Image, double Grayval) const;
-  // Deserialize a serialized XLD object.
-  static HXLD DeserializeXld(const Halcon::HSerializedItem &SerializedItemHandle);
-  // Serialize an XLD object.
-  virtual HSerializedItem SerializeXld(void) const;
-  // Test whether contours or polygons are closed.
-  virtual Hlong TestClosedXld(void) const;
   // Arbitrary geometric moments of contours or polygons treated as point
   // clouds.
   virtual double MomentsAnyPointsXld(const Halcon::HTuple &Mode, const Halcon::HTuple &Area, const Halcon::HTuple &CenterRow, const Halcon::HTuple &CenterCol, const Halcon::HTuple &P, const Halcon::HTuple &Q) const;

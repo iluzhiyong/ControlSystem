@@ -5,11 +5,13 @@
  * Project:     HALCON/C++
  * Description: Class HOCRBox
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2008 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.4 $
+ * $Date: 2008/12/06 13:35:12 $
  *
  */
 
@@ -43,10 +45,6 @@ public:
 
   // Tool-specific member functions
 
-  // Serialize an OCR classifier.
-  virtual HSerializedItem SerializeOcr() const;
-  // Deserialize a serialized OCR classifier.
-  virtual void DeserializeOcr(const Halcon::HSerializedItem &SerializedItemHandle);
   // Writing an OCR classifier into a file.
   virtual void WriteOcr(const Halcon::HTuple &FileName) const;
   // Writing an OCR classifier into a file.
@@ -72,9 +70,9 @@ public:
   // Train an OCR classifier by the input of regions.
   virtual double TraindOcrClassBox(const HRegionArray &Character, const HImage &Image, const char *Class) const;
   // Train an OCR classifier with the help of a training file.
-  virtual double TrainfOcrClassBox(const Halcon::HTuple &TrainingFile) const;
+  virtual double TrainfOcrClassBox(const Halcon::HTuple &FileName) const;
   // Train an OCR classifier with the help of a training file.
-  virtual double TrainfOcrClassBox(const char *TrainingFile) const;
+  virtual double TrainfOcrClassBox(const char *FileName) const;
   // Define a new conversion table for the characters.
   virtual void OcrChangeChar(const Halcon::HTuple &Character) const;
   // Test an OCR classifier.

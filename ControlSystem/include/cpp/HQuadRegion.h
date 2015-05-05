@@ -5,11 +5,13 @@
  * Project:     Halcon/C++
  * Description: Regions as Quad-Trees displayed
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2005 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.10 $
+ * $Date: 2005/05/06 07:36:05 $
  *
  */
 
@@ -80,7 +82,7 @@ private:
   void     DelQuadTree(QuadNode *in);
   QuadNode *CopyQuadTree(const QuadNode *in);
   QuadNode *QuadTreePart(unsigned char *ip, int width, int height, 
-                         int row, int col,
+			 int row, int col,
                          int level, HPixValues *mode);
   void ToImagePart(QuadNode *in, HPixValues mode, unsigned char *image,
                    int row, int col, int length, int width, int height);

@@ -5,11 +5,13 @@
  * Project:     HALCON/C++
  * Description: Windows management
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2008 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.24 $
+ * $Date: 2009/02/27 11:03:37 $
  *
  */
 
@@ -82,16 +84,6 @@ public:
   void SetDC(Hlong HDC);
   
   void CloseWindow();
-  // Gets a copy of the background image of the HALCON window.
-  virtual HImage GetWindowBackgroundImage() const;
-  // Detach the background image from a HALCON window.
-  virtual void DetachBackgroundFromWindow() const;
-  // Attach a background image to a HALCON window.
-  virtual void AttachBackgroundToWindow(const HImage &Image) const;
-  // Detach an existing drawing object from a HALCON window.
-  virtual void DetachDrawingObjectFromWindow(const Halcon::HDrawingObject &DrawID) const;
-  // Attach an existing drawing object to a HALCON window.
-  virtual void AttachDrawingObjectToWindow(const Halcon::HDrawingObject &DrawID) const;
   // Modify the pose of a 3D plot.
   virtual void UpdateWindowPose(const Halcon::HTuple &LastRow, const Halcon::HTuple &LastCol, const Halcon::HTuple &CurrentRow, const Halcon::HTuple &CurrentCol, const Halcon::HTuple &Mode) const;
   // Modify the pose of a 3D plot.
@@ -142,7 +134,7 @@ public:
   virtual void CopyRectangle(const Halcon::HTuple &WindowHandleDestination, const Halcon::HTuple &Row1, const Halcon::HTuple &Column1, const Halcon::HTuple &Row2, const Halcon::HTuple &Column2, const Halcon::HTuple &DestRow, const Halcon::HTuple &DestColumn) const;
   // Copy all pixels within rectangles between output windows.
   virtual void CopyRectangle(Hlong WindowHandleDestination, Hlong Row1, Hlong Column1, Hlong Row2, Hlong Column2, Hlong DestRow, Hlong DestColumn) const;
-  // Delete the contents of an output window.
+  // Delete an output window.
   virtual void ClearWindow() const;
   // Delete a rectangle on the output window.
   virtual void ClearRectangle(const Halcon::HTuple &Row1, const Halcon::HTuple &Column1, const Halcon::HTuple &Row2, const Halcon::HTuple &Column2) const;
@@ -413,7 +405,7 @@ public:
   // Interactive drawing of a polygon row.
   virtual HRegion DrawPolygon() const;
   // Project and visualize the 3D model of the calibration plate in the image.
-  virtual void DispCaltab(const Halcon::HTuple &CalPlateDescr, const Halcon::HTuple &CameraParam, const Halcon::HTuple &CalPlatePose, const Halcon::HTuple &ScaleFac) const;
+  virtual void DispCaltab(const Halcon::HTuple &CalTabDescrFile, const Halcon::HTuple &CameraParam, const Halcon::HTuple &CaltabPose, const Halcon::HTuple &ScaleFac) const;
 };
 
 }

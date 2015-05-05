@@ -833,7 +833,7 @@ public:
 	{
 		InvokeHelper(0x71a, DISPATCH_METHOD, VT_EMPTY, NULL, NULL);
 	}
-	LPDISPATCH get_PublishObjects()
+	LPDISPATCH get_PublisHobjects()
 	{
 		LPDISPATCH result;
 		InvokeHelper(0x71b, DISPATCH_PROPERTYGET, VT_DISPATCH, (void*)&result, NULL);

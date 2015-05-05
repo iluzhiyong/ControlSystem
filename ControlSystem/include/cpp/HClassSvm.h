@@ -5,11 +5,13 @@
  * Project:     HALCON/C++
  * Description: Class HClassSvm
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2008 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.3 $
+ * $Date: 2008/12/06 13:35:12 $
  *
  */
 
@@ -48,21 +50,9 @@ public:
   // Add training samples from an image to the training data of a support
   // vector machine.
   virtual void AddSamplesImageClassSvm(const HImage &Image, const HRegionArray &ClassRegions) const;
-  // Get the training data of a support vector machine (SVM).
-  virtual HClassTrainData GetClassTrainDataSvm() const;
-  // Add training data to a support vector machine (SVM).
-  virtual void AddClassTrainDataSvm(const Halcon::HClassTrainData &ClassTrainDataHandle) const;
-  // Selects an optimal combination of features to classify the provided data.
-  virtual HTuple SelectFeatureSetSvm(const Halcon::HClassTrainData &ClassTrainDataHandle, const Halcon::HTuple &SelectionMethod, const Halcon::HTuple &GenParamNames, const Halcon::HTuple &GenParamValues, Halcon::HTuple *Score);
-  // Selects an optimal combination of features to classify the provided data.
-  virtual HTuple SelectFeatureSetSvm(const Halcon::HClassTrainData &ClassTrainDataHandle, const char *SelectionMethod, const char *GenParamNames, double GenParamValues, Halcon::HTuple *Score);
   // Create a look-up table using a Support-Vector-Machine to classify byte
   // images.
   virtual HClassLUT CreateClassLutSvm(const Halcon::HTuple &GenParamNames, const Halcon::HTuple &GenParamValues) const;
-  // Deserialize a serialized support vector machine (SVM).
-  virtual void DeserializeClassSvm(const Halcon::HSerializedItem &SerializedItemHandle);
-  // Serialize a support vector machine (SVM).
-  virtual HSerializedItem SerializeClassSvm() const;
   // Read a support vector machine from a file.
   virtual void ReadClassSvm(const Halcon::HTuple &FileName);
   // Read a support vector machine from a file.
@@ -79,8 +69,6 @@ public:
   virtual void WriteSamplesClassSvm(const Halcon::HTuple &FileName) const;
   // Write the training data of a support vector machine to a file.
   virtual void WriteSamplesClassSvm(const char *FileName) const;
-  // Evaluate a feature vector by a support vector machine.
-  virtual HTuple EvaluateClassSvm(const Halcon::HTuple &Features) const;
   // Classify a feature vector by a support vector machine.
   virtual HTuple ClassifyClassSvm(const Halcon::HTuple &Features, const Halcon::HTuple &Num) const;
   // Approximate a trained support vector machine by a reduced support

@@ -5,11 +5,13 @@
  * Project:     HALCON/C++
  * Description: Class HMatrix
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2008 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.4 $
+ * $Date: 2008/12/06 13:35:12 $
  *
  */
 
@@ -62,10 +64,6 @@ public:
 
   // Tool-specific member functions
 
-  //   Deserialize a serialized matrix.
-  virtual void DeserializeMatrix(const Halcon::HSerializedItem &SerializedItemHandle);
-  // Serialize a matrix.
-  virtual HSerializedItem SerializeMatrix() const;
   // Read a matrix from a file.
   virtual void ReadMatrix(const Halcon::HTuple &FileName);
   // Read a matrix from a file.
@@ -92,10 +90,10 @@ public:
   // Compute the generalized eigenvalues and optionally the generalized
   // eigenvectors of general matrices.
   virtual HMatrix GeneralizedEigenvaluesGeneralMatrix(const Halcon::HMatrix &MatrixBID, const char *ComputeEigenvectors, Halcon::HMatrix *EigenvaluesImagID, Halcon::HMatrix *EigenvectorsRealID, Halcon::HMatrix *EigenvectorsImagID) const;
-  // Compute the generalized eigenvalues and optionally generalized
+  // Compute the generalized eigenvalues and optinally generalized
   // eigenvectors of symmetric input matrices.
   virtual HMatrix GeneralizedEigenvaluesSymmetricMatrix(const Halcon::HMatrix &MatrixBID, const Halcon::HTuple &ComputeEigenvectors, Halcon::HMatrix *EigenvectorsID) const;
-  // Compute the generalized eigenvalues and optionally generalized
+  // Compute the generalized eigenvalues and optinally generalized
   // eigenvectors of symmetric input matrices.
   virtual HMatrix GeneralizedEigenvaluesSymmetricMatrix(const Halcon::HMatrix &MatrixBID, const char *ComputeEigenvectors, Halcon::HMatrix *EigenvectorsID) const;
   // Compute the eigenvalues and optionally the eigenvectors of a general
@@ -104,10 +102,10 @@ public:
   // Compute the eigenvalues and optionally the eigenvectors of a general
   // matrix.
   virtual HMatrix EigenvaluesGeneralMatrix(const char *ComputeEigenvectors, Halcon::HMatrix *EigenvaluesImagID, Halcon::HMatrix *EigenvectorsRealID, Halcon::HMatrix *EigenvectorsImagID) const;
-  // Compute the eigenvalues and optionally eigenvectors of a symmetric
+  // Compute the eigenvalues and optinally eigenvectors of a symmetric
   // matrix.
   virtual HMatrix EigenvaluesSymmetricMatrix(const Halcon::HTuple &ComputeEigenvectors, Halcon::HMatrix *EigenvectorsID) const;
-  // Compute the eigenvalues and optionally eigenvectors of a symmetric
+  // Compute the eigenvalues and optinally eigenvectors of a symmetric
   // matrix.
   virtual HMatrix EigenvaluesSymmetricMatrix(const char *ComputeEigenvectors, Halcon::HMatrix *EigenvectorsID) const;
   // Compute the solution of a system of equations.

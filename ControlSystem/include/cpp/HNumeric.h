@@ -5,11 +5,13 @@
  * Project:     HALCON/C++
  * Description: Base types for arithmetic
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2010 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.20 $
+ * $Date: 2010/02/23 16:03:05 $
  *
  */
 

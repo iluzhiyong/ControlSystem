@@ -5,11 +5,13 @@
  * Project:     HALCON/C++
  * Description: Class HCameraSetupModel
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2010 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.1 $
+ * $Date: 2010/06/21 08:18:12 $
  *
  */
 
@@ -42,17 +44,15 @@ public:
 
   // Create a HALCON stereo model.
   virtual HStereoModel CreateStereoModel(const Halcon::HTuple &Method, const Halcon::HTuple &GenParamName, const Halcon::HTuple &GenParamValue) const;
-  // Serialize a camera setup model.
-  virtual HSerializedItem SerializeCameraSetupModel() const;
-  // Deserialize a serialized camera setup model.
-  virtual void DeserializeCameraSetupModel(const Halcon::HSerializedItem &SerializedItemHandle);
+  // Create a HALCON stereo model.
+  virtual HStereoModel CreateStereoModel(const char *Method, const char *GenParamName, double GenParamValue) const;
   // Store a camera setup model into a file.
   virtual void WriteCameraSetupModel(const Halcon::HTuple &FileName) const;
   // Store a camera setup model into a file.
   virtual void WriteCameraSetupModel(const char *FileName) const;
-  // Restore a camera setup model from a file.
+  // Restores a camera setup model from a file.
   virtual void ReadCameraSetupModel(const Halcon::HTuple &FileName);
-  // Restore a camera setup model from a file.
+  // Restores a camera setup model from a file.
   virtual void ReadCameraSetupModel(const char *FileName);
   // Get generic camera setup model parameters.
   virtual double GetCameraSetupParam(const Halcon::HTuple &CameraIdx, const Halcon::HTuple &ParamName) const;
@@ -62,12 +62,12 @@ public:
   virtual void SetCameraSetupParam(const Halcon::HTuple &CameraIdx, const Halcon::HTuple &ParamName, const Halcon::HTuple &ParamValue) const;
   // Set generic camera setup model parameters.
   virtual void SetCameraSetupParam(Hlong CameraIdx, const char *ParamName, double ParamValue) const;
-  // Define type, parameters, and relative pose of a camera in a camera setup
+  // Defines type, parameters, and relative pose of a camera in a camera setup
   // model.
   virtual void SetCameraSetupCamParam(const Halcon::HTuple &CameraIdx, const Halcon::HTuple &CameraType, const Halcon::HTuple &CameraParam, const Halcon::HTuple &CameraPose) const;
-  // Create a model for a setup of calibrated cameras.
+  // Create model for a setup of calibrated cameras.
   virtual void CreateCameraSetupModel(const Halcon::HTuple &NumCameras);
-  // Create a model for a setup of calibrated cameras.
+  // Create model for a setup of calibrated cameras.
   virtual void CreateCameraSetupModel(Hlong NumCameras);
 };
 

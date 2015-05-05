@@ -5,11 +5,13 @@
  * Project:     HALCON/C++
  * Description: Class HShapeModel3D
  *
- * (c) 2007-2014 by MVTec Software GmbH
+ * (c) 2007-2008 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.5 $
+ * $Date: 2008/12/06 13:35:12 $
  *
  */
 
@@ -77,10 +79,6 @@ public:
 
   // Tool-specific member functions
 
-  // Deserialize a serialized 3D shape model.
-  virtual void DeserializeShapeModel3d(const Halcon::HSerializedItem &SerializedItemHandle);
-  // Serialize a 3D shape model.
-  virtual HSerializedItem SerializeShapeModel3d() const;
   // Read a 3D shape model from a file.
   virtual void ReadShapeModel3d(const Halcon::HTuple &FileName);
   // Read a 3D shape model from a file.
@@ -105,8 +103,10 @@ public:
   virtual HTuple GetShapeModel3dParams(const char *GenParamNames) const;
   // Find the best matches of a 3D shape model in an image.
   virtual HTuple FindShapeModel3d(const HImage &Image, const Halcon::HTuple &MinScore, const Halcon::HTuple &Greediness, const Halcon::HTuple &NumLevels, const Halcon::HTuple &GenParamNames, const Halcon::HTuple &GenParamValues, Halcon::HTuple *CovPose, Halcon::HTuple *Score) const;
+  // Find the best matches of a 3D shape model in an image.
+  virtual HTuple FindShapeModel3d(const HImage &Image, double MinScore, double Greediness, Hlong NumLevels, const char *GenParamNames, Hlong GenParamValues, Halcon::HTuple *CovPose, Halcon::HTuple *Score) const;
   // Prepare a 3D object model for matching.
-  virtual void CreateShapeModel3d(const Halcon::HObjectModel3D &ObjectModel3D, const Halcon::HTuple &CamParam, const Halcon::HTuple &RefRotX, const Halcon::HTuple &RefRotY, const Halcon::HTuple &RefRotZ, const Halcon::HTuple &OrderOfRotation, const Halcon::HTuple &LongitudeMin, const Halcon::HTuple &LongitudeMax, const Halcon::HTuple &LatitudeMin, const Halcon::HTuple &LatitudeMax, const Halcon::HTuple &CamRollMin, const Halcon::HTuple &CamRollMax, const Halcon::HTuple &DistMin, const Halcon::HTuple &DistMax, const Halcon::HTuple &MinContrast, const Halcon::HTuple &GenParamNames, const Halcon::HTuple &GenParamValues);
+  virtual void CreateShapeModel3d(const Halcon::HObjectModel3D &ObjectModel3DID, const Halcon::HTuple &CamParam, const Halcon::HTuple &RefRotX, const Halcon::HTuple &RefRotY, const Halcon::HTuple &RefRotZ, const Halcon::HTuple &OrderOfRotation, const Halcon::HTuple &LongitudeMin, const Halcon::HTuple &LongitudeMax, const Halcon::HTuple &LatitudeMin, const Halcon::HTuple &LatitudeMax, const Halcon::HTuple &CamRollMin, const Halcon::HTuple &CamRollMax, const Halcon::HTuple &DistMin, const Halcon::HTuple &DistMax, const Halcon::HTuple &MinContrast, const Halcon::HTuple &GenParamNames, const Halcon::HTuple &GenParamValues);
 };
 
 }

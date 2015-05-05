@@ -5,11 +5,13 @@
  * Project:     HALCON/C++
  * Description: Class HOCV
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2008 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.9 $
+ * $Date: 2008/12/06 13:35:12 $
  *
  */
 
@@ -49,10 +51,6 @@ public:
   virtual void TraindOcvProj(const HImageArray &Pattern, const Halcon::HTuple &Name, const Halcon::HTuple &Mode) const;
   // Training of an OCV tool.
   virtual void TraindOcvProj(const HImageArray &Pattern, const char *Name, const char *Mode) const;
-  // Deserialize a serialized OCV tool.
-  virtual void DeserializeOcv(const Halcon::HSerializedItem &SerializedItemHandle);
-  // Serialize an OCV tool.
-  virtual HSerializedItem SerializeOcv() const;
   // Reading an OCV tool from file.
   virtual void ReadOcv(const Halcon::HTuple &FileName);
   // Reading an OCV tool from file.

@@ -1,64 +1,52 @@
 /*****************************************************************************
  * HalconCpp.h
- *****************************************************************************
+ ***************************************************************************** 
  *
  * Project:     HALCON/C++
  * Description: Defines / types / extern declarations for HALCON/C++ interface
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2010 by MVTec Software GmbH
  *                  www.mvtec.com
- *
+ * 
  *****************************************************************************
  *
+ * $Revision: 1.120 $
+ * $Date: 2010/09/03 15:30:04 $
  *
  */
 
 #ifndef H_CPP_H
 #define H_CPP_H
 
+
 // basic HALCON include files
 #include <stdlib.h>
 #include <string.h>
 #include "HIntDef.h"
 #include "HDeclSpec.h"
-#include "HErrorDef.h"
 #include "HConst.h"
 #include "HBase.h"
 #include "IPType.h"
 #include "HCtype.h"
 #include "HMacro.h"
-#include "hlib/IOSpy.h"
 #include "HExtern.h"
 #include "hlib/HError.h"
 
-// interface version
-// do not define a number because it can be loaded in parallel to version 11
-#define HCPP_INTERFACE_VERSION_10
 
-#if defined(_WIN32)
-/* FindText, CreateMutex, and CreateEvent are also functions of the
- * Windows API. There are defines on FindTextW, CreateMutexW, and
- * CreateEventW if UNICODE is defined, otherwise there are defines on
- * FindTextA, CreateMutexA, and CreateMutexA.
- * These defines are undefined here. If you want to use the corresponding
- * Windows API calls, you must use FindTextA, FindTextW, CreateMutexA,
- * CreateMutexW, CreateEventA, or CreateEventW directly. */
-#undef FindText
-#undef CreateMutex
-#undef CreateEvent
-#endif
 
 namespace Halcon {
-#define     H_VERSION     12
+
+
+#define     H_VERSION     10
 #define     H_REVISION    0
-#define     H_CREATION    "13.11.2014"
+#define     H_CREATION    "15.09.2010"
 
 #define     H_STD       1       // status normal HTuple
 #define     H_IGNORE    2       // status ignore values
 #define     H_DEFAULT   3       // status default value
 #define     H_UNDEF_TYPE  (-1)  // current value in CParType not defined;
                                 // instead of STRING_PAR, LONG_PAR, etc
-#define     H_GLOBAL_ID 0       // global variable for "PROC_ID"
+#define	    H_GLOBAL_ID 0       // global variable for "PROC_ID"
 
 
 #define H_EMPTY_REGION      (Hkey)(1)   // empty region
@@ -143,18 +131,13 @@ class HTuple;
 class HRLRegion;
 class HRGBLUT;
 class HFramegrabber;
-class HIODevice;
-class HIOChannel;
 class HNCCModel;
 class HShapeModel;
 class HComponentModel;
 class HComponentTraining;
 class HObjectModel3D;
-class HScene3D;
 class HSurfaceModel;
 class HSurfaceMatchingResult;
-class HDeformableSurfaceModel;
-class HDeformableSurfaceMatchingResult;
 class HDeformableModel;
 class HDescriptorModel;
 class HShapeModel3D;
@@ -172,15 +155,12 @@ class HBgEsti;
 class HOCRBox;
 class HOCRMlp;
 class HOCRSvm;
-class HOCRKnn;
 class HLexicon;
 class HOCV;
 class HClassBox;
 class HClassMlp;
 class HClassSvm;
 class HClassGmm;
-class HClassKnn;
-class HClassTrainData;
 class HClassLUT;
 class HColorTransLUT;
 class HFunction1D;
@@ -195,15 +175,8 @@ class HMutex;
 class HEvent;
 class HCondition;
 class HBarrier;
-class HMessage;
-class HMessageQueue;
 class HTextModel;
 class HTextResult;
-class HMetrologyModel;
-class HSerializedItem;
-class HScatteredDataInterpolator;
-class HSampleIdentifier;
-class HDrawingObject;
 
 
 // For HCPP.cxx: Passing of iconic data
@@ -268,18 +241,13 @@ extern LIntExport HTuple* __;     // use default values
 #include "HXLDExtPara.h"
 #include "HXLDExtParaArray.h"
 #include "HFramegrabber.h"
-#include "HIODevice.h"
-#include "HIOChannel.h"
 #include "HNCCModel.h"
 #include "HShapeModel.h"
 #include "HComponentModel.h"
 #include "HComponentTraining.h"
 #include "HObjectModel3D.h"
-#include "HScene3D.h"
 #include "HSurfaceModel.h"
 #include "HSurfaceMatchingResult.h"
-#include "HDeformableSurfaceModel.h"
-#include "HDeformableSurfaceMatchingResult.h"
 #include "HShapeModel3D.h"
 #include "HDeformableModel.h"
 #include "HDescriptorModel.h"
@@ -297,15 +265,12 @@ extern LIntExport HTuple* __;     // use default values
 #include "HOCRBox.h"
 #include "HOCRMlp.h"
 #include "HOCRSvm.h"
-#include "HOCRKnn.h"
 #include "HLexicon.h"
 #include "HOCV.h"
 #include "HClassBox.h"
 #include "HClassMlp.h"
 #include "HClassSvm.h"
 #include "HClassGmm.h"
-#include "HClassKnn.h"
-#include "HClassTrainData.h"
 #include "HClassLUT.h"
 #include "HColorTransLUT.h"
 #include "HFunction1D.h"
@@ -320,15 +285,8 @@ extern LIntExport HTuple* __;     // use default values
 #include "HEvent.h"
 #include "HCondition.h"
 #include "HBarrier.h"
-#include "HMessage.h"
-#include "HMessageQueue.h"
 #include "HTextModel.h"
 #include "HTextResult.h"
-#include "HMetrologyModel.h"
-#include "HSerializedItem.h"
-#include "HScatteredDataInterpolator.h"
-#include "HSampleIdentifier.h"
-#include "HDrawingObject.h"
 
 #include "HInterfaceCPP.h"
 

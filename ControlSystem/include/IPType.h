@@ -5,20 +5,21 @@
  * Project:     HALCON/libhalcon
  * Description: Types for image processing and language interfaces
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2010 by MVTec Software GmbH
  *                  www.mvtec.com
  *
- *****************************************************************************/
+ *****************************************************************************
+ *
+ * $Revision: 1.3 $
+ * $Date: 2010/05/18 07:05:37 $
+ *
+ */
+
 
 #ifndef IPTYPE_H
 #define IPTYPE_H
 
-#ifndef HC_NO_STRUCT_MEMBER_ALIGNMENT 
-/* sets the struct member alignment to avoid problems if 
- * the settings of the user differ to those of the HALCON
- * version. (8 is the default alignment, generally) */
-# pragma pack(push,8) 
-#endif
+
 
 typedef  UINT1 HBOOL;                  /* TRUE (1) or FALSE (0) */
 typedef  UINT1 HBYTE;                  /* unsigned Byte */
@@ -68,7 +69,6 @@ typedef struct {
 typedef struct {
   float *row;                /* row direction                               */
   float *col;                /* column direction                            */
-  INT4  kind;                /* VF_ABSOLUTE or VF_RELATIVE                  */
 } HVFPixel;
 
 typedef union {
@@ -110,20 +110,6 @@ typedef struct {
   INT4 height;              /* height of image                              */
   char info[1000-4];        /* for further use                              */
 } Himage_exp;
-    
-/* Information header for HALCON image file format                          */
-typedef struct {
-  INT4 version_number;      /* version number of the ima file format       */
-  INT4 num_images;           /* number of images in file                    */
-  HBOOL is_msb_first;        /* is most significant bit first (byte order)  */
-} Himage_hobj_file_header;
-
-/* Information header for HALCON image file format  - for each image        */
-typedef struct {
-  INT4 width;               /* width of image                               */
-  INT4 height;              /* height of image                              */
-  INT4 num_channels;        /* channels in image                            */
-} Himage_hobj_image_header;
 
 
 typedef HBYTE *Hbits;       /* Binary image                                 */
@@ -142,6 +128,7 @@ typedef HBYTE *Hbits;       /* Binary image                                 */
 #define MIN_COORD INT4_MIN
 #define MAX_COORD INT4_MAX
 #endif
+
 
 /* Data type for a single run of a region encoded with runlength encoding   */
 typedef struct {
@@ -297,7 +284,6 @@ typedef struct {
 } Hlines;
 
 
-
 /****************************************************************************/
 /*                       Distribution                                       */
 /****************************************************************************/
@@ -309,6 +295,10 @@ typedef double Hhisto_rel[HISTO_LEN];
 
 #define MAX_DISTR   (2*256+1)
 #define NULL_DISTR  256
+
+typedef INT4 Hdistrib_abs[MAX_DISTR];
+
+typedef float Hdistrib_rel[MAX_DISTR];
 
 
 
@@ -468,20 +458,11 @@ typedef struct ext_para_type {
 
 
 /****************************************************************************/
-/* Homogeneous coordiantes: Hhom_mat_[23]d / Hproj_mat_[23]d                */
+/* Homogeneous coordiantes: Hhom_mat_[23]d / Hproj_mat_2d                   */
 /****************************************************************************/
 typedef double Hhom_mat_2d[2][3];
-typedef double (*H_RESTRICT pHhom_mat_2d)[3]; /* pointer type variant of Hhom_mat_2d   */
-typedef double (*puHhom_mat_2d)[3]; /* unrestricted pointer type variant of Hhom_mat_2d   */
 typedef double Hhom_mat_3d[3][4];
-typedef double (*H_RESTRICT pHhom_mat_3d)[4]; /* pointer type variant of Hhom_mat_3d   */
-typedef double (*puHhom_mat_3d)[4]; /* unrestricted pointer type variant of Hhom_mat_3d   */
 typedef double Hproj_mat_2d[3][3];
-typedef double (*H_RESTRICT pHproj_mat_2d)[3]; /* pointer type variant of Hproj_mat_2d */
-typedef double (*puHproj_mat_2d)[3];         /* unrestricted pointer type variant of Hproj_mat_2d */
-typedef double Hproj_mat_3d[4][4];
-typedef double (*H_RESTRICT pHproj_mat_3d)[4]; /* pointer type variant of Hproj_mat_3d */
-typedef double (*puHproj_mat_3d)[4];         /* unrestricted pointer type variant of Hproj_mat_3d */
 
 
 
@@ -529,7 +510,5 @@ typedef union {
 #endif
 typedef void  (__stdcall *HLowLevelErrorCallbackProc)(const char *err);
 
-#ifndef HC_NO_STRUCT_MEMBER_ALIGNMENT 
-# pragma pack(pop) /* unset struct member alignment */
-#endif
+
 #endif

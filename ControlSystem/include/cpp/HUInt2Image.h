@@ -5,7 +5,7 @@
  * Project:     Halcon/C++
  * Description: Types for unsigned short-images
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2006 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************

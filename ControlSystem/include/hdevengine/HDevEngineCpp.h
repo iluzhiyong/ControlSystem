@@ -2,32 +2,19 @@
  * HDevEngineCpp.h
  *****************************************************************************
  *
- * Description: Interface for executing HDevelop programs and procedures
- *              within a C++ application using the HALCON/C++ interface.
- * Attention:   This engine uses the new HALCON/C++ interface that was
- *              introduced in HALCON 11.
- *              If your HDevEngine application was developed with a prior
- *              version of HALCON and uses the old HALCON/C++ interface
- *              We recommend to migrate it to the new HALCON/C++ interface.
- *              However, if this is not possible, you can use the legacy
- *              HDevEngine from the path
- *                %HALCONROOT%/include/hdevengine10
- *              In addition, your application must be linked against the
- *              libraries halconcpp10 and hdevenginecpp10 (instead of
- *              halconcpp and hdevenginecpp).
- *              Changes within the source files are not needed.
+ * Description: Classes for execution of HDevelop programs and procedures
+ *              using the HALCON/CPP interface
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2010 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
- *****************************************************************************/
+ *****************************************************************************
+ */
 
 #ifndef H_DEV_ENGINE_CPP_H
 #define H_DEV_ENGINE_CPP_H
 
-// include the HALCON 11 C++ interface
-#include "halconcpp/HalconCpp.h"
-
+#include "HalconCpp.h"
 
 #ifndef HDEV_PD
 #define HDEV_PD private: class Data; Data* mData
@@ -82,80 +69,55 @@ public:
   //       program execution
   //     - as the default an exception is thrown while creating the program or
   //       procedure instance
-  //  "ignore_invalid_results" [default: true, 1]
-  //     - if set to false (or "false") throw an exception if the accessed
-  //       procedure output parameter or program variable is invalid
-  //     - the following methods are concerned:
-  //         HenProgramCall::GetIconicVarObject()
-  //         HenProgramCall::GetCtrlVarTuple()
-  //         HenProcedureCall::GetOutputIconicParamObject()
-  //         HenProcedureCall::GetOutputCtrlParamTuple()
-  //     - as the default an empty region object or an empty tuple is returned
-  //       if the object was not set within the program or procedure
-  //  "docu_language"  [default: "" -> en_US]
-  //     - could be set to "en_US","de_DE",  other languages
-  //  "docu_encoding"  [default: "" -> "utf8"]
-  //     - if set to "native" all natural language strings are converted
-  //       to native encoding
-  //  "execute_procedures_jit_compiled"  [default: false, 0]
-  //     - if set to true (or "true"), procedures are tried to being compiled
-  //       with a just-in-time compiler for faster execution
-  void SetEngineAttribute(const char* name, const HalconCpp::HTuple& value);
-  HalconCpp::HTuple GetEngineAttribute(const char* name);
+  void SetEngineAttribute(const char* name, const Halcon::HTuple& value);
+  Halcon::HTuple GetEngineAttribute(const char* name);
 
   // Set path(s) for external procedures
   //  - several paths can be passed together separating them by ';' or ':'
-  //    on Windows or UNIX-like systems resp.
+  //    on Windows or UNIX systems resp.
   //  - NULL removes all procedure paths and unloads all external procedures
   //    (Attention: procedures that are used by programs (HDevProgram) or
   //    procedures (HDevProcedures) remain unchanged until the program or
-  //    procedure is reloaded explicitly.  The appropriate calls must be
+  //    procedure is reloaded explicitely.  The appropriate calls must be
   //    recreated or reassigned by the reloaded program or procedure.)
   //  - additional calls of SetProcedurePath will remove paths set before
   //    and unload all external procedures
   void SetProcedurePath(const char* path);
   void AddProcedurePath(const char* path);
   // Get names of all available external procedures
-  HalconCpp::HTuple GetProcedureNames() const;
+  Halcon::HTuple GetProcedureNames() const;
   // Get names of all loaded external procedures
-  HalconCpp::HTuple GetLoadedProcedureNames() const;
+  Halcon::HTuple GetLoadedProcedureNames() const;
   // Unload a specific procedure <proc_name>
   void UnloadProcedure(const char* proc_name);
   // Unload all external procedures
   void UnloadAllProcedures();
 
   // global variable access
-  HalconCpp::HTuple  GetGlobalIconicVarNames() const;
-  HalconCpp::HTuple  GetGlobalCtrlVarNames()   const;
-  // get dimension of a global variable
-  int  GetGlobalIconicVarDimension(const char* var_name) const;
-  int  GetGlobalCtrlVarDimension(const char* var_name)   const;
-  // get value of a global variable
-  HalconCpp::HObject GetGlobalIconicVarObject(const char* var_name);
-  HalconCpp::HTuple  GetGlobalCtrlVarTuple(const char* var_name);
-  HalconCpp::HObjectVector GetGlobalIconicVarVector(const char* var_name);
-  HalconCpp::HTupleVector  GetGlobalCtrlVarVector(const char* var_name);
+  Halcon::HTuple  GetGlobalIconicVarNames() const;
+  Halcon::HTuple  GetGlobalCtrlVarNames()   const;
+  // get value of a global vaiable
+  Halcon::Hobject GetGlobalIconicVarObject(const char* var_name);
+  Halcon::HTuple  GetGlobalCtrlVarTuple(const char* var_name);
   // these method is provided for efficiency:
   // the results are copied directly into the tuple variable provided by
   // the user without additional copying 
-  void GetGlobalCtrlVarTuple(const char* var_name, HalconCpp::HTuple* tuple);
+  void GetGlobalCtrlVarTuple(const char* var_name, Halcon::HTuple* tuple);
   // set global variable
   void SetGlobalIconicVarObject(const char* var_name,
-                                const HalconCpp::HObject& obj);
+                                const Halcon::Hobject& obj);
+  void SetGlobalIconicVarObject(const char* var_name,
+                                const Halcon::HObject& obj);
+  void SetGlobalIconicVarObject(const char* var_name,
+                                const Halcon::HObjectArray& obj);
   void SetGlobalCtrlVarTuple(const char* var_name,
-                             const HalconCpp::HTuple& tuple);
-  void SetGlobalIconicVarVector(const char* var_name,
-                                const HalconCpp::HObjectVector& vector);
-  void SetGlobalCtrlVarVector(const char* var_name,
-                              const HalconCpp::HTupleVector& vector);
+                             const Halcon::HTuple& tuple);
 
 
   // Set implementation for HDevelop internal operators
   void SetHDevOperatorImpl(HDevOperatorImplCpp* hdev_op_impl, 
                            bool mem_free_intern=true);
 };
-
-
 
 
 /*****************************************************************************
@@ -194,18 +156,8 @@ public:
   const char*     GetName() const;
 
   // Get the names of all local and the used external procedures
-  HalconCpp::HTuple  GetUsedProcedureNames()   const;
-  HalconCpp::HTuple  GetLocalProcedureNames()   const;
-
-  // Compile all procedures that are used by the program and that can be
-  // compiled with a just-in-time compiler.
-  // The method returns true when all used procedures could be compiled by the
-  // just-in-time compiler.
-  // Procedures that could not be compiled are called normally by the
-  // HDevEngine interpreter.
-  // To check which procedure could not be compiled and what the reason is for
-  // that start HDevelop and check there the compilation states.
-  bool         CompileUsedProcedures();
+  Halcon::HTuple  GetUsedProcedureNames()   const;
+  Halcon::HTuple  GetLocalProcedureNames()   const;
 
   // create a program call for execution
   HDevProgramCall CreateCall() const;
@@ -217,8 +169,8 @@ public:
 
   // get some information about the variables of the program's main procedure:
   //  - get the variable names as a tuple
-  HalconCpp::HTuple  GetIconicVarNames() const;
-  HalconCpp::HTuple  GetCtrlVarNames()   const;
+  Halcon::HTuple  GetIconicVarNames() const;
+  Halcon::HTuple  GetCtrlVarNames()   const;
 
   //  - get the number of iconic and control variables
   size_t          GetIconicVarCount() const;
@@ -228,14 +180,7 @@ public:
   //  TODO: (indices of the variables run from 1 to count)
   const char*     GetIconicVarName(size_t var_idx) const;
   const char*     GetCtrlVarName(size_t var_idx)   const;
-
-  //  - get the dimensions of the variables
-  //  TODO: (indices of the variables run from 1 to count)
-  int GetIconicVarDimension(size_t var_idx) const;
-  int GetCtrlVarDimension(size_t var_idx) const;
 };
-
-
 
 
 /*****************************************************************************
@@ -276,23 +221,17 @@ public:
 
   // Get the objects / values of the variables by name or by index
   //   (indices of the variables run from 1 to count)
-  HalconCpp::HObject GetIconicVarObject(size_t var_idx);
-  HalconCpp::HObject GetIconicVarObject(const char* var_name);
+  Halcon::Hobject GetIconicVarObject(size_t var_idx);
+  Halcon::Hobject GetIconicVarObject(const char* var_name);
 
-  HalconCpp::HObjectVector GetIconicVarVector(size_t var_idx);
-  HalconCpp::HObjectVector GetIconicVarVector(const char* var_name);
-
-  HalconCpp::HTuple  GetCtrlVarTuple(size_t var_idx);
-  HalconCpp::HTuple  GetCtrlVarTuple(const char* var_name);
-
-  HalconCpp::HTupleVector  GetCtrlVarVector(size_t var_idx);
-  HalconCpp::HTupleVector  GetCtrlVarVector(const char* var_name);
+  Halcon::HTuple  GetCtrlVarTuple(size_t var_idx);
+  Halcon::HTuple  GetCtrlVarTuple(const char* var_name);
 
   // these methods are provided for efficiency:
   // the results are copied directly into the tuple variable provided by
   // the user without additional copying 
-  void GetCtrlVarTuple(size_t var_idx, HalconCpp::HTuple* tuple);
-  void GetCtrlVarTuple(const char* var_name, HalconCpp::HTuple* tuple);
+  void GetCtrlVarTuple(size_t var_idx, Halcon::HTuple* tuple);
+  void GetCtrlVarTuple(const char* var_name, Halcon::HTuple* tuple);
 };
 
 
@@ -339,26 +278,16 @@ public:
   const char*  GetShortDescription() const;
 
   // Get all refered procedures
-  HalconCpp::HTuple  GetUsedProcedureNames() const;
-
-  // Compile all procedures that are used by the procedure and that can be
-  // compiled with a just-in-time compiler.
-  // The method returns true when all used procedures could be compiled by the
-  // just-in-time compiler.
-  // Procedures that could not be compiled are called normally by the
-  // HDevEngine interpreter.
-  // To check which procedure could not be compiled and what the reason is for
-  // that start HDevelop and check there the compilation states.
-  bool         CompileUsedProcedures();
+  Halcon::HTuple  GetUsedProcedureNames() const;
 
   // Create a program call for execution
   HDevProcedureCall CreateCall() const;
 
   // Get name of input/output object/control parameters
-  HalconCpp::HTuple GetInputIconicParamNames()  const;
-  HalconCpp::HTuple GetOutputIconicParamNames() const;
-  HalconCpp::HTuple GetInputCtrlParamNames()    const;
-  HalconCpp::HTuple GetOutputCtrlParamNames()   const;
+  Halcon::HTuple GetInputIconicParamNames()  const;
+  Halcon::HTuple GetOutputIconicParamNames() const;
+  Halcon::HTuple GetInputCtrlParamNames()    const;
+  Halcon::HTuple GetOutputCtrlParamNames()   const;
 
   // Get number of input/output object/control parameters
   int            GetInputIconicParamCount()  const;
@@ -367,38 +296,10 @@ public:
   int            GetOutputCtrlParamCount()   const;
 
   // Get name of input/output object/control parameters
-  //   (indices of the parameters run from 1 to count)
   const char*    GetInputIconicParamName(int par_idx)  const;
   const char*    GetOutputIconicParamName(int par_idx) const;
   const char*    GetInputCtrlParamName(int par_idx)    const;
   const char*    GetOutputCtrlParamName(int par_idx)   const;
-
-  // Get dimension of input/output object/control parameters
-  //   (indices of the parameters run from 1 to count)
-  int GetInputIconicParamDimension(int par_idx)  const;
-  int GetOutputIconicParamDimension(int par_idx) const;
-  int GetInputCtrlParamDimension(int par_idx)    const;
-  int GetOutputCtrlParamDimension(int par_idx)   const; 
-
-  // Get info of procedure documentation
-  HalconCpp::HTuple GetInfo(const char* slot)  const;
-  // Get info of parameter documentation by name
-  HalconCpp::HTuple GetParamInfo(const char* par_name, 
-                                 const char* slot) const;
-  // Get info of parameter documentation by index
-  //   (indices of the parameters run from 1 to count)
-  HalconCpp::HTuple GetInputIconicParamInfo(int par_idx, 
-                                            const char* slot)  const;
-  HalconCpp::HTuple GetOutputIconicParamInfo(int par_idx, 
-                                             const char* slot) const;
-  HalconCpp::HTuple GetInputCtrlParamInfo(int par_idx, 
-                                          const char* slot)    const;
-  HalconCpp::HTuple GetOutputCtrlParamInfo(int par_idx, 
-                                           const char* slot)   const;
- 
-  // Query possible slots for procedure/parameter info
-  HalconCpp::HTuple QueryInfo()       const;
-  HalconCpp::HTuple QueryParamInfo()  const;
 };
 
 
@@ -442,43 +343,32 @@ public:
   void Reset();
 
   // Set input object/control parameter
-  void SetInputIconicParamObject(int par_idx, const HalconCpp::HObject& obj);
+  void SetInputIconicParamObject(int par_idx, const Halcon::Hobject& obj);
+  void SetInputIconicParamObject(int par_idx, const Halcon::HObject& obj);
+  void SetInputIconicParamObject(int par_idx, const Halcon::HObjectArray& obj);
   void SetInputIconicParamObject(const char* par_name,
-                                 const HalconCpp::HObject& obj);
-  void SetInputIconicParamVector(int par_idx,
-                                 const HalconCpp::HObjectVector& vector);
-  void SetInputIconicParamVector(const char* par_name,
-                                 const HalconCpp::HObjectVector& vector);
-
-  void SetInputCtrlParamTuple(int par_idx, const HalconCpp::HTuple& tuple);
+                                 const Halcon::Hobject& obj);
+  void SetInputIconicParamObject(const char* par_name,
+                                 const Halcon::HObject& obj);
+  void SetInputIconicParamObject(const char* par_name,
+                                 const Halcon::HObjectArray& obj);
+  void SetInputCtrlParamTuple(int par_idx, const Halcon::HTuple& tuple);
   void SetInputCtrlParamTuple(const char* par_name,
-                              const HalconCpp::HTuple& tuple);
-  void SetInputCtrlParamVector(int par_idx,
-                               const HalconCpp::HTupleVector& vector);
-  void SetInputCtrlParamVector(const char* par_name,
-                               const HalconCpp::HTupleVector& vector);
+                              const Halcon::HTuple& tuple);
 
   // Get the objects / values of the parameters by name or by index
   //   (indices of the variables run from 1 to count)
-  HalconCpp::HObject GetOutputIconicParamObject(int par_idx)          const;
-  HalconCpp::HObject GetOutputIconicParamObject(const char* par_name) const;
-  HalconCpp::HObjectVector  
-    GetOutputIconicParamVector(int par_idx)                           const;
-  HalconCpp::HObjectVector  
-    GetOutputIconicParamVector(const char* par_name)                  const;
-  HalconCpp::HTuple  GetOutputCtrlParamTuple(int par_idx)             const;
-  HalconCpp::HTuple  GetOutputCtrlParamTuple(const char* par_name)    const;
-  HalconCpp::HTupleVector  
-    GetOutputCtrlParamVector(int par_idx)                             const;
-  HalconCpp::HTupleVector  
-    GetOutputCtrlParamVector(const char* par_name)                    const;
+  Halcon::Hobject GetOutputIconicParamObject(int par_idx)          const;
+  Halcon::Hobject GetOutputIconicParamObject(const char* par_name) const;
+  Halcon::HTuple  GetOutputCtrlParamTuple(int par_idx)             const;
+  Halcon::HTuple  GetOutputCtrlParamTuple(const char* par_name)    const;
 
   // These methods are provided for efficiency:
   // the results are copied directly into the tuple variable provided by
   // the user without additional copying 
-  void GetOutputCtrlParamTuple(int par_idx, HalconCpp::HTuple* tuple) const;
+  void GetOutputCtrlParamTuple(int par_idx, Halcon::HTuple* tuple) const;
   void GetOutputCtrlParamTuple(const char* par_name,
-                               HalconCpp::HTuple* tuple)              const;
+                               Halcon::HTuple* tuple)              const;
 };
 
 
@@ -513,7 +403,7 @@ public:
                       int prog_line_num=-1,
                       const char* prog_line_name="",
                       Herror h_err_nr=H_MSG_VOID,
-                      const HalconCpp::HTuple& user_data=HalconCpp::HTuple()); 
+                      const Halcon::HTuple& user_data=Halcon::HTuple()); 
   HDevEngineException(const HDevEngineException& exc);
   HDevEngineException(const Data& data);
   HDevEngineException& operator = (const HDevEngineException& exc);
@@ -530,13 +420,11 @@ public:
   int                    ProgLineNum()       const;
   // Name of executed procedure or operator program line 
   const char*            ProgLineName()      const;
-  // HALCON error code
-  Herror                 HalconErrorCode()   const;
-  HDEPRECATED(Herror     HalconErrNum()      const,
-              "deprecated, please use HalconErrorCode instead.");
+  // HALCON error number
+  Herror                 HalconErrNum()      const;
 
-  HalconCpp::HTuple      UserData()          const;
-  void                   UserData(HalconCpp::HTuple& user_Data) const;
+  Halcon::HTuple         UserData()          const;
+  void                   UserData(Halcon::HTuple& user_Data) const;
 
 };
 
@@ -566,30 +454,29 @@ public:
 
   virtual int DevClearWindow();
   virtual int DevCloseWindow();
-  virtual int DevSetWindow(const HalconCpp::HTuple& win_id);
-  virtual int DevGetWindow(HalconCpp::HTuple* win_id);
-  virtual int DevDisplay(const HalconCpp::HObject& obj);
-  virtual int DevSetWindowExtents(const HalconCpp::HTuple& row,
-                                  const HalconCpp::HTuple& col,
-                                  const HalconCpp::HTuple& width,
-                                  const HalconCpp::HTuple& height);
-  virtual int DevSetDraw(const HalconCpp::HTuple& draw);
-  virtual int DevSetShape(const HalconCpp::HTuple& shape);
-  virtual int DevSetColored(const HalconCpp::HTuple& colored);
-  virtual int DevSetColor(const HalconCpp::HTuple& color);
-  virtual int DevSetLut(const HalconCpp::HTuple& lut);
-  virtual int DevSetPaint(const HalconCpp::HTuple& paint);
-  virtual int DevSetPart(const HalconCpp::HTuple& row1,
-                         const HalconCpp::HTuple& col1,
-                         const HalconCpp::HTuple& row2,
-                         const HalconCpp::HTuple& col2);
-  virtual int DevSetLineWidth(const HalconCpp::HTuple& width);
-  virtual int DevOpenWindow(const HalconCpp::HTuple& row,
-                            const HalconCpp::HTuple& col,
-                            const HalconCpp::HTuple& width,
-                            const HalconCpp::HTuple& height,
-                            const HalconCpp::HTuple& background,
-                            HalconCpp::HTuple* win_id);
+  virtual int DevSetWindow(const Halcon::HTuple& win_id);
+  virtual int DevDisplay(const Halcon::Hobject& obj);
+  virtual int DevSetWindowExtents(const Halcon::HTuple& row,
+                                  const Halcon::HTuple& col,
+                                  const Halcon::HTuple& width,
+                                  const Halcon::HTuple& height);
+  virtual int DevSetDraw(const Halcon::HTuple& draw);
+  virtual int DevSetShape(const Halcon::HTuple& shape);
+  virtual int DevSetColored(const Halcon::HTuple& colored);
+  virtual int DevSetColor(const Halcon::HTuple& color);
+  virtual int DevSetLut(const Halcon::HTuple& lut);
+  virtual int DevSetPaint(const Halcon::HTuple& paint);
+  virtual int DevSetPart(const Halcon::HTuple& row1,
+                         const Halcon::HTuple& col1,
+                         const Halcon::HTuple& row2,
+                         const Halcon::HTuple& col2);
+  virtual int DevSetLineWidth(const Halcon::HTuple& width);
+  virtual int DevOpenWindow(const Halcon::HTuple& row,
+                            const Halcon::HTuple& col,
+                            const Halcon::HTuple& width,
+                            const Halcon::HTuple& height,
+                            const Halcon::HTuple& background,
+                            Halcon::HTuple* win_id);
 };
 
 }; // namespace HDevEngineCpp

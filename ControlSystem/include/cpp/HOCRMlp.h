@@ -5,11 +5,13 @@
  * Project:     HALCON/C++
  * Description: Class HOCRMlp
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2008 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.3 $
+ * $Date: 2008/12/06 13:35:12 $
  *
  */
 
@@ -44,20 +46,6 @@ public:
 
   // Tool-specific member functions
 
-  // Select an optimal combination of features to classify OCR data
-  // from a (protected) training file.
-  virtual HTuple SelectFeatureSetTrainfMlpProtected(const Halcon::HTuple &TrainingFile, const Halcon::HTuple &Password, const Halcon::HTuple &FeatureList, const Halcon::HTuple &SelectionMethod, const Halcon::HTuple &Width, const Halcon::HTuple &Height, const Halcon::HTuple &GenParamNames, const Halcon::HTuple &GenParamValues, Halcon::HTuple *Score);
-  // Select an optimal combination of features to classify OCR data
-  // from a (protected) training file.
-  virtual HTuple SelectFeatureSetTrainfMlpProtected(const char *TrainingFile, const char *Password, const char *FeatureList, const char *SelectionMethod, Hlong Width, Hlong Height, const char *GenParamNames, double GenParamValues, Halcon::HTuple *Score);
-  // Selects an optimal combination of features to classify OCR data.
-  virtual HTuple SelectFeatureSetTrainfMlp(const Halcon::HTuple &TrainingFile, const Halcon::HTuple &FeatureList, const Halcon::HTuple &SelectionMethod, const Halcon::HTuple &Width, const Halcon::HTuple &Height, const Halcon::HTuple &GenParamNames, const Halcon::HTuple &GenParamValues, Halcon::HTuple *Score);
-  // Selects an optimal combination of features to classify OCR data.
-  virtual HTuple SelectFeatureSetTrainfMlp(const char *TrainingFile, const char *FeatureList, const char *SelectionMethod, Hlong Width, Hlong Height, const char *GenParamNames, double GenParamValues, Halcon::HTuple *Score);
-  // Deserialize a serialized MLP-based OCR classifier.
-  virtual void DeserializeOcrClassMlp(const Halcon::HSerializedItem &SerializedItemHandle);
-  // Serialize a MLP-based OCR classifier.
-  virtual HSerializedItem SerializeOcrClassMlp() const;
   // Read an OCR classifier from a file.
   virtual void ReadOcrClassMlp(const Halcon::HTuple &FileName);
   // Read an OCR classifier from a file.
@@ -86,10 +74,6 @@ public:
   virtual HTuple DoOcrSingleClassMlp(const HRegion &Character, const HImage &Image, const Halcon::HTuple &Num, Halcon::HTuple *Confidence) const;
   // Classify a single character with an OCR classifier.
   virtual HTuple DoOcrSingleClassMlp(const HRegion &Character, const HImage &Image, const Halcon::HTuple &Num, double *Confidence) const;
-  // Train an OCR classifier with data from a (protected) training file.
-  virtual double TrainfOcrClassMlpProtected(const Halcon::HTuple &TrainingFile, const Halcon::HTuple &Password, const Halcon::HTuple &MaxIterations, const Halcon::HTuple &WeightTolerance, const Halcon::HTuple &ErrorTolerance, Halcon::HTuple *ErrorLog) const;
-  // Train an OCR classifier with data from a (protected) training file.
-  virtual double TrainfOcrClassMlpProtected(const char *TrainingFile, const char *Password, Hlong MaxIterations, double WeightTolerance, double ErrorTolerance, Halcon::HTuple *ErrorLog) const;
   // Train an OCR classifier.
   virtual double TrainfOcrClassMlp(const Halcon::HTuple &TrainingFile, const Halcon::HTuple &MaxIterations, const Halcon::HTuple &WeightTolerance, const Halcon::HTuple &ErrorTolerance, Halcon::HTuple *ErrorLog) const;
   // Train an OCR classifier.
@@ -100,22 +84,6 @@ public:
   // Compute the information content of the preprocessed feature vectors
   // of an OCR classifier.
   virtual HTuple GetPrepInfoOcrClassMlp(const char *TrainingFile, const char *Preprocessing, Halcon::HTuple *CumInformationCont) const;
-  // Return the rejection class parameters of an OCR classifier.
-  virtual HTuple GetRejectionParamsOcrClassMlp(const Halcon::HTuple &GenParamName) const;
-  // Return the rejection class parameters of an OCR classifier.
-  virtual HTuple GetRejectionParamsOcrClassMlp(const char *GenParamName) const;
-  // Set the rejection class parameters of an OCR classifier.
-  virtual void SetRejectionParamsOcrClassMlp(const Halcon::HTuple &GenParamName, const Halcon::HTuple &GenParamValue) const;
-  // Set the rejection class parameters of an OCR classifier.
-  virtual void SetRejectionParamsOcrClassMlp(const char *GenParamName, const char *GenParamValue) const;
-  // Return the regularization parameters of an OCR classifier.
-  virtual HTuple GetRegularizationParamsOcrClassMlp(const Halcon::HTuple &GenParamName) const;
-  // Return the regularization parameters of an OCR classifier.
-  virtual HTuple GetRegularizationParamsOcrClassMlp(const char *GenParamName) const;
-  // Set the regularization parameters of an OCR classifier.
-  virtual void SetRegularizationParamsOcrClassMlp(const Halcon::HTuple &GenParamName, const Halcon::HTuple &GenParamValue) const;
-  // Set the regularization parameters of an OCR classifier.
-  virtual void SetRegularizationParamsOcrClassMlp(const char *GenParamName, double GenParamValue) const;
   // Return the parameters of an OCR classifier.
   virtual Hlong GetParamsOcrClassMlp(Halcon::HTuple *HeightCharacter, Halcon::HTuple *Interpolation, Halcon::HTuple *Features, Halcon::HTuple *Characters, Halcon::HTuple *NumHidden, Halcon::HTuple *Preprocessing, Halcon::HTuple *NumComponents) const;
   // Return the parameters of an OCR classifier.

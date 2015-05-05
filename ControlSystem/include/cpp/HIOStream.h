@@ -1,15 +1,17 @@
 /*****************************************************************************
  * HIOStream.h
- *****************************************************************************
+ ***************************************************************************** 
  *
  * Project:     HALCON/C++
  * Description: HALCON/C++ iostream operators
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2005 by MVTec Software GmbH
  *                  www.mvtec.com
- *
+ * 
  *****************************************************************************
  *
+ * $Revision: 1.1 $
+ * $Date: 2005/05/09 13:28:43 $
  *
  */
 
@@ -39,6 +41,7 @@
 #define HOSTREAM ostream
 #endif
 
+
 namespace Halcon {
   inline HOSTREAM& operator<<(HOSTREAM &s, const Halcon::HTuple &t);
   inline HISTREAM& operator>>(HISTREAM &s, Halcon::HTuple &t);
@@ -56,7 +59,7 @@ inline HOSTREAM& Halcon::operator<<(HOSTREAM &s, const Halcon::HTuple &t)
         sprintf(h,"%f,",t[i].D());
         break;
       case Halcon::LongVal:
-        sprintf(h,"%"LONG_FORMAT"d,",t[i].L());
+        sprintf(h,"%ld,",t[i].L());
         break;
       case Halcon::StringVal:
         sprintf(h,"'%s',",t[i].S());
@@ -139,7 +142,7 @@ inline HISTREAM& Halcon::operator>>(HISTREAM &s, Halcon::HTuple &t)
       }
       else
       {
-        n = sscanf(buf,"%"LONG_FORMAT"d",&l);
+        n = sscanf(buf,"%ld",&l);
         if (n == 1)
           t[i++] = l;
       }

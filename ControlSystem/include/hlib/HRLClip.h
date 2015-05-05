@@ -5,11 +5,13 @@
  * Project:     HALCON/libhalcon
  * Description: Rectangular clipping of regions (Hrlregion)
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2008 by MVTec Software GmbH
  *                  www.mvtec.com
  *
  *****************************************************************************
  *
+ * $Revision: 1.17 $
+ * $Date: 2010/05/18 08:43:40 $
  *
  */
 
@@ -51,16 +53,15 @@ extern HLibExport Herror HRLVdiv(Hproc_handle proc_id,
                                  Hrlregion *Obj_ein, INT vertikale,
                                  Hrlregion *tO_links, Hrlregion *tO_rechts);
 
-extern HLibExport Herror HRLDecomp(Hrlregion *image_domain,
+extern HLibExport Herror HRLDecomp(Hproc_handle proc_id,
+                                   Hrlregion *image_domain,
                                    INT l1, INT c1, INT l2, INT c2,
                                    Hrlregion *inner, Hrlregion *border);
 
-extern HLibExport Herror HRCDecomp(Hvrlregion *region,
+extern HLibExport Herror HRCDecomp(Hproc_handle proc_id, Hvrlregion *region,
                                    INT l1, INT c1, INT l2, INT c2,
                                    Hvrlregion *inner, Hvrlregion *outer);
 
-extern HLibExport Herror HRLClipBottomRight(Hrlregion * H_RESTRICT region,
-                                            HIMGCOOR max_l, HIMGCOOR max_c);
 
 #if defined(__cplusplus)
 }

@@ -5,11 +5,13 @@
  * Project:     Halcon/C++
  * Description: Rectangles
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2005 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.11 $
+ * $Date: 2005/05/06 07:36:05 $
  *
  */
 
@@ -82,8 +84,8 @@ private:
 public:
   HRectangle2(void): empty(TRUE) {};
   HRectangle2(const HPoint2D &Center, double Ra, double Rb, 
-              double Phi =0.0):
-              center(Center), phi(Phi), ra(Ra), rb(Rb), empty(FALSE) {};
+		    double Phi =0.0):
+    center(Center), phi(Phi), ra(Ra), rb(Rb), empty(FALSE) {};
   HRectangle2(const HRectangle2 &rect);
   HRectangle2 & operator = (const HRectangle2 &rect);
 

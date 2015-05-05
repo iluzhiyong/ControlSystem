@@ -5,11 +5,13 @@
  * Project:     Halcon/C++
  * Description: Types for float-images
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2006 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.10 $
+ * $Date: 2006/07/27 14:02:38 $
  *
  */
 

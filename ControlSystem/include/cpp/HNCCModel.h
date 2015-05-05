@@ -5,11 +5,13 @@
  * Project:     HALCON/C++
  * Description: Class HNCCModel
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2008 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.4 $
+ * $Date: 2008/12/06 13:35:12 $
  *
  */
 
@@ -56,10 +58,6 @@ public:
 
   // Tool-specific member functions
 
-  // Deserialize an NCC model.
-  virtual void DeserializeNccModel(const Halcon::HSerializedItem &SerializedItemHandle);
-  // Serialize an NCC model.
-  virtual HSerializedItem SerializeNccModel() const;
   // Read an NCC model from a file.
   virtual void ReadNccModel(const Halcon::HTuple &FileName);
   // Read an NCC model from a file.

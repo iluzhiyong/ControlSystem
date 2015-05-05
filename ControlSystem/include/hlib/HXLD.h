@@ -5,11 +5,13 @@
  * Project:     HALCON/libhalcon
  * Description: Extended Line Description
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2008 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  * 
+ * $Revision: 1.6 $
+ * $Date: 2010/02/12 14:34:49 $
  *
  */
 
@@ -22,44 +24,35 @@
 extern "C" {
 #endif
 
-extern HLibExport Herror HAllocXLDContSecure(Hproc_handle proc_handle,
-                                             Hcont **cont,
-                                             HITEMCNT num_points);
 
 extern HLibExport Herror HAllocXLDCont(Hproc_handle proc_id, Hcont **cont,
                                        HITEMCNT num_points);
-
 extern HLibExport Herror HAllocXLDContRC(Hproc_handle proc_id, Hcont *cont,
                                          HITEMCNT num_points);
-
 extern HLibExport Herror HCopyXLDCont(Hproc_handle proc_id,
-                                      const Hcont * H_RESTRICT cont_in,
+                                      const Hcont * restrict cont_in,
                                       HBOOL preserve_attribs, 
                                       HBOOL preserve_global_attribs, 
-                                      Hcont ** H_RESTRICT cont_out);
-
+                                      Hcont ** restrict cont_out);
 extern HLibExport Herror HCopyXLDContPart(Hproc_handle proc_id,
-                                          const Hcont * H_RESTRICT cont_in,
+                                          const Hcont * restrict cont_in,
                                           INT4_8  min_index, INT4_8 max_index,
                                           HBOOL preserve_attribs, 
                                           HBOOL preserve_global_attribs,
-                                          Hcont ** H_RESTRICT cont_out);
-
+                                          Hcont ** restrict cont_out);
 extern HLibExport Herror HFreeXLDCont(Hproc_handle proc_id, Hcont *cont);
-extern HLibExport Herror HLookupXLDContAttrib(const Hcont * H_RESTRICT cont,
-                                              const char * H_RESTRICT name,
+extern HLibExport Herror HLookupXLDContAttrib(const Hcont * restrict cont,
+                                              const char * restrict name,
                                               INT4 *indx);
 extern HLibExport Herror HAddXLDContAttrib(Hproc_handle proc_id,
                                            Hcont *cont, char *name,
                                            INT4 *indx);
-
 extern HLibExport Herror HLookupXLDContGlobalAttrib(
-                                    const Hcont * H_RESTRICT cont,
-                                    const char * H_RESTRICT name, INT4 *indx);
+                                    const Hcont * restrict cont,
+                                    const char * restrict name, INT4 *indx);
 extern HLibExport Herror HAddXLDContGlobalAttrib(Hproc_handle proc_id,
                                                  Hcont *cont, char *name,
                                                  INT4 *indx);
-
 extern HLibExport Herror HXLDFreeContour(Hproc_handle proc_id, Hcont *cont);
 
 extern HLibExport Herror HXLDFreePolygon(Hproc_handle proc_id, Hpoly *poly);
@@ -71,10 +64,6 @@ extern HLibExport Herror HXLDFreeModParallel(Hproc_handle proc_id,
 extern HLibExport Herror HXLDFreeExtParallel(Hproc_handle proc_id,
                                              Hext_para *ext_para);
 
-extern HLibExport Herror HXLDCopyGlobalAttribsUntil(Hproc_handle proc_handle,
-                                                    const Hcont *cont_from, 
-                                                    const char *until_name,
-                                                    Hcont *cont_to);
 
 #if defined(__cplusplus)
 }

@@ -5,11 +5,13 @@
  * Project:      HALCON/C++
  * Description:  Prototypes for HALCON/C++ interface
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2008 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.13 $
+ * $Date: 2008/08/20 14:52:37 $
  * 
  */
 
@@ -83,13 +85,10 @@ HcppStoreOO(Hproc_handle proc_handle, INT par, HObject *outObjVar, Herror err);
 
 extern LIntExport Herror 
 HcppStoreOO(Hproc_handle proc_handle, INT par, HObjectArray *outObjVar,
-            Herror err);
+	    Herror err);
 
 
 /* storing output values for returning */
-extern LIntExport void
-HcppInitOC(Hproc_handle proc_handle, INT par);
-
 extern LIntExport Herror 
 HcppStoreOC(Hproc_handle proc_handle, INT par, Hlong *outCtrlVar, Herror err);
 

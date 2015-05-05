@@ -1,15 +1,17 @@
 /*****************************************************************************
  * DBNew.h
- *****************************************************************************
+ ***************************************************************************** 
  *
  * Project:     HALCON/libhalcon
  * Description: Object handling and storing in memory
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2010 by MVTec Software GmbH
  *                  www.mvtec.com
- *
+ * 
  *****************************************************************************
  *
+ * $Revision: 1.43 $
+ * $Date: 2010/09/10 12:08:11 $
  *
  */
 
@@ -20,7 +22,7 @@
 #if defined(__cplusplus)
 extern "C" {
 #endif
-
+   
 #include <stdio.h>
 
 /*===========================================================================*/
@@ -29,7 +31,7 @@ extern "C" {
 
 #define DB_MAGIC_OK             1234567890
 #define DB_MAGIC_REGION         (DB_MAGIC_OK+REGION_ID)
-#define DB_MAGIC_IMAGE          (DB_MAGIC_OK+IMAGE_ID)
+#define DB_MAGIC_IMAGE          (DB_MAGIC_OK+IMAGE_ID) 
 #define DB_MAGIC_OBJECT         (DB_MAGIC_OK+OBJECT_ID)
 #define DB_MAGIC_OBJECT_TUPLE   (DB_MAGIC_OK+TUPLE_ID)
 
@@ -44,14 +46,12 @@ extern "C" {
 /*===========================================================================*/
 /*                            'Global' Makros                                */
 /*===========================================================================*/
-
-
 /* -------- work on data identifiers --------------------------------------- */
 #define DB_ID(PTR) ((INT4)(((DBImage*)PTR)->magic) - DB_MAGIC_OK)
 #define DB_ERROR_ID(PTR) ((INT4)(((DBImage*)PTR)->magic) - DB_MAGIC_CLEARED)
 
 #define DB_IS_XLD(PTR) ((DB_ID(PTR) >= MIN_XLD_ID) && \
-                        (DB_ID(PTR) <= MAX_XLD_ID))
+			(DB_ID(PTR) <= MAX_XLD_ID))
 
 /*****************************************************************************/
 /* DB_INCREMENT - increase counter of image/region by 1                      */
@@ -123,7 +123,7 @@ extern "C" {
 
 # define HPAR_READ_DATASIZE_OBJ(POBJ,NUM,DATASIZE)            \
 {                                                             \
-  UINT4_8 idx;                                                \
+  INT4_8 idx;                                                 \
   (DATASIZE)=0;                                               \
   if(64>(NUM))                                                \
   {                                                           \
@@ -133,7 +133,7 @@ extern "C" {
     }                                                         \
   }                                                           \
   /* approximation for bigger object arrays ...*/             \
-  else if( 256 > NUM)                                         \
+  else if( 512 > NUM)                                         \
   {                                                           \
     for(idx=0; idx<NUM; idx+=4)                               \
     {                                                         \
@@ -185,12 +185,6 @@ extern "C" {
 /*===========================================================================*/
 /*                                Data Types                                 */
 /*===========================================================================*/
-#ifndef HC_NO_STRUCT_MEMBER_ALIGNMENT
-/* sets the struct member alignment to avoid problems if
- * the settings of the user differ to those of the HALCON
- * version. (8 is the default alignment, generally) */
-# pragma pack(push,8)
-#endif
 
 typedef Herror (*DBFreeProc)(Hproc_handle proc_handle, void *mem);
 
@@ -211,7 +205,6 @@ typedef struct DB_REGION {
   VOIDP             list;          /* associated management list             */
   HBOOL             filed;         /* is object stored in data base?         */
 } DBRegion;
-
 
 typedef DBRegion  *DBRegionPtr;
 
@@ -251,7 +244,6 @@ typedef struct HCD_PTR
   struct HCD_PTR  *prev;
 } HCDPtrT;
 
-
 typedef HCDPtrT *HCDPtr;
 
 /* HCD_PTR::type values */
@@ -281,8 +273,8 @@ typedef Herror (*HImageSynchProc)(Hproc_handle, void*);
 typedef Herror (*HCleanupProc)(Hproc_handle, void*);
 
 /* identical header for all compute device handles */
-# ifdef H_PARALLEL
-#  define  DEVICE_HANDLE_HEADER                                                 \
+#ifdef H_PARALLEL
+#define  DEVICE_HANDLE_HEADER                                                 \
   INT2                  device_kind;  /* e.g. COMPUTE_DEVICE_OPENCL */        \
   UINT4_8               device_id;    /* device identifier */                 \
   UINT4_8               platform;                                             \
@@ -291,8 +283,8 @@ typedef Herror (*HCleanupProc)(Hproc_handle, void*);
   HBOOL                 asynchronous_execution;                               \
   HBOOL                 alloc_pinned;                                         \
   void                  *next_handle;
-# else
-#  define  DEVICE_HANDLE_HEADER                                                 \
+#else
+#define  DEVICE_HANDLE_HEADER                                                 \
   INT2                  device_kind;  /* e.g. COMPUTE_DEVICE_OPENCL */        \
   UINT4_8               device_id;    /* device identifier */                 \
   UINT4_8               platform;                                             \
@@ -300,7 +292,7 @@ typedef Herror (*HCleanupProc)(Hproc_handle, void*);
   HBOOL                 asynchronous_execution;                               \
   HBOOL                 alloc_pinned;                                         \
   void                  *next_handle;
-# endif
+#endif
 
 
 typedef struct
@@ -315,12 +307,12 @@ typedef struct
   (((Hdevice_handle_header*)(DEVICE_HANDLE_PTR))->device_id)
 #define  HCDGetDeviceFreeProc(DEVICE_HANDLE_PTR) \
   (((Hdevice_handle_header*)(DEVICE_HANDLE_PTR))->free_proc)
-# ifdef H_PARALLEL
-#  define  HCDGetDeviceSyncMutex(DEVICE_HANDLE_PTR) \
+#ifdef H_PARALLEL
+#define  HCDGetDeviceSyncMutex(DEVICE_HANDLE_PTR) \
   (((Hdevice_handle_header*)(DEVICE_HANDLE_PTR))->sync_mutex)
-#  define HGetDeviceSyncMutex(PROC_HANDLE) \
+#define HGetDeviceSyncMutex(PROC_HANDLE) \
   HCDGetDeviceSyncMutex(HGetGV_compute_device_handle(DEVICE_HANDLE_PTR))
-# endif
+#endif
 
 
 typedef struct
@@ -338,13 +330,7 @@ typedef struct
   DBRegionPtr              domain;                /* associated domain       */
   HCDPinnedPtr             pinned_mem_ptr;        /* associated pinned mem   */
 } HCDImageInfo;
-
 #endif
-
-#ifndef HC_NO_STRUCT_MEMBER_ALIGNMENT
-# pragma pack(pop)
-#endif
-
 
 /* HCDImageInfo::state flags */
 #define HCD_HOST_MEM_ALLOCATED   (UINT4)(1<<0)
@@ -379,12 +365,6 @@ typedef struct
 #define HCD_GET_PINNED_MEM_HANDLE(KEY) \
     (((DBImage*)KEY)->device_data.pinned_mem_ptr)
 
-#ifndef HC_NO_STRUCT_MEMBER_ALIGNMENT
-/* sets the struct member alignment to avoid problems if
- * the settings of the user differ to those of the HALCON
- * version. (8 is the default alignment, generally) */
-# pragma pack(push,8)
-#endif
 typedef struct DB_IMAGE {
   UINT4             magic;
   Himage            image;         /* image data                             */
@@ -467,7 +447,7 @@ typedef struct DB_TUPLE {
 /*****************************************************************************/
 /*                Data Structure for Management Lists and Counters           */
 /*****************************************************************************/
-typedef struct DB_HANDLE
+typedef struct DB_HANDLE 
 {
   /* singly linked object lists */
   DBObjectTuple     *DBObjectTupleRoot;          /* entry of obj. tuple list */
@@ -501,7 +481,7 @@ typedef struct DB_HANDLE
   INT4_8            CountRegion;                 /* number of regions        */
   INT4_8            CountImage;                  /* number of image objects  */
   INT4_8            CountXLD;                    /* number of XLD objects    */
-  /* counter for living image objects (independent of working state of
+  /* counter for living image objects (independent of working state of 
    * HALCON data base): */
   INT4_8            NumImgObjs;
 
@@ -513,17 +493,18 @@ typedef struct DB_HANDLE
 
 typedef DBHandle *DBhandle;
 
-#ifndef HC_NO_STRUCT_MEMBER_ALIGNMENT
-# pragma pack(pop)
-#endif
 
 /*===========================================================================*/
 /*                             External Interface                            */
 /*===========================================================================*/
-extern HLibExport Herror HDataBaseSwitch( HBOOL db_on);
-extern HLibExport Herror HDataBaseState( HBOOL *db_on);
-extern HLibExport Herror HDBIsInitial( HBOOL *is_initial);
-extern HLibExport Herror HNumImgObjs( INT4_8 *num_img_objs);
+extern HLibExport Herror HDataBaseSwitch(Hproc_handle proc_handle,
+                                         HBOOL db_on);
+extern HLibExport Herror HDataBaseState(Hproc_handle proc_handle,
+                                        HBOOL *db_on);
+extern HLibExport Herror HDBIsInitial(Hproc_handle proc_handle,
+                                      HBOOL *is_initial);
+extern HLibExport Herror HNumImgObjs(Hproc_handle proc_handle,
+                                     INT4_8 *num_img_objs);
 extern HLibExport Herror DBFreeCaches(void);
 extern HLibExport Herror DBInitRoots(Hproc_handle proc_handle);
 extern HLibExport Herror DBInitHandle(Hproc_handle proc_handle,HBOOL shared);
@@ -531,22 +512,22 @@ extern HLibExport Herror DBCloseRoots(Hproc_handle proc_handle);
 extern HLibExport Herror DBCloseHandle(Hproc_handle proc_handle);
 extern HLibExport Herror DBWriteBackHandle(Hproc_handle proc_handle);
 extern HLibExport void   HPrintPixelType(FILE *file, INT kind);
-extern HLibExport Herror DBSpy( FILE *file);
+extern HLibExport Herror DBSpy(Hproc_handle proc_handle, FILE *file);
 extern HLibExport void   DBInfoCleared(VOIDP ptr);
-extern HLibExport Herror HIsCompact(Hproc_handle proc_handle, Hkey key,
+extern HLibExport Herror HIsCompact(Hproc_handle proc_handle, Hkey key, 
                                     HBOOL *res);
-extern HLibExport Herror DBCountImage( INT4_8 *num);
-extern HLibExport Herror DBCountXLD( INT4_8 *num);
+extern HLibExport Herror DBCountImage(Hproc_handle proc_handle,INT4_8 *num);
+extern HLibExport Herror DBCountXLD(Hproc_handle proc_handle, INT4_8 *num);
 extern HLibExport Herror DBStoreImage(Hproc_handle proc_handle, Himage *image,
                                       Hkey *id);
-extern HLibExport Herror DBFetchImage(Hproc_handle proc_handle, Hkey id,
+extern HLibExport Herror DBFetchImage(Hproc_handle proc_handle, Hkey id, 
                                       Himage **image);
 extern HLibExport Herror DBGetImageCreator(Hproc_handle proc_handle, Hkey obj,
                                            INT comp,INT *proc_num);
-extern HLibExport Herror DBCountRegion( INT4_8 *num);
-extern HLibExport Herror DBStoreRegion(Hproc_handle proc_handle,
+extern HLibExport Herror DBCountRegion(Hproc_handle proc_handle, INT4_8 *num);
+extern HLibExport Herror DBStoreRegion(Hproc_handle proc_handle, 
                                        Hrlregion *region, Hkey *id);
-extern            Herror DBStoreRegionLocal(Hproc_handle proc_handle,
+extern            Herror DBStoreRegionLocal(Hproc_handle proc_handle, 
                                             Hrlregion *region, Hkey *id);
 extern HLibExport Herror DBFetchDRegion(Hproc_handle proc_handle, Hkey id,
                              Hrlregion **region);
@@ -558,50 +539,53 @@ extern HLibExport Herror DBGetObjectCreator(Hproc_handle proc_handle, Hkey obj,
                                  INT *proc_num);
 extern HLibExport Herror DBCountObject(INT4_8 *num);
 extern HLibExport Herror DBTestObjektID(Hkey id);
-extern HLibExport Herror DBStoreObject(Hproc_handle proc_handle,
-                                       Hkey region_id, Hkey *image_ids,
+extern HLibExport Herror DBStoreObject(Hproc_handle proc_handle, 
+                                       Hkey region_id, Hkey *image_ids, 
                                        INT num, HBOOL copy, Hkey *id);
-extern            Herror DBStoreObjectLocal(Hproc_handle proc_handle,
-                                            Hkey region_id, Hkey *image_ids,
+extern            Herror DBStoreObjectLocal(Hproc_handle proc_handle, 
+                                            Hkey region_id, Hkey *image_ids, 
                                             INT num, HBOOL copy, Hkey *id);
-extern HLibExport Herror DBFetchObject(Hproc_handle proc_handle, Hkey id,
-                                       Hkey *region_id,Hkey **image_ids,
+extern HLibExport Herror DBFetchObject(Hproc_handle proc_handle, Hkey id, 
+                                       Hkey *region_id,Hkey **image_ids, 
                                        INT *num);
-extern HLibExport Herror DBCopyObject(Hproc_handle proc_handle, Hkey id,
+extern HLibExport Herror DBCopyObject(Hproc_handle proc_handle, Hkey id, 
                                       Hkey *new_id);
 extern HLibExport Herror DBDelObject(Hproc_handle proc_handle, Hkey id);
 extern            Herror DBDelObjectLocal(Hproc_handle proc_handle, Hkey id);
 extern HLibExport Herror DBDelRegion(Hproc_handle proc_handle, DBRegion *ptr);
 extern HLibExport Herror DBDelImage(Hproc_handle proc_handle, DBImage *ptr);
-extern HLibExport Herror DBRetainImage(Hproc_handle proc_handle, DBImage *ptr);
 extern HLibExport Herror DBRequestRegion(Hproc_handle proc_handle,
                                          DBRegion *ptr);
-extern HLibExport Herror DBObjectNewRegion(Hproc_handle proc_handle, Hkey id,
+extern HLibExport Herror DBObjectNewRegion(Hproc_handle proc_handle, Hkey id, 
                                            Hkey region_id);
-extern HLibExport Herror DBObjectNewImage(Hproc_handle proc_handle, Hkey id,
+extern            Herror DBObjectNewRegionLocal(Hproc_handle ph, Hkey id, 
+                                                Hkey region_id);
+extern HLibExport Herror DBObjectNewImage(Hproc_handle proc_handle, Hkey id, 
                                           Hkey image_id,INT comp);
-extern HLibExport Herror DBStoreXLD(Hproc_handle proc_handle, VOIDP data,
+extern            Herror DBObjectNewImageLocal(Hproc_handle ph, Hkey id, 
+                                               Hkey image_id,INT comp);
+extern HLibExport Herror DBStoreXLD(Hproc_handle proc_handle, VOIDP data, 
                                     INT type,Hkey *uses, INT4 num,
                                     DBFreeProc free_proc, Hkey *id);
-extern HLibExport Herror DBFetchXLD(Hproc_handle proc_handle, Hkey id,
-                                    INT *type, VOIDP data, Hkey **uses,
+extern HLibExport Herror DBFetchXLD(Hproc_handle proc_handle, Hkey id, 
+                                    INT *type, VOIDP data, Hkey **uses, 
                                     INT4 *num);/* in fact VOIDP *data */
 extern HLibExport Herror DBCopyXLD(Hkey id, Hkey *new_id);
 extern HLibExport Herror DBDelXLD(Hproc_handle proc_handle, Hkey id);
 extern HLibExport Herror DBGetXLDCreator(Hkey obj, INT *proc_num);
 extern HLibExport Herror DBCountObjectTuple(INT4_8 *num);
-extern HLibExport Herror DBStoreTuple(Hproc_handle proc_handle,
-                                      Hkey const*ids, INT4_8 num,
-                                      Hkey *id);
-extern HLibExport Herror DBFetchTuple(Hproc_handle proc_handle,
+extern HLibExport Herror DBStoreTuple(Hproc_handle proc_handle, Hkey *ids, 
+                                      INT4_8 num,Hkey *id);
+extern HLibExport Herror DBFetchTuple(Hproc_handle proc_handle, 
                                       Hkey id, Hkey **ids, INT4_8 *num);
 extern HLibExport Herror DBDelTuple(Hproc_handle proc_handle, Hkey id);
 extern Herror DBFreeObjectTuple(Hproc_handle, DBObjectTuple*);
 extern HLibExport Herror DBDelObjectId(Hproc_handle proc_handle, Hkey id);
 extern HLibExport Herror DBCopyObjectId(Hproc_handle proc_handle, Hkey id,
                                         Hkey *new_id);
-extern HLibExport Herror DBNumImaRefs( Hkey id, INT4_8 *num);
-extern HLibExport Herror HGetCreator(Hproc_handle proc_handle, Hkey obj,
+extern HLibExport Herror DBNumImaRefs(Hproc_handle proc_handle, Hkey id, 
+                                      INT4_8 *num);
+extern HLibExport Herror HGetCreator(Hproc_handle proc_handle, Hkey obj, 
                                      INT comp, INT *proc_num);
 extern HLibExport Herror DBGetRLPtr(Hproc_handle proc_handle, Hkey id,
                                     Hrlregion **rl);

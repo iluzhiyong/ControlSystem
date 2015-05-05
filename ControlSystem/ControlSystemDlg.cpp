@@ -474,11 +474,11 @@ void CControlSystemDlg::OpenHalconWind()
 
 	GetDlgItem( IDC_STATIC_VIDEO1)->GetClientRect(&rtWindow);
 
-	HalconCpp::SetWindowAttr("background_color","black");
+	Halcon::set_window_attr("background_color","black");
 
-	HalconCpp::OpenWindow(rtWindow.left,rtWindow.top, rtWindow.Width(),rtWindow.Height(),(Hlong)hImgWnd,"","",&hv_WindowID);
+	Halcon::open_window(rtWindow.left,rtWindow.top, rtWindow.Width(),rtWindow.Height(),(Hlong)hImgWnd,"","",&hv_WindowID);
 
-	HalconCpp::SetPart(hv_WindowID, 0, 0, rtWindow.Height() -1, rtWindow.Width() - 1);
+	Halcon::set_part(hv_WindowID, 0, 0, rtWindow.Height() -1, rtWindow.Width() - 1);
 
 	HDevWindowStack::Push(hv_WindowID);
 
@@ -491,7 +491,7 @@ void CControlSystemDlg::OnBnClickedButtonImageProc()
 
 	if(HDevWindowStack::IsOpen())
 	{
-		ClearWindow(HDevWindowStack::GetActive());
+		clear_window(HDevWindowStack::GetActive());
 	}
 
 	if((NULL != m_IImageProcess) && m_IImageProcess->LoadProcessImage())
@@ -545,7 +545,7 @@ void CControlSystemDlg::OnBnClickedButton2()
 	OpenHalconWind();
 	if(HDevWindowStack::IsOpen())
 	{
-		ClearWindow(HDevWindowStack::GetActive());
+		clear_window(HDevWindowStack::GetActive());
 	}
 	if(NULL != m_IImageProcess)
 	{
@@ -768,7 +768,7 @@ void CControlSystemDlg::OnBnClickedImageProcSettingBtn()
 	OpenHalconWind();
 	if(HDevWindowStack::IsOpen())
 	{
-		ClearWindow(HDevWindowStack::GetActive());
+		clear_window(HDevWindowStack::GetActive());
 	}
 	if(NULL != m_IImageProcess && m_IImageProcess->LoadProcessImage())
 	{

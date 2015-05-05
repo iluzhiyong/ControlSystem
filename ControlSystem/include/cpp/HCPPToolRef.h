@@ -5,11 +5,13 @@
  * Project:     Halcon/C++
  * Description: Smart pointer concept for managing tool class references
  *
- * (c) 2008-2014 by MVTec Software GmbH
+ * (c) 2008-2010 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.4 $
+ * $Date: 2010/02/23 16:03:04 $
  *
  */
 
@@ -148,19 +150,6 @@ public:                                                    \
       HCkNew(id = new NAME##Ref(ID));                              \
   }                                                                \
 
-/* Macro for implementing common tool management functionality
- * defining the default constructor by themselves: */
-
-#define H_TOOL_COMMON_IMPL_NODEFCON(NAME)                          \
-  Halcon::NAME::NAME(Hlong ID) {SetHandle(ID);}                    \
-  const char *Halcon::NAME::ClassName(void) const {return #NAME;}  \
-  void Halcon::NAME::SetHandle(Hlong ID)                           \
-  {                                                                \
-    if (ID == TOOL_HANDLE_INVALID)                                 \
-      id = 0;                                                      \
-    else                                                           \
-      HCkNew(id = new NAME##Ref(ID));                              \
-  }                                                                \
 
 #endif // #ifndef H_TOOL_REF_H
 

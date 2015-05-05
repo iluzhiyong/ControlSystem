@@ -5,11 +5,13 @@
  * Project:     HALCON/C++
  * Description: Class HOCRSvm
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2008 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision $
+ * $Date: 2008/12/06 13:35:12 $
  *
  */
 
@@ -44,23 +46,9 @@ public:
 
   // Tool-specific member functions
 
-  // Select an optimal combination of features to classify OCR data
-  // from a (protected) training file.
-  virtual HTuple SelectFeatureSetTrainfSvmProtected(const Halcon::HTuple &TrainingFile, const Halcon::HTuple &Password, const Halcon::HTuple &FeatureList, const Halcon::HTuple &SelectionMethod, const Halcon::HTuple &Width, const Halcon::HTuple &Height, const Halcon::HTuple &GenParamNames, const Halcon::HTuple &GenParamValues, Halcon::HTuple *Score);
-  // Select an optimal combination of features to classify OCR data
-  // from a (protected) training file.
-  virtual HTuple SelectFeatureSetTrainfSvmProtected(const char *TrainingFile, const char *Password, const char *FeatureList, const char *SelectionMethod, Hlong Width, Hlong Height, const char *GenParamNames, double GenParamValues, Halcon::HTuple *Score);
-  // Selects an optimal combination of features to classify OCR  data.
-  virtual HTuple SelectFeatureSetTrainfSvm(const Halcon::HTuple &TrainingFile, const Halcon::HTuple &FeatureList, const Halcon::HTuple &SelectionMethod, const Halcon::HTuple &Width, const Halcon::HTuple &Height, const Halcon::HTuple &GenParamNames, const Halcon::HTuple &GenParamValues, Halcon::HTuple *Score);
-  // Selects an optimal combination of features to classify OCR  data.
-  virtual HTuple SelectFeatureSetTrainfSvm(const char *TrainingFile, const char *FeatureList, const char *SelectionMethod, Hlong Width, Hlong Height, const char *GenParamNames, double GenParamValues, Halcon::HTuple *Score);
-  // Deserialize a serialized SVM-based OCR classifier.
-  virtual void DeserializeOcrClassSvm(const Halcon::HSerializedItem &SerializedItemHandle);
-  // Serialize a SVM-based OCR classifier
-  virtual HSerializedItem SerializeOcrClassSvm() const;
-  // Read a SVM-based OCR classifier from a file.
+  // Read an SVM-based OCR classifier from a file.
   virtual void ReadOcrClassSvm(const Halcon::HTuple &FileName);
-  // Read a SVM-based OCR classifier from a file.
+  // Read an SVM-based OCR classifier from a file.
   virtual void ReadOcrClassSvm(const char *FileName);
   // Write an OCR classifier to a file.
   virtual void WriteOcrClassSvm(const Halcon::HTuple &FileName) const;
@@ -86,8 +74,6 @@ public:
   virtual HOCRSvm ReduceOcrClassSvm(const Halcon::HTuple &Method, const Halcon::HTuple &MinRemainingSV, const Halcon::HTuple &MaxError) const;
   // Approximate a trained SVM-based OCR classifier by a reduced SVM.
   virtual HOCRSvm ReduceOcrClassSvm(const char *Method, Hlong MinRemainingSV, double MaxError) const;
-  // Train an OCR classifier with data from a (protected) training file.
-  virtual void TrainfOcrClassSvmProtected(const Halcon::HTuple &TrainingFile, const Halcon::HTuple &Password, const Halcon::HTuple &Epsilon, const Halcon::HTuple &TrainMode) const;
   // Train an OCR classifier.
   virtual void TrainfOcrClassSvm(const Halcon::HTuple &TrainingFile, const Halcon::HTuple &Epsilon, const Halcon::HTuple &TrainMode) const;
   // Compute the information content of the preprocessed feature vectors

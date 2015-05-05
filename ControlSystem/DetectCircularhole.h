@@ -14,7 +14,7 @@ public:
 
 
 public:
-	void SetImageObject(HObject ho_Capture1);
+	void SetImageObject(Hobject ho_Capture1);
 	bool DetectCirleCenter(float &row, float &column);
 
 	bool RunThreshold();
@@ -50,9 +50,9 @@ public:
 
 private:
 	// Local iconic variables
-	HObject  ho_Capture1, ho_Region, ho_ConnectedRegions;
-	HObject  ho_SelectedRegions, ho_RegionDilation, ho_RegionFillUp;
-	HObject  ho_GrayImage, ho_ImageReduced, ho_Edges, ho_SelectedXLD;
+	Hobject  ho_Capture1, ho_Region, ho_ConnectedRegions;
+	Hobject  ho_SelectedRegions, ho_RegionDilation, ho_RegionFillUp;
+	Hobject  ho_GrayImage, ho_ImageReduced, ho_Edges, ho_SelectedXLD;
 
 	// Local control variables
 	HTuple  hv_Width, hv_Height, hv_WindowID, hv_Length;

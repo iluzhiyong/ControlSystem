@@ -5,11 +5,13 @@
  * Project:     HALCON/libhalcon
  * Description: Spy procedures
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2008 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.24 $
+ * $Date: 2008/12/06 13:13:00 $
  *
  */
 
@@ -21,14 +23,13 @@
 #if defined(__cplusplus)
 extern "C" {
 #endif
-
-
+   
 extern HLibExport Herror IOSetSpyByEnv(Hproc_handle proc_id,
                                        char *env);
 
 extern HLibExport Herror IOSetSpy(Hproc_handle proc_id,
-                                  char const *task,
-                                  Hpar const *par, INT type);
+                                  const char *task,
+                                  Hpar *par, INT type);
 
 extern HLibExport Herror IOSetSpyTime(Hproc_handle proc_id, HBOOL mode);
 
@@ -40,7 +41,7 @@ extern HLibExport Herror IOSetSpyTimeout(Hproc_handle proc_id,
 extern HLibExport Herror IOGetSpyTimeout(Hproc_handle proc_id,
                                          double *time_wait);
   
-extern HLibExport Herror IOSpyDB( Hproc_handle proc_handle);
+extern HLibExport Herror IOSpyDB(Hproc_handle proc_id);
 
 extern HLibExport Herror IOSetSpyNumPar(Hproc_handle proc_id, INT num);
 
@@ -59,13 +60,10 @@ extern HLibExport Herror IOSpyPrintPredecessor(Hproc_handle proc_id,
 extern HLibExport Herror IOSetSpyProcCall(Hproc_handle proc_id, HBOOL state);
 
 extern HLibExport Herror IOGetSpyProcCall(Hproc_handle proc_id, HBOOL *state);
-extern HLibExport HBOOL  IOGetSpyProcCallSwitch( void);
 
-extern HLibExport Herror IOSetSpyFile(Hproc_handle proc_handle,
-                                      void *file_id);
+extern HLibExport Herror IOSetSpyFile(Hproc_handle proc_handle, INT file_id);
 
-extern HLibExport Herror IOGetSpyFile(Hproc_handle proc_handle,
-                                      void *file_id);
+extern HLibExport Herror IOGetSpyFile(Hproc_handle proc_handle, INT *file_id);
 
 extern HLibExport Herror IOGetSpyProc(Hproc_handle proc_id,
                                       HBOOL *proc, HBOOL *input_ctrl,
@@ -80,18 +78,11 @@ extern HLibExport Herror IOSpyProcEnd(void);
 extern HLibExport Herror IOSpyProc(Hproc_handle proc_id, const char *name);
 
 extern HLibExport Herror IOSpyPar(Hproc_handle proc_handle, INT par, 
-                                  INT type, Hpar const *val, INT4_8 num, 
+                                  INT type, Hpar *val, INT4_8 num, 
                                   HBOOL input);
 
 extern HLibExport Herror IOSpyCPar(Hproc_handle proc_handle, INT par, 
-                                   Hcpar const *val, INT4_8 num, HBOOL input);
-
-extern HLibExport Herror IOSpyElem(Hproc_handle proc_handle, INT par, 
-                                   void const *val, INT4_8 num, INT type,
-                                   HBOOL input);
-
-extern HLibExport Herror IOSpyCTuple(Hproc_handle proc_handle, INT par, 
-                                     Hctuple const *val, HBOOL input);
+                                   Hcpar *val, INT4_8 num, HBOOL input);
 
 extern HLibExport Herror IOSetSpyButtonNotify(Hproc_handle proc_id,
                                               HBOOL state);
@@ -139,11 +130,11 @@ extern HLibExport Herror IOSpyXLD(Hproc_handle proc_handle, INT Type,
                                   VOIDP XLD, HBOOL input);
 
 extern HLibExport Herror HProcessErr(const char *proc,
-                                     Herror err, INT4_8 line, 
-                                     const char *file);
+		                     Herror err, INT4_8 line, 
+			             const char *file);
 
 extern HLibExport void IOSpyProcCall (const char *proc,INT4_8 line,
-                                      const char *file);
+		   	              const char *file);
 
 
 #if defined(__cplusplus)

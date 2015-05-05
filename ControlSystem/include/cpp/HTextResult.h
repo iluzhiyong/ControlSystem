@@ -5,11 +5,13 @@
  * Project:     HALCON/C++
  * Description: Class HTextResult
  *
- * (c) 2009-2014 by MVTec Software GmbH
+ * (c) 2009-2010 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.1 $
+ * $Date: 2010/06/22 14:11:55 $
  *
  */
 
@@ -46,7 +48,7 @@ public:
   static void ClearAllTextResults(void);
   // Query a control value of a text segmentation result.
   virtual HTuple GetTextResult(const Halcon::HTuple &ResultName) const;
-  // Find text in an image.
+  // Segment text in an image.
   virtual void FindText(const HImage &Image, const Halcon::HTextModel &TextModel);
 };
 

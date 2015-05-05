@@ -5,11 +5,13 @@
  * Project:     HALCON/C++
  * Description: Class HXLDModParaArray
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2008 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.17 $
+ * $Date: 2008/12/06 13:35:12 $
  */
 
 #ifndef XLD_MOD_PARA_ARRAY_H

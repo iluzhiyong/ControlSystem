@@ -5,11 +5,13 @@
  * Project:     HALCON/C++
  * Description: Types for Halcon-images arrays
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2008 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.17 $
+ * $Date: 2008/12/06 13:35:12 $
  *
  */
 
@@ -56,14 +58,6 @@ private:
   HImage  *array;
   void    NewLength(Hlong new_num, Hlong old_num);
 public:
-  // Simulation of (linearly) motion blur.
-  virtual HImage SimulateMotion(const Halcon::HTuple &Blurring, const Halcon::HTuple &Angle, const Halcon::HTuple &Type) const;
-  // Simulation of (linearly) motion blur.
-  virtual HImage SimulateMotion(double Blurring, Hlong Angle, Hlong Type) const;
-  // Simulate an uniform out-of-focus blurring of an image.
-  virtual HImageArray SimulateDefocus(const Halcon::HTuple &Blurring) const;
-  // Simulate an uniform out-of-focus blurring of an image.
-  virtual HImageArray SimulateDefocus(double Blurring) const;
   // Compare an image to a variation model.
   virtual HRegionArray CompareExtVariationModel(const Halcon::HVariationModel &ModelID, const Halcon::HTuple &Mode) const;
   // Compare an image to a variation model.
@@ -78,10 +72,10 @@ public:
   virtual void SendImage(const Halcon::HSocket &Socket) const;
   // Compute the distance values for a rectified stereo image pair using
   // multigrid methods.
-  virtual HImageArray BinocularDistanceMg(const HImageArray &ImageRect2, HImageArray *Score, const Halcon::HTuple &CamParamRect1, const Halcon::HTuple &CamParamRect2, const Halcon::HTuple &RelPoseRect, const Halcon::HTuple &GrayConstancy, const Halcon::HTuple &GradientConstancy, const Halcon::HTuple &Smoothness, const Halcon::HTuple &InitialGuess, const Halcon::HTuple &CalculateScore, const Halcon::HTuple &MGParamName, const Halcon::HTuple &MGParamValue) const;
-  // Compute the disparities of a rectified stereo image pair using multigrid
+  virtual HImageArray BinocularDistanceMg(const HImageArray &Image2, HImageArray *Score, const Halcon::HTuple &CamParamRect1, const Halcon::HTuple &CamParamRect2, const Halcon::HTuple &RelPoseRect, const Halcon::HTuple &GrayConstancy, const Halcon::HTuple &GradientConstancy, const Halcon::HTuple &Smoothness, const Halcon::HTuple &InitialGuess, const Halcon::HTuple &CalculateScore, const Halcon::HTuple &MGParamName, const Halcon::HTuple &MGParamValue) const;
+  // Compute the disparities of a rectified image pair using multigrid
   // methods.
-  virtual HImageArray BinocularDisparityMg(const HImageArray &ImageRect2, HImageArray *Score, const Halcon::HTuple &GrayConstancy, const Halcon::HTuple &GradientConstancy, const Halcon::HTuple &Smoothness, const Halcon::HTuple &InitialGuess, const Halcon::HTuple &CalculateScore, const Halcon::HTuple &MGParamName, const Halcon::HTuple &MGParamValue) const;
+  virtual HImageArray BinocularDisparityMg(const HImageArray &Image2, HImageArray *Score, const Halcon::HTuple &GrayConstancy, const Halcon::HTuple &GradientConstancy, const Halcon::HTuple &Smoothness, const Halcon::HTuple &InitialGuess, const Halcon::HTuple &CalculateScore, const Halcon::HTuple &MGParamName, const Halcon::HTuple &MGParamValue) const;
   // Compute the projective rectification of weakly calibrated binocular
   // stereo images.
   static HImageArray GenBinocularProjRectification(HImageArray *Map2, const Halcon::HTuple &FMatrix, const Halcon::HTuple &CovFMat, const Halcon::HTuple &Width1, const Halcon::HTuple &Height1, const Halcon::HTuple &Width2, const Halcon::HTuple &Height2, const Halcon::HTuple &SubSampling, const Halcon::HTuple &Mapping, Halcon::HTuple *CovFMatRect, Halcon::HTuple *H1, Halcon::HTuple *H2);
@@ -99,8 +93,6 @@ public:
   virtual HTuple EstimateTiltZc(void) const;
   // Estimate the tilt of a light source.
   virtual HTuple EstimateTiltLr(void) const;
-  // Reconstruct a surface according to the photometric stereo technique.
-  virtual HImage PhotometricStereo(HImage *Gradient, HImage *Albedo, const Halcon::HTuple &Slants, const Halcon::HTuple &Tilts, const Halcon::HTuple &ResultType, const Halcon::HTuple &ReconstructionMethod, const Halcon::HTuple &GenParamName, const Halcon::HTuple &GenParamValue) const;
   // Reconstruct a surface from a gray value image.
   virtual HImageArray SfsPentland(const Halcon::HTuple &Slant, const Halcon::HTuple &Tilt, const Halcon::HTuple &Albedo, const Halcon::HTuple &Ambient) const;
   // Reconstruct a surface from a gray value image.
@@ -143,14 +135,6 @@ public:
   virtual HRegionArray HysteresisThreshold(const Halcon::HTuple &Low, const Halcon::HTuple &High, const Halcon::HTuple &MaxLength) const;
   // Perform a hysteresis threshold operation on an image.
   virtual HRegionArray HysteresisThreshold(Hlong Low, Hlong High, Hlong MaxLength) const;
-  // Segment an image using binary thresholding.
-  virtual HRegionArray BinaryThreshold(const Halcon::HTuple &Method, const Halcon::HTuple &LightDark, Halcon::HTuple *UsedThreshold) const;
-  // Segment an image using binary thresholding.
-  virtual HRegionArray BinaryThreshold(const char *Method, const char *LightDark, Halcon::HTuple *UsedThreshold) const;
-  // Segment an image using local thresholding.
-  virtual HRegionArray LocalThreshold(const Halcon::HTuple &Method, const Halcon::HTuple &LightDark, const Halcon::HTuple &GenParamName, const Halcon::HTuple &GenParamValue) const;
-  // Segment an image using local thresholding.
-  virtual HRegionArray LocalThreshold(const char *Method, const char *LightDark, const char *GenParamName, Hlong GenParamValue) const;
   // Threshold an image by local mean and standard deviation analysis.
   virtual HRegionArray VarThreshold(const Halcon::HTuple &MaskWidth, const Halcon::HTuple &MaskHeight, const Halcon::HTuple &StdDevScale, const Halcon::HTuple &AbsThreshold, const Halcon::HTuple &LightDark) const;
   // Threshold an image by local mean and standard deviation analysis.
@@ -177,7 +161,7 @@ public:
   virtual HRegionArray RegiongrowingMean(Hlong StartRows, Hlong StartColumns, double Tolerance, Hlong MinSize) const;
   // Extract watersheds and basins from an image.
   virtual HRegionArray Watersheds(HRegionArray *Watersheds) const;
-  // Extract zero crossings from an image.
+  // Extrakt zero crossings from an image.
   virtual HRegionArray ZeroCrossing(void) const;
   // Threshold operator for signed images.
   virtual HRegionArray DualThreshold(const Halcon::HTuple &MinSize, const Halcon::HTuple &MinGray, const Halcon::HTuple &Threshold) const;
@@ -212,10 +196,6 @@ public:
   virtual HRegionArray FastThreshold(double MinGray, double MaxGray, Hlong MinSize) const;
   // Copy an image and allocate new memory for it.
   virtual HImageArray CopyImage(void) const;
-  // Access the pointers of a colored image.
-  virtual HTuple GetImagePointer3(Halcon::HTuple *PointerGreen, Halcon::HTuple *PointerBlue, Halcon::HTuple *Type, Halcon::HTuple *Width, Halcon::HTuple *Height) const;
-  // Access the pointer of a channel.
-  virtual HTuple GetImagePointer1(Halcon::HTuple *Type, Halcon::HTuple *Width, Halcon::HTuple *Height) const;
   // Return the type of an image.
   virtual HTuple GetImageType(void) const;
   // Return the size of an image.
@@ -233,17 +213,17 @@ public:
   // Cut out an image area relative to the domain.
   virtual HImageArray CropDomainRel(Hlong Top, Hlong Left, Hlong Bottom, Hlong Right) const;
   // Write characters into a training file.
-  virtual void WriteOcrTrainfImage(const Halcon::HTuple &Class, const Halcon::HTuple &TrainingFile) const;
+  virtual void WriteOcrTrainfImage(const Halcon::HTuple &Class, const Halcon::HTuple &FileName) const;
   // Write characters into a training file.
-  virtual void WriteOcrTrainfImage(const char *Class, const char *TrainingFile) const;
+  virtual void WriteOcrTrainfImage(const char *Class, const char *FileName) const;
   // Read training specific characters from files and convert to images.
-  static HImageArray ReadOcrTrainfSelect(const Halcon::HTuple &TrainingFile, const Halcon::HTuple &SearchNames, Halcon::HTuple *FoundNames);
+  static HImageArray ReadOcrTrainfSelect(const Halcon::HTuple &TrainFileNames, const Halcon::HTuple &SearchNames, Halcon::HTuple *FoundNames);
   // Read training specific characters from files and convert to images.
-  static HImageArray ReadOcrTrainfSelect(const char *TrainingFile, const char *SearchNames, Halcon::HTuple *FoundNames);
+  static HImageArray ReadOcrTrainfSelect(const char *TrainFileNames, const char *SearchNames, Halcon::HTuple *FoundNames);
   // Read training characters from files and convert to images.
-  static HImageArray ReadOcrTrainf(const Halcon::HTuple &TrainingFile, Halcon::HTuple *CharacterNames);
+  static HImageArray ReadOcrTrainf(const Halcon::HTuple &TrainFileNames, Halcon::HTuple *CharacterNames);
   // Read training characters from files and convert to images.
-  static HImageArray ReadOcrTrainf(const char *TrainingFile, Halcon::HTuple *CharacterNames);
+  static HImageArray ReadOcrTrainf(const char *TrainFileNames, Halcon::HTuple *CharacterNames);
   // Perform a gray value bottom hat transformation on an image.
   virtual HImageArray GrayBothat(const HImage &SE) const;
   // Perform a gray value top hat transformation on an image.
@@ -324,13 +304,13 @@ public:
   virtual HImageArray TileChannels(Hlong NumColumns, const char *TileOrder) const;
   // Cut out of defined gray values.
   virtual HImageArray CropDomain(void) const;
-  // Cut out one or more rectangular image areas.
+  // Cut out a rectangular image area.
   virtual HImageArray CropRectangle1(const Halcon::HTuple &Row1, const Halcon::HTuple &Column1, const Halcon::HTuple &Row2, const Halcon::HTuple &Column2) const;
-  // Cut out one or more rectangular image areas.
+  // Cut out a rectangular image area.
   virtual HImageArray CropRectangle1(Hlong Row1, Hlong Column1, Hlong Row2, Hlong Column2) const;
-  // Cut out one or more rectangular image areas.
+  // Cut out a rectangular image area.
   virtual HImageArray CropPart(const Halcon::HTuple &Row, const Halcon::HTuple &Column, const Halcon::HTuple &Width, const Halcon::HTuple &Height) const;
-  // Cut out one or more rectangular image areas.
+  // Cut out a rectangular image area.
   virtual HImageArray CropPart(Hlong Row, Hlong Column, Hlong Width, Hlong Height) const;
   // Change image size.
   virtual HImageArray ChangeFormat(const Halcon::HTuple &Width, const Halcon::HTuple &Height) const;
@@ -372,9 +352,9 @@ public:
   virtual HImageArray AnisotropicDiffusion(const Halcon::HTuple &Mode, const Halcon::HTuple &Contrast, const Halcon::HTuple &Theta, const Halcon::HTuple &Iterations) const;
   // Perform an anisotropic diffusion of an image.
   virtual HImageArray AnisotropicDiffusion(const char *Mode, double Contrast, double Theta, Hlong Iterations) const;
-  // Smooth an image using various filters.
+  // Smooth an image using recursive filters.
   virtual HImageArray SmoothImage(const Halcon::HTuple &Filter, const Halcon::HTuple &Alpha) const;
-  // Smooth an image using various filters.
+  // Smooth an image using recursive filters.
   virtual HImageArray SmoothImage(const char *Filter, double Alpha) const;
   // Non-linear smoothing with the sigma filter.
   virtual HImageArray SigmaImage(const Halcon::HTuple &MaskHeight, const Halcon::HTuple &MaskWidth, const Halcon::HTuple &Sigma) const;
@@ -412,14 +392,10 @@ public:
   virtual HImageArray BinomialFilter(const Halcon::HTuple &MaskWidth, const Halcon::HTuple &MaskHeight) const;
   // Smooth an image using the binomial filter.
   virtual HImageArray BinomialFilter(Hlong MaskWidth, Hlong MaskHeight) const;
-  // Smooth an image using discrete Gaussian functions.
+  // Smooth using discrete gauss functions.
   virtual HImageArray GaussImage(const Halcon::HTuple &Size) const;
-  // Smooth an image using discrete Gaussian functions.
+  // Smooth using discrete gauss functions.
   virtual HImageArray GaussImage(Hlong Size) const;
-  // Smooth using discrete gauss functions.
-  virtual HImageArray GaussFilter(const Halcon::HTuple &Size) const;
-  // Smooth using discrete gauss functions.
-  virtual HImageArray GaussFilter(Hlong Size) const;
   // Smooth an image in the spatial domain to suppress noise.
   virtual HImageArray EliminateMinMax(const Halcon::HTuple &MaskWidth, const Halcon::HTuple &MaskHeight, const Halcon::HTuple &Gap, const Halcon::HTuple &Mode) const;
   // Smooth an image in the spatial domain to suppress noise.
@@ -460,8 +436,6 @@ public:
   virtual HImageArray AddNoiseWhite(double Amp) const;
   // Add noise to an image.
   virtual HImageArray AddNoiseDistribution(const Halcon::HTuple &Distribution) const;
-  // Calculate standard deviation over several channels.
-  virtual HImageArray DeviationN(void) const;
   // Perform an inpainting by texture propagation.
   virtual HImageArray InpaintingTexture(const HRegion &Region, const Halcon::HTuple &MaskSize, const Halcon::HTuple &SearchSize, const Halcon::HTuple &Anisotropy, const Halcon::HTuple &PostIteration, const Halcon::HTuple &Smoothness) const;
   // Perform an inpainting by texture propagation.
@@ -540,16 +514,14 @@ public:
   virtual HImageArray GraySkeleton(void) const;
   // Transform an image with a gray-value look-up-table
   virtual HImageArray LutTrans(const Halcon::HTuple &Lut) const;
-  // Calculate the correlation between an image and an arbitrary filter mask
+  // Convolve an image with an arbitrary filter mask.
   virtual HImageArray ConvolImage(const Halcon::HTuple &FilterMask, const Halcon::HTuple &Margin) const;
   // Convert the type of an image.
   virtual HImageArray ConvertImageType(const Halcon::HTuple &NewType) const;
   // Convert the type of an image.
   virtual HImageArray ConvertImageType(const char *NewType) const;
   // Convert two real-valued images into a vector field image.
-  virtual HImageArray RealToVectorField(const HImageArray &Col, const Halcon::HTuple &Type) const;
-  // Convert two real-valued images into a vector field image.
-  virtual HImageArray RealToVectorField(const HImageArray &Col, const char *Type) const;
+  virtual HImageArray RealToVectorField(const HImageArray &Col) const;
   // Convert a vector field image into two real-valued images.
   virtual HImageArray VectorFieldToReal(HImageArray *Col) const;
   // Convert two real images into a complex image.
@@ -567,20 +539,14 @@ public:
   virtual HImageArray SelectGrayvaluesFromChannels(const HImageArray &IndexImage) const;
   // Extract depth using mutiple focus levels.
   virtual HImageArray DepthFromFocus(HImageArray *Confidence, const Halcon::HTuple &Filter, const Halcon::HTuple &Selection) const;
-  // Compute the uncalibrated scene flow between two stereo image pairs.
-  virtual HImageArray SceneFlowUncalib(const HImageArray &ImageRect2T1, const HImageArray &ImageRect1T2, const HImageArray &ImageRect2T2, const HImageArray &Disparity, HImageArray *DisparityChange, const Halcon::HTuple &SmoothingFlow, const Halcon::HTuple &SmoothingDisparity, const Halcon::HTuple &GenParamName, const Halcon::HTuple &GenParamValue) const;
   // Unwarp an image using a vector field.
   virtual HImageArray UnwarpImageVectorField(const HImageArray &VectorField) const;
-  // Convolve a vector field with derivatives of the Gaussian.
-  virtual HImageArray DerivateVectorField(const Halcon::HTuple &Sigma, const Halcon::HTuple &Component) const;
-  // Convolve a vector field with derivatives of the Gaussian.
-  virtual HImageArray DerivateVectorField(double Sigma, const char *Component) const;
   // Compute the length of the vectors of a vector field.
   virtual HImageArray VectorFieldLength(const Halcon::HTuple &Mode) const;
   // Compute the length of the vectors of a vector field.
   virtual HImageArray VectorFieldLength(const char *Mode) const;
   // Compute the optical flow between two images.
-  virtual HImageArray OpticalFlowMg(const HImageArray &ImageT2, const Halcon::HTuple &Algorithm, const Halcon::HTuple &SmoothingSigma, const Halcon::HTuple &IntegrationSigma, const Halcon::HTuple &FlowSmoothness, const Halcon::HTuple &GradientConstancy, const Halcon::HTuple &MGParamName, const Halcon::HTuple &MGParamValue) const;
+  virtual HImageArray OpticalFlowMg(const HImageArray &Image2, const Halcon::HTuple &Algorithm, const Halcon::HTuple &SmoothingSigma, const Halcon::HTuple &IntegrationSigma, const Halcon::HTuple &FlowSmoothness, const Halcon::HTuple &GradientConstancy, const Halcon::HTuple &MGParamName, const Halcon::HTuple &MGParamValue) const;
   // Matching a template and an image in a resolution pyramid.
   virtual HImageArray ExhaustiveMatchMg(const HImage &ImageTemplate, const Halcon::HTuple &Mode, const Halcon::HTuple &Level, const Halcon::HTuple &Threshold) const;
   // Matching a template and an image in a resolution pyramid.
@@ -643,8 +609,6 @@ public:
   virtual HImageArray EnergyGabor(const HImageArray &ImageHilbert) const;
   // Convolve an image with a Gabor filter in the frequency domain.
   virtual HImageArray ConvolGabor(const HImage &GaborFilter, HImageArray *ImageResultHilbert) const;
-  // Compute the phase correlation of two images in the frequency domain.
-  virtual HImageArray PhaseCorrelationFft(const HImageArray &ImageFFT2) const;
   // Compute the correlation of two images in the frequency domain.
   virtual HImageArray CorrelationFft(const HImageArray &ImageFFT2) const;
   // Convolve an image with a filter in the frequency domain.
@@ -764,9 +728,9 @@ public:
   virtual HImageArray TransToRgb(const HImageArray &ImageInput2, const HImageArray &ImageInput3, HImageArray *ImageGreen, HImageArray *ImageBlue, const Halcon::HTuple &ColorSpace) const;
   // Transform an image from an arbitrary color space to the RGB color space.
   virtual HImageArray TransToRgb(const HImageArray &ImageInput2, const HImageArray &ImageInput3, HImageArray *ImageGreen, HImageArray *ImageBlue, const char *ColorSpace) const;
-  // Logical "AND" of each pixel using a bit mask.
+  // Logical ``AND'' of each pixel using a bit mask.
   virtual HImageArray BitMask(const Halcon::HTuple &BitMask) const;
-  // Logical "AND" of each pixel using a bit mask.
+  // Logical ``AND'' of each pixel using a bit mask.
   virtual HImageArray BitMask(Hlong BitMask) const;
   // Extract a bit from the pixels.
   virtual HImageArray BitSlice(const Halcon::HTuple &Bit) const;
@@ -788,32 +752,6 @@ public:
   virtual HImageArray BitOr(const HImageArray &Image2) const;
   // Bit-by-bit AND of all pixels of the input images.
   virtual HImageArray BitAnd(const HImageArray &Image2) const;
-  // Perform a gamma encoding or decoding of an image.
-  virtual HImageArray GammaImage(const Halcon::HTuple &Gamma, const Halcon::HTuple &Offset, const Halcon::HTuple &Threshold, const Halcon::HTuple &MaxGray, const Halcon::HTuple &Encode) const;
-  // Perform a gamma encoding or decoding of an image.
-  virtual HImageArray GammaImage(double Gamma, double Offset, double Threshold, double MaxGray, const char *Encode) const;
-  // Raise an image to a power.
-  virtual HImageArray PowImage(const Halcon::HTuple &Exponent) const;
-  // Raise an image to a power.
-  virtual HImageArray PowImage(double Exponent) const;
-  // Calculate the exponentiation of an image.
-  virtual HImageArray ExpImage(const Halcon::HTuple &Base) const;
-  // Calculate the logarithm of an image.
-  virtual HImageArray LogImage(const Halcon::HTuple &Base) const;
-  // Calculate the arctangent of two images.
-  virtual HImageArray Atan2Image(const HImageArray &ImageX) const;
-  // Calculate the arctangent of an image.
-  virtual HImageArray AtanImage(void) const;
-  // Calculate the arccosine of an image.
-  virtual HImageArray AcosImage(void) const;
-  // Calculate the arcsine of an image.
-  virtual HImageArray AsinImage(void) const;
-  // Calculate the tangent of an image.
-  virtual HImageArray TanImage(void) const;
-  // Calculate the cosine of an image.
-  virtual HImageArray CosImage(void) const;
-  // Calculate the sine of an image.
-  virtual HImageArray SinImage(void) const;
   // Calculate the absolute difference of two images.
   virtual HImageArray AbsDiffImage(const HImageArray &Image2, const Halcon::HTuple &Mult) const;
   // Calculate the absolute difference of two images.
@@ -848,21 +786,21 @@ public:
   virtual HImageArray MaxImage(const HImageArray &Image2) const;
   // Invert an image.
   virtual HImageArray InvertImage(void) const;
-  // Apply an automatic color correction to panorama images.
+  // Automatic color correction of panorama images.
   virtual HImageArray AdjustMosaicImages(const Halcon::HTuple &From, const Halcon::HTuple &To, const Halcon::HTuple &ReferenceImage, const Halcon::HTuple &HomMatrices2D, const Halcon::HTuple &EstimationMethod, const Halcon::HTuple &EstimateParameters, const Halcon::HTuple &OECFModel) const;
   // Create 6 cube map images of a spherical mosaic.
   virtual HImage GenCubeMapMosaic(HImage *Rear, HImage *Left, HImage *Right, HImage *Top, HImage *Bottom, const Halcon::HTuple &CameraMatrices, const Halcon::HTuple &RotationMatrices, const Halcon::HTuple &CubeMapDimension, const Halcon::HTuple &StackingOrder, const Halcon::HTuple &Interpolation) const;
   // Create a spherical mosaic image.
   virtual HImage GenSphericalMosaic(const Halcon::HTuple &CameraMatrices, const Halcon::HTuple &RotationMatrices, const Halcon::HTuple &LatMin, const Halcon::HTuple &LatMax, const Halcon::HTuple &LongMin, const Halcon::HTuple &LongMax, const Halcon::HTuple &LatLongStep, const Halcon::HTuple &StackingOrder, const Halcon::HTuple &Interpolation) const;
   // Combine multiple images into a mosaic image.
-  virtual HImage GenBundleAdjustedMosaic(const Halcon::HTuple &HomMatrices2D, const Halcon::HTuple &StackingOrder, const Halcon::HTuple &TransformDomain, Halcon::HTuple *TransMat2D) const;
+  virtual HImage GenBundleAdjustedMosaic(const Halcon::HTuple &HomMatrices2D, const Halcon::HTuple &StackingOrder, const Halcon::HTuple &TransformRegion, Halcon::HTuple *TransMat2D) const;
   // Combine multiple images into a mosaic image.
-  virtual HImage GenProjectiveMosaic(const Halcon::HTuple &StartImage, const Halcon::HTuple &MappingSource, const Halcon::HTuple &MappingDest, const Halcon::HTuple &HomMatrices2D, const Halcon::HTuple &StackingOrder, const Halcon::HTuple &TransformDomain, Halcon::HTuple *MosaicMatrices2D) const;
+  virtual HImage GenProjectiveMosaic(const Halcon::HTuple &StartImage, const Halcon::HTuple &MappingSource, const Halcon::HTuple &MappingDest, const Halcon::HTuple &HomMatrices2D, const Halcon::HTuple &StackingOrder, const Halcon::HTuple &TransformRegion, Halcon::HTuple *MosaicMatrices2D) const;
   // Apply a projective transformation to an image and specify the output
   // image size.
-  virtual HImageArray ProjectiveTransImageSize(const Halcon::HTuple &HomMat2D, const Halcon::HTuple &Interpolation, const Halcon::HTuple &Width, const Halcon::HTuple &Height, const Halcon::HTuple &TransformDomain) const;
+  virtual HImageArray ProjectiveTransImageSize(const Halcon::HTuple &HomMat2D, const Halcon::HTuple &Interpolation, const Halcon::HTuple &Width, const Halcon::HTuple &Height, const Halcon::HTuple &TransformRegion) const;
   // Apply a projective transformation to an image.
-  virtual HImageArray ProjectiveTransImage(const Halcon::HTuple &HomMat2D, const Halcon::HTuple &Interpolation, const Halcon::HTuple &AdaptImageSize, const Halcon::HTuple &TransformDomain) const;
+  virtual HImageArray ProjectiveTransImage(const Halcon::HTuple &HomMat2D, const Halcon::HTuple &Interpolation, const Halcon::HTuple &AdaptImageSize, const Halcon::HTuple &TransformRegion) const;
   // Apply an arbitrary affine 2D transformation to an image and specify
   // the output image size.
   virtual HImageArray AffineTransImageSize(const Halcon::HTuple &HomMat2D, const Halcon::HTuple &Interpolation, const Halcon::HTuple &Width, const Halcon::HTuple &Height) const;
@@ -896,10 +834,6 @@ public:
   virtual HImageArray PolarTransImage(const Halcon::HTuple &Row, const Halcon::HTuple &Column, const Halcon::HTuple &Width, const Halcon::HTuple &Height) const;
   // Transform an image to polar coordinates
   virtual HImageArray PolarTransImage(Hlong Row, Hlong Column, Hlong Width, Hlong Height) const;
-  // Deserialize a serialized image object.
-  static HImageArray DeserializeImage(const Halcon::HSerializedItem &SerializedItemHandle);
-  // Serialize an image object.
-  virtual HSerializedItem SerializeImage(void) const;
   // Write images in graphic formats.
   virtual void WriteImage(const Halcon::HTuple &Format, const Halcon::HTuple &FillColor, const Halcon::HTuple &FileName) const;
   // Write images in graphic formats.
@@ -916,25 +850,18 @@ public:
   virtual HTuple RadiometricSelfCalibration(double ExposureRatios, const char *Features, const char *FunctionType, double Smoothness, Hlong PolynomialDegree) const;
   // Apply a general transformation to an image.
   virtual HImageArray MapImage(const HImage &Map) const;
-  // Rectify an image by transforming it into the plane z=0 of a world 
-  // coordinate system.
+  // Rectify an image by transforming it into the plane z=0 of a world coordinate system.
   virtual HImageArray ImageToWorldPlane(const Halcon::HTuple &CameraParam, const Halcon::HTuple &WorldPose, const Halcon::HTuple &Width, const Halcon::HTuple &Height, const Halcon::HTuple &Scale, const Halcon::HTuple &Interpolation) const;
   // Change the radial distortion of an image.
   virtual HImageArray ChangeRadialDistortionImage(const HRegion &Region, const Halcon::HTuple &CamParamIn, const Halcon::HTuple &CamParamOut) const;
-  // Segment the region of a standard calibration plate with rectangularly
-  // arranged marks in the image.
-  virtual HRegion FindCaltab(const Halcon::HTuple &CalPlateDescr, const Halcon::HTuple &SizeGauss, const Halcon::HTuple &MarkThresh, const Halcon::HTuple &MinDiamMarks) const;
-  // Segment the region of a standard calibration plate with rectangularly
-  // arranged marks in the image.
-  virtual HRegion FindCaltab(const char *CalPlateDescr, Hlong SizeGauss, Hlong MarkThresh, Hlong MinDiamMarks) const;
-  // Asynchronous grab of images and preprocessed image data from the specified
-  // image acquisition device.
+  // Grab images and preprocessed image data from the specified image
+  // image acquisition device and start the next asynchronous grab.
   static HImageArray GrabDataAsync(HRegionArray *Region, HXLDContArray *Contours, const Halcon::HFramegrabber &AcqHandle, const Halcon::HTuple &MaxDelay, Halcon::HTuple *Data);
-  // Asynchronous grab of images and preprocessed image data from the specified
-  // image acquisition device.
+  // Grab images and preprocessed image data from the specified image
+  // image acquisition device and start the next asynchronous grab.
   static HImageArray GrabDataAsync(HRegionArray *Region, HXLDContArray *Contours, const Halcon::HFramegrabber &AcqHandle, double MaxDelay, Halcon::HTuple *Data);
-  // Synchronous grab of images and preprocessed image data from the specified
-  // image acquisition device.
+  // Grab images and preprocessed image data from the specified image
+  // acquisition device.
   static HImageArray GrabData(HRegionArray *Region, HXLDContArray *Contours, const Halcon::HFramegrabber &AcqHandle, Halcon::HTuple *Data);
 };
 

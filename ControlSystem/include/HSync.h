@@ -5,10 +5,16 @@
  * Project:     HALCON/libhalcon
  * Description: Synchronisation macros for Windows
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2008 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
- *****************************************************************************/
+ *****************************************************************************
+ *
+ * $Revision: 1.22 $
+ * $Date: 2008/12/06 13:36:26 $
+ *
+ */
+
 
 #ifndef _HSYNC_H
 
@@ -22,9 +28,9 @@ extern "C" {
 #endif
 
 #if defined (_MAKE_H_THREAD_SAFE) && ! defined (_NODLL)
-extern HLibExport CRITICAL_SECTION    csHalcon;
-#define H_SYNC_ENTER_CRITICAL_SECTION EnterCriticalSection(&csHalcon);
-#define H_SYNC_LEAVE_CRITICAL_SECTION LeaveCriticalSection(&csHalcon);
+extern HLibExport CRITICAL_SECTION	csHalcon;
+#define H_SYNC_ENTER_CRITICAL_SECTION	EnterCriticalSection(&csHalcon);
+#define H_SYNC_LEAVE_CRITICAL_SECTION	LeaveCriticalSection(&csHalcon);
 #define H_SYNC_CRITICAL_SECTION_DEF   CRITICAL_SECTION csHalcon;
 #define H_SYNC_DEF_INT(VARIABLE)      int VARIABLE
 #define H_SYNC_LEAVE_ALL_CS_LOCKS(GetNumLocks)                          \
@@ -72,8 +78,8 @@ extern HLibExport CRITICAL_SECTION    csHalcon;
 #else  /* end of part WIN32 */
 
 /* SUN Solaris, SGI-Irix, HP-UX (10.30 or higher), Linux: */
-#if defined (__sgi) || defined(__sun) || defined(__linux) || \
-  defined(__APPLE__)|| defined(HPPA2) || defined(__alpha) || defined(__vxworks)
+#if defined (__sgi) || defined(__sun) || defined(__linux) || defined(HPPA2) \
+    || defined(__alpha) || defined(__vxworks)
 
 #if defined(__cplusplus)
 extern "C" {

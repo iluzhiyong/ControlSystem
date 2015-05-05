@@ -5,11 +5,13 @@
  * Project:     HALCON/C++
  * Description: Class HMutex
  *
- * (c) 2009-2014 by MVTec Software GmbH
+ * (c) 2009-2010 by MVTec Software GmbH
  *               www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.1 $
+ * $Date: 2010/06/25 11:28:00 $
  *
  */
 

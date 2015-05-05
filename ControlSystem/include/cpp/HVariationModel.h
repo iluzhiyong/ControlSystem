@@ -5,11 +5,13 @@
  * Project:     HALCON/C++
  * Description: Class HVariationModel
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2008 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.9 $
+ * $Date: 2008/12/06 13:35:12 $
  *
  */
 
@@ -47,10 +49,6 @@ public:
 
   // Tool-specific member functions
 
-  // Deserialize a variation model.
-  virtual void DeserializeVariationModel(const Halcon::HSerializedItem &SerializedItemHandle);
-  // Serialize a variation model.
-  virtual HSerializedItem SerializeVariationModel() const;
   // Read a variation model from a file.
   virtual void ReadVariationModel(const Halcon::HTuple &FileName);
   // Read a variation model from a file.

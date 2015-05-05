@@ -5,11 +5,13 @@
  * Project:     HALCON/C++
  * Description: Types for region arrays
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2008 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.18 $
+ * $Date: 2010/02/23 16:03:07 $
  *
  */
 
@@ -111,9 +113,9 @@ public:
   virtual HRegionArray MergeRegionsLineScan(const HRegionArray &PrevRegions, HRegionArray *PrevMergedRegions, const Halcon::HTuple &ImageHeight, const Halcon::HTuple &MergeBorder, const Halcon::HTuple &MaxImagesRegion) const;
   // Merge regions from line scan images.
   virtual HRegionArray MergeRegionsLineScan(const HRegionArray &PrevRegions, HRegionArray *PrevMergedRegions, Hlong ImageHeight, const char *MergeBorder, Hlong MaxImagesRegion) const;
-  // Partition a region into rectangles of approximately equal size.
+  // Partition a region into rectangles of equal size.
   virtual HRegionArray PartitionRectangle(const Halcon::HTuple &Width, const Halcon::HTuple &Height) const;
-  // Partition a region into rectangles of approximately equal size.
+  // Partition a region into rectangles of equal size.
   virtual HRegionArray PartitionRectangle(double Width, double Height) const;
   // Partition a region horizontally at positions of small vertical extent.
   virtual HRegionArray PartitionDynamic(const Halcon::HTuple &Distance, const Halcon::HTuple &Percent) const;
@@ -175,9 +177,9 @@ public:
   virtual HRegionArray ExpandRegion(const HRegion &ForbiddenArea, const Halcon::HTuple &Iterations, const Halcon::HTuple &Mode) const;
   // Fill gaps between regions or split overlapping regions.
   virtual HRegionArray ExpandRegion(const HRegion &ForbiddenArea, Hlong Iterations, const char *Mode) const;
-  // Clip a region relative to its smallest surrounding rectangle.
+  // Clip a region relative to its size.
   virtual HRegionArray ClipRegionRel(const Halcon::HTuple &Top, const Halcon::HTuple &Bottom, const Halcon::HTuple &Left, const Halcon::HTuple &Right) const;
-  // Clip a region relative to its smallest surrounding rectangle.
+  // Clip a region relative to its size.
   virtual HRegionArray ClipRegionRel(Hlong Top, Hlong Bottom, Hlong Left, Hlong Right) const;
   // Clip a region to a rectangle.
   virtual HRegionArray ClipRegion(const Halcon::HTuple &Row1, const Halcon::HTuple &Column1, const Halcon::HTuple &Row2, const Halcon::HTuple &Column2) const;
@@ -243,18 +245,10 @@ public:
   static HRegionArray GenRectangle1(const Halcon::HTuple &Row1, const Halcon::HTuple &Column1, const Halcon::HTuple &Row2, const Halcon::HTuple &Column2);
   // Create a rectangle parallel to the coordinate axes.
   static HRegionArray GenRectangle1(double Row1, double Column1, double Row2, double Column2);
-  // Create an ellipse sector.
-  static HRegionArray GenEllipseSector(const Halcon::HTuple &Row, const Halcon::HTuple &Column, const Halcon::HTuple &Phi, const Halcon::HTuple &Radius1, const Halcon::HTuple &Radius2, const Halcon::HTuple &StartAngle, const Halcon::HTuple &EndAngle);
-  // Create an ellipse sector.
-  static HRegionArray GenEllipseSector(double Row, double Column, double Phi, double Radius1, double Radius2, double StartAngle, double EndAngle);
   // Create an ellipse.
   static HRegionArray GenEllipse(const Halcon::HTuple &Row, const Halcon::HTuple &Column, const Halcon::HTuple &Phi, const Halcon::HTuple &Radius1, const Halcon::HTuple &Radius2);
   // Create an ellipse.
   static HRegionArray GenEllipse(double Row, double Column, double Phi, double Radius1, double Radius2);
-  // Create a circle sector.
-  static HRegionArray GenCircleSector(const Halcon::HTuple &Row, const Halcon::HTuple &Column, const Halcon::HTuple &Radius, const Halcon::HTuple &StartAngle, const Halcon::HTuple &EndAngle);
-  // Create a circle sector.
-  static HRegionArray GenCircleSector(double Row, double Column, double Radius, double StartAngle, double EndAngle);
   // Create a circle.
   static HRegionArray GenCircle(const Halcon::HTuple &Row, const Halcon::HTuple &Column, const Halcon::HTuple &Radius);
   // Create a circle.
@@ -271,12 +265,6 @@ public:
   static HRegionArray GenRegionLine(const Halcon::HTuple &BeginRow, const Halcon::HTuple &BeginCol, const Halcon::HTuple &EndRow, const Halcon::HTuple &EndCol);
   // Store input lines as regions.
   static HRegionArray GenRegionLine(Hlong BeginRow, Hlong BeginCol, Hlong EndRow, Hlong EndCol);
-  // Classify a related group of characters with an OCR classifier.
-  virtual HTuple DoOcrWordKnn(const HImage &Image, const Halcon::HOCRKnn &OCRHandle, const Halcon::HTuple &Expression, const Halcon::HTuple &NumAlternatives, const Halcon::HTuple &NumCorrections, Halcon::HTuple *Confidence, Halcon::HTuple *Word, Halcon::HTuple *Score) const;
-  // Classify a related group of characters with an OCR classifier.
-  virtual HTuple DoOcrWordKnn(const HImage &Image, const Halcon::HOCRKnn &OCRHandle, const char *Expression, Hlong NumAlternatives, Hlong NumCorrections, Halcon::HTuple *Confidence, Halcon::HTuple *Word, Halcon::HTuple *Score) const;
-  // Classify multiple characters with an k-NN classifier.
-  virtual HTuple DoOcrMultiClassKnn(const HImage &Image, const Halcon::HOCRKnn &OCRHandle, Halcon::HTuple *Confidence) const;
   // Classify a related group of characters with an OCR classifier.
   virtual HTuple DoOcrWordSvm(const HImage &Image, const Halcon::HOCRSvm &OCRHandle, const Halcon::HTuple &Expression, const Halcon::HTuple &NumAlternatives, const Halcon::HTuple &NumCorrections, Halcon::HTuple *Word, Halcon::HTuple *Score) const;
   // Classify a related group of characters with an OCR classifier.
@@ -295,10 +283,10 @@ public:
   virtual double TraindOcrClassBox(const HImage &Image, const Halcon::HOCRBox &OcrHandle, const Halcon::HTuple &Class) const;
   // Train an OCR classifier by the input of regions.
   virtual double TraindOcrClassBox(const HImage &Image, const Halcon::HOCRBox &OcrHandle, const char *Class) const;
-  // Storing of training characters into a file.
-  virtual void WriteOcrTrainf(const HImage &Image, const Halcon::HTuple &Class, const Halcon::HTuple &TrainingFile) const;
-  // Storing of training characters into a file.
-  virtual void WriteOcrTrainf(const HImage &Image, const char *Class, const char *TrainingFile) const;
+  // Storing of trained characters into a file.
+  virtual void WriteOcrTrainf(const HImage &Image, const Halcon::HTuple &Class, const Halcon::HTuple &FileName) const;
+  // Storing of trained characters into a file.
+  virtual void WriteOcrTrainf(const HImage &Image, const char *Class, const char *FileName) const;
   // Sorting of regions with respect to their relative position.
   virtual HRegionArray SortRegion(const Halcon::HTuple &SortMode, const Halcon::HTuple &Order, const Halcon::HTuple &RowOrCol) const;
   // Sorting of regions with respect to their relative position.
@@ -308,9 +296,9 @@ public:
   // Test an OCR classifier.
   virtual HTuple TestdOcrClassBox(const HImage &Image, const Halcon::HOCRBox &OcrHandle, const char *Class) const;
   // Add characters to a training file.
-  virtual void AppendOcrTrainf(const HImage &Image, const Halcon::HTuple &Class, const Halcon::HTuple &TrainingFile) const;
+  virtual void AppendOcrTrainf(const HImage &Image, const Halcon::HTuple &Class, const Halcon::HTuple &FileName) const;
   // Add characters to a training file.
-  virtual void AppendOcrTrainf(const HImage &Image, const char *Class, const char *TrainingFile) const;
+  virtual void AppendOcrTrainf(const HImage &Image, const char *Class, const char *FileName) const;
   // Prune the branches of a region.
   virtual HRegionArray Pruning(const Halcon::HTuple &Length) const;
   // Prune the branches of a region.
@@ -515,10 +503,6 @@ public:
   virtual HRegionArray CloseEdges(const HImage &EdgeImage, const Halcon::HTuple &MinAmplitude) const;
   // Close edge gaps using the edge amplitude image.
   virtual HRegionArray CloseEdges(const HImage &EdgeImage, Hlong MinAmplitude) const;
-  // Deserialize a serialized region.
-  static HRegionArray DeserializeRegion(const Halcon::HSerializedItem &SerializedItemHandle);
-  // Serialize a region.
-  virtual HSerializedItem SerializeRegion(void) const;
   // Write regions to a file.
   virtual void WriteRegion(const Halcon::HTuple &FileName) const;
   // Write regions to a file.
@@ -545,10 +529,6 @@ public:
   virtual HRegionArray SelectShapeProto(const HRegionArray &Pattern, const Halcon::HTuple &Feature, const Halcon::HTuple &Min, const Halcon::HTuple &Max) const;
   // Choose regions having a certain relation to each other.
   virtual HRegionArray SelectShapeProto(const HRegionArray &Pattern, const char *Feature, double Min, double Max) const;
-  // Calculate shape features of regions.
-  virtual HTuple RegionFeatures(const Halcon::HTuple &Features) const;
-  // Calculate shape features of regions.
-  virtual HTuple RegionFeatures(const char *Features) const;
   // Choose regions with the aid of shape features.
   virtual HRegionArray SelectShape(const Halcon::HTuple &Features, const Halcon::HTuple &Operation, const Halcon::HTuple &Min, const Halcon::HTuple &Max) const;
   // Choose regions with the aid of shape features.
@@ -563,17 +543,17 @@ public:
   virtual HTuple MomentsRegion2ndRelInvar(Halcon::HTuple *PHI2) const;
   // Geometric moments of regions.
   virtual HTuple MomentsRegion2ndInvar(Halcon::HTuple *M20, Halcon::HTuple *M02) const;
-  // Calculate the geometric moments of regions.
+  // Geometric moments of regions.
   virtual HTuple MomentsRegion2nd(Halcon::HTuple *M20, Halcon::HTuple *M02, Halcon::HTuple *Ia, Halcon::HTuple *Ib) const;
   // Minimum distance between the contour pixels of two regions each.
   virtual HTuple DistanceRrMin(const HRegionArray &Regions2, Halcon::HTuple *Row1, Halcon::HTuple *Column1, Halcon::HTuple *Row2, Halcon::HTuple *Column2) const;
-  // Minimum distance between two regions with the help of dilation.
+  // Minimum distance between two regions with the help of dilatation.
   virtual HTuple DistanceRrMinDil(const HRegionArray &Regions2) const;
   // Maximal distance between two boundary points of a region.
   virtual HTuple DiameterRegion(Halcon::HTuple *Column1, Halcon::HTuple *Row2, Halcon::HTuple *Column2, Halcon::HTuple *Diameter) const;
-  // Test if the region contains a given point.
+  // Test if the region consists of the given point.
   virtual Hlong TestRegionPoint(const Halcon::HTuple &Row, const Halcon::HTuple &Column) const;
-  // Test if the region contains a given point.
+  // Test if the region consists of the given point.
   virtual Hlong TestRegionPoint(Hlong Row, Hlong Column) const;
   // Index of all regions containing a given pixel.
   virtual HTuple GetRegionIndex(const Halcon::HTuple &Row, const Halcon::HTuple &Column) const;
@@ -599,7 +579,7 @@ public:
   virtual HTuple EulerNumber(void) const;
   // Orientation of a region.
   virtual HTuple OrientationRegion(void) const;
-  // Calculate the parameters of the equivalent ellipse.
+  // Parameters of the equivalent ellipse.
   virtual HTuple EllipticAxis(Halcon::HTuple *Rb, Halcon::HTuple *Phi) const;
   // Pose relation of regions.
   virtual HTuple SelectRegionSpatial(const HRegionArray &Regions2, const Halcon::HTuple &Direction, Halcon::HTuple *RegionIndex2) const;
@@ -641,10 +621,6 @@ public:
   virtual HTuple FitSurfaceSecondOrder(const HImage &Image, const Halcon::HTuple &Algorithm, const Halcon::HTuple &Iterations, const Halcon::HTuple &ClippingFactor, Halcon::HTuple *Beta, Halcon::HTuple *Gamma, Halcon::HTuple *Delta, Halcon::HTuple *Epsilon, Halcon::HTuple *Zeta) const;
   // Calculate gray value moments and approximation by a second order surface.
   virtual HTuple FitSurfaceSecondOrder(const HImage &Image, const char *Algorithm, Hlong Iterations, double ClippingFactor, Halcon::HTuple *Beta, Halcon::HTuple *Gamma, Halcon::HTuple *Delta, Halcon::HTuple *Epsilon, Halcon::HTuple *Zeta) const;
-  // Calculates gray value features for a set of regions.
-  virtual HTuple GrayFeatures(const HImage &Image, const Halcon::HTuple &Features) const;
-  // Calculates gray value features for a set of regions.
-  virtual HTuple GrayFeatures(const HImage &Image, const char *Features) const;
   // Select regions based on gray value features.
   virtual HRegionArray SelectGray(const HImage &Image, const Halcon::HTuple &Features, const Halcon::HTuple &Operation, const Halcon::HTuple &Min, const Halcon::HTuple &Max) const;
   // Select regions based on gray value features.

@@ -5,11 +5,13 @@
  * Project:     HALCON/C++
  * Description: Class HStereoModel
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2010 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.1 $
+ * $Date: 2010/06/21 08:18:12 $
  *
  */
 
@@ -62,6 +64,8 @@ public:
   virtual void SetStereoModelParam(const Halcon::HTuple &ParamName, const Halcon::HTuple &ParamValue) const;
   // Create a HALCON stereo model.
   virtual void CreateStereoModel(const Halcon::HCameraSetupModel &CameraSetupModelID, const Halcon::HTuple &Method, const Halcon::HTuple &GenParamName, const Halcon::HTuple &GenParamValue);
+  // Create a HALCON stereo model.
+  virtual void CreateStereoModel(const Halcon::HCameraSetupModel &CameraSetupModelID, const char *Method, const char *GenParamName, double GenParamValue);
 };
 
 }

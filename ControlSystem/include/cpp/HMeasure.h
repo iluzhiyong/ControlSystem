@@ -5,11 +5,13 @@
  * Project:     HALCON/C++
  * Description: Class HMeasure
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2008 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.10 $
+ * $Date: 2008/12/06 13:35:12 $
  *
  */
 
@@ -68,33 +70,21 @@ public:
 
   // Tool-specific member functions
 
-  // Serialize a measure object.
-  virtual HSerializedItem SerializeMeasure() const;
-  // Deserialize a serialized measure object.
-  virtual void DeserializeMeasure(const Halcon::HSerializedItem &SerializedItemHandle);
-  // Write a measure object to a file.
-  virtual void WriteMeasure(const Halcon::HTuple &FileName) const;
-  // Write a measure object to a file.
-  virtual void WriteMeasure(const char *FileName) const;
-  // Read a measure object from a file.
-  virtual void ReadMeasure(const Halcon::HTuple &FileName);
-  // Read a measure object from a file.
-  virtual void ReadMeasure(const char *FileName);
-  // Extracting points with a particular gray value along a rectangle or an
+  // Extracting points with a particular grey value along a rectangle or an
   // annular arc.
   virtual HTuple MeasureThresh(const HImage &Image, const Halcon::HTuple &Sigma, const Halcon::HTuple &Threshold, const Halcon::HTuple &Select, Halcon::HTuple *ColumnThresh, Halcon::HTuple *Distance) const;
-  // Extracting points with a particular gray value along a rectangle or an
+  // Extracting points with a particular grey value along a rectangle or an
   // annular arc.
   virtual HTuple MeasureThresh(const HImage &Image, double Sigma, double Threshold, const char *Select, Halcon::HTuple *ColumnThresh, Halcon::HTuple *Distance) const;
   // Extract a gray value profile perpendicular to a rectangle or annular arc.
   virtual HTuple MeasureProjection(const HImage &Image) const;
-  // Reset a fuzzy function.
+  // Reset a fuzzy member function.
   virtual void ResetFuzzyMeasure(const Halcon::HTuple &SetType) const;
-  // Reset a fuzzy function.
+  // Reset a fuzzy member function.
   virtual void ResetFuzzyMeasure(const char *SetType) const;
-  // Specify a normalized fuzzy function for edge pairs.
+  // Specify a normalized fuzzy member function for edge pairs.
   virtual void SetFuzzyMeasureNormPair(const Halcon::HTuple &PairSize, const Halcon::HTuple &SetType, const Halcon::HTuple &Function) const;
-  // Specify a fuzzy function.
+  // Specify a fuzzy member function.
   virtual void SetFuzzyMeasure(const Halcon::HTuple &SetType, const Halcon::HTuple &Function) const;
   // Extract straight edge pairs perpendicular to a rectangle or an
   // annular arc.

@@ -5,11 +5,13 @@
  * Project:     Halcon/C++
  * Description: Display regions as byte-images 
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2005 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.9 $
+ * $Date: 2005/05/06 07:36:05 $
  *
  */
 

@@ -5,11 +5,13 @@
  * Project:     HALCON/C++
  * Description: Class HXLDPolyArray
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2008 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.17 $
+ * $Date: 2008/12/06 13:35:12 $
  *
  */
 
@@ -65,13 +67,13 @@ private:
   // Class Functions
 
 public:
-  // Compute the union of closed polygons.
+  // Union of closed polygons.
   virtual HXLDPolyArray Union2ClosedPolygonsXld(const HXLDPolyArray &Polygons2) const;
-  // Compute the symmetric difference of closed polygons.
+  // Symmetric difference of closed polygons.
   virtual HXLDPolyArray SymmDifferenceClosedPolygonsXld(const HXLDPolyArray &Polygons2) const;
-  // Compute the difference of closed polygons.
+  // Difference of closed polygons.
   virtual HXLDPolyArray DifferenceClosedPolygonsXld(const HXLDPolyArray &Sub) const;
-  // Intersect closed polygons.
+  // Intersection of closed polygons.
   virtual HXLDPolyArray IntersectionClosedPolygonsXld(const HXLDPolyArray &Polygons2) const;
   // Read XLD polygons from a file in ARC/INFO generate format.
   static HXLDPolyArray ReadPolygonXldArcInfo(const Halcon::HTuple &FileName);
@@ -97,10 +99,6 @@ public:
   virtual HXLDContArray SplitContoursXld(const char *Mode, Hlong Weight, Hlong Smooth) const;
   // Apply an arbitrary affine transformation to XLD polygons.
   virtual HXLDPolyArray AffineTransPolygonXld(const Halcon::HTuple &HomMat2D) const;
-  // Create a region from an XLD polygon.
-  virtual HRegionArray GenRegionPolygonXld(const Halcon::HTuple &Mode) const;
-  // Create a region from an XLD polygon.
-  virtual HRegionArray GenRegionPolygonXld(const char *Mode) const;
   // Read XLD polygons from a DXF file.
   static HXLDPolyArray ReadPolygonXldDxf(const Halcon::HTuple &FileName, const Halcon::HTuple &GenParamNames, const Halcon::HTuple &GenParamValues, Halcon::HTuple *DxfStatus);
   // Read XLD polygons from a DXF file.

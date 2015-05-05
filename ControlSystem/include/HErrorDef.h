@@ -5,32 +5,101 @@
  * Project:     HALCON/libhalcon
  * Description: Definition of error constants
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2010 by MVTec Software GmbH
  *                  www.mvtec.com
  *
- *****************************************************************************/
+ *****************************************************************************
+ *
+ * $Source: /halcon/CVSROOT/include/HErrorDef.h,v $
+ * $Revision: 1.25 $
+ * $Date: 2010/09/07 15:54:44 $
+ * $Author: heindl $
+ * $State: Exp $
+ * $Log: HErrorDef.h,v $
+ * Revision 1.25  2010/09/07 15:54:44  heindl
+ * corrected typo
+ *
+ * Revision 1.24  2010/08/18 07:36:38  spiegel
+ * New error codes for 3rd party library Tripack.
+ *
+ * Revision 1.23  2010/08/17 12:03:27  hopfner
+ * Added H_ERR_SOCKET_INVALID_FORMAT.
+ *
+ * Revision 1.22  2010/07/30 09:40:19  spiegel
+ * Add error code: H_ERR_SF_OM3D_FEW_POINTS and
+ *                 H_ERR_SF_OM3D_TRIANGLES_NOT_SUITABLE.
+ * Romove error code: H_ERR_3D_MODEL_NOT_SUITABLE.
+ *
+ * Revision 1.21  2010/07/07 09:59:49  winkler
+ * Removed obsolete error code H_ERR_FCN0.
+ *
+ * Revision 1.20  2010/07/07 07:12:52  drost
+ * New error message for object model 3d
+ *
+ * Revision 1.19  2010/07/06 10:34:50  drost
+ * Implemented missing features
+ *
+ * Revision 1.18  2010/07/05 11:18:01  spiegel
+ * New error messsages for segmentation data.
+ *
+ * Revision 1.17  2010/07/02 14:07:09  hopfner
+ * Changes to support generic sockets.
+ *
+ * Revision 1.16  2010/07/02 06:05:52  drost
+ * New error messsages for loading surface matching models.
+ *
+ * Revision 1.15  2010/07/01 12:09:45  dikov
+ * added error codes/messages for stereo_model
+ *
+ * Revision 1.14  2010/06/25 11:20:15  bandlow
+ * added error code for file handling , aop check, synchronisation interface
+ *
+ * Revision 1.13  2010/06/23 11:26:04  hofhauser
+ * added local deformable error codes
+ *
+ * Revision 1.12  2010/06/22 14:05:52  winkler
+ * Added error codes for text segmentation (PR 3211).
+ *
+ * Revision 1.11  2010/06/21 14:56:00  ulrich
+ * Changed max_part_size to part_size
+ *
+ * Revision 1.10  2010/06/21 08:15:53  dikov
+ * Error messages for camera_setup_model
+ *
+ * Revision 1.9  2010/06/10 13:04:12  drost
+ * Added errors for Surface Based Matching to HError, HErrorDef
+ *
+ * Revision 1.8  2010/04/19 16:33:14  ulrich
+ * Added H_ERR_SM3D_WRONG_MAX_PART_SIZE
+ *
+ * Revision 1.7  2010/04/06 17:40:02  ulrich
+ * Added H_ERR_SM3D_WRONG_LOWEST_MODEL_LEVEL
+ *
+ * Revision 1.6  2010/03/29 08:21:41  dikov
+ * Renamed error messages
+ *
+ * Revision 1.5  2010/03/23 13:44:41  dikov
+ * New error msgs (calib_model)
+ *
+ * Revision 1.4  2010/03/19 14:44:39  dikov
+ * New calib model errors
+ *
+ * Revision 1.3  2010/03/18 17:08:51  dikov
+ * Renamed error code
+ *
+ * Revision 1.2  2010/03/04 09:08:04  spiegel
+ * Correct error message text of error code 9216.
+ *
+ * Revision 1.1  2010/02/23 16:25:31  heindl
+ * global reduction of public include files
+ *
+ *
+ */
+
+
 
 #ifndef HERRORDEF_H
 #define HERRORDEF_H
-
-
-
-
-/*****************************************************************************/
-/* Return values of HALCON operators in the case of no error (messages)      */
-/*****************************************************************************/
-
-#define H_MSG_OK          H_MSG_TRUE /* Normal return value                  */
-#define H_MSG_TRUE        2          /* TRUE                                 */
-#define H_MSG_FALSE       3          /* FALSE                                */
-#define H_MSG_VOID        4          /* Stop processing                      */
-#define H_MSG_FAIL        5          /* Call failed                          */
-
-
-/*****************************************************************************/
-#define H_ERR_BREAK       20 /* for internal use */
-#define H_ERR_CNCL        21 /* operator was generally canceled */
-
 
 /**************************************************************************/
 /* Return codes for errors                                                */
@@ -65,7 +134,6 @@
 /*      Classification                  33xx                     */
 /*      Morphology                      34xx                     */
 /*      Runlength encoding              35xx                     */
-/*      Bead Inspection                 371x-374x                */
 /*      Sheet-of-light                  375x                     */
 /*      ShapeFrom                       385x                     */
 /*      Kalman                          390x                     */
@@ -89,8 +157,7 @@
 /*      Socket                          56xx                     */
 /*****************************************************************/
 /*  Further system components                                    */
-/*    Memory management                 60xx                     */
-/*    System                            65xx                     */
+/*    Memory management                 6xxx                     */
 /*    Interfaces                                                 */
 /*      General                         70xx                     */
 /*      Prolog                          71xx                     */
@@ -486,29 +553,7 @@
                                                 from physical machine only */
 #define H_ERR_FLEX_LM_VM_VIRTUAL_ONLY   2370 /* Feature can be checked out
                                                 from virtual machine only */
-#define H_ERR_FLEX_LM_VM_BAD_KEY        2371 /* Vendor keys do not support
-                                                Virtualization feature */
-#define H_ERR_FLEX_LM_MAXLIMIT_EXCEED   2372 /* Checkout request denied as it
-                                                exceeds the MAX limit
-                                                specified in the options
-                                                file */
-#define H_ERR_FLEX_LM_BA_API_INTERNAL_ERROR 2373 /* Binding agent API -
-                                                    Internal error */
-#define H_ERR_FLEX_LM_BA_COMM_ERROR     2374 /* Binding agent communication
-                                                error */
-#define H_ERR_FLEX_LM_INVALID_BA_VERSION 2375 /* Invalid Binding agent
-                                                 version */
-#define H_ERR_FLEX_LM_SERVERQUERY_LOAD_REQUEST_FAILED 2376
-                                              /* Failed to load ServerQuery
-                                                 request */
-#define H_ERR_FLEX_LM_SERVERQUERY_RESPONSE_FAILED 2377
-                                              /* Failed to generate ServerQuery
-                                                 response */
-#define H_ERR_FLEX_LM_INVALID_IPADDRESS 2378  /* Invalid IP address used while
-                                                 overriding */
-
-/* Adapt this to be the highest error code concerning FlexLM */
-#define H_ERR_LAST_FLEX_LM_ERROR H_ERR_FLEX_LM_INVALID_IPADDRESS
+#define H_ERR_FLEX_LM_VM_BAD_KEY        2371 /* Vendor keys do not support Virtualization feature */
 
 /* Error codes concerning the HALCON core, 2100..2199 */
 #define H_ERR_WOOPI        2100 /* Wrong index for output object parameter */
@@ -527,33 +572,10 @@
 #define H_ERR_WICPI        2201 /* Wrong index for input control parameter */
 #define H_ERR_DBDU         2202 /* Data of data base not defined
                                    (internal error) */
-#define H_ERR_PNTL         2203 /* legacy: Number of operators too big */
+#define H_ERR_PNTL         2203 /* Number of operators too big */
 #define H_ERR_UEXTNI       2205 /* User extension not properly installed */
-#define H_ERR_NPTL         2206 /* legacy: Number of packages too large */
+#define H_ERR_NPTL         2206 /* Number of packages too large */
 #define H_ERR_NSP          2207 /* No such package installed */
-
-#define H_ERR_ICHV         2211 /* incompatible HALCON versions */
-#define H_ERR_ICOI         2212 /* incompatible operator interface */
-#define H_ERR_XPKG_WXID    2220 /* wrong extension package id */
-#define H_ERR_XPKG_WOID    2221 /* wrong operator id */
-#define H_ERR_XPKG_WOIID   2222 /* wrong operator information id */
-
-/* Error codes concerning the HALCON control tuples, 2400.. */
-#define H_ERR_CTPL_WTYP     2400 /* Wrong Hctuple array type */
-#define H_ERR_CPAR_WTYP     2401 /* Wrong Hcpar type */
-#define H_ERR_CTPL_WIDX     2402 /* Wrong Hctuple index */
-
-/* Error codes concerning the HALCON vectors, 2410.. */
-#define H_ERR_WVTYP         2410 /* wrong vector type */
-#define H_ERR_WVDIM         2411 /* wrong vector dimension */
-
-/* Error codes concerning the HALCON handles and ids 2450 ...
- * These error codes are only used internally and no error text is available
- * for these codes, therefore. */
-#define H_ERR_WHDL   2450  /* Wrong (unknown) HALCON handle */
-#define H_ERR_WID    2451  /* Wrong HALCON id, no data available */
-#define H_ERR_IDOOR  2452  /* HALCON id out of range */
-
 
 /* HALCON agents/scheduler (parallel processing HALCON operators),
    2800..2999 */
@@ -632,11 +654,6 @@
                                    of processors */
 #define H_ERR_TMPFNF       2869 /* Error while accessing temporary file */
 
-#define H_ERR_MQCNCL       2890 /* message queue wait operation canceled */
-#define H_ERR_MQOVL        2891 /* message queue overflow */
-#define H_ERR_MQCLEAR      2892 /* Threads still wait on message queue while
-                                 * clearing it. */
-
 #define H_ERR_PTHRD_SCHED  2900 /* Error while forcing a context switch */
 #define H_ERR_SCHED_GAFF   2901 /* Error while accessing cpu affinity */
 #define H_ERR_SCHED_SAFF   2902 /* Error while setting cpu affinity */
@@ -676,11 +693,6 @@
                                    while running */
 #define H_ERR_MSG_CSNI     2993 /* Communication partner not checked in */
 
-#define H_ERR_PTHRD_BI     2994 /* Initialization of Barrier failed */
-#define H_ERR_PTHRD_BW     2995 /* Waiting at a barrier failed */
-#define H_ERR_PTHRD_BD     2996 /* Destroying of an barrier failed */
-
-
 /* Runlength data 3000..3099 */
 #define H_ERR_RCOIMA       3010 /* Region completely outside of the
                                    image domain */
@@ -708,14 +720,10 @@
 
 
 /* Cordinates */
-#define H_ERR_ROWTB        3040 /* Row value of a coordinate > 2^15-1
-                                   (XL: 2^31 - 1) */
-#define H_ERR_ROWTS        3041 /* Row value of a coordinate < -2^15
-                                   (XL: -2^31) */
-#define H_ERR_COLTB        3042 /* Column value of a coordinate > 2^15-1
-                                   (XL: 2^31 - 1) */
-#define H_ERR_COLTS        3043 /* Column value of a coordinate < -2^15
-                                   (XL: -2^31) */
+#define H_ERR_ROWTB        3040 /* Row value of a coordinate > 2^15-1 */
+#define H_ERR_ROWTS        3041 /* Row value of a coordinate < -2^15 */
+#define H_ERR_COLTB        3042 /* Column value of a coordinate > 2^15-1 */
+#define H_ERR_COLTS        3043 /* Column value of a coordinate < -2^15 */
 
 /* Error codes concerning image processing, 31xx */
 #define H_ERR_WRTHR        3100 /* Wrong segmentation threshold */
@@ -755,7 +763,6 @@
                                    border */
 #define H_ERR_DSIZESD      3127 /* source and destination differ in size*/
 #define H_ERR_TMFEAT       3128 /* to many features*/
-#define H_ERR_AXIS_UNDEF   3129 /* Reflection axis undefined */
 
 /* Coocurrence */
 #define H_ERR_COWTS        3131 /* Coocurrence Matrix:
@@ -818,8 +825,8 @@
                                    (ClippingFactor too small) */
 #define H_ERR_FIT_QUADRANGLE 3265 /* Quadrangle fitting failed */
 #define H_ERR_INCOMPL_RECT 3266 /* No points for at least one rectangle side */
-#define H_ERR_XLD_COI      3267 /* A contour point lies outside of the image */
-#define H_ERR_FIT_NOT_ENOUGH_POINTS  3274 /* Not enough points for model fitting  */
+#define H_ERR_FIT_NOT_ENOUGH_POINTS  3274
+                                /* Not enough points for model fitting  */
 
 
 #define H_ERR_NWF          3275 /* No ARC/INFO world file */
@@ -845,9 +852,6 @@
 
 #define H_ERR_NURBS_CCBF   3291  /* Constraints cannot be fulfilled */
 
-#define H_ERR_NSEG         3292  /* No segment in contour */
-#define H_ERR_NO_ONE_P     3293  /* Only one or no point in template contour */
-
 /* Classification */
 #define H_ERR_SESF         3300 /* Syntax error in file for training */
 #define H_ERR_TMFE         3301 /* Maximum number of attributes per example
@@ -870,59 +874,35 @@
                                    existent */
 #define H_ERR_NCCLA        3315 /* Current classificator is not defined */
 #define H_ERR_CLASS2_ID    3316 /* Wrong id in classification file */
-#define H_ERR_CLASS2_VERS  3317 /* The version of the classifier
-                                   is not supported */
-#define H_ERR_CLASS_NOSITEM 3318 /* Serialized item does not contain
-                                    a valid classifier */
-#define H_ERR_TM_NO_CL      3319 /* Text model does not contain a classifier yet
-                                    (use set_text_model_param) */
+#define H_ERR_CLASS2_VERS  3317 /* Wrong verion number in classification
+                                   file */
 
-
-#define H_ERR_KNN_CANNOT_ADD       3320  /* Adding new features is not possible,
-                                            because the dataset has been
-                                            normalized during training. Please
-                                            create a new classfier and add all
-                                            training data again or disable
-                                            normalization during training.
-                                            */
-
-#define H_ERR_GMM_NOTRAINFILE      3330 /* Invalid file format for GMM
-                                           training samples */
-#define H_ERR_GMM_WRTRAINVERS      3331 /* The version of the GMM training
-                                           samples is not supported */
+#define H_ERR_GMM_NOTRAINFILE      3330 /* Not a valid training sample file */
+#define H_ERR_GMM_WRTRAINVERS      3331 /* Wrong training sample file vers. */
 #define H_ERR_GMM_WRSMPFORMAT      3332 /* Wrong training sample file format */
-#define H_ERR_GMM_NOCLASSFILE      3333 /* nvalid file format for
-                                           Gaussian Mixture Model (GMM) */
-#define H_ERR_GMM_WRCLASSVERS      3334 /* The version of the Gaussian Mixture
-                                           Model (GMM) is not supported */
+#define H_ERR_GMM_NOCLASSFILE      3333 /* Not a valid GMM file */
+#define H_ERR_GMM_WRCLASSVERS      3334 /* Wrong GMM file version */
 #define H_ERR_GMM_TRAIN_UNKERR     3335 /* Unknown error when training GMM */
 #define H_ERR_GMM_TRAIN_COLLAPSED  3336 /* Collapsed covariance matrix */
 #define H_ERR_GMM_TRAIN_NOSAMPLE   3337 /* No samples for at least one class */
 #define H_ERR_GMM_TRAIN_FEWSAMPLES 3338 /* Too few samples for at least one
                                            class */
+#define H_ERR_GMM_TRAIN_WRONGINIT  3330 /* Wrong cov. initialization */
 #define H_ERR_GMM_NOTTRAINED       3340 /* GMM is not trained */
 #define H_ERR_GMM_NOTRAINDATA      3341 /* GMM has no training data */
-#define H_ERR_GMM_NOSITEM        3342 /* Serialized item does not contain a
-                                         valid Gaussian Mixture Model (GMM) */
 
 #define H_ERR_MLP_UNKOUTFUNC  3350 /* Unknown output function */
 #define H_ERR_MLP_NOT01ENC    3351 /* Target not in 0-1 encoding */
 #define H_ERR_MLP_NOTRAINDATA 3352 /* No training samples stored in the
                                       classifier */
-#define H_ERR_MLP_NOTRAINFILE 3353 /* Invalid file format for MLP
-                                      training samples */
-#define H_ERR_MLP_WRTRAINVERS 3354 /* The version of the MLP training
-                                      samples is not supported */
+#define H_ERR_MLP_NOTRAINFILE 3353 /* Not a valid training sample file */
+#define H_ERR_MLP_WRTRAINVERS 3354 /* Wrong training sample file version */
 #define H_ERR_MLP_WRSMPFORMAT 3355 /* Wrong training sample format */
 #define H_ERR_MLP_NOCLASSIF   3356 /* MLP is not a classifier */
-#define H_ERR_MLP_NOCLASSFILE 3357 /* Invalid file format for
-                                      multilayer perceptron (MLP) */
-#define H_ERR_MLP_WRCLASSVERS 3358 /* The version of the multilayer
-                                      perceptron (MLP) is not supported */
+#define H_ERR_MLP_NOCLASSFILE 3357 /* Not a valid MLP file */
+#define H_ERR_MLP_WRCLASSVERS 3358 /* Wrong MLP file version */
 #define H_ERR_MLP_WRNUMCHAN   3359 /* Wrong number of channels */
 #define H_ERR_MLP_WRNUMPARAM  3360 /* Wrong number of MLP parameters */
-#define H_ERR_MLP_NOSITEM     3361 /* Serialized item does not contain a
-                                      valid multilayer perceptron (MLP) */
 
 
 #define H_ERR_LUT_WRNUMCHAN   3370 /* Wrong number of channels */
@@ -935,15 +915,11 @@
 
 #define H_ERR_SVM_NOTRAINDATA  3380 /* No training samples stored in the
                                        classifier */
-#define H_ERR_SVM_NOTRAINFILE  3381 /* Invalid file format for SVM
-                                       training samples */
-#define H_ERR_SVM_WRTRAINVERS  3382 /* The version of the SVM training
-                                       samples is not supported */
+#define H_ERR_SVM_NOTRAINFILE  3381 /* Not a valid training sample file */
+#define H_ERR_SVM_WRTRAINVERS  3382 /* Wrong training sample file version */
 #define H_ERR_SVM_WRSMPFORMAT  3383 /* Wrong training sample format */
-#define H_ERR_SVM_NOCLASSFILE  3384 /* Invalid file format for support
-                                       vector machine (SVM) */
-#define H_ERR_SVM_WRCLASSVERS  3385 /* The version of the support vector
-                                       machine (SVM) is not supported */
+#define H_ERR_SVM_NOCLASSFILE  3384 /* Not a valid SVM file */
+#define H_ERR_SVM_WRCLASSVERS  3385 /* Wrong SVM file version */
 #define H_ERR_SVM_WRNRCLASS    3386 /* Wrong number of classes */
 #define H_ERR_SVM_NU_TOO_BIG   3387 /* Chosen nu is too big */
 #define H_ERR_SVM_TRAIN_FAIL   3388 /* SVM Training failed */
@@ -952,10 +928,6 @@
 #define H_ERR_SVM_KERNELNOTRBF 3391 /* Kernel must be RBF */
 #define H_ERR_SVM_NO_TRAIND_FOR_CLASS 3392 /* Not all classes contained in
                                               training data */
-#define H_ERR_SVM_NOT_TRAINED  3393 /* SVM not trained */
-#define H_ERR_NOT_TRAINED      3394 /* Classifier not trained */
-#define H_ERR_SVM_NOSITEM      3395 /* Serialized item does not contain a
-                                       valid support vector machine (SVM) */
 
 /* Morphology */
 #define H_ERR_ROTNR        3401 /* Wrong rotation number */
@@ -1046,8 +1018,6 @@
                                    mode. */
 #define H_ERR_PNIC         3631 /* Error in projection: Point not in any cube
                                    map. */
-#define H_ERR_NO_SOL       3632 /* No solution found. */
-#define H_ERR_TINZ         3633 /* Tilt is not zero. */
 
 /* Adjust mosaic */
 #define H_ERR_ILMD         3640 /* Illegal combination of parameters and
@@ -1061,57 +1031,17 @@
 
 
 /* FFT */
-#define H_ERR_NOFFTOPT       3650 /* Invalid file format for FFT
-                                     optimization data */
-#define H_ERR_WRFFTOPTVERS   3651 /* The version of the FFT optimization
-                                     data is not supported */
-#define H_ERR_WRHALCONVERS   3652 /* Optimization data was created with a
+#define H_ERR_NOFFTOPT     3650 /* File is not an FFT optimization data file */
+#define H_ERR_WRFFTOPTVERS 3651 /* Wrong FFT optimization data file version */
+#define H_ERR_WRHALCONVERS 3652 /* Optimization data was created with a
                                    different HALCON version
                                    (Standard HALCON / Parallel HALCON) */
-#define H_ERR_OPTFAIL        3653 /* Storing of the optimization data failed */
-#define H_ERR_FFTOPT_NOSITEM 3654 /* Serialized item does not contain valid
-                                     FFT optimization data */
+#define H_ERR_OPTFAIL      3653 /* Storing of the optimization data failed */
 
 
 /* Stereo */
 #define H_ERR_EPIINIM      3700 /* Epipoles are situated within the image
                                    domain */
-#define H_ERR_EPI_FOV      3701 /* Fields of view of both cameras do not
-                                   intersect each other */
-
-/* Bead Inpsection */
-#define H_ERR_BI_WT_TARGET         3710 /* Wrong type of target_thickness
-                                           parameter */
-#define H_ERR_BI_WT_THICKNESS      3711 /* Wrong type of thickness_tolerance
-                                           parameter */
-#define H_ERR_BI_WT_POSITION       3712 /* Wrong type of position_tolerance
-                                           parameter */
-#define H_ERR_BI_WT_SIGMA          3713 /* Wrong type of sigma parameter */
-#define H_ERR_BI_WV_SIGMA          3714 /* Wrong value of sigma parameter */
-#define H_ERR_BI_WT_THRESH         3715 /* Wrong type of threshold
-                                           parameter */
-#define H_ERR_BI_WV_TARGET         3716 /* Wrong value of target_thickness
-                                           parameter */
-#define H_ERR_BI_WV_THICKNESS      3717 /* Wrong value of thickness_tolerance
-                                           parameter */
-#define H_ERR_BI_WV_POSITION       3718 /* Wrong value of position_tolerance
-                                           parameter */
-#define H_ERR_BI_WV_THRESH         3719 /* Wrong value of threshold
-                                           parameter */
-#define H_ERR_BI_WT_REFINE         3720 /* Wrong type of refinement
-                                           parameter */
-#define H_ERR_BI_WV_REFINE         3721 /* Wrong value of refinement
-                                           parameter */
-#define H_ERR_BI_WT_RESOL          3722 /* Wrong type of resolution
-                                           parameter */
-#define H_ERR_BI_WV_RESOL          3723 /* Wrong type of resolution
-                                           parameter */
-#define H_ERR_BI_WT_POLARITY       3724 /* Wrong type of polarity
-                                           parameter */
-#define H_ERR_BI_WV_POLARITY       3725 /* Wrong type of polarity
-                                           parameter */
-
-
 /* Sheet-of-light */
 #define H_ERR_SOL_INVALID_HANDLE   3750 /* Invalid sheet-of-light handle */
 #define H_ERR_SOL_EMPTY_MODEL_LIST 3751 /* No sheet-of-light model available*/
@@ -1160,17 +1090,6 @@
 #define H_ERR_SOL_WN_CAM_PAR       3779 /* Wrong number of values of parameter
                                            camera_parameter */
 #define H_ERR_SOL_WN_POSE          3780 /* Wrong number of values of pose */
-#define H_ERR_SOL_NO_TARGET_FOUND  3781 /* Calibration target not found */
-#define H_ERR_SOL_NO_VALID_SOL     3782 /* The calibration algorithm failed to
-                                           find a valid solution. */
-#define H_ERR_SOL_WT_CALIB_OBJECT  3783 /* Wrong type of parameter
-                                           calibration_object */
-#define H_ERR_SOL_INVALID_CALIB_OBJECT 3784 /* Invalid calibration object */
-#define H_ERR_SOL_NO_CALIB_OBJECT_SET 3785 /* No calibration object set */
-#define H_ERR_SOL_WR_FILE_FORMAT 3786 /* Invalid file format for sheet-of-light model */
-#define H_ERR_SOL_WR_FILE_VERS   3787 /* The version of the sheet-of-light model is not supported */
-#define H_ERR_SOL_CAMPAR_UNSUPPORTED 3788 /* Camera type not supported by calibrate_sheet_of_light_model */
-#define H_ERR_SOL_NOT_AVAIL 3789 /* Not available with calibration object based calibration */
 
 /* Shape-From */
 #define H_ERR_SING         3850 /* The light source positions are linearly
@@ -1329,35 +1248,18 @@
 /* Threads */
 #define H_ERR_WDIFFTH      5178 /* Window was created in different thread */
 
-#define H_ERR_OBJ_ATTACHED 5194 /* Drawing object already attached to another
-                                   window */
-
 /* Image windows */
 #define H_ERR_CHA3         5180 /* Internal error: only RGB-Mode */
 #define H_ERR_NMWA         5181 /* No more (image-)windows available */
 
 /* OpenGL support */
-#define H_ERR_DEPTH_NOT_STORED 5179 /* Depth was not stored with window */
-#define H_ERR_INDEX_NOT_STORED 5182 /* Object index was not stored with
-                                       window */
-#define H_ERR_PRIM_NO_POINTS 5183 /* Operator does not support primitives
-                                     without point coordinates */
-#define H_ERR_REMOTE_DESKTOP_SIZE 5184 /* Maximum image size for Windows Remote
-                                          Desktop exceeded */
 #define H_ERR_NOGL         5185 /* No OpenGL support available */
 #define H_ERR_NODEPTH      5186 /* No depth information available */
-#define H_ERR_OGL_ERROR    5187 /* OpenGL error */
-#define H_ERR_UNSUPPORTED_FBO 5188 /* Required framebuffer object is
-                                      unsupported */
-#define H_ERR_OGL_HSR_NOT_SUPPORTED 5189 /* OpenGL accelerated hidden
-                                            surface removal not supported on
-                                            this machine */
 
 /* window parameters */
 #define H_ERR_WP_IWP       5190 /* Invalid window parameter */
 #define H_ERR_WP_IWPV      5191 /* Invalid value for window parameter */
 #define H_ERR_UMOD         5192 /* Unknown mode */
-#define H_ERR_ATTIMG       5193 /* No image attached */
 
 /* 3d navigation */
 #define H_ERR_NVG_WM       5195 /* invalid navigation mode */
@@ -1365,7 +1267,7 @@
 /* File I/O, 52xx */
 #define H_ERR_FINTERN      5196 /* Internal file error */
 #define H_ERR_FS           5197 /* Error while file synchronisation */
-#define H_ERR_FISR         5198 /* insufficient rights */
+#define H_ERR_FISR        5198 /* insufficient rights */
 #define H_ERR_BFD          5199 /* Bad file descriptor */
 #define H_ERR_FNF          5200 /* File not found */
 #define H_ERR_DWI          5201 /* Error while writing image data
@@ -1425,9 +1327,11 @@
 #define H_ERR_WFID         5244 /* Wrong file handle */
 #define H_ERR_FNO          5245 /* File not open */
 #define H_ERR_NO_FILES     5246 /* No files in use so far (none opened) */
-#define H_ERR_NORFILE      5247 /* Invalid file format for regions */
+#define H_ERR_NORFILE      5247 /* No valid region file */
 #define H_ERR_RDTB         5248 /* Error while reading region data:
                                    Format of region too big. */
+
+
 /* Serial interface */
 #define H_ERR_WSID         5250 /* Invalid handle for a serial connection */
 #define H_ERR_SNO          5251 /* Serial port not open */
@@ -1443,38 +1347,6 @@
 #define H_ERR_CNFS         5260 /* Could not flush serial port */
 #define H_ERR_EDWS         5261 /* Error during write to serial port */
 #define H_ERR_EDRS         5262 /* Error during read from serial port */
-
-#define H_ERR_REG_NOSITEM  5270 /* Serialized item does not contain
-                                   valid regions. */
-#define H_ERR_REG_WRVERS   5271 /* The version of the regions is
-                                   not supported. */
-#define H_ERR_IMG_NOSITEM  5272 /* Serialized item does not contain
-                                   valid images. */
-#define H_ERR_IMG_WRVERS   5273 /* The version of the images is
-                                   not supported. */
-#define H_ERR_XLD_NOSITEM  5274 /* Serialized item does not contain
-                                   valid XLD objects. */
-#define H_ERR_XLD_WRVERS   5275 /* The version of the XLD objects is
-                                   not supported. */
-#define H_ERR_OBJ_NOSITEM  5276 /* Serialized item does not contain
-                                   valid objects. */
-#define H_ERR_OBJ_WRVERS   5277 /* The version of the objects is
-                                   not supported. */
-#define H_ERR_XLD_DATA_TOO_LARGE   5678 /* XLD object data can only be read by
-                                           HALCON XL */
-#define H_ERR_OBJ_UNEXPECTED   5279 /* Unexpected object detected */
-
-
-/* File I/O, 52xx (continue) */
-#define H_ERR_FNOTF        5280 /* File has not been opened in text format */
-#define H_ERR_FNOBF        5281 /* File has not been opened in binary file
-                                   format */
-#define H_ERR_DIRCR        5282 /* Cannot create directory */
-#define H_ERR_DIRRM        5283 /* Cannot remove directory */
-#define H_ERR_GETCWD       5284 /* Cannot get current directory */
-#define H_ERR_SETCWD       5285 /* Cannot set current directory */
-
-#define H_ERR_XINIT        5286 /* Need to call XInitThreads() */
 
 /* Frame grabber / Image acquisition devices */
 #define H_ERR_NFS          5300 /* No image acquisition device opened */
@@ -1518,50 +1390,8 @@
                                    opened */
 #define H_ERR_FGCALLBACK   5334 /* IA: unsupported callback type */
 #define H_ERR_FGDEVLOST    5335 /* IA: device lost */
-#define H_ERR_FGABORTED    5336 /* IA: grab aborted */
-
-/* digitial io devices */
-#define H_ERR_IOTIMEOUT    5350 /* IO: timeout */
-#define H_ERR_IOIVERS      5351 /* IO: incompatible interface version */
-#define H_ERR_IOWH         5352 /* IO: handle not valid */
-#define H_ERR_IODBUSY      5353 /* IO: device busy */
-#define H_ERR_IOIAR        5354 /* IO: insufficient user rights */
-#define H_ERR_IONF         5355 /* IO: device or channel not found */
-#define H_ERR_IOPART       5356 /* IO: invalid parameter type */
-#define H_ERR_IOPARV       5357 /* IO: invalid parameter value */
-#define H_ERR_IOPARNUM     5358 /* IO: invalid parameter number */
-#define H_ERR_IOPARAM      5359 /* IO: unsupported parameter */
-#define H_ERR_IOPARNA      5360 /* IO: parameter not available in curr config.*/
-#define H_ERR_IOFNS        5361 /* IO: function not supported */
-#define H_ERR_IOME         5362 /* IO: maximum number of dio classes exceeded */
-#define H_ERR_IODNA        5363 /* IO: driver of io device not available */
-#define H_ERR_IOABORTED    5364 /* IO: operation aborted */
-#define H_ERR_IODATT       5365 /* IO: invalid data type */
 
 /* Images from file */
-
-/* JpegXR files */
-#define H_ERR_JXR_UNSUPPORTED_FORMAT         5400 /* Image type is not
-                                                     supported */
-#define H_ERR_JXR_INVALID_PIXEL_FORMAT       5401 /* Invalid pixel format
-                                                     passed to filter
-                                                     function */
-#define H_ERR_JXR_INTERNAL_ERROR             5402 /* Internal JpegXR error. */
-#define H_ERR_JXR_FORMAT_SYNTAX_ERROR        5403 /* Syntax error in output
-                                                     format string */
-#define H_ERR_JXR_TOO_MANY_CHANNELS          5404 /* Maximum number of channels
-                                                     exceeded */
-#define H_ERR_JXR_EC_ERROR                   5405 /* Unspecified error in JXR
-                                                     library */
-#define H_ERR_JXR_EC_BADMAGIC                5406 /* Bad magic number in JXR
-                                                     library */
-#define H_ERR_JXR_EC_FEATURE_NOT_IMPLEMENTED 5407 /* Feature not implemented in
-                                                     JXR library */
-#define H_ERR_JXR_EC_IO                      5408 /* File read/write error in
-                                                     JXR library */
-#define H_ERR_JXR_EC_BADFORMAT               5409 /* Bad file format in JXR
-                                                     library */
-
 /* General */
 #define H_ERR_LIB_FILE_CLOSE          5500 /* Error while closing the
                                               image file */
@@ -1575,7 +1405,7 @@
                                               version */
 #define H_ERR_TMIO                    5505 /* Too many iconic objects for
                                               this file format */
-#define H_ERR_FILE_FORMAT_UNSUPPORTED 5506 /* File format is unsupported */
+
 
 /* PCX files */
 #define H_ERR_PCX_NO_PCX_FILE         5510 /* File is no PCX-File */
@@ -1663,10 +1493,6 @@
 #define H_ERR_JP2_PREC_TOO_HIGH  5591 /* Image precision too high */
 #define H_ERR_JP2_ENCODING_ERROR 5592 /* Error while encoding */
 
-/* HOBJ files */
-#define H_ERR_HOBJ_NOT_ONLY_IMAGES 5599 /* File does not contain only images */
-
-
 /* Socket communication and virtual links */
 #define H_ERR_SOCKET_BLOCK                5600 /* Socket can not be set to
                                                   block */
@@ -1696,6 +1522,7 @@
 #define H_ERR_SOCKET_CANT_CONNECT         5615 /* Connection request failed */
 #define H_ERR_SOCKET_GETHOSTBYNAME        5616 /* Hostname could not be
                                                   resolved */
+#define H_ERR_SOCKET_RECV_IS_NEG          5617 /* No data on socket */
 #define H_ERR_SOCKET_ILLEGAL_TUPLE_TYPE   5618 /* Unknown tuple type on
                                                   socket */
 #define H_ERR_SOCKET_TIMEOUT              5619 /* Timeout occured on socket */
@@ -1713,42 +1540,10 @@
                                                   format specification. */
 #define H_ERR_SOCKET_INVALID_FORMAT       5629 /* Invalid format
                                                   specification. */
-#define H_ERR_SOCKET_NO_SERIALIZED_ITEM   5630 /* Received data is no
-                                                  serialized item */
 
 #define H_ERR_ARCINFO_TOO_MANY_XLDS       5700 /* Too many contours/polygons
                                                   for this file format */
 
-/* Serialize/Deserialize */
-#define H_ERR_QUAT_WRONG_VERSION      5750 /* The version of the quaternion
-                                              is not supported */
-#define H_ERR_QUAT_NOSITEM            5751 /* Serialized item does not contain
-                                              a valid quaternion*/
-#define H_ERR_HOM_MAT2D_WRONG_VERSION 5752 /* The version of the homogeneous
-                                              matrix is not supported */
-#define H_ERR_HOM_MAT2D_NOSITEM       5753 /* Serialized item does not contain
-                                              a valid homogeneous matrix */
-#define H_ERR_HOM_MAT3D_WRONG_VERSION 5754 /* The version of the homogeneous
-                                              3D matrix is not supported */
-#define H_ERR_HOM_MAT3D_NOSITEM       5755 /* Serialized item does not contain
-                                              a valid homogeneous 3D matrix */
-#define H_ERR_TUPLE_WRONG_VERSION     5756 /* The version of the tuple
-                                              is not supported */
-#define H_ERR_TUPLE_NOSITEM           5757 /* Serialized item does not
-                                              contain a valid tuple */
-#define H_ERR_TUPLE_DTLFTHV           5758 /* Tuple data can only be read on
-                                              64-bit systems */
-#define H_ERR_POSE_WRONG_VERSION      5759 /* The version of the camera
-                                              parameters (pose) is not
-                                              supported */
-#define H_ERR_POSE_NOSITEM            5760 /* Serialized item does not contain
-                                              valid camera parameters (pose) */
-#define H_ERR_CAM_PAR_WRONG_VERSION   5761 /* The version of the internal
-                                              camera parameters is not
-                                              supported */
-#define H_ERR_CAM_PAR_NOSITEM         5762 /* Serialized item does not contain
-                                              valid internal camera parameters
-                                              */
 
 /* Memory management */
 #define H_ERR_NP           6000 /* Access to undefined memory area */
@@ -1770,12 +1565,6 @@
 #define H_ERR_NRA          6041 /* No memory block allocated at last */
 #define H_ERR_IAD          6040 /* System parameter for memory-allocation
                                    inconsistent */
-
-#define H_ERR_INVALID_ALIGN 6042 /* Invalid alignement */
-
-
-/* System */
-#define H_ERR_CP_FAILED    6500 /* Process creation failed */
 
 /* Language interfaces */
 /* General  */
@@ -1849,9 +1638,8 @@
 #define H_ERR_WF0         8110  /* convol: Weight factor is 0 */
 #define H_ERR_NWC         8111  /* convol: Inconsistent number of weights */
 #define H_ERR_WRRV        8112  /* rank: Wrong rank value */
-/* Border treatment */
+/* Boarder treatment */
 #define H_ERR_ROVFL       8113  /* convol/rank: Error while handling margin */
-#define H_ERR_EWPMF       8114  /* Error while parsing filter mask file */
 
 #define H_ERR_WNUMM       8120  /* Wrong number of coefficients for
                                    convolution (sigma too big?) */
@@ -1881,56 +1669,33 @@
 #define H_ERR_OCR_WTP     8305  /* OCR internal error: Wrong threshold in
                                    angle determination */
 #define H_ERR_OCR_WF      8306  /* OCR internal error: Wrong attribute */
-#define H_ERR_OCR_READ    8307  /* The version of the OCR classifier
-                                   is not supported */
+#define H_ERR_OCR_READ    8307  /* OCR: Error during reading file */
 #define H_ERR_OCR_NODES   8308  /* OCR File: Inconsistent number of nodes */
 #define H_ERR_OCR_EOF     8309  /* OCR File: File too short */
 #define H_ERR_OCR_INC1    8310  /* OCR: Internal error 1 */
 #define H_ERR_OCR_INC2    8311  /* OCR: Internal error 2 */
 #define H_ERR_WOCRTYPE    8312  /* Wrong type of OCR tool
                                    (no 'box' or 'net') */
-#define H_ERR_OCR_TRF     8313  /* The version of the OCR training characters
-                                   is not supported */
+#define H_ERR_OCR_TRF     8313  /* Unknown OCR training file version */
 #define H_ERR_TRF_ITL     8314  /* Image too large for training file */
 #define H_ERR_TRF_RTL     8315  /* Region too large for training file */
-#define H_ERR_TRF_PT      8316  /* Protected OCR training file */
-#define H_ERR_TRF_WPW     8317  /* Protected OCR training file: wrong passw. */
-#define H_ERR_OCR_NOSITEM 8318  /* Serialized item does not contain a valid
-                                   OCR classifier */
-#define H_ERR_TRF_CON_EIO 8319  /* OCR training file concatenation failed:
-                                   identical input and output files */
 
-#define H_ERR_OCR_MLP_NOCLASSFILE 8320 /* Invalid file format for
-                                          MLP classifier */
-#define H_ERR_OCR_MLP_WRCLASSVERS 8321 /* The version of the MLP classifier
-                                          is not supported */
-#define H_ERR_OCR_MLP_NOSITEM     8322 /* Serialized item does not contain
-                                          a valid MLP classifier */
+#define H_ERR_OCR_MLP_NOCLASSFILE 8320 /* Not an MLP OCR classifier file */
+#define H_ERR_OCR_MLP_WRCLASSVERS 8321 /* Wrong MLP OCR classifier file vers.*/
 
-#define H_ERR_OCR_SVM_NOCLASSFILE 8330 /* Invalid file format for
-                                          SVM classifier */
-#define H_ERR_OCR_SVM_WRCLASSVERS 8331 /* The version of the SVM
-                                          classifier is not supported*/
-#define H_ERR_OCR_SVM_NOSITEM     8332 /* Serialized item does not contain
-                                          a valid SVM classifier */
-
-#define H_ERR_OCR_KNN_NOCLASSFILE 8333 /* Invalid file format for
-                                          k-NN classifier */
-#define H_ERR_OCR_KNN_NOSITEM     8334 /* Serialized item does not contain
-                                          a valid k-NN classifier */
+#define H_ERR_OCR_SVM_NOCLASSFILE 8330 /* Not an SVM OCR classifier file */
+#define H_ERR_OCR_SVM_WRCLASSVERS 8331 /* Wrong SVM OCR classifier file vers.*/
 
 #define H_ERR_INVALID_TEXT_MODEL_ID  8340  /* Invalid text model */
 #define H_ERR_INVALID_TEXT_RESULT_ID 8341  /* Invalid text result */
 
 /* OCV */
-#define H_ERR_OCV_NI            8350  /* OCV system not initialized */
-#define H_ERR_WOCVTYPE          8351  /* The version of the OCV tool
-                                         is not supported */
-#define H_ERR_OCV_WNAME         8353  /* Wrong name for an OCV object */
-#define H_ERR_OCV_II            8354  /* Training has already been applied */
-#define H_ERR_OCV_NOTTR         8355  /* No training has been applied */
-#define H_ERR_OCV_NOSITEM       8356  /* Serialized item does not
-                                         contain a valid OCV tool */
+#define H_ERR_OCV_NI      8350  /* OCV system not initialized */
+#define H_ERR_WOCVTYPE    8351  /* Wrong type of OCV features */
+#define H_ERR_OCV_WNAME   8353  /* Wrong name for an OCV object */
+#define H_ERR_OCV_II      8354  /* Training has already been applied */
+#define H_ERR_OCV_NOTTR   8355  /* No training has been applied */
+
 
 /* Function 1D */
 #define H_ERR_WLENGTH       8370 /* Wrong number of function points */
@@ -1938,20 +1703,11 @@
 #define H_ERR_NOT_ASCENDING 8372 /* Wrong ordering of values (not ascending)*/
 #define H_ERR_ILLEGAL_DIST  8373 /* Illegal distance of function points */
 #define H_ERR_NOT_MONOTONIC 8374 /* Function is not monotonic. */
-#define H_ERR_WFUNCTION     8375 /* Wrong function type. */
 
-/* Grid rectification */
-#define H_ERR_GRID_CONNECT_POINTS 8390 /* The input points could not be
-                                          arranged in a regular grid */
-#define H_ERR_GRID_GEN_MAP        8391 /* Error while creating the output
-                                          map */
-#define H_ERR_GRID_AUTO_ROT       8392 /* Auto rotation failed */
 
 /* Camera calibration */
 #define H_ERR_CAL_LCALP     8400 /* At least 3 calibration points have to be
                                     indicated */
-#define H_ERR_CAL_INCONSISTENT_FP  8401 /* Inconsistent finder pattern
-                                           positions */
 #define H_ERR_CAL_NCPF      8402 /* No calibration table found */
 #define H_ERR_CAL_RECPF     8403 /* Error while reading calibration table
                                     description file */
@@ -2016,13 +1772,6 @@
 #define H_ERR_CAL_NCONV     8440 /* Camera calibration did not converge */
 #define H_ERR_CAL_EICD      8441 /* Error in calibration data, try to
                                     recalibrate with improved input data! */
-#define H_ERR_CAL_DISTORT   8442 /* Point cannot be distorted. */
-#define H_ERR_CAL_WREDGFILT 8443 /* Wrong edge filter. */
-#define H_ERR_CAL_NEGPS     8444 /* Pixel size must be non-negative or zero */
-#define H_ERR_CAL_NEGTS     8445 /* Tilt is in the wrong range */
-#define H_ERR_CAL_NEGRS     8446 /* Rot is in the wrong range */
-
-/* Calib Data Model (CM) and Camera Setup Model (CSM) errors */
 #define H_ERR_CM_NOT_OPTIMIZED  8451 /* model not optimized yet - no res's*/
 #define H_ERR_CM_NOT_POSTPROCC  8452 /* auxilary model results not available */
 #define H_ERR_CM_NOT_INTERCONN  8453 /* setup not 'visibly' interconnected */
@@ -2035,81 +1784,38 @@
 #define H_ERR_CM_UNDEFINED_CAM  8460 /* undefined camera  */
 #define H_ERR_CM_REPEATD_INDEX  8461 /* repeated observ. index */
 #define H_ERR_CM_UNDEFI_CADESC  8462 /* undefined calib. object description */
-#define H_ERR_CM_NO_DESCR_FILE  8463 /* Invalid file format for calibration
-                                        data model */
-#define H_ERR_CM_WR_DESCR_VERS  8464 /* The version of the calibration data
-                                        model is not supported */
+#define H_ERR_CM_NO_DESCR_FILE  8463 /* calib model: not a description file */
+#define H_ERR_CM_WR_DESCR_VERS  8464 /* calib model: wrong description
+                                        version */
 #define H_ERR_CM_ZERO_MOTION    8465 /* zero-motion in linear scan camera */
 #define H_ERR_CM_MULTICAM_UNSP  8466 /* multi-camera and -calibobj not
                                         supported for all camera types */
-#define H_ERR_CM_INCMPLTE_DATA  8467 /* incomplete data, required for legacy
+#define H_ERR_CM_INCMPLTE_DATA  8467 /* incomplete data, required for legacy 
                                         calibration */
-#define H_ERR_CSM_NO_DESCR_FIL  8468 /* Invalid file format for camera setup
-                                        model */
-#define H_ERR_CSM_WR_DESCR_VER  8469 /* The version of the camera setup model
-                                        is not supported */
-#define H_ERR_CM_CALTAB_NOT_AV  8470 /* full HALCON-caltab descr'n required */
-#define H_ERR_CM_INVAL_OBSERID  8471 /* invalid observation ID */
-#define H_ERR_CSM_NOSITEM       8472 /* Serialized item does not contain a
-                                        valid camera setup model */
-
-#define H_ERR_CM_NOSITEM        8473 /* Serialized item does not contain a
-                                        valid calibration data model */
-#define H_ERR_CM_INV_TOOLPOSID  8474 /* Invalid tool pose id */
-#define H_ERR_CM_UNDEFINED_TOO  8475 /* Undefined tool pose */
-#define H_ERR_CM_INVLD_MODL_TY  8476 /* Invalid calib data model type */
-#define H_ERR_CSM_UNINIT_CAM    8477 /* The camera setup model contains an
-                                        uninitialized camera */
-#define H_ERR_CM_NO_VALID_SOL   8478 /* The hand-eye algorithm failed
-                                        to find a solution. */
-#define H_ERR_CM_INVAL_OBS_POSE 8479 /* invalid observation pose */
-#define H_ERR_CM_TOO_FEW_POSES  8480 /* Not enough calibration object poses */
-#define H_ERR_CM_UNDEF_CAM_TYP  8481 /* undefined camera type */
-
-/* Stereo Model (SM) Errors */
+#define H_ERR_CSM_NO_DESCR_FIL  8468 /* camera setup: not a description file */
+#define H_ERR_CSM_WR_DESCR_VER  8469 /* camera setup: wrong description
+                                        version */
 #define H_ERR_SM_INVLD_MODL_TY  8490 /* invalid stereo model type */
 #define H_ERR_SM_NOT_PERSISTEN  8491 /* stereo model is not in persistent
                                         mode */
 #define H_ERR_SM_INVLD_BOU_BOX  8492 /* invalid bounding box */
-#define H_ERR_SR_INVLD_IMG_SIZ  8493 /* stereo reconstruction: image sizes
-                                        must correspond to camera setup */
-#define H_ERR_SR_BBOX_BHND_CAM  8494 /* bounding box is behind basis line */
-#define H_ERR_CAL_AMBIGIOUS     8495 /* Ambigious calibration: Please,
-                                        recalibrate with improved input data!*/
-#define H_ERR_CAL_PCPND         8496 /* Pose of calibration plate not
-                                        determined */
-#define H_ERR_CAL_FAILED        8497 /* Calibration failed: Please check your
-                                        input data and calibrate again! */
-#define H_ERR_CAL_MISSING_DATA  8498 /* No observation data supplied! */
-#define H_ERR_CAL_FEWER_FOUR    8499 /* The calibration object has to be
-                                        seen at least once by every camera,
-                                        if less than four cameras are used. */
-
+                                    
 /* Matching */
 /* Gray-value-based matching */
-#define H_ERR_NOAP          8500 /* Invalid file format for template */
-#define H_ERR_WPFV          8501 /* The version of the template is not
-                                    supported */
+#define H_ERR_NOAP          8500 /* Not a pattern file */
+#define H_ERR_WPFV          8501 /* Wrong pattern file version */
 #define H_ERR_MATCH_MODE    8502 /* Error during changing the file mode */
 #define H_ERR_MATCH_OOR     8503 /* Inconsistent match file:
                                     Coordinates out of range */
 #define H_ERR_NOTAP         8505 /* The image(s) is not a pyramid */
 #define H_ERR_NGTPTS        8506 /* Number of template points too small */
-#define H_ERR_PDTL          8507 /* Template data can only be read by
-                                    HALCON XL */
-#define H_ERR_NCC_NOSITEM   8508 /* Serialized item does not contain
-                                    a valid NCC model */
-#define H_ERR_MATCH_NOSITEM 8509 /* Serialized item does not contain
-                                    a valid template */
+#define H_ERR_PDTL          8507 /* Pattern data is too large */
 
 /* Shape-based matching */
 #define H_ERR_NTPTS         8510 /* Number of shape model points too small */
 #define H_ERR_CGSMM         8511 /* Gray and color shape models mixed */
-#define H_ERR_SMTL          8512 /* Shape model data can only be read by
-                                    HALCON XL */
+#define H_ERR_SMTL          8512 /* Shape model too large */
 #define H_ERR_SMNXLD        8513 /* Shape model was not created from XLDs */
-#define H_ERR_SM_NOSITEM    8514 /* Serialized item does not contain a valid
-                                    shape model */
 
 /* Component-based matching */
 #define H_ERR_COMP_DRT      8530 /* Initial components have different
@@ -2119,28 +1825,20 @@
                                     function not converged */
 #define H_ERR_MSA_TMN       8533 /* Too many nodes while computing the minimum
                                     spanning arborescence */
-#define H_ERR_CTTL          8534 /* Component training data can only be read
-                                    by HALCON XL */
-#define H_ERR_CMTL          8535 /* Component model data can only be read by
-                                    HALCON XL */
-#define H_ERR_COMP_NOSITEM  8536 /* Serialized item does not contain a valid
-                                    component model */
-#define H_ERR_TRAIN_COMP_NOSITEM        8537 /* Serialized item does not
-                                                contain a valid component
-                                                training result */
+#define H_ERR_CTTL          8534 /* Component training data too large for this
+                                    HALCON version */
+#define H_ERR_CMTL          8535 /* Component model data too large for this
+                                    HALCON version */
+
 /* Image comparison */
 #define H_ERR_VARIATION_WS    8540 /* Size of the training image and the
                                       variation model differ */
 #define H_ERR_VARIATION_PREP  8541 /* Variation model has not been prepared
                                       for segmentation */
 #define H_ERR_VARIATION_WRMD  8542 /* Invalid variation model training mode */
-#define H_ERR_VARIATION_NOVF  8543 /* Invalid file format for variation
-                                      model */
-#define H_ERR_VARIATION_WVFV  8544 /* The version of the variation model is
-                                      not supported */
+#define H_ERR_VARIATION_NOVF  8543 /* File does not contain a var. model */
+#define H_ERR_VARIATION_WVFV  8544 /* Invalid variation model file version */
 #define H_ERR_VARIATION_TRDC  8545 /* Training data has been cleared */
-#define H_ERR_VARIATION_NOSITEM 8546 /* Serialized item does not contain a
-                                        valid variation model */
 
 /* Measure */
 #define H_ERR_MEASURE_NA    8550 /* No more measure objects available */
@@ -2148,48 +1846,6 @@
 #define H_ERR_MEASURE_OOR   8552 /* Invalid measure object */
 #define H_ERR_MEASURE_IS    8553 /* Measure object is NULL */
 #define H_ERR_MEASURE_WS    8554 /* Measure object has wrong image size */
-#define H_ERR_MEASURE_NO_MODEL_FILE 8555 /* Invalid file format for measure
-                                            object */
-#define H_ERR_MEASURE_WRONG_VERSION 8556 /* The version of the measure object
-                                            is not supported */
-#define H_ERR_MEASURE_TL            8557 /* Measure object data can only be
-                                            read by HALCON XL */
-#define H_ERR_MEASURE_NOSITEM       8558 /* Serialized item does not contain
-                                            a valid measure object */
-
-/* Metrology */
-#define H_ERR_METROLOGY_MODEL_NI       8570 /* Metrology model is not
-                                               initialized */
-#define H_ERR_METROLOGY_MODEL_INVALID  8571 /* Invalid metrology model */
-#define H_ERR_METROLOGY_OBJECT_INVALID 8572 /* Invalid metrology object */
-#define H_ERR_METROLOGY_FIT_NOT_ENOUGH_MEASURES  8573 /* Not enough valid
-                                               measures for fitting the
-                                               metrology object */
-#define H_ERR_METROLOGY_NO_MODEL_FILE  8575 /* Invalid file format for
-                                               metrology model */
-#define H_ERR_METROLOGY_WRONG_VERSION  8576 /* The version of the metrology
-                                               model is not supported */
-#define H_ERR_METROLOGY_NO_FUZZY_FUNC  8577 /* Fuzzy function is not set */
-#define H_ERR_METROLOGY_NOSITEM        8578 /* Serialized item does not
-                                               contain a valid metrology
-                                               model */
-#define H_ERR_METROLOGY_UNDEF_CAMPAR   8579 /* Camera parameters are not
-                                               set */
-#define H_ERR_METROLOGY_UNDEF_POSE     8580 /* Pose of the measurement plane
-                                               is not set */
-#define H_ERR_METROLOGY_SET_MODE       8581 /* Mode of metrology model cannot
-                                               be set since an object has
-                                               already been added */
-#define H_ERR_METROLOGY_OP_NOT_ALLOWED 8582 /* If the pose of the metrology
-                                               object has been set several
-                                               times, the operator is not
-                                               longer allowed */
-#define H_ERR_METROLOGY_MULTI_POSE_CAM_PAR 8583 /* All objects of a metrology
-                                               model must have the same world
-                                               pose and camera parameters. */
-#define H_ERR_METROLOGY_WRONG_INPUT_MODE   8584 /* Input type of metrology model does
-                                               not correspond with the current
-                                               input type */
 
 /* Dynamic libraries */
 #define H_ERR_DLOPEN        8600 /* Dynamic library could not be opened */
@@ -2210,22 +1866,17 @@
 #define H_ERR_BAR_NO_REG     8707 /* No region found */
 #define H_ERR_BAR_WRONGCODE  8708 /* Wrong type of bar code */
 #define H_ERR_BAR_NOTFOUND   8709 /* Bar code not found */
+
 #define H_ERR_BC_INVALID_HANDLE     8720 /* Invalid bar code handle */
 #define H_ERR_BC_EMPTY_MODEL_LIST   8721 /* Empty model list */
 #define H_ERR_BC_TRAIN_ONLY_SINGLE  8722 /* Training cannot be done for
                                             multiple bar code types */
-#define H_ERR_BC_GET_SPECIFIC       8723 /* Cannot get bar code type specific
-                                            parameter with get_bar_code_param.
-                                            Use get_bar_code_param_specific */
-#define H_ERR_BC_GET_OBJ_MULTI      8724 /* Cannot get this object for multiple
-                                            bar code types. Try again with
-                                            single bar code type */
-#define H_ERR_BC_WR_FILE_FORMAT     8725 /* Wrong binary (file) format */
-#define H_ERR_BC_WR_FILE_VERS       8726 /* Wrong version of binary file */
-#define H_ERR_BC_NOT_PERSISTANT     8727 /* The model must be in persistency
-                                            mode to deliver the required
-                                            object/result */
-
+#define H_ERR_BC_GET_SPECIFIC 8723 /* Cannot get bar code type specific
+                                      parameter with get_bar_code_param.
+                                      Use get_bar_code_param_specific */
+#define H_ERR_BC_GET_OBJ_MULTI 8724 /* Cannot get this object for multiple
+                                       bar code types. Try again with single
+                                       bar code type */
 
 /* 2D Barcode */
 #define H_ERR_BAR2D_UNKNOWN_TYPE     8800 /* Specified code type is not
@@ -2297,7 +1948,6 @@
 #define H_ERR_DC2D_WRONG_MOD_ASPECT    8853 /* Invalid 'mod_aspect_max' */
 #define H_ERR_DC2D_WRONG_SM_ROBUSTNESS 8854 /* Invalid
                                                'small_modules_robustness' */
-#define H_ERR_DC2D_WRONG_CONTRAST_TOL  8855 /* Invalid 'contrast_tolerance' */
 #define H_ERR_DC2D_READ_HEAD_FORMAT    8860 /* Invalid header in 2d data code
                                                model file */
 #define H_ERR_DC2D_READ_HEAD_SIGN      8861 /* Invalid code signature in 2d
@@ -2305,10 +1955,6 @@
 #define H_ERR_DC2D_READ_LINE_FORMAT    8862 /* Corrupted line in 2d data code
                                                model file */
 #define H_ERR_DC2D_WRONG_MODULE_ASPECT 8863 /* Invalid module aspect ratio */
-#define H_ERR_DC2D_WRONG_LAYER_NUM     8864 /* wrong number of layers */
-#define H_ERR_DCD_READ_WRONG_VERSION   8865 /* wrong data code model version */
-#define H_ERR_DC2D_NOSITEM             8866 /* Serialized item does not contain
-                                               a valid 2D data code model */
 
 /* 3D Matching */
 #define H_ERR_SM3D_WRONG_PARAM_NAME      8900  /* Invalid parameter value */
@@ -2318,19 +1964,16 @@
 #define H_ERR_SM3D_WRONG_MIN_FACE_ANGLE  8904  /* Invalid 'min_face_angle' */
 #define H_ERR_SM3D_WRONG_MIN_SIZE        8905  /* Invalid 'min_size' */
 #define H_ERR_SM3D_WRONG_MODEL_TOLERANCE 8906  /* Invalid 'model_tolerance' */
-#define H_ERR_SM3D_WRONG_FAST_POSE_REF   8907  /* Invalid
+#define H_ERR_SM3D_WRONG_FAST_POSE_REF   8907  /* Invalid 
                                                  'fast_pose_refinment'*/
-#define H_ERR_SM3D_WRONG_LOWEST_MODEL_LEVEL 8908 /* Invalid
+#define H_ERR_SM3D_WRONG_LOWEST_MODEL_LEVEL 8908 /* Invalid 
                                                   'lowest_model_level'*/
-#define H_ERR_SM3D_WRONG_PART_SIZE       8909  /* Invalid 'part_size'*/
+#define H_ERR_SM3D_WRONG_PART_SIZE       8909  /* Invalid 
+                                                  'part_size'*/
 #define H_ERR_SM3D_PROJECTION_TOO_LARGE  8910  /* The projected model is too
                                                   large (increase the value
                                                   for DistMin or the image
                                                   size in CamParam) */
-#define H_ERR_SM3D_WRONG_OPENGL_ACCURACY 8911  /* Invalid
-                                                 'opengl_accuracy'*/
-#define H_ERR_SM3D_WRONG_RECOMPUTE_SCORE 8913  /* Invalid
-                                                 'recompute_score'*/
 #define H_ERR_SM3D_WRONG_LON_MIN         8920 /* Invalid 'longitude_min' */
 #define H_ERR_SM3D_WRONG_LON_MAX         8921 /* Invalid 'longitude_max' */
 #define H_ERR_SM3D_WRONG_LAT_MIN         8922 /* Invalid 'latitude_min */
@@ -2346,26 +1989,18 @@
 #define H_ERR_SM3D_WRONG_OUTLIER_SUP     8932 /* In. 'outlier_suppression' */
 #define H_ERR_SM3D_WRONG_BORDER_MODEL    8933 /* Invalid 'border_model' */
 #define H_ERR_SM3D_UNDEFINED_POSE        8940 /* Pose is not well-defined */
-#define H_ERR_SM3D_NO_SM3D_FILE          8941 /* Invalid file format for 3D
-                                                 shape model */
-#define H_ERR_SM3D_WRONG_FILE_VERSION    8942 /* The version of the 3D shape
-                                                 model is not supported */
-#define H_ERR_SM3D_MTL                   8943 /* 3D shape model can only be
-                                                 read by HALCON XL */
+#define H_ERR_SM3D_NO_SM3D_FILE          8941 /* Not a 3D shape model file */
+#define H_ERR_SM3D_WRONG_FILE_VERSION    8942 /* Wrong version of the 3D
+                                                 shape model file */
+#define H_ERR_SM3D_MTL                   8943 /* 3D shape model too large */
 #define H_ERR_SM3D_NO_OM3D_FACES         8944 /* 3D object model does not
                                                  contain any faces */
-#define H_ERR_SM3D_NOSITEM               8945 /* Serialized item does not
-                                                 contain a valid 3D shape
-                                                 model */
-#define H_ERR_SM3D_WRONG_UNION_ADJACENT_CONTOURS 8946 /* Invalid
-                                                 'union_adjacent_contours' */
 
 /* Descriptor-based matching */
-#define H_ERR_DESCR_NODESCRFILE            8960 /* Invalid file format for
-                                                   descriptor model */
-#define H_ERR_DESCR_WRDESCRVERS            8961 /* The version of the
-                                                   descriptor model is not
-                                                   supported */
+#define H_ERR_DESCR_NODESCRFILE            8960 /* Not a descriptor
+                                                   model file */
+#define H_ERR_DESCR_WRDESCRVERS            8961 /* Wrong version of
+                                                   descriptor model file */
 #define H_ERR_DM_WRONG_NUM_CIRC_RADIUS     8962 /* Invalid 'radius' */
 #define H_ERR_DM_WRONG_NUM_CHECK_NEIGH     8963 /* Invalid 'check_neighbor' */
 #define H_ERR_DM_WRONG_NUM_MIN_CHECK_NEIGH 8964 /* Invalid
@@ -2396,9 +2031,8 @@
 #define H_ERR_DM_WRONG_PAR_MATCHER         8986 /* Invalid 'matcher' */
 #define H_ERR_DM_TOO_MANY_CLASSES          8987 /* Too many point classes -
                                                    cannot be written to file */
-#define H_ERR_DESCR_NOSITEM                8988 /* Serialized item does not
-                                                   contain a valid descriptor
-                                                   model */
+
+
 
 /* Misc */
 #define H_ERR_NOT_IMPL     9000 /* Function not implemented on this machine */
@@ -2433,7 +2067,6 @@
                                    student version of HALCON */
 #define H_ERR_STUD_FGNA    9052 /* The selected image acquisition device is not
                                    available in the student version of HALCON*/
-#define H_ERR_NDPA         9053 /* No data points available */
 
 /* Linear equations */
 #define H_ERR_TMU          9100 /* Too many unknown variables in
@@ -2441,9 +2074,6 @@
 #define H_ERR_NUS          9101 /* No (unique) solution for the
                                    linear equation */
 #define H_ERR_NEE          9102 /* Too little equations in linear equation */
-
-/* Geometric configurations */
-#define H_ERR_PDDL         9150 /* Points do not define a line */
 
 /* Matrix operations */
 #define H_ERR_MNI          9200 /* Matrix is not invertible */
@@ -2466,14 +2096,10 @@
 #define H_ERR_MAT_NLT      9214 /* Matrix is not a lower triangular matrix */
 #define H_ERR_MAT_NEG      9215 /* Matrix element is negative */
 #define H_ERR_MAT_UNCHAR   9216 /* Matrix file: Invalid character */
-#define H_ERR_MAT_NOT_COMPLETE 9217 /* Matrixdatei: Matrix unvollstÃ¤ndig */
-#define H_ERR_MAT_READ     9218 /* Invalid file format for matrix */
+#define H_ERR_MAT_NOT_COMPLETE 9217 /* Matrixdatei: Matrix unvollst�ndig */
+#define H_ERR_MAT_READ     9218 /* Matrix file: Error during reading file */
 #define H_ERR_MAT_COMPLEX  9219 /* Resulting matrix has complex values */
 #define H_ERR_WMATEXP      9220 /* Wrong value in matrix of exponents */
-#define H_ERR_MAT_WRONG_VERSION 9221 /* The version of the matrix is not
-                                        supported */
-#define H_ERR_MAT_NOSITEM  9222 /* Serialized item does not contain a valid
-                                   matrix */
 
 /* Tree */
 #define H_ERR_WNODE            9230 /* Internal Error: Wrong Node */
@@ -2507,7 +2133,6 @@
                                    for planar triangular meshing */
 #define H_ERR_TRI_ITRI     9285 /* Internal error: planar triangular meshing
                                    inconsistent */
-#define H_ERR_TRI_OUTR     9286 /* Node index outside triangulation range */
 
 /* Orthogonal Projection */
 #define H_ERR_WSPVP        9300 /* Eye point and reference point coincide */
@@ -2539,11 +2164,10 @@
                                                   does not exist */
 #define H_ERR_DEFORM_IMAGE_TO_CAMERA_DIFF 9462 /* camera has different
                                                   resolution than image */
-#define H_ERR_DEFORM_NO_MODEL_IN_FILE     9463 /* Invalid file format for
-                                                  deformable model */
-#define H_ERR_DEFORM_WRONG_VERSION        9464 /* The version of the
-                                                  deformable model is not
-                                                  supported */
+#define H_ERR_DEFORM_NO_MODEL_IN_FILE     9463 /* not a valid deformable
+                                                  model in file */
+#define H_ERR_DEFORM_WRONG_VERSION        9464 /* wrong deformable
+                                                  model file version */
 #define H_ERR_DEFORM_WRONG_SMOOTH_DEFORM     9465 /* Invalid
                                                      'deformation_smoothness' */
 #define H_ERR_DEFORM_WRONG_EXPAND_BORDER     9466 /* Invalid 'expand_border' */
@@ -2551,103 +2175,20 @@
                                                      axis-aligned bounding
                                                      rectangle of template
                                                      region */
-#define H_ERR_DEFORM_NOSITEM              9468 /* Serialized item does not
-                                                  contain a valid deformable
-                                                  model */
 
 /* Surface Based Matching */
 #define H_ERR_SFM_NO_POINTS          9500 /* Object model has no points */
 #define H_ERR_SFM_NO_FACES           9501 /* Object model has no faces */
 #define H_ERR_SFM_NO_NORMALS         9502 /* Object model has no normals */
-#define H_ERR_SFM_NO_SFM_FILE        9506 /* Invalid file format for 3D
-                                             surface model */
-#define H_ERR_SFM_WRONG_FILE_VERSION 9507 /* The version of the 3D surface
-                                             model is not supported */
-#define H_ERR_SFM_NOSITEM      9508 /* Serialized item does not contain
-                                             a valid 3D surface model */
+#define H_ERR_SFM_NO_SFM_FILE        9506 /* File is not a 3d surface model */
+#define H_ERR_SFM_WRONG_FILE_VERSION 9507 /* File has an invalid version */
 
 /* Object Model 3D */
 #define H_ERR_OM3D_INVALID_FILE       9510 /* Invalid 3D file */
 #define H_ERR_OM3D_INVALID_MODEL      9511 /* Invalid 3D Object Model */
 #define H_ERR_OM3D_UNKNOWN_FILE_TYPE  9512 /* Unknown 3D file type */
-#define H_ERR_OM3D_WRONG_FILE_VERSION 9513 /* The version of the 3D object
-                                              model is not supported */
+#define H_ERR_OM3D_WRONG_FILE_VERSION 9513 /* File has an invalid version */
 #define H_ERR_OM3D_MISSING_ATTRIB     9514 /* Required attribute is missing */
-/* Object Model 3D Errors for special attributes */
-#define H_ERR_OM3D_MISSING_ATTRIB_V_COORD         9515 /* Required attribute
-                                                          point_coord is
-                                                          missing */
-#define H_ERR_OM3D_MISSING_ATTRIB_V_NORMALS       9516 /* Required attribute
-                                                          point_normal is
-                                                          missing */
-#define H_ERR_OM3D_MISSING_ATTRIB_F_TRIANGLES     9517 /* Required attribute
-                                                          face_triangle is
-                                                          missing  */
-#define H_ERR_OM3D_MISSING_ATTRIB_F_LINES         9518 /* Required attribute
-                                                          line_array is
-                                                          missing */
-#define H_ERR_OM3D_MISSING_ATTRIB_F_TRINEIGB      9519 /* Required attribute
-                                                          f_trineighb is
-                                                          missing  */
-#define H_ERR_OM3D_MISSING_ATTRIB_F_POLYGONS      9520 /* Required attribute
-                                                          face_polygon is
-                                                          missing  */
-#define H_ERR_OM3D_MISSING_ATTRIB_V_2DMAP         9521 /* Required attribute
-                                                          xyz_mapping is
-                                                          missing  */
-#define H_ERR_OM3D_MISSING_ATTRIB_O_PRIMITIVE     9522 /* Required attribute
-                                                          o_primitive is
-                                                          missing  */
-#define H_ERR_OM3D_MISSING_ATTRIB_SHAPE_MODEL     9523 /* Required attribute
-                                                          shape_model
-                                                          is missing  */
-#define H_ERR_OM3D_MISSING_ATTRIB_EXTENDED        9524 /* Required extended
-                                                          attribute missing in
-                                                          3D object model */
-#define H_ERR_OM3D_NOSITEM            9525 /* Serialized item does not contain
-                                              a valid 3D object model */
-#define H_ERR_OM3D_MISSING_O_PRIMITIVE_EXTENSION  9526 /* Primitive in 3D
-                                                          object model has no
-                                                          extended data */
-#define H_ERR_OM3D_CONTAIN_ATTRIB_F_TRIANGLES 9527 /* Operation invalid, 3D
-                                                      object model already
-                                                      contains triangles */
-#define H_ERR_OM3D_CONTAIN_ATTRIB_F_LINES     9528 /* Operation invalid, 3D
-                                                      object model already
-                                                      contains lines */
-#define H_ERR_OM3D_CONTAIN_ATTRIB_F_POLYGONS  9529 /* Operation invalid, 3D
-                                                      object model already
-                                                      contains faces or
-                                                      polygons */
-#define H_ERR_OM3D_ISOLATED_OBJECT       9530  /* In a global registration an
-                                                  input object has no
-                                                  neighbors */
-#define H_ERR_OM3D_SET_ALL_COORD         9531  /* All components of points
-                                                  must be set at once */
-#define H_ERR_OM3D_SET_ALL_NORMALS       9532  /* All components of normals
-                                                  must be set at once */
-#define H_ERR_OM3D_NUM_NOT_FIT_COORD     9533  /* Number of values doesn't
-                                                  correspond to number of
-                                                  already existing points */
-#define H_ERR_OM3D_NUM_NOT_FIT_NORMALS   9534  /* Number of values doesn't
-                                                  correspond to number of
-                                                  already existing normals */
-#define H_ERR_OM3D_NUM_NOT_FIT_TRIANGLES 9535  /* Number of values doesn't
-                                                  correspond to already
-                                                  existing triangulation */
-#define H_ERR_OM3D_NUM_NOT_FIT_POLYGONS  9536  /* Number of values doesn't
-                                                  correspond to length of
-                                                  already existing polygons */
-#define H_ERR_OM3D_NUM_NOT_FIT_LINES     9537  /* Number of values doesn't
-                                                  correspond to length of
-                                                  already existing polylines */
-#define H_ERR_OM3D_NUM_NOT_FIT_2DMAP     9538  /* Number of values doesn't
-                                                  correspond already existing
-                                                  2D mapping */
-#define H_ERR_OM3D_NUM_NOT_FIT_EXTENDED  9539  /* Number of values doesn't
-                                                  correspond to already
-                                                  existing extended
-                                                  attribute */
 
 /* 3D segmentation and fitting */
 #define H_ERR_SF_OM3D_TRIANGLES_NOT_SUITABLE  9550 /* Triangles of the 3D
@@ -2657,48 +2198,9 @@
 #define H_ERR_SF_OM3D_FEW_POINTS      9551 /* Too few suitable 3D points in
                                               the 3D object model */
 
-/* Serialized item */
-#define H_ERR_NO_SERIALIZED_ITEM      9580 /* Not a valid serialized item file */
-#define H_ERR_END_OF_FILE             9581 /* Serialized item: premature end
-                                              of file */
-
-/* Sample-based identification */
-#define H_ERR_SID_WRONG_RESIZE_METHOD 9600 /* Invalid 'image_resize_method' */
-#define H_ERR_SID_WRONG_RESIZE_VALUE  9601 /* Invalid 'image_resize_value' */
-#define H_ERR_SID_WRONG_RATING_METHOD 9602 /* Invalid 'rating_method' */
-#define H_ERR_SID_NO_IMAGE_INFO_TYPE  9603 /* At least one type of image
-                                              information must be used */
-#define H_ERR_SID_MODEL_NO_COLOR      9604 /* Sample identifier does not
-                                              contain color information */
-#define H_ERR_SID_MODEL_NO_TEXTURE    9605 /* Sample identifier does not
-                                              contain texture information */
-#define H_ERR_SID_NO_IMAGE_INFO       9606 /* Sample image does not contain
-                                              enough information */
-#define H_ERR_SID_NO_UNPREPARED_DATA  9607 /* Sample identifier does not
-                                              contain unprepared data
-                                              (use
-                                     add_sample_identifier_preparation_data) */
-#define H_ERR_SID_MODEL_NOT_PREPARED  9608 /* Sample identifier has not been
-                                              prepared yet (use
-                                              prepare_sample_identifier) */
-#define H_ERR_SID_NO_UNTRAINED_DATA   9609 /* Sample identifier does not
-                                              contain untrained data (use
-                                        add_sample_identifier_training_data) */
-#define H_ERR_SID_MODEL_NOT_TRAINED   9610 /* Sample identifier has not been
-                                              trained yet (use
-                                              train_sample_identifier) */
-#define H_ERR_SID_NO_RESULT_DATA      9611 /* Sample identifier does not
-                                              contain result data */
-#define H_ERR_SID_NUM_TRAIN_OBJ       9612 /* Sample identifier must contain
-                                              at least two training objects
-                                              (use
-                                        add_sample_identifier_training_data) */
-
-
 /************************************************************************/
-
-
-#define H_ERR_START_EXT      10000 /* User defined error codes must be
-                                      larger than this value */
+#define H_ERR_START_EXT      10000 /* User defined error codes must be  */
+                                   /* larger than that!                 */
+/************************************************************************/
 
 #endif

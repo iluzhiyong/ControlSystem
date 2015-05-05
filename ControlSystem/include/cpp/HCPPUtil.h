@@ -5,11 +5,13 @@
  * Project:     Halcon/libhalcon
  * Description: Types for HCPPUtil.cxx
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2008 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.37 $
+ * $Date: 2010/09/01 14:35:53 $
  *
  */
 
@@ -36,8 +38,8 @@ public:
   virtual ~HRootObject(void) {}
 
 #ifdef WIN32EXTRA
-  void* operator new(size_t nSize);
-  void  operator delete(void* p);
+  void*	operator new(size_t nSize);
+  void	operator delete(void* p);
 #endif
 
 };
@@ -202,46 +204,24 @@ protected:
 
 class LIntExport Hobject : public HRootObject {
 public:
-  Hobject(HBool cl=TRUE)
-    : id(H_EMPTY_REGION), delObj(cl)
-  {}
+  Hobject(HBool cl=TRUE) : id(H_EMPTY_REGION), delObj(cl) {}
   // HObject.id (=Hkey) -> Hobject => defaultmaessig wird nicht geloescht
-  Hobject(Hkey key, HBool cl=FALSE)
-    : id(key ? key : H_EMPTY_REGION), delObj(cl)
-  {}
+  Hobject(Hkey key, HBool cl=FALSE) : id(key), delObj(cl) {}
   // HObject.Id() (=Hobject) -> Hobject => defaultmaessig wird geloescht
   Hobject(const Hobject &obj);
 
-  ~Hobject(void)
-  {
-    Delete();
-  }
-  Hobject& operator=(const Hobject& obj);
+  ~Hobject(void) {Delete();}
+  Hobject& operator = (const Hobject& obj);
 
-  void AdaptId(Hkey obj)
-  {
-    Delete();
-    id = obj ? obj : H_EMPTY_REGION;
-  }
-  void Reset(void)
-  {
-    Delete();
-    id = H_EMPTY_REGION;
-  }
-  Hkey Id() const
-  {
-    return id;
-  }
+  void AdaptId(Hkey obj) {Delete(); id = obj;}
+  void Reset(void) {Delete(); id = H_EMPTY_REGION;}
+  Hkey Id() const {return id;}
   virtual const char *ClassName(void) const;
 
 private:
-  Hkey  id;
+  Hkey id;
   HBool delObj;
-  void Delete(void)
-  {
-    if (delObj && id != H_EMPTY_REGION)
-      freeData();
-  }
+  void Delete(void) {if (delObj && id != H_EMPTY_REGION) freeData();}
   void freeData(void);
 };
 

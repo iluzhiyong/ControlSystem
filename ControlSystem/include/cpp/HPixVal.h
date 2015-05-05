@@ -5,11 +5,13 @@
  * Project:     Halcon/C++
  * Description: Pixeltypes for Halcon-images
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2008 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.22 $
+ * $Date: 2010/09/01 14:35:53 $
  *
  */
 

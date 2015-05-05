@@ -5,11 +5,13 @@
  * Project:     HALCON/C++
  * Description: Class HComponentModel
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2008 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.6 $
+ * $Date: 2008/12/06 13:35:12 $
  *
  */
 
@@ -132,10 +134,6 @@ public:
   virtual HTuple GetComponentModelParams(Halcon::HTuple *RootRanking, Halcon::HTuple *ShapeModelIDs) const;
   // Return the parameters of a component model.
   virtual double GetComponentModelParams(Hlong *RootRanking, Hlong *ShapeModelIDs) const;
-  // Deserialize a serialized component model.
-  virtual void DeserializeComponentModel(const Halcon::HSerializedItem &SerializedItemHandle);
-  // Serialize a component model.
-  virtual HSerializedItem SerializeComponentModel() const;
   // Read a component model from a file.
   virtual void ReadComponentModel(const Halcon::HTuple &FileName);
   // Read a component model from a file.

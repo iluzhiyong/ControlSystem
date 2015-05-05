@@ -5,11 +5,13 @@
  * Project:     HALCON/C++
  * Description: Class HClassGmm
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2008 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.3 $
+ * $Date: 2008/12/06 13:35:12 $
  *
  */
 
@@ -53,23 +55,9 @@ public:
   // Add training samples from an image to the training data of a
   // Gaussian Mixture Model.
   virtual void AddSamplesImageClassGmm(const HImage &Image, const HRegionArray &ClassRegions, double Randomize) const;
-  // Get the training data of a Gaussian Mixture Model (GMM).
-  virtual HClassTrainData GetClassTrainDataGmm() const;
-  // Add training data to a Gaussian Mixture Model (GMM).
-  virtual void AddClassTrainDataGmm(const Halcon::HClassTrainData &ClassTrainDataHandle) const;
-  // Selects an optimal combination from a set of features to classify the 
-  // provided data.
-  virtual HTuple SelectFeatureSetGmm(const Halcon::HClassTrainData &ClassTrainDataHandle, const Halcon::HTuple &SelectionMethod, const Halcon::HTuple &GenParamNames, const Halcon::HTuple &GenParamValues, Halcon::HTuple *Score);
-  // Selects an optimal combination from a set of features to classify the 
-  // provided data.
-  virtual HTuple SelectFeatureSetGmm(const Halcon::HClassTrainData &ClassTrainDataHandle, const char *SelectionMethod, const char *GenParamNames, double GenParamValues, Halcon::HTuple *Score);
   // Create a look-up table using a gaussian mixture model to classify byte
   // images.
   virtual HClassLUT CreateClassLutGmm(const Halcon::HTuple &GenParamNames, const Halcon::HTuple &GenParamValues) const;
-  // Deserialize a serialized Gaussian Mixture Model.
-  virtual void DeserializeClassGmm(const Halcon::HSerializedItem &SerializedItemHandle);
-  // Serialize a Gaussian Mixture Model (GMM).
-  virtual HSerializedItem SerializeClassGmm() const;
   // Read a Gaussian Mixture Model from a file.
   virtual void ReadClassGmm(const Halcon::HTuple &FileName);
   // Read a Gaussian Mixture Model from a file.

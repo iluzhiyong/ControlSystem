@@ -5,11 +5,13 @@
  * Project:     Halcon/C++
  * Description: Misc toolls
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2005 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.14 $
+ * $Date: 2009/02/16 10:09:29 $
  *
  */
 

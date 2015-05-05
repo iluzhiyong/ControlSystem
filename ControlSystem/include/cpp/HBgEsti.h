@@ -5,11 +5,13 @@
  * Project:     HALCON/C++
  * Description: Class HBgEsti
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2008 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.9 $
+ * $Date: 2008/12/06 13:35:12 $
  *
  */
 

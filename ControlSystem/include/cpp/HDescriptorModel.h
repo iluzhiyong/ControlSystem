@@ -5,11 +5,13 @@
  * Project:     HALCON/C++
  * Description: Class HDescriptorModel
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2008 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.3 $
+ * $Date: 2008/12/06 13:35:12 $
  *
  */
 
@@ -59,10 +61,6 @@ public:
 
   // Tool-specific member functions
 
-  // Deserialize a descriptor model.
-  virtual void DeserializeDescriptorModel(const Halcon::HSerializedItem &SerializedItemHandle);
-  // Serialize a descriptor model.
-  virtual HSerializedItem SerializeDescriptorModel() const;
   // Read a descriptor model from a file.
   virtual void ReadDescriptorModel(const Halcon::HTuple &FileName);
   // Read a descriptor model from a file.

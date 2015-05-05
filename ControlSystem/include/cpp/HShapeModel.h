@@ -5,11 +5,13 @@
  * Project:     HALCON/C++
  * Description: Class HShapeModel
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2008 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.10 $
+ * $Date: 2008/12/06 13:35:12 $
  *
  */
 
@@ -124,14 +126,10 @@ public:
 
   // Tool-specific member functions
 
-  // Deserialize a serialized shape model.
-  virtual void DeserializeShapeModel(const Halcon::HSerializedItem &SerializedItemHandle);
   // Read a shape model from a file.
   virtual void ReadShapeModel(const Halcon::HTuple &FileName);
   // Read a shape model from a file.
   virtual void ReadShapeModel(const char *FileName);
-  // Serialize a shape model.
-  virtual HSerializedItem SerializeShapeModel() const;
   // Write a shape model to a file.
   virtual void WriteShapeModel(const Halcon::HTuple &FileName) const;
   // Write a shape model to a file.

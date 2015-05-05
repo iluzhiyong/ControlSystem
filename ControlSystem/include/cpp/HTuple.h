@@ -5,11 +5,13 @@
  * Project:     Halcon/libhalcon
  * Description: Class HTuple
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2008 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.46 $
+ * $Date: 2010/09/01 14:35:53 $
  * 
  */
 
@@ -219,43 +221,15 @@ public:
   HTuple       Substring(Hlong index1, Hlong index2) const;
   HTuple       Substring(const HTuple &index1, Hlong index2) const;
   HTuple       Substring(Hlong index1, const HTuple &index2) const;
-  HTuple       Substr(const HTuple &index1, const HTuple &index2) const;
   HTuple       Subset(const HTuple &index) const;
-  HTuple       SelectMask(const HTuple &mask) const;
   HTuple       Remove(const HTuple &index) const;
   HTuple       SelectRank(Hlong index) const;
   HTuple       SelectRank(const HTuple &index) const;
-  HTuple       Replace(const HTuple &index, const HTuple &replace) const;
-  HTuple       Insert(const HTuple &index, const HTuple &insert) const;
   HBool        Xor(const HTuple &pattern) const;
   HTuple       TXor(const HTuple &val) const;
   HTuple       And(const HTuple &val) const;
   HTuple       Or(const HTuple &val) const;
   HTuple       Not(void) const;
-  HTuple       Type(void) const;
-  HTuple       IsInt(void) const;
-  HTuple       IsReal(void) const;
-  HTuple       IsString(void) const;
-  HTuple       IsMixed(void) const;
-  HTuple       TypeElem(void) const;
-  HTuple       IsIntElem(void) const;
-  HTuple       IsRealElem(void) const;
-  HTuple       IsStringElem(void) const;
-  HTuple       EqualElem(const HTuple &val) const;
-  HTuple       NotEqualElem(const HTuple &val) const;
-  HTuple       GreaterElem(const HTuple &val) const;
-  HTuple       GreaterEqualElem(const HTuple &val) const;
-  HTuple       LessElem(const HTuple &val) const;
-  HTuple       LessEqualElem(const HTuple &val) const;
-  HTuple       Union(const HTuple& set2) const;
-  HTuple       Intersection(const HTuple& set2) const;
-  HTuple       Difference(const HTuple& set2) const;
-  HTuple       Symmdiff(const HTuple& set2) const;
-  HTuple       FindLast(const HTuple& to_find) const;
-  HTuple       FindFirst(const HTuple& to_find) const;
-  static HTuple GenSequence(const HTuple &start,
-                            const HTuple &end,
-                            const HTuple &step);
   operator     HCtrlVal(void) const;
   HTuple       operator () (Hlong min, Hlong max) const;
   HTuple       operator () (const HTuple &min, const HTuple &max) const;
@@ -398,9 +372,6 @@ public:
   HTuple       Concat(const HTuple &t) const;
   int          State(void) const   {return state;}
   void         Reset(void)         {ClearTuple(); tuple = 0; EmptyArray();}
-  void         ReplaceElements(const HTuple &Index,
-                               const HTuple &ReplaceValue);
-  HTuple       Select(const HTuple &Index);
   const char  *ClassName(void) const { return "HTuple"; }
 private:
   HCtrlVal    *tuple;       // values (array of Hlong/float/string)

@@ -36,10 +36,10 @@ bool CImageProcess::LoadCamParamPoseFile()
 	//Camera internal parameters
 	try
 	{
-		ReadCamPar(hv_CamParamFile, &m_hvCamParam);
+		read_cam_par(hv_CamParamFile, &m_hvCamParam);
 	}
 	// catch (Exception) 
-	catch (HalconCpp::HException &HDevExpDefaultException)
+	catch (Halcon::HException &HDevExpDefaultException)
 	{
 		HDevExpDefaultException.ToHTuple(&hv_Exception);
 		ret = false;
@@ -50,10 +50,10 @@ bool CImageProcess::LoadCamParamPoseFile()
 		HTuple hv_CamPoseFile = (char*)LPCTSTR(GetCameraPoseFIlePath());
 		try
 		{
-			ReadPose(hv_CamPoseFile, &m_hvCamPose);
+			read_pose(hv_CamPoseFile, &m_hvCamPose);
 		}
 		// catch (Exception) 
-		catch (HalconCpp::HException &HDevExpDefaultException)
+		catch (Halcon::HException &HDevExpDefaultException)
 		{
 			HDevExpDefaultException.ToHTuple(&hv_Exception);
 			ret = false;
@@ -84,13 +84,13 @@ bool CImageProcess::LoadProcessImage()
 	HTuple hv_Exception;
 	try
 	{
-		HalconCpp::ReadImage(&m_hvImage, (char*)LPCTSTR(GetProcessImagePath()));
+		Halcon::read_image(&m_hvImage, (char*)LPCTSTR(GetProcessImagePath()));
 		HTuple hv_width,hv_height;
-		HalconCpp::GetImageSize(m_hvImage, &hv_width, &hv_height);
+		Halcon::get_image_size(m_hvImage, &hv_width, &hv_height);
 		if(HDevWindowStack::IsOpen())
 		{
-			HalconCpp::SetPart(HDevWindowStack::GetActive(), 0, 0, hv_height -1, hv_width - 1);	
-			HalconCpp::DispObj(m_hvImage, HDevWindowStack::GetActive());
+			Halcon::set_part(HDevWindowStack::GetActive(), 0, 0, hv_height -1, hv_width - 1);	
+			Halcon::disp_obj(m_hvImage, HDevWindowStack::GetActive());
 		}
 		m_CirleDetecter->SetImageObject(m_hvImage);
 		return true;
@@ -120,14 +120,14 @@ bool CImageProcess::Process(float x, float y, float &cenertX, float &centerY)
 
 		//Image Center X,Y
 		HTuple hv_width,hv_height;
-		HalconCpp::GetImageSize(m_hvImage, &hv_width, &hv_height);
+		Halcon::get_image_size(m_hvImage, &hv_width, &hv_height);
 
 		//DispCross(HDevWindowStack::GetActive(), hv_height / 2, hv_width / 2, 10, 0);
 
 		float cx = 0.0, cy = 0.0;
 		float targetX = 0.0, targetY = 0.0;
 
-		ret = ConvertImagePoint(hv_height / 2, hv_width / 2, cx, cy);
+		ret = ConvertImagePoint(hv_height[0].D() / 2, hv_width[0].D() / 2, cx, cy);
 		if(ret)
 		{
 			ret = FindTargetPoint(targetX, targetY);
@@ -169,16 +169,16 @@ bool CImageProcess::ConvertImagePoint(float imgRow, float imgCol, float &wX, flo
 		return false;
 	}
 	HTuple hv_centX, hv_centY;
-	ImagePointsToWorldPlane(m_hvCamParam, m_hvCamPose, imgRow, imgCol, "mm", &hv_centX, &hv_centY);
-	wX = hv_centX;
-	wY = hv_centY;
+	image_points_to_world_plane(m_hvCamParam, m_hvCamPose, imgRow, imgCol, "mm", &hv_centX, &hv_centY);
+	wX = hv_centX[0].D();
+	wY = hv_centY[0].D();
 	return true;
 }
 
 bool CImageProcess::Action()
 {
 	//// Local iconic variables
-	//HObject  ho_Edges, ho_Holes, ho_Hole;
+	//Hobject  ho_Edges, ho_Holes, ho_Hole;
 	//HTuple  hv_Row, hv_Column, hv_Radius, hv_Number;
 
 	//EdgesSubPix(m_hvImage, &ho_Edges, "canny", 4, 20, 40);
@@ -193,7 +193,7 @@ bool CImageProcess::Action()
 	//{
 	//	if (HDevWindowStack::IsOpen())
 	//	{
-	//		DispObj(ho_Hole, HDevWindowStack::GetActive());
+	//		disp_obj(ho_Hole, HDevWindowStack::GetActive());
 	//		DispCross(HDevWindowStack::GetActive(), hv_Row[0], hv_Column[0], 10, 0);
 	//	}
 	//	m_TargetRow = hv_Row[0];

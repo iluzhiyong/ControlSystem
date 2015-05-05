@@ -5,11 +5,13 @@
  * Project:     HALCON/C++
  * Description: Class HSurfaceModel
  *
- * (c) 2007-2014 by MVTec Software GmbH
+ * (c) 2007-2010 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.2 $
+ * $Date: 2010/07/07 09:10:29 $
  *
  */
 
@@ -46,10 +48,6 @@ public:
 
   // Free the memory of all surface models.
   static void ClearAllSurfaceModels(void);
-  // Deserialize a surface model.
-  virtual void DeserializeSurfaceModel(const Halcon::HSerializedItem &SerializedItemHandle);
-  // Serialize a surface_model.
-  virtual HSerializedItem SerializeSurfaceModel() const;
   // Read a surface model from a file.
   virtual void ReadSurfaceModel(const Halcon::HTuple &FileName);
   // Read a surface model from a file.
@@ -59,19 +57,15 @@ public:
   // Write a surface model to a file.
   virtual void WriteSurfaceModel(const char *FileName) const;
   // Refine the pose of a surface model in a 3D scene.
-  virtual HTuple RefineSurfaceModelPose(const Halcon::HObjectModel3D &ObjectModel3D, const Halcon::HTuple &InitialPose, const Halcon::HTuple &MinScore, const Halcon::HTuple &ReturnResultHandle, const Halcon::HTuple &GenParamName, const Halcon::HTuple &GenParamValue, Halcon::HTuple *Score, Halcon::HTuple *SurfaceMatchingResultID) const;
-  // Refine the pose of a surface model in a 3D scene.
-  virtual HTuple RefineSurfaceModelPose(const Halcon::HObjectModel3D &ObjectModel3D, const Halcon::HTuple &InitialPose, const Halcon::HTuple &MinScore, const Halcon::HTuple &ReturnResultHandle, const Halcon::HTuple &GenParamName, const Halcon::HTuple &GenParamValue, Halcon::HTuple *Score, Hlong *SurfaceMatchingResultID) const;
+  virtual HTuple RefineSurfaceModelPose(const Halcon::HObjectModel3D &ObjectModel3DID, const Halcon::HTuple &InitialPose, const Halcon::HTuple &MinScore, const Halcon::HTuple &ReturnResultHandle, const Halcon::HTuple &GenParamName, const Halcon::HTuple &GenParamValue, Halcon::HTuple *Score, Halcon::HTuple *SurfaceMatchingResultID) const;
   // Find the best matches of a surface model in a 3D scene.
-  virtual HTuple FindSurfaceModel(const Halcon::HObjectModel3D &ObjectModel3D, const Halcon::HTuple &RelSamplingDistance, const Halcon::HTuple &KeyPointFraction, const Halcon::HTuple &MinScore, const Halcon::HTuple &ReturnResultHandle, const Halcon::HTuple &GenParamName, const Halcon::HTuple &GenParamValue, Halcon::HTuple *Score, Halcon::HTuple *SurfaceMatchingResultID) const;
-  // Find the best matches of a surface model in a 3D scene.
-  virtual HTuple FindSurfaceModel(const Halcon::HObjectModel3D &ObjectModel3D, const Halcon::HTuple &RelSamplingDistance, const Halcon::HTuple &KeyPointFraction, const Halcon::HTuple &MinScore, const Halcon::HTuple &ReturnResultHandle, const Halcon::HTuple &GenParamName, const Halcon::HTuple &GenParamValue, Halcon::HTuple *Score, Hlong *SurfaceMatchingResultID) const;
+  virtual HTuple FindSurfaceModel(const Halcon::HObjectModel3D &ObjectModel3DID, const Halcon::HTuple &RelSamplingDistance, const Halcon::HTuple &KeyPointFraction, const Halcon::HTuple &MinScore, const Halcon::HTuple &ReturnResultHandle, const Halcon::HTuple &GenParamName, const Halcon::HTuple &GenParamValue, Halcon::HTuple *Score, Halcon::HTuple *SurfaceMatchingResultID) const;
   // Return the parameters and properties of a surface model.
   virtual HTuple GetSurfaceModelParam(const Halcon::HTuple &ParamName) const;
   // Return the parameters and properties of a surface model.
   virtual HTuple GetSurfaceModelParam(const char *ParamName) const;
   // Create the data structure needed to perform surface-based matching.
-  virtual void CreateSurfaceModel(const Halcon::HObjectModel3D &ObjectModel3D, const Halcon::HTuple &RelSamplingDistance, const Halcon::HTuple &GenParamName, const Halcon::HTuple &GenParamValue);
+  virtual void CreateSurfaceModel(const Halcon::HObjectModel3D &ObjectModel3DID, const Halcon::HTuple &RelSamplingDistance, const Halcon::HTuple &GenParamName, const Halcon::HTuple &GenParamValue);
 };
 
 }

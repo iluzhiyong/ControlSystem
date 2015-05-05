@@ -1,15 +1,17 @@
-/*****************************************************************************
+  /*****************************************************************************
  * CORE1.h
  ***************************************************************************** 
  *
  * Project:     HALCON/libhalcon
  * Description: Mid level procedure interface
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2008 by MVTec Software GmbH
  *               www.mvtec.com
  * 
  *****************************************************************************
  * 
+ * $Revision: 1.34 $
+ * $Date: 2010/08/27 09:43:01 $
  *
  */
 
@@ -41,10 +43,11 @@ extern HLibExport Herror HPGetObjNum(Hproc_handle proc_handle, INT par_num,
 
 
 /* HPTestObj - test, whether key specifies a valid database object           */
-extern HLibExport HBOOL HPTestObj( Hkey obj);
+extern HLibExport HBOOL HPTestObj(Hproc_handle proc_handle, Hkey obj);
 
 /* HPCountTuple - count number of managed data base objects                  */
-extern HLibExport Herror HPCountTuple( char *relation, INT4_8 *num);
+extern HLibExport Herror HPCountTuple(Hproc_handle proc_handle, 
+                                      char *relation, INT4_8 *num);
 
 /* HPGetComp - get key of a component of an object                           */
 extern HLibExport Herror HPGetComp(Hproc_handle proc_handle, Hkey obj_key, 
@@ -81,7 +84,7 @@ extern HLibExport Herror HPGetCParNum(Hproc_handle proc_handle, INT par_num,
 
 /* HPGetPPar - get array of pointers to value structures of inp. ctrl. par.  */
 extern HLibExport Herror HPGetPPar(Hproc_handle proc_handle, INT par_num, 
-                                   Hcpar *H_RESTRICT *val, INT4_8 *num);
+                                   Hcpar *RESTRICT *val, INT4_8 *num);
 
 /* HPGetPar - get values of input control parameter                          */
 extern HLibExport Herror HPGetPar(Hproc_handle proc_handle,
@@ -94,19 +97,9 @@ extern HLibExport Herror HPGetCPar(Hproc_handle proc_handle,
                                    INT par_num, INT kind_in, Hcpar Val[],
                                    INT4_8 min, INT4_8 max, INT4_8 *num);
 
-/* HPPutPElem - store output control parameter values by reference           */
-extern HLibExport Herror HPPutPElem(Hproc_handle proc_handle,
-                                    INT parnr, void *Val, INT4_8 num, 
-                                    INT type);
-
-/* HPPutElem - store output control parameter values by copy                 */
-extern HLibExport Herror HPPutElem(Hproc_handle proc_handle,
-                                   INT parnr, void const *Val, INT4_8 num,
-                                   INT type);
-
 /* HPPutPar - store output control parameter values                          */
 extern HLibExport Herror HPPutPar(Hproc_handle proc_handle,
-                                  INT par_num, INT kind, Hpar *Elem,
+                                  INT par_num, INT kind, Hpar *Val,
                                   INT4_8 num);
 
 /* HPPutPPar - store output control parameter values (by using pointers)     */
@@ -251,6 +244,14 @@ extern HLibExport Herror HPNumOfObjChannels(Hproc_handle proc_handle,
 extern HLibExport Herror HNumOfOutpObj(Hproc_handle proc_handle,INT par_num,
                                        INT *outp_objs);
 
+/* HGetAllOutpObjs - get all output object of (processed) Halcon operator    */
+extern HLibExport Herror HGetAllOutpObjs(Hproc_handle proc_handle,INT par,
+                                         Hkey **objects,INT4_8 *val_num);
+
+/* HGetAllOutpCtrls - get all outp. ctrl. values of (processed) H. operator  */
+extern HLibExport Herror HGetAllOutpCtrls(Hproc_handle proc_handle,INT par,
+                                          Hcpar ***ctrls,INT4_8 *val_num);
+
 /* HGetInputKeyByPtr - get input object key containing ptr */
 extern HLibExport Herror HGetInputKeyByPtr(Hproc_handle proc_id, void *ptr,
                                            Hkey *key);
@@ -260,69 +261,8 @@ extern HLibExport Herror HGetOutputKeyByPtr(Hproc_handle proc_id, void *ptr,
                                             Hkey *key);
 
 /* HGetInputRegionKeyByPtr - get input object key containing ptr */
-extern HLibExport Herror
-HGetInputRegionKeyByPtr(Hproc_handle proc_id, Hrlregion *ptr, Hkey *key);
-
-extern HLibExport Herror
-HPAllocOutpCtrl( Hproc_handle ph, INT par, INT type, INT4_8 length, 
-                 void*H_RESTRICT* elem);
-#define HAllocOutpCtrl(ph,par,type,length,elem)           \
-  HPAllocOutpCtrl( ph, par, type, length, (void*H_RESTRICT*) elem)
-
-extern HLibExport Herror
-HFreeOutpCtrl( Hproc_handle ph, INT par);
-
-extern HLibExport Herror
-HPReallocOutpCtrl( Hproc_handle ph, INT par, INT newtype, INT4_8 newlength, 
-                  void*H_RESTRICT* elem);
-#define HReallocOutpCtrl(ph,par,type,newlength,elem)          \
-  HPReallocOutpCtrl( ph, par, type, newlength, (void*) elem)
-
-extern HLibExport void
-HSetNumOutpCtrl( Hproc_handle ph, INT par, INT4_8 num);
-
-extern HLibExport void 
-HPGetPElem( Hproc_handle ph, INT par, 
-            void const*H_RESTRICT*elem, INT4_8 *num, INT *type) ;
-
-/* definition of conversion flags to pass to convert slot of HPGetPElemx: */
-#define CONV_NONE 0  /* no conversion;do only consider original element types*/
-#define CONV_CAST 1  /* <INT4_8>=(INT4_8)<double>; <double>=(double)<INT4_8>*/
-#define CONV_IDNT 2  /* convert double->INT4_8 if double has no fraction */
-#define CONV_RND  3  /* <INT4_8>=(INT4_8)(<double>+0.5) */
-/* direct access input ctrl arrays */
-extern HLibExport Herror 
-HPGetPElemL( Hproc_handle ph, INT par, INT convert,
-             INT4_8 const*H_RESTRICT*elem, INT4_8 *num) ;
-extern HLibExport Herror 
-HPGetPElemD( Hproc_handle ph, INT par, INT convert,
-             double const*H_RESTRICT*elem, INT4_8 *num) ;
-extern HLibExport Herror 
-HPGetPElemS( Hproc_handle ph, INT par, INT convert,
-             char const* const*H_RESTRICT*elem, INT4_8 *num) ;
-
-/* copy variant */ 
-extern HLibExport Herror 
-HPGetElemL( Hproc_handle ph, INT par, INT convert, INT memtype,
-            INT4_8 *H_RESTRICT*elem, INT4_8 *num);
-extern HLibExport Herror 
-HPGetElemD( Hproc_handle ph, INT par, INT convert, INT memtype,  
-            double *H_RESTRICT*elem, INT4_8 *num);
-extern HLibExport Herror 
-HPGetElemS( Hproc_handle ph, INT par, INT convert, INT memtype,
-            char  *H_RESTRICT*H_RESTRICT *elem, INT4_8 *num);
-
-/* copy variant with preallocated arrays */
-extern HLibExport Herror 
-HPCopyElemL( Hproc_handle ph, INT par, INT convert, 
-             INT4_8 *H_RESTRICT lelem, INT4_8 *num);
-extern HLibExport Herror 
-HPCopyElemD( Hproc_handle ph, INT par, INT convert,  
-             double *H_RESTRICT delem, INT4_8 *num);
-extern HLibExport Herror 
-HPCopyElemF( Hproc_handle ph, INT par, INT convert,  
-             float *H_RESTRICT delem, INT4_8 *num);
-
+extern HLibExport Herror HGetInputRegionKeyByPtr(Hproc_handle proc_id,
+                                                 Hrlregion *ptr, Hkey *key);
 
 #if defined(__cplusplus)
 }

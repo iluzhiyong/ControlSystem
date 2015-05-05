@@ -5,11 +5,13 @@
  * Project:     Halcon
  * Creation:    
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2005 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.10 $
+ * $Date: 2009/05/14 15:17:30 $
  *
  */
 

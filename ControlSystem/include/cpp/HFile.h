@@ -5,11 +5,13 @@
  * Project:     HALCON/C++
  * Description: Class HFile
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2008 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.9 $
+ * $Date: 2008/12/06 13:35:12 $
  *
  */
 
@@ -42,21 +44,21 @@ public:
 
   // Tool-specific member functions
 
-  // Open a file in ASCII or a binary format.
+  // Open text file.
   virtual void OpenFile(const Halcon::HTuple &FileName, const Halcon::HTuple &FileType);
-  // Open a file in ASCII or a binary format.
+  // Open text file.
   virtual void OpenFile(const char *FileName, const char *FileType);
-  // Write values in a file.
+  // Write values in a text file.
   virtual void FwriteString(const Halcon::HTuple &String) const;
-  // Read a line from a file.
+  // Read a line from a text file.
   virtual HTuple FreadLine(Halcon::HTuple *IsEOF) const;
-  // Read a line from a file.
+  // Read a line from a text file.
   virtual HTuple FreadLine(Hlong *IsEOF) const;
-  // Read strings from a file.
+  // Read strings from a text file.
   virtual HTuple FreadString(Halcon::HTuple *IsEOF) const;
-  // Read strings from a file.
+  // Read strings from a text file.
   virtual HTuple FreadString(Hlong *IsEOF) const;
-  // Read a character from a file.
+  // Read a character from a text file.
   virtual HTuple FreadChar() const;
   // Create a line feed.
   virtual void FnewLine() const;

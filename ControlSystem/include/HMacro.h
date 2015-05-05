@@ -1,17 +1,23 @@
 /*****************************************************************************
  * HMacro.h
- *****************************************************************************
+ ***************************************************************************** 
  *
  * Project:      HALCON/libhalcon
  * Description:  Definition of macros
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2010 by MVTec Software GmbH
  *               www.mvtec.com
+ * 
+ *****************************************************************************
+ * 
+ * $Revision: 1.9 $
+ * $Date: 2010/09/03 15:06:43 $
  *
- *****************************************************************************/
+ */
 
 #ifndef HMACRO_H
 #define HMACRO_H
+
 
 
 #define HDFImage(VAR,IMAGE_IN,KOOR) { VAR = 0.0; \
@@ -28,7 +34,7 @@
     case COMPLEX_IMAGE: return(H_ERR_WITFO); /* wrong image type */ \
     case VF_IMAGE: return(H_ERR_WITFO);      /* wrong image type */ \
     default: return(H_ERR_NIIT);             /* not implemented image type */\
-  }}
+  }} 
 
 
 
@@ -98,20 +104,20 @@
     case DIR_IMAGE: return(H_ERR_WITFO);                                \
     case VF_IMAGE: return(H_ERR_WITFO); /* wrong image type */          \
     default: return(H_ERR_NIIT); /* not implemented image type */       \
-  }
+  } 
 
 
 #define HCkFilterSize(IMAGE_WIDTH,IMAGE_HEIGHT,FILTER_WIDTH,FILTER_HEIGHT) \
   if(((IMAGE_WIDTH) < ((FILTER_WIDTH)>>1)+1) ||                         \
      ((IMAGE_HEIGHT) < ((FILTER_HEIGHT)>>1)+1))                         \
-     return(H_ERR_FSEIS);
+     return(H_ERR_FSEIS); 
 
 #define HCkFilterSize_2(IMAGE_WIDTH,IMAGE_HEIGHT,                       \
                         FILTER_WIDTH_2, FILTER_HEIGHT_2)                \
   if(((IMAGE_WIDTH) < (FILTER_WIDTH_2)+1) ||                            \
      ((IMAGE_HEIGHT) < (FILTER_HEIGHT_2)+1))                            \
-     return(H_ERR_FSEIS);
-
+     return(H_ERR_FSEIS); 
+     
 
 #define DIST(PIX,PIX2,ABSDIF,IMAGE_IN_KIND)                           \
   switch (IMAGE_IN_KIND) {                                            \
@@ -126,21 +132,21 @@
       break;                                                          \
     case CYCLIC_IMAGE:                                                \
       { double dmax,dmaxh;                                            \
-        dmax = (double)UCHAR_MAX + 1.;                                      \
-        dmaxh = (double)(int)(dmax/2.);                                     \
-        ABSDIF = ABS((PIX)-(PIX2));                                         \
-        if ((ABSDIF) > dmaxh) ABSDIF = dmax - (ABSDIF);                     \
+	dmax = (double)UCHAR_MAX + 1.;                                      \
+	dmaxh = (double)(int)(dmax/2.);                                     \
+	ABSDIF = ABS((PIX)-(PIX2));                                         \
+	if ((ABSDIF) > dmaxh) ABSDIF = dmax - (ABSDIF);                     \
       }                                                               \
       break;                                                          \
     case DIR_IMAGE:                                                   \
       if ((PIX) > 200. || (PIX2) > 200.) ABSDIF = (double)UCHAR_MAX;  \
       else                                                            \
       { ABSDIF = ABS((PIX)-(PIX2));                                   \
-        if ((ABSDIF) > 90.) ABSDIF = 181. - (ABSDIF);                       \
+	if ((ABSDIF) > 90.) ABSDIF = 181. - (ABSDIF);                       \
       }                                                               \
       break;                                                          \
     default: return(H_ERR_NIIT);                                      \
-  }
+  }  
 
 #define HiType2iIDX(iTYPE,iIDX)                 \
   switch (iTYPE)                                \
@@ -182,33 +188,30 @@
     iIDX  = UNDEF_IMAGE;                        \
     break;                                      \
   }
-
+  
 
 
 #define HMOD(VAL,VALMAX) (((VAL) < 0) ? \
   ((unsigned char)(((VALMAX) - (-(VAL) % (VALMAX))) % (VALMAX))) :\
-  ((unsigned char)((VAL) % (VALMAX))))
+  ((unsigned char)((VAL) % (VALMAX)))) 
 
 
 
 #ifdef FAST
 #define TestRegIma(REG,WIDTH,HEIGHT)
 #else
-#define TestRegIma(REG,WIDTH,HEIGHT)                        \
-if (REG->num > 0) {                                         \
-  if (REG->rl[REG->num-1].ce >= WIDTH)                      \
-    /* letzte Zeile zu gross */                             \
-    HASSERT(FALSE);/*return(H_ERR_LLTB);*/                  \
-  if (REG->rl[0].l < 0)                                     \
-    /* erste Zeile zu klein */                              \
-    HASSERT(FALSE);/*return(H_ERR_FLTS);*/                  \
-  if (REG->rl[REG->num-1].l >= HEIGHT) {                    \
-    printf("file %s, in line %d:\n",__FILE__,__LINE__);     \
-    printf("image width/height = (%d,%d)\n",WIDTH,HEIGHT);  \
-    printf("region min/max row = %d, %d\n",                 \
-           REG->rl[0].l,REG->rl[REG->num-1].l);             \
-    /* letzte Zeile zu gross */                             \
-    HASSERT(FALSE);/*return(H_ERR_LLTB);*/  } }
+#define TestRegIma(REG,WIDTH,HEIGHT) \
+if (REG->num > 0) { \
+if (REG->rl[REG->num-1].ce >= WIDTH) \
+  return(H_ERR_LLTB);   /* letzte Zeile zu gross */\
+if (REG->rl[0].l < 0) \
+  return(H_ERR_FLTS);   /* erste Zeile zu klein */\
+if (REG->rl[REG->num-1].l >= HEIGHT) { \
+  printf("file %s, in line %d:\n",__FILE__,__LINE__); \
+  printf("image width/height = (%d,%d)\n",WIDTH,HEIGHT); \
+  printf("region min/max row = %d, %d\n", \
+	 REG->rl[0].l,REG->rl[REG->num-1].l); \
+  return(H_ERR_LLTB);  } } /* letzte Zeile zu gross */
 #endif
 
 
@@ -224,13 +227,10 @@ if (REG->num > 0) {                                         \
 
 /*****************************************************************************
  * Routines for freeing ans reallocating "permanent","local", or "temporary"
- * memory.
+ * memory.  
  *****************************************************************************/
-# define HFreeGeneral(PROC_HANDLE,VOID_PTR)                           \
-  (HTraceMemory ?                                                     \
-   HXFreeGeneralMemCheck(PROC_HANDLE, (VOIDP)VOID_PTR,                \
-                         __FILE__,(INT4_8)__LINE__):                  \
-   HXFreeGeneral(PROC_HANDLE,(VOIDP)VOID_PTR) )                       \
+# define HFreeGeneral(PROC_HANDLE,VOID_PTR)     \
+  HXFreeGeneral(PROC_HANDLE,(VOIDP)VOID_PTR)
 
 #ifdef SMALL
 # define HReallocGeneral(PROC_HANDLE,VOID_PTR,SIZE,NEW_PTR)             \
@@ -272,38 +272,17 @@ if (REG->num > 0) {                                         \
   (HTraceMemory ?                                                   \
     HXAllocMemCheck(PROC_HANDLE,SIZE,"",(INT4_8)-1,H_GLOBAL_ALLOC,  \
                     (VOIDP)(VOID_PTR)):                             \
-   HXAlloc(PROC_HANDLE,SIZE,(VOIDP)(VOID_PTR)))
-
+   HXAlloc(PROC_HANDLE,SIZE,(VOIDP)(VOID_PTR)))                    
+    
 
 #else
 # define HAlloc(PROC_HANDLE,SIZE,VOID_PTR)                              \
   (HTraceMemory ?                                                       \
     HXAllocMemCheck(PROC_HANDLE,SIZE,__FILE__,(INT4_8)__LINE__,         \
                     H_GLOBAL_ALLOC,(VOIDP)(VOID_PTR)):                  \
-    HXAlloc(PROC_HANDLE,SIZE,(VOIDP)(VOID_PTR)))
+    HXAlloc(PROC_HANDLE,SIZE,(VOIDP)(VOID_PTR)))   
 
 #endif
-
-#define HIsAligned(VOID_PTR,ALIGNMENT) (((UINT4_8)ptr & (ALIGNMENT-1)) == 0)
-
-#ifdef SMALL
-# define HAllocAlign(PROC_HANDLE,SIZE,ALIGNMENT,VOID_PTR)                \
-  (HTraceMemory ?                                                        \
-    HXAllocAlignMemCheck(PROC_HANDLE,SIZE,ALIGNMENT,"",(INT4_8)-1,       \
-                         H_GLOBAL_ALLOC,(VOIDP)(VOID_PTR)):              \
-   HXAllocAlign(PROC_HANDLE,SIZE,ALIGNMENT,(VOIDP)(VOID_PTR)))
-
-
-#else
-# define HAllocAlign(PROC_HANDLE,SIZE,ALIGNMENT,VOID_PTR)                \
-  (HTraceMemory ?                                                        \
-    HXAllocAlignMemCheck(PROC_HANDLE,SIZE,ALIGNMENT,__FILE__,            \
-                         (INT4_8)__LINE__,H_GLOBAL_ALLOC,                \
-                         (VOIDP)(VOID_PTR)):                             \
-    HXAllocAlign(PROC_HANDLE,SIZE,ALIGNMENT,(VOIDP)(VOID_PTR)))
-
-#endif
-
 
 #ifdef SMALL
 # define HRealloc(PROC_HANDLE,VOID_PTR,SIZE,NEW_PTR)                    \
@@ -328,16 +307,16 @@ if (REG->num > 0) {                                         \
 # define HFree(PROC_HANDLE,VOID_PTR)                                    \
   (HTraceMemory ?                                                       \
    HXFreeMemCheck(PROC_HANDLE,(VOIDP)(VOID_PTR),"",(INT4_8)-1):         \
-    HXFree(PROC_HANDLE,(VOIDP)(VOID_PTR)))
+    HXFree(PROC_HANDLE,(VOIDP)(VOID_PTR)))                               
 
 #else
 # define HFree(PROC_HANDLE,VOID_PTR)                                    \
   (HTraceMemory ?                                                       \
     HXFreeMemCheck(PROC_HANDLE,(VOIDP)(VOID_PTR),                       \
                    __FILE__,(INT4_8)__LINE__):                          \
-    HXFree(PROC_HANDLE,(VOIDP)(VOID_PTR)))
+    HXFree(PROC_HANDLE,(VOIDP)(VOID_PTR)))                               
 
-#endif
+#endif 
 
 #ifdef SMALL
 # define HAllocRLNum(PROC_HANDLE,REGION,SIZE)         \
@@ -521,16 +500,6 @@ if (REG->num > 0) {                                         \
 #endif
 
 #ifdef SMALL
-#define HAllocLocalAlign(PROC_HANDLE,SIZE,ALIGNMENT,VOID_PTR) \
-   HXAllocLocalAlign(PROC_HANDLE,SIZE,ALIGNMENT,"",(INT4_8)-1,\
-                     (VOIDP)(VOID_PTR))
-#else
-#define HAllocLocalAlign(PROC_HANDLE,SIZE,ALIGNMENT,VOID_PTR) \
-   HXAllocLocalAlign(PROC_HANDLE,SIZE,ALIGNMENT,__FILE__,(INT4_8)__LINE__,\
-                     (VOIDP)(VOID_PTR))
-#endif
-
-#ifdef SMALL
 #define HReallocLocal(PROC_HANDLE,VOID_PTR,SIZE,NEW_PTR)              \
   HXReallocLocal(PROC_HANDLE,(VOIDP)(VOID_PTR),SIZE,(VOIDP)(NEW_PTR), \
                  "",(INT4_8)-1)
@@ -582,7 +551,6 @@ if (REG->num > 0) {                                         \
    HXFreeRLLocal(PROC_HANDLE,(VOIDP)REGION,__FILE__,(INT4_8)__LINE__)
 #endif
 
-
 #ifndef ABS
 #define ABS(A)  (((A) >= 0) ? (A) : (-(A)))
 #endif
@@ -592,22 +560,14 @@ if (REG->num > 0) {                                         \
 #define DegToRad(x) (double)(x) / 57.295779513082
 
 #define HIRound(Val) (((Val) < 0.0) ? ((INT)((Val)-0.5)):((INT)((Val)+0.5)))
-#define HI4Round(Val) (((Val) < 0.0) ? ((INT4)((Val)-0.5)):((INT4)((Val)+0.5)))
 #define HLRound(Val) (((Val) < 0.0) ? ((INT4_8)((Val)-0.5)):  \
-                      ((INT4_8)((Val)+0.5)))
+		     ((INT4_8)((Val)+0.5)))
 #define HI8Round(Val) (((Val) < 0.0) ? ((HINT8)((Val)-0.5)):  \
                        ((HINT8)((Val)+0.5)))
-#define HIMGCOORRound(Val) (((Val) < 0.0) ? ((HIMGCOOR)((Val)-0.5)):  \
-                            ((HIMGCOOR)((Val)+0.5)))
-#define HFIRound(Val) (((Val)<0.0f)?((INT)((Val)-0.5f)):((INT)((Val)+0.5f)))
 
 
-/*
- * Edge handling for images by mirroring.
- *
- * IMPORTANT: 'width' and 'height' are assumed to be defined for any code
- * using these macros
- */
+/* Randbehandlung bei Bildern; Achtung 'width' wird als global angenommen */
+/* Spiegeln */
 #define BR(ROW)   (((ROW) < 0) ? (-(ROW)) :      \
   (((ROW) >= height) ? (height-(ROW)+height-2) : \
     (ROW)))
@@ -615,14 +575,6 @@ if (REG->num > 0) {                                         \
   (((COL) >= width) ? (width - (COL) + width - 2) : \
     (COL)))
 
-/*
- * Optimized variants of the BR and BC macros above when the bound to check
- * against (upper or lower) is known by the caller.
- */
-#define BRL(ROW) (((ROW) < 0) ? -(ROW) : (ROW))
-#define BRU(ROW) (((ROW) >= height) ? (height-(ROW)+height-2) : (ROW))
-#define BCL(COL) (((COL) < 0) ? -(COL) : (COL))
-#define BCU(COL) (((COL) >= width) ? (width-(COL)+width-2) : (COL))
 
 /* Hrlregion */
 #define HRLReset(RL)                                                  \
@@ -634,33 +586,17 @@ if (REG->num > 0) {                                         \
     (RL)->rl = (Hrun*)(((HBYTE*)(void*)&(RL)->rl)+sizeof((RL)->rl));  \
   }
 
+#define HTestF(RL,FEAT) ((RL)->feature.def.single.FEAT == 1)
 
-/*
- * Macros to test and set feature cache flags. To ensure thread safety without
- * the overhead of locking, memory barriers must be used on architectures that
- * do not have strongly consistent memory ordering.  on all architectures, the
- * compiler must be prevented from reordering memory accesses. Therefore, the
- * C standard allows volatile casts to prevent compiler optimizations accross
- * sequence points.
- *
- * NOTE: for non-gcc compatible compilers and platforms without consistent
- * memory ordering, the test macros do not include the memory barrier
- * instruction. If needed, we must compile
- * with gcc or a compatible compiler.
- */
+#define HSetF(RL,FEAT) (RL)->feature.def.single.FEAT = 1
 
-#  define HTestF(RL,FEAT)                                             \
-  (((volatile HFeatureFlags *)&(RL)->feature.def.single)->FEAT == 1)
-#define HSetF(RL,FEAT)                                                \
-    ((volatile HFeatureFlags *)&(RL)->feature.def.single)->FEAT = 1
-
-#define HGetFVal(RL,FEAT) ((volatile HRegFeature*)&(RL)->feature)->FEAT
+#define HGetFVal(RL,FEAT) (RL)->feature.FEAT
 
 #define HTestBF(RL,FEAT) (HTestF(RL,FEAT) && (HGetFVal(RL,FEAT) == TRUE))
 
 #define HSetBF(RL,FEAT) { HSetF(RL,FEAT); HSetFVal(RL,FEAT,TRUE); }
 
-#define HSetFVal(RL,FEAT,VAL) ((volatile HRegFeature*)&(RL)->feature)->FEAT = VAL
+#define HSetFVal(RL,FEAT,VAL) (RL)->feature.FEAT = VAL
 
 #define HRLSize(NumRuns) ((size_t)((NumRuns) * sizeof(Hrun) + \
                                    (sizeof(Hrlregion))))
@@ -710,10 +646,8 @@ if (REG->num > 0) {                                         \
 #define MAX(X,Y) (((X)>(Y))?(X):(Y))
 #endif
 
-#define DToINT4_8(Val) ((Val)<(double)INT4_8_MIN?INT4_8_MIN: \
-                        ((Val)<INT_4_8_MAXDOUBLE?(INT4_8)(Val): \
-                        (((INT4_8_MIN==(INT4_8)(Val))&&((Val)>0))?INT4_8_MAX: \
-                        ((INT4_8)(Val)))))
+#define DToINT4_8(Val) ((INT4_8)MIN((double)INT4_8_MAX, \
+                                    MAX((double)INT4_8_MIN,(Val))))
 #define DToINT4(Val) ((INT4)MIN((double)INT4_MAX,MAX((double)INT4_MIN,(Val))))
 #define DToINT2(Val) ((INT2)MIN((double)INT2_MAX,MAX((double)INT2_MIN,(Val))))
 #define DToINT(Val) ((INT)MIN((double)INT_MAX,MAX((double)INT_MIN,(Val))))
@@ -722,45 +656,43 @@ if (REG->num > 0) {                                         \
   ((((R)>=0) && ((C)>=0) && ((R)<(HEIGHT)) && ((C)<(WIDTH)))?TRUE:FALSE)
 
 
-#if !defined HCkP
-# if !defined(NO_SPY) && !defined(FAST)
-#  define HCkP(Proc)                                                    \
-   XHCkP(Proc)
-#  define XHCkP(Proc)                                                   \
-do{                                                                     \
-  Herror _H_ERR;                                                        \
-  Herror _H_ERR_P;                                                      \
-  if (IOGetSpyProcCallSwitch())                                         \
-    IOSpyProcCall(#Proc,__LINE__,__FILE__);                             \
-  if ( HIsError(_H_ERR = (Proc)))                                       \
+#if !defined(NO_SPY) && !defined(FAST)
+# define HCkP(Proc)                                                     \
+  XHCkP(Proc)
+# define XHCkP(Proc)                                                    \
   {                                                                     \
-    if( HIsError(_H_ERR_P = HProcessErr(#Proc,_H_ERR,__LINE__,__FILE__))) \
-      return(_H_ERR_P);                                                 \
-    return(_H_ERR);                                                     \
-  }                                                                     \
-} while(0)
-# else
-#  define HCkP(Proc)                            \
-   XHCkP(Proc)
-#  define XHCkP(Proc)                           \
-do {                                            \
-  Herror _H_ERR;                                \
-  if (HIsError(_H_ERR = (Proc)))                \
-  {                                             \
-    return(_H_ERR);                             \
-  }                                             \
-} while(0)
-# endif
-#endif /* if not defined HCkP */
+    Herror ERR;                                                         \
+    Herror H_ERR_P;                                                     \
+    if (HROInfo.SpyAllProc && HROInfo.Spy)                              \
+      IOSpyProcCall(#Proc,__LINE__,__FILE__);                           \
+    if ((ERR = (Proc)) != H_MSG_OK)                                     \
+    {                                                                   \
+      if( (H_ERR_P = HProcessErr(#Proc,ERR,__LINE__,__FILE__)) != H_MSG_OK) \
+        return(H_ERR_P);                                                \
+      return(ERR);                                                      \
+    }                                                                   \
+  }
+#else
+# define HCkP(Proc)                              \
+  XHCkP(Proc)
+# define XHCkP(Proc)                             \
+  {                                              \
+    Herror ERR;                                  \
+    if ((ERR = (Proc)) != H_MSG_OK)              \
+    {                                            \
+      return(ERR);                               \
+    }                                            \
+  }
+#endif
 
 #if !defined(NO_SPY) && !defined(FAST)
 # define HCkPCloseFile(Proc,File)                                       \
   XHCkPCloseFile(Proc,File)
 # define XHCkPCloseFile(Proc,File)                                      \
-do {                                                                    \
+  {                                                                     \
     Herror ERR;                                                         \
     Herror H_ERR_P;                                                     \
-    if (IOGetSpyProcCallSwitch())                                       \
+    if (HROInfo.SpyAllProc && HROInfo.Spy)                              \
       IOSpyProcCall(#Proc,__LINE__,__FILE__);                           \
     if ((ERR = (Proc)) != H_MSG_OK)                                     \
     {                                                                   \
@@ -769,26 +701,26 @@ do {                                                                    \
         return(H_ERR_P);                                                \
       return(ERR);                                                      \
     }                                                                   \
-} while(0)
+  }
 #else
 # define HCkPCloseFile(Proc,File)                \
   XHCkPCloseFile(Proc,File)
 # define XHCkPCloseFile(Proc,File)               \
-do {                                              \
+  {                                              \
     Herror ERR;                                  \
     if ((ERR = (Proc)) != H_MSG_OK)              \
     {                                            \
       fclose(File);                              \
       return(ERR);                               \
     }                                            \
-} while(0)
+  }
 #endif
 
 #if !defined(NO_SPY) && !defined(FAST)
 #define HCkPasync(Proc,GapingFlag,ComplFlag,ErrFlag)                    \
-do {                                                                    \
+{                                                                       \
   Herror ERR,H_ERR_P;                                                   \
-  if(IOGetSpyProcCallSwitch())                                           \
+  if(HROInfo.SpyAllProc && HROInfo.Spy)                                 \
     IOSpyProcCall(#Proc,__LINE__,__FILE__);                             \
   if( (ERR = Proc) != H_MSG_OK)                                         \
   {                                                                     \
@@ -808,10 +740,10 @@ do {                                                                    \
     }                                                                   \
     return(ERR);                                                        \
   }                                                                     \
-} while(0)
+}
 #else
 #define HCkPasync(Proc,GapingFlag,ComplFlag,ErrFlag)                    \
-do {                                                                    \
+{                                                                       \
   Herror ERR;                                                           \
   if( (ERR = Proc) != H_MSG_OK)                                         \
   {                                                                     \
@@ -822,37 +754,35 @@ do {                                                                    \
     }                                                                   \
     return(ERR);                                                        \
   }                                                                     \
-} while(0)
+}
 #endif
 
 #define HCkE(ERR) XHCkE(ERR)
-#if defined(FAST) || defined (NO_SPY)
+#if defined(FAST) || defined (NO_SPY) 
 #define XHCkE(ERR) {if (ERR != H_MSG_OK) return(ERR);}
 #else
 #define XHCkE(ERR)                                    \
-do {                                                  \
+  {                                                   \
     if (ERR != H_MSG_OK)                              \
     {                                                 \
-      if (IOGetSpyProcCallSwitch())                    \
+      if (HROInfo.SpyAllProc && HROInfo.Spy)          \
         (void)HProcessErr("-",ERR,__LINE__,__FILE__); \
       return(ERR);                                    \
     }                                                 \
-} while(0)
+}
 #endif
 
 #define HCkPME(ERR,PROC) XHCkPME(ERR,PROC)
-#if defined(FAST) || defined (NO_SPY)
+#if defined(FAST) || defined (NO_SPY) 
 #define XHCkPME(ERR,PROC)                       \
-do {                                            \
-  Herror _terr;                                 \
-  if (H_MSG_OK!=(_terr=(PROC))) (ERR)=_terr;    \
-} while(0)
+  { Herror _terr;                               \
+    if (H_MSG_OK!=(_terr=(PROC))) (ERR)=_terr;}
 #else
 #define XHCkPME(ERR,PROC)                             \
   { Herror _terr;                                     \
     if (H_MSG_OK!=(_terr=(PROC)))                     \
     {                                                 \
-      if (IOGetSpyProcCallSwitch())                    \
+      if (HROInfo.SpyAllProc && HROInfo.Spy)          \
         (void)HProcessErr("-",ERR,__LINE__,__FILE__); \
       (ERR)=_terr;                                    \
     }                                                 \
@@ -860,7 +790,7 @@ do {                                            \
 #endif
 
 #define HCkNoObj(PROC_HANDLE)                            \
-do {                                                     \
+{                                                        \
   HBOOL BOOL_PTR;                                        \
   if ((HNoInpObj(PROC_HANDLE, &BOOL_PTR) != H_MSG_OK) || \
       (BOOL_PTR == TRUE))                                \
@@ -869,19 +799,19 @@ do {                                                     \
     HReadGV(PROC_HANDLE,HGNoObjResult,&N_OBJ_RESULT);    \
     return(N_OBJ_RESULT);                                \
   }                                                      \
-} while(0)
+}
 
 #define HCkOnlySqr(width,height) \
   if (!HIs2Pot(width) || (!HIs2Pot(height))) return(H_ERR_NPOT)
 
-#define HIsError(ERR) ((ERR) > H_MSG_TRUE)
-#define HIsMessage(ERR) ((ERR) <= H_MSG_TRUE)
+#define HIsError(Err) ((Err > H_MSG_TRUE)?(TRUE):(FALSE))
+#define HIsMessage(Err) ((Err <= H_MSG_TRUE)?(TRUE):(FALSE))
 
 #ifdef FAST
 #define HCkRL(PROC_HANDLE,RL,PROC,IN_OUT)
 #else
 #define HCkRL(PROC_HANDLE,RL,PROC,IN_OUT)                               \
-do {                                                                    \
+  {                                                                     \
   Herror H_ERR_RL;                                                      \
   INT4 CHECK_F;                                                         \
   HReadGV(PROC_HANDLE,HGcheck,&CHECK_F);                                \
@@ -897,8 +827,51 @@ do {                                                                    \
       return(H_ERR_RL);                                                 \
     }                                                                   \
   }                                                                     \
-} while(0)
+}
 #endif
+
+
+#define CStoreOutpObj(PH,PAR,OBJ)                   \
+{                                                   \
+  INT4   OutpObjNum = HGetGV_OutpObjNum_p(PH,PAR);  \
+  INT4   OutpObjLen = HGetGV_OutpObjLen_p(PH,PAR);  \
+  if (OutpObjNum >= OutpObjLen)                     \
+  {                                                 \
+    size_t newSize = 2*(OutpObjLen+10);             \
+    VOIDP newMem;                                   \
+    HCkP(HRealloc(PH,HGetGV_OutpObjList_p(PH,PAR),  \
+                  newSize*sizeof(Hkey),&newMem));   \
+    HInitGV_OutpObjList_p(PH,PAR,(Hkey*)newMem);    \
+    HWriteGV_OutpObjLen_p(PH,PAR,newSize);          \
+  }                                                 \
+  HWriteGV_OutpObjList_pi(PH,PAR,OutpObjNum,OBJ);   \
+  HWriteGV_OutpObjNum_p(PH,PAR,++OutpObjNum);       \
+}
+
+
+
+#define CStoreCtrlVal(PROC_HANDLE,PAR,HCPAR)                \
+{                                                           \
+  INT4   Num_ctrl_outp;                                     \
+  INT4   L_outplist;                                        \
+  INT    New_size;                                          \
+  HReadGV(PROC_HANDLE,HGNumCtrlOutp,&Num_obj_outp);         \
+  HWriteGVKA(PROC_HANDLE,HGOutpObjList,OBJ,Num_obj_outp);   \
+  HWriteGVA(PROC_HANDLE,HGOutpObjParList,PAR,Num_obj_outp); \
+  Num_obj_outp++;                                           \
+  HWriteGV(PROC_HANDLE,HGNumObjOutp,Num_obj_outp);          \
+  HReadGV(PROC_HANDLE,HGLengthOutpObjList,&L_outplist);     \
+  if (Num_obj_outp >= L_outplist)                           \
+  {                                                         \
+    New_size = (INT)(2*L_outplist*sizeof(Hkey));            \
+    HReallocGVA(PROC_HANDLE,HGOutpObjList,New_size);        \
+    New_size = (INT)(2*L_outplist*sizeof(char));            \
+    HReallocGVA(PROC_HANDLE,HGOutpObjParList,New_size);     \
+    HWriteGV(PROC_HANDLE,HGLengthOutpObjList,2*L_outplist); \
+  }                                                         \
+}
+
+
 
 
 #define LongToNet(L,N)                            \
@@ -934,179 +907,135 @@ do {                                                                    \
     ((short)(HH[1]));                           \
 }
 
-#define HAllocStringMem(PROC_HANDLE,SIZE)              \
+#ifndef H_PARALLEL
+# define HScale(PROC_HANDLE,TOscale)                                    \
+  TOscale = ((Hproc_handle_)PROC_HANDLE)->sys_info_shared->ZoomPixel
+
+# define HScaleFWidth(PROC_HANDLE,L,Val)                                \
+  Val = ((L) / ((Hproc_handle_)PROC_HANDLE)->sys_info_shared->PixelWidth)
+
+# define HScaleFHeight(PROC_HANDLE,L,Val)                               \
+  Val = ((L) / ((Hproc_handle_)PROC_HANDLE)->sys_info_shared->PixelHeight)
+
+# define HRScaleLWidth(PROC_HANDLE,L,Val)                               \
+  Val = (((L) * ((Hproc_handle_)PROC_HANDLE)->sys_info_shared->HeightMult)>>20)
+
+# define HRScaleLHeight(PROC_HANDLE,L,Val)                              \
+  Val = (((L) * ((Hproc_handle_)PROC_HANDLE)->sys_info_shared->WidthMult)>>20)
+
+# define HRScaleFWidth(PROC_HANDLE,L,Val)                               \
+  Val = ((L) * ((Hproc_handle_)PROC_HANDLE)->sys_info_shared->PixelWidth)
+
+# define HRScaleFHeight(PROC_HANDLE,L,Val) Val = ((L) * ((Hproc_handle_)PROC_HANDLE)->sys_info_shared->PixelHeight)
+
+#else
+# define HScale(PROC_HANDLE,TOscale)            \
+  HReadGV(PROC_HANDLE,HGZoomPixel,&TOscale)
+
+# define HScaleFWidth(PROC_HANDLE,L,Val)        \
+  {                                             \
+    float PixWid;                               \
+    HReadGV(PROC_HANDLE,HGPixelWidth,&PixWid);  \
+    Val = (L) / PixWid;                         \
+  }
+# define HScaleFHeight(PROC_HANDLE,L,Val)       \
+  {                                             \
+    float PixHei;                               \
+    HReadGV(PROC_HANDLE,HGPixelHeight,&PixHei); \
+    Val = (L) / PixHei;                         \
+  }
+# define HRScaleLWidth(PROC_HANDLE,L,Val)         \
+  {                                               \
+    INT4 PixHeiMul;                               \
+    HReadGV(PROC_HANDLE,HGHeightMult,&PixHeiMul); \
+    Val = (((L) * PixHeiMul) >> 20);              \
+  }
+# define HRScaleLHeight(PROC_HANDLE,L,Val)        \
+  {                                               \
+    INT4 PixWidMul;                               \
+    HReadGV(PROC_HANDLE,HGWidthMult,&PixWidMul);  \
+    Val = (((L) * PixWidMul) >> 20);              \
+  }
+# define HRScaleFWidth(PROC_HANDLE,L,Val)       \
+  {                                             \
+    float PixWid;                               \
+    HReadGV(PROC_HANDLE,HGPixelWidth,&PixWid);  \
+    Val = (L) * PixWid;                         \
+  }
+# define HRScaleFHeight(PROC_HANDLE,L,Val)      \
+  {                                             \
+    float PixHei;                               \
+    HReadGV(PROC_HANDLE,HGPixelHeight,&PixHei); \
+    Val = (L) * PixHei;                         \
+}
+#endif
+
+#define HAllocStringMem(PROC_HANDLE,SIZE)           \
   HCkP(HPAllocStringMem(PROC_HANDLE,(size_t)SIZE))
 
-/* macros for accessing input ctrl parameters
- *  - without copying
- *  - with type and/or number check
- *===========================================================================*/
+#if !defined(NO_SPY) && !defined(SMALL)
+# define HPutPar(PROC_HANDLE,P,K,V,N) {Herror ERR;        \
+    ERR = IOSpyPar(PROC_HANDLE,P,K,V,(INT4_8)(N),FALSE);  \
+    if (ERR != H_MSG_OK) return(ERR);                     \
+    ERR = HPPutPar(PROC_HANDLE,P,K,V,(INT4_8)(N));        \
+    if (ERR != H_MSG_OK) return(ERR); }
+#else
+# define HPutPar(PROC_HANDLE,P,K,V,N) {Herror ERR;  \
+    ERR = HPPutPar(PROC_HANDLE,P,K,V,(INT4_8)(N));  \
+    if (ERR != H_MSG_OK) return(ERR); }
+#endif
+
+#if !defined(NO_SPY) && !defined(SMALL)
+# define HPutCPar(PROC_HANDLE,P,V,N) {Herror ERR;       \
+    ERR = IOSpyCPar(PROC_HANDLE,P,V,(INT4_8)N,FALSE);   \
+    if (ERR != H_MSG_OK) return(ERR);                   \
+    ERR = HPPutCPar(PROC_HANDLE,P,V,(INT4_8)(N));       \
+    if (ERR != H_MSG_OK) return(ERR); }
+#else
+# define HPutCPar(PROC_HANDLE,P,V,N) {Herror ERR;       \
+    ERR = HPPutCPar(PROC_HANDLE,P,V,(INT4_8)(N));       \
+  if (ERR != H_MSG_OK) return(ERR); }
+#endif
+
+#if !defined(NO_SPY) && !defined(SMALL)
+# define HPutPPar(PROC_HANDLE,P,V,N) {Herror ERR;       \
+    ERR = IOSpyCPar(PROC_HANDLE,P,V,(INT4_8)N,FALSE);   \
+    if (ERR != H_MSG_OK) return(ERR);                   \
+    ERR = HPPutPPar(PROC_HANDLE,P,V,N);                 \
+    if (ERR != H_MSG_OK) return(ERR); }
+#else
+# define HPutPPar(PROC_HANDLE,P,V,N) {Herror ERR; \
+    ERR = HPPutPPar(PROC_HANDLE,P,V,N);           \
+    if (ERR != H_MSG_OK) return(ERR); }
+#endif
+
 #define HGetCParNum(PROC_HANDLE,Par,Num) {Herror ERR; \
     ERR = HPGetCParNum(PROC_HANDLE,Par,Num);          \
     if (ERR != H_MSG_OK) return(ERR); }
 
-#if !defined(NO_SPY) && !defined(SMALL)
-# define HGetPElemL(PROC_HANDLE,PAR,CONVERT,ELEM,N)                     \
-  do{                                                                   \
-    Herror _ERR;                                                        \
-    _ERR = HPGetPElemL(PROC_HANDLE,PAR,CONVERT,ELEM,N);                 \
-    if (_ERR != H_MSG_OK) return(_ERR);                                 \
-    _ERR = IOSpyElem(PROC_HANDLE,PAR,*(INT4_8**)(ELEM),*(INT4_8*)(N),   \
-                     LONG_PAR,TRUE);                                    \
-    if (_ERR != H_MSG_OK) return(_ERR);                                 \
-  }while(0)
-#else
-# define HGetPElemL(PROC_HANDLE,PAR,CONVERT,ELEM,N)                     \
-  HCkP( HPGetPElemL(PROC_HANDLE,PAR,CONVERT,ELEM,N) )
-#endif
 
-#if !defined(NO_SPY) && !defined(SMALL)
-# define HGetPElemD(PROC_HANDLE,PAR,CONVERT,ELEM,N)                     \
-  do{                                                                   \
-    Herror _ERR;                                                        \
-    _ERR = HPGetPElemD(PROC_HANDLE,PAR,CONVERT,ELEM,N);                 \
-    if (_ERR != H_MSG_OK) return(_ERR);                                 \
-    if (HROInfo.Spy == TRUE)                                            \
-    {                                                                   \
-      void const **tmp = (void*)(ELEM);                                 \
-      _ERR = IOSpyElem(PROC_HANDLE,PAR,*tmp,*(INT4_8*)(N),DOUBLE_PAR, \
-                       TRUE);                                           \
-      if (_ERR != H_MSG_OK) return(_ERR);                               \
-    }                                                                   \
-  }while(0)
-#else
-# define HGetPElemD(PROC_HANDLE,PAR,CONVERT,ELEM,N)                     \
-  HCkP( HPGetPElemD(PROC_HANDLE,PAR,CONVERT,ELEM,N) )
-#endif
-
-#if !defined(NO_SPY) && !defined(SMALL)
-# define HGetPElemS(PROC_HANDLE,PAR,CONVERT,ELEM,N)                     \
-  do{                                                                   \
-    Herror _ERR;                                                        \
-    _ERR = HPGetPElemS(PROC_HANDLE,PAR,CONVERT,ELEM,N);                 \
-    if (_ERR != H_MSG_OK) return(_ERR);                                 \
-    _ERR = IOSpyElem(PROC_HANDLE,PAR,*(char***)(ELEM),*(INT4_8*)(N),    \
-                     STRING_PAR,TRUE);                                  \
-    if (_ERR != H_MSG_OK) return(_ERR);                                 \
-  }while(0)
-#else
-# define HGetPElemS(PROC_HANDLE,PAR,CONVERT,ELEM,N)                     \
-  HCkP( HPGetPElemS(PROC_HANDLE,PAR,CONVERT,ELEM,N) )
-#endif
-
-#if !defined(NO_SPY) && !defined(SMALL)
-# define HGetPElem(PROC_HANDLE,PAR,ELEM,N,TYPE)                         \
-  do{                                                                   \
-    Herror _ERR;                                                        \
-    HPGetPElem(PROC_HANDLE,PAR,ELEM,N,TYPE);                            \
-    _ERR = IOSpyElem(PROC_HANDLE,PAR,*(void**)(ELEM),*(INT4_8*)(N),     \
-                     *(INT*)(TYPE),TRUE);                               \
-    if (_ERR != H_MSG_OK) return(_ERR);                                 \
-  }while(0)
-#else
-# define HGetPElem(PROC_HANDLE,PAR,ELEM,N,TYPE)                         \
-  HPGetPElem(PROC_HANDLE,PAR,ELEM,N,TYPE)
-#endif
-
-#if !defined(NO_SPY) && !defined(SMALL)
-# define HGetElemL(PROC_HANDLE,PAR,CONVERT,MEM_TYPE,ELEM,N)             \
-  do{                                                                   \
-    Herror _ERR;                                                        \
-    _ERR = HPGetElemL(PROC_HANDLE,PAR,CONVERT,MEM_TYPE,ELEM,N);         \
-    if (_ERR != H_MSG_OK) return(_ERR);                                 \
-    _ERR = IOSpyElem(PROC_HANDLE,PAR,*(INT4_8**)(ELEM),*(INT4_8*)(N),   \
-                     LONG_PAR,TRUE);                                    \
-    if (_ERR != H_MSG_OK) return(_ERR);                                 \
-  }while(0)
-#else
-# define HGetElemL(PROC_HANDLE,PAR,CONVERT,MEM_TYPE,ELEM,N)             \
-  HCkP( HPGetElemL(PROC_HANDLE,PAR,CONVERT,MEM_TYPE,ELEM,N) )
-#endif
-
-#if !defined(NO_SPY) && !defined(SMALL)
-# define HGetElemD(PROC_HANDLE,PAR,CONVERT,MEM_TYPE,ELEM,N)             \
-  do{                                                                   \
-    Herror _ERR;                                                        \
-    _ERR = HPGetElemD(PROC_HANDLE,PAR,CONVERT,MEM_TYPE,ELEM,N);         \
-    if (_ERR != H_MSG_OK) return(_ERR);                                 \
-    _ERR = IOSpyElem(PROC_HANDLE,PAR,*(double**)(ELEM),*(INT4_8*)(N),   \
-                     DOUBLE_PAR,TRUE);                                  \
-    if (_ERR != H_MSG_OK) return(_ERR);                                 \
-  }while(0)
-#else
-# define HGetElemD(PROC_HANDLE,PAR,CONVERT,MEM_TYPE,ELEM,N)             \
-  HCkP( HPGetElemD(PROC_HANDLE,PAR,CONVERT,MEM_TYPE,ELEM,N) )
-#endif
-
-#if !defined(NO_SPY) && !defined(SMALL)
-# define HGetElemS(PROC_HANDLE,PAR,CONVERT,MEM_TYPE,ELEM,N)             \
-  do{                                                                   \
-    Herror _ERR;                                                        \
-    _ERR = HPGetPElemS(PROC_HANDLE,PAR,CONVERT,MEM_TYPE,ELEM,N);        \
-    if (_ERR != H_MSG_OK) return(_ERR);                                 \
-    _ERR = IOSpyElem(PROC_HANDLE,PAR,*(char***)(ELEM),*(INT4_8*)(N),    \
-                     STRING_PAR,TRUE);                                  \
-    if (_ERR != H_MSG_OK) return(_ERR);                                 \
-  }while(0)
-#else
-# define HGetElemS(PROC_HANDLE,PAR,CONVERT,MEM_TYPE,ELEM,N)             \
-  HCkP( HPGetElemS(PROC_HANDLE,PAR,CONVERT,MEM_TYPE,ELEM,N) )
-#endif
-
-#if !defined(NO_SPY) && !defined(SMALL)
-# define HCopyElemL(PROC_HANDLE,PAR,CONVERT,ELEM,N)                     \
-  do{                                                                   \
-    Herror _ERR;                                                        \
-    _ERR = HPCopyElemL(PROC_HANDLE,PAR,CONVERT,ELEM,N);                 \
-    if (_ERR != H_MSG_OK) return(_ERR);                                 \
-    _ERR = IOSpyElem(PROC_HANDLE,PAR,ELEM,*(INT4_8*)(N),LONG_PAR,TRUE); \
-    if (_ERR != H_MSG_OK) return(_ERR);                                 \
-  }while(0)
-#else
-# define HCopyElemL(PROC_HANDLE,PAR,CONVERT,ELEM,N)                     \
-  HCkP( HPCopyElemL(PROC_HANDLE,PAR,CONVERT,ELEM,N) )
-#endif
-
-#if !defined(NO_SPY) && !defined(SMALL)
-# define HCopyElemD(PROC_HANDLE,PAR,CONVERT,ELEM,N)                     \
-  do{                                                                   \
-    Herror _ERR;                                                        \
-    _ERR = HPCopyElemD(PROC_HANDLE,PAR,CONVERT,ELEM,N);                 \
-    if (_ERR != H_MSG_OK) return(_ERR);                                 \
-    _ERR = IOSpyElem(PROC_HANDLE,PAR,ELEM,*(INT4_8*)(N),DOUBLE_PAR,     \
-                     TRUE);                                             \
-    if (_ERR != H_MSG_OK) return(_ERR);                                 \
-  }while(0)
-#else
-# define HCopyElemD(PROC_HANDLE,PAR,CONVERT,ELEM,N)                     \
-  HCkP( HPCopyElemD(PROC_HANDLE,PAR,CONVERT,ELEM,N) )
-#endif
-
-/*
- * Note: since there is no easy way to implement the SPY functionality
- * for HCopyElemF, we don't bother.
- */
-# define HCopyElemF(PROC_HANDLE,PAR,CONVERT,ELEM,N)     \
-  HCkP( HPCopyElemF(PROC_HANDLE,PAR,CONVERT,ELEM,N) )
-
+/* macros for accessing input parameters
+ *  - without copying
+ *  - with type and/or number check
+ *===========================================================================*/
 
 /* HGetPParN:
  *   specify the exact number of the read parameter (any type)
  *---------------------------------------------------------------------------*/
 #if !defined(NO_SPY) && !defined(SMALL)
-# define HGetPParN(PROC_HANDLE,PAR,NUM,VAL) {                   \
-  INT4_8 _NUM;                                                  \
-  Herror ERR = HPGetPPar(PROC_HANDLE,PAR,VAL,&_NUM);            \
-  if (ERR != H_MSG_OK)            return ERR;                   \
-  if (NUM != _NUM)                return (H_ERR_WIPN1-1)+(PAR); \
-  ERR = IOSpyCPar(PROC_HANDLE,PAR,*VAL,_NUM,TRUE);              \
+# define HGetPParN(PROC_HANDLE,PAR,NUM,VAL) {               \
+  INT4_8 _NUM;                                              \
+  Herror ERR = HPGetPPar(PROC_HANDLE,PAR,VAL,&_NUM);        \
+  if (ERR != H_MSG_OK)            return ERR;               \
+  if (NUM != _NUM)                return H_ERR_WIPN ## PAR; \
+  ERR = IOSpyCPar(PROC_HANDLE,PAR,*VAL,_NUM,TRUE);          \
   if (ERR != H_MSG_OK) return ERR;                        }
 #else
-# define HGetPParN(PROC_HANDLE,PAR,NUM,VAL) {                   \
-  INT4_8 _NUM;                                                  \
-  Herror ERR = HPGetPPar(PROC_HANDLE,PAR,VAL,&_NUM);            \
-  if (ERR != H_MSG_OK)            return ERR;                   \
-  if (NUM != _NUM)                return (H_ERR_WIPN1-1)+(PAR); }
+# define HGetPParN(PROC_HANDLE,PAR,NUM,VAL) {               \
+  INT4_8 _NUM;                                              \
+  Herror ERR = HPGetPPar(PROC_HANDLE,PAR,VAL,&_NUM);        \
+  if (ERR != H_MSG_OK)            return ERR;               \
+  if (NUM != _NUM)                return H_ERR_WIPN ## PAR; }
 #endif
 
 
@@ -1115,17 +1044,17 @@ do {                                                                    \
  *    certain range
  *---------------------------------------------------------------------------*/
 #if !defined(NO_SPY) && !defined(SMALL)
-# define HGetPParMM(PROC_HANDLE,PAR,MIN,MAX,VAL,NUM) {          \
-  Herror ERR = HPGetPPar(PROC_HANDLE,PAR,VAL,NUM);              \
-  if (ERR != H_MSG_OK)            return ERR;                   \
-  if (*NUM < MIN || *NUM > MAX)   return (H_ERR_WIPN1-1)+(PAR); \
-  ERR = IOSpyCPar(PROC_HANDLE,PAR,*VAL,*(NUM),TRUE);            \
+# define HGetPParMM(PROC_HANDLE,PAR,MIN,MAX,VAL,NUM) {      \
+  Herror ERR = HPGetPPar(PROC_HANDLE,PAR,VAL,NUM);          \
+  if (ERR != H_MSG_OK)            return ERR;               \
+  if (*NUM < MIN || *NUM > MAX)   return H_ERR_WIPN ## PAR; \
+  ERR = IOSpyCPar(PROC_HANDLE,PAR,*VAL,*(NUM),TRUE);        \
   if (ERR != H_MSG_OK) return ERR;                          }
 #else
-# define HGetPParMM(PROC_HANDLE,PAR,MIN,MAX,VAL,NUM) {          \
-  Herror ERR = HPGetPPar(PROC_HANDLE,PAR,VAL,NUM);              \
-  if (ERR != H_MSG_OK)            return ERR;                   \
-  if (*NUM < MIN || *NUM > MAX)   return (H_ERR_WIPN1-1)+(PAR); }
+# define HGetPParMM(PROC_HANDLE,PAR,MIN,MAX,VAL,NUM) {      \
+  Herror ERR = HPGetPPar(PROC_HANDLE,PAR,VAL,NUM);          \
+  if (ERR != H_MSG_OK)            return ERR;               \
+  if (*NUM < MIN || *NUM > MAX)   return H_ERR_WIPN ## PAR; }
 #endif
 
 
@@ -1155,23 +1084,23 @@ do {                                                                    \
  *   specify the exact number and the expected type(s) of the read parameter
  *---------------------------------------------------------------------------*/
 #if !defined(NO_SPY) && !defined(SMALL)
-# define HGetPParTN(PROC_HANDLE,PAR,TYPE,NUM,VAL) {                        \
-  INT4_8 _IDX, _NUM;                                                       \
-  Herror ERR = HPGetPPar(PROC_HANDLE,PAR,VAL,&_NUM);                       \
-  if (ERR != H_MSG_OK)                    return ERR;                      \
-  if ((NUM) != _NUM)                       return (H_ERR_WIPN1-1)+(PAR);   \
-  for (_IDX=0; _IDX<_NUM; _IDX++)                                          \
-    if (((TYPE) & (*(VAL))[_IDX].type) == 0) return (H_ERR_WIPT1-1)+(PAR); \
-  ERR = IOSpyCPar(PROC_HANDLE,PAR,*(VAL),_NUM,TRUE);                       \
+# define HGetPParTN(PROC_HANDLE,PAR,TYPE,NUM,VAL) {                    \
+  INT4_8 _IDX, _NUM;                                                   \
+  Herror ERR = HPGetPPar(PROC_HANDLE,PAR,VAL,&_NUM);                   \
+  if (ERR != H_MSG_OK)                    return ERR;                  \
+  if ((NUM) != _NUM)                       return H_ERR_WIPN ## PAR;   \
+  for (_IDX=0; _IDX<_NUM; _IDX++)                                      \
+    if (((TYPE) & (*(VAL))[_IDX].type) == 0) return H_ERR_WIPT ## PAR; \
+  ERR = IOSpyCPar(PROC_HANDLE,PAR,*(VAL),_NUM,TRUE);                   \
   if (ERR != H_MSG_OK) return ERR;                                     }
 #else
-# define HGetPParTN(PROC_HANDLE,PAR,TYPE,NUM,VAL) {                        \
-  INT4_8 _IDX, _NUM;                                                       \
-  Herror ERR = HPGetPPar(PROC_HANDLE,PAR,VAL,&_NUM);                       \
-  if (ERR != H_MSG_OK)                     return ERR;                     \
-  if ((NUM) != _NUM)                       return (H_ERR_WIPN1-1)+(PAR);   \
-  for (_IDX=0; _IDX<_NUM; _IDX++)                                          \
-    if (((TYPE) & (*(VAL))[_IDX].type) == 0) return (H_ERR_WIPT1-1)+(PAR); }
+# define HGetPParTN(PROC_HANDLE,PAR,TYPE,NUM,VAL) {                    \
+  INT4_8 _IDX, _NUM;                                                   \
+  Herror ERR = HPGetPPar(PROC_HANDLE,PAR,VAL,&_NUM);                   \
+  if (ERR != H_MSG_OK)                     return ERR;                 \
+  if ((NUM) != _NUM)                       return H_ERR_WIPN ## PAR;   \
+  for (_IDX=0; _IDX<_NUM; _IDX++)                                      \
+    if (((TYPE) & (*(VAL))[_IDX].type) == 0) return H_ERR_WIPT ## PAR; }
 #endif
 
 
@@ -1180,23 +1109,23 @@ do {                                                                    \
  *   the expected type(s)
  *---------------------------------------------------------------------------*/
 #if !defined(NO_SPY) && !defined(SMALL)
-# define HGetPParTMM(PROC_HANDLE,PAR,TYPE,MIN,MAX,VAL,NUM) {               \
-  INT4_8 _IDX;                                                             \
-  Herror ERR = HPGetPPar(PROC_HANDLE,PAR,VAL,NUM);                         \
-  if (ERR != H_MSG_OK)                    return ERR;                      \
-  if (*(NUM) < MIN || *(NUM) > MAX)       return (H_ERR_WIPN1-1)+(PAR);    \
-  for (_IDX=0; _IDX<*(NUM); _IDX++)                                        \
-    if (((TYPE) & (*(VAL))[_IDX].type) == 0) return (H_ERR_WIPT1-1)+(PAR); \
-  ERR = IOSpyCPar(PROC_HANDLE,PAR,*(VAL),*(NUM),TRUE);                     \
+# define HGetPParTMM(PROC_HANDLE,PAR,TYPE,MIN,MAX,VAL,NUM) {           \
+  INT4_8 _IDX;                                                         \
+  Herror ERR = HPGetPPar(PROC_HANDLE,PAR,VAL,NUM);                     \
+  if (ERR != H_MSG_OK)                    return ERR;                  \
+  if (*(NUM) < MIN || *(NUM) > MAX)       return H_ERR_WIPN ## PAR;    \
+  for (_IDX=0; _IDX<*(NUM); _IDX++)                                    \
+    if (((TYPE) & (*(VAL))[_IDX].type) == 0) return H_ERR_WIPT ## PAR; \
+  ERR = IOSpyCPar(PROC_HANDLE,PAR,*(VAL),*(NUM),TRUE);                 \
   if (ERR != H_MSG_OK) return ERR;                                     }
 #else
-# define HGetPParTMM(PROC_HANDLE,PAR,TYPE,MIN,MAX,VAL,NUM) {               \
-  INT4_8 _IDX;                                                             \
-  Herror ERR = HPGetPPar(PROC_HANDLE,PAR,VAL,NUM);                         \
-  if (ERR != H_MSG_OK)                    return ERR;                      \
-  if (*(NUM) < MIN || *(NUM) > MAX)       return (H_ERR_WIPN1-1)+(PAR);    \
-  for (_IDX=0; _IDX<*(NUM); _IDX++)                                        \
-    if (((TYPE) & (*(VAL))[_IDX].type) == 0) return (H_ERR_WIPT1-1)+(PAR); }
+# define HGetPParTMM(PROC_HANDLE,PAR,TYPE,MIN,MAX,VAL,NUM) {           \
+  INT4_8 _IDX;                                                         \
+  Herror ERR = HPGetPPar(PROC_HANDLE,PAR,VAL,NUM);                     \
+  if (ERR != H_MSG_OK)                    return ERR;                  \
+  if (*(NUM) < MIN || *(NUM) > MAX)       return H_ERR_WIPN ## PAR;    \
+  for (_IDX=0; _IDX<*(NUM); _IDX++)                                    \
+    if (((TYPE) & (*(VAL))[_IDX].type) == 0) return H_ERR_WIPT ## PAR; }
 #endif
 
 #if !defined(NO_SPY) && !defined(SMALL)
@@ -1212,44 +1141,45 @@ do {                                                                    \
 #endif
 
 
+
 #if !defined(NO_SPY) && !defined(SMALL)
 # define HGetPar(PROC_HANDLE,Par,Kind,Val,Num) {Herror ERR;     \
-    ERR = HPGetPar(PROC_HANDLE,Par,ANY_ELEM,Kind,Val,(INT4_8)0, \
+    ERR = HPGetPar(PROC_HANDLE,Par,ANY_PAR,Kind,Val,(INT4_8)0,  \
                    (INT4_8)10000000,Num);                       \
     if (ERR != H_MSG_OK) return(ERR);                           \
     ERR = IOSpyCPar(PROC_HANDLE,Index,Val,*(Num),TRUE);         \
     if (ERR != H_MSG_OK) return(ERR); }
 #else
 # define HGetPar(Par,Kind,Val,Num) {Herror ERR;     \
-    ERR = HPGetPar(Par,ANY_ELEM,Kind,Val,(INT4_8)0, \
+    ERR = HPGetPar(Par,ANY_PAR,Kind,Val,(INT4_8)0,  \
                    (INT4_8)10000000,Num);           \
     if (ERR != H_MSG_OK) return(ERR); }
 #endif
 
 #if !defined(NO_SPY) && !defined(SMALL)
-# define HGetSPar(PROC_HANDLE,Index,Type,Val,N) {INT4_8 _HN; Herror ERR;      \
+# define HGetSPar(PROC_HANDLE,Index,Type,Val,N) {INT4_8 _HN; Herror ERR; \
     ERR = HPGetCPar(PROC_HANDLE,Index,Type,Val,(INT4_8)(N),(INT4_8)(N),&_HN); \
-    if (ERR != H_MSG_OK) return(ERR);                                         \
-    ERR = IOSpyCPar(PROC_HANDLE,Index,Val,_HN,TRUE);                          \
+    if (ERR != H_MSG_OK) return(ERR);                                   \
+    ERR = IOSpyCPar(PROC_HANDLE,Index,Val,_HN,TRUE);                    \
     if (ERR != H_MSG_OK) return(ERR); }
 #else
-# define HGetSPar(PROC_HANDLE,Index,Type,Val,N) {INT4_8 _HN; Herror ERR;      \
+# define HGetSPar(PROC_HANDLE,Index,Type,Val,N) {INT4_8 _HN; Herror ERR; \
     ERR = HPGetCPar(PROC_HANDLE,Index,Type,Val,(INT4_8)(N),(INT4_8)(N),&_HN); \
     if (ERR != H_MSG_OK) return(ERR); }
 #endif
 
 
 #if !defined(NO_SPY) && !defined(SMALL)
-# define HGetCPar(PROC_HANDLE,Index,InpType,Val,Min,Max,ResNum) {Herror ERR;  \
-    ERR = HPGetCPar(PROC_HANDLE,Index,InpType,Val,(INT4_8)(Min),              \
-                    (INT4_8)(Max),ResNum);                                    \
-    if (ERR != H_MSG_OK) return(ERR);                                         \
-    ERR = IOSpyCPar(PROC_HANDLE,Index,Val,(INT4_8)*ResNum,TRUE);              \
+# define HGetCPar(PROC_HANDLE,Index,InpType,Val,Min,Max,ResNum) {Herror ERR; \
+    ERR = HPGetCPar(PROC_HANDLE,Index,InpType,Val,(INT4_8)(Min),        \
+                    (INT4_8)(Max),ResNum);                              \
+    if (ERR != H_MSG_OK) return(ERR);                                   \
+    ERR = IOSpyCPar(PROC_HANDLE,Index,Val,(INT4_8)*ResNum,TRUE);        \
     if (ERR != H_MSG_OK) return(ERR); }
 #else
-# define HGetCPar(PROC_HANDLE,Index,InpType,Val,Min,Max,ResNum) {Herror ERR;  \
-    ERR = HPGetCPar(PROC_HANDLE,Index,InpType,Val,(INT4_8)(Min),              \
-                    (INT4_8)(Max),ResNum);                                    \
+# define HGetCPar(PROC_HANDLE,Index,InpType,Val,Min,Max,ResNum) {Herror ERR; \
+    ERR = HPGetCPar(PROC_HANDLE,Index,InpType,Val,(INT4_8)(Min),        \
+                    (INT4_8)(Max),ResNum);                              \
     if (ERR != H_MSG_OK) return(ERR); }
 #endif
 
@@ -1293,58 +1223,6 @@ do {                                                                    \
 }
 #endif
 
-/* macros for accessing ctrl output parameters
- *===========================================================================*/
-
-#define HPutPElem(PROC_HANDLE,PAR,ELEM,NUM,TYPE)       \
-do{                                                    \
-  HCkP( HPPutPElem(PROC_HANDLE,PAR,ELEM,NUM,TYPE));    \
-} while(0)
-
-#define HPutElem(PROC_HANDLE,PAR,ELEM,NUM,TYPE)        \
-do{                                                    \
-  HCkP( HPPutElem(PROC_HANDLE,PAR,ELEM,NUM,TYPE));     \
-} while(0)
-
-#if !defined(NO_SPY) && !defined(SMALL)
-# define HPutPar(PROC_HANDLE,P,K,V,N) {Herror ERR;        \
-    ERR = IOSpyPar(PROC_HANDLE,P,K,V,(INT4_8)(N),FALSE);  \
-    if (ERR != H_MSG_OK) return(ERR);                     \
-    ERR = HPPutPar(PROC_HANDLE,P,K,V,(INT4_8)(N));        \
-    if (ERR != H_MSG_OK) return(ERR); }
-#else
-# define HPutPar(PROC_HANDLE,P,K,V,N) {Herror ERR;  \
-    ERR = HPPutPar(PROC_HANDLE,P,K,V,(INT4_8)(N));  \
-    if (ERR != H_MSG_OK) return(ERR); }
-#endif
-
-#if !defined(NO_SPY) && !defined(SMALL)
-# define HPutCPar(PROC_HANDLE,P,V,N) {Herror ERR;       \
-    ERR = IOSpyCPar(PROC_HANDLE,P,V,(INT4_8)N,FALSE);   \
-    if (ERR != H_MSG_OK) return(ERR);                   \
-    ERR = HPPutCPar(PROC_HANDLE,P,V,(INT4_8)(N));       \
-    if (ERR != H_MSG_OK) return(ERR); }
-#else
-# define HPutCPar(PROC_HANDLE,P,V,N) {Herror ERR;       \
-    ERR = HPPutCPar(PROC_HANDLE,P,V,(INT4_8)(N));       \
-  if (ERR != H_MSG_OK) return(ERR); }
-#endif
-
-#if !defined(NO_SPY) && !defined(SMALL)
-# define HPutPPar(PROC_HANDLE,P,V,N) {Herror ERR;       \
-    ERR = IOSpyCPar(PROC_HANDLE,P,V,(INT4_8)N,FALSE);   \
-    if (ERR != H_MSG_OK) return(ERR);                   \
-    ERR = HPPutPPar(PROC_HANDLE,P,V,N);                 \
-    if (ERR != H_MSG_OK) return(ERR); }
-#else
-# define HPutPPar(PROC_HANDLE,P,V,N) {Herror ERR; \
-    ERR = HPPutPPar(PROC_HANDLE,P,V,N);           \
-    if (ERR != H_MSG_OK) return(ERR); }
-#endif
-
-
-/* macros for accessing iconic object parameters
- *===========================================================================*/
 
 #define HNumOfChannels(PROC_HANDLE,OBJ,NUM)                     \
   HCkP(HPNumOfChannels(PROC_HANDLE,(INT)1,                      \
@@ -1467,7 +1345,7 @@ do{                                                    \
 }
 
 #define HCrXLD(PROC_HANDLE,PAR,XLD,TYPE,USES,NUM_USES,FREE,KEY_PTR)   \
-  HCkP(HPCrXLD(PROC_HANDLE,PAR,XLD,TYPE,USES,NUM_USES,FREE,KEY_PTR));
+  HCkP(HPCrXLD(PROC_HANDLE,PAR,XLD,TYPE,USES,NUM_USES,FREE,KEY_PTR)); 
 
 
 /* -------- Makros for accessing HALCON operator context information ------- */
@@ -1513,8 +1391,516 @@ HCkP(HAccessGlVar(ProcHandle,Element,GV_GET_ADRESS,Buffer,(double)0,(char *)NULL
 HCkP(HAccessGlVar(ProcHandle,Element,GV_REALLOC_A,NULL,(double)0,(char *)NULL,(Hkey)NULL,NewSize))
 
 
+/*
+ * direct access to the global resp. privat variables
+ *===========================================================================*/
+
+
+/* H_OPERATOR_INFO HProcInfo[->proc_index]
+ *---------------------------------------------------------------------------*/
+
+#define HGetGV_LogicalName(PH)   \
+  HProcInfo[HGetGV_proc_index(PH)].LogicalName
+#define HGetGV_Proc(PH)   \
+  HProcInfo[HGetGV_proc_index(PH)].Proc
+#define HGetGV_NumInpObjPar(PH)   \
+  HProcInfo[HGetGV_proc_index(PH)].NumInpObjPar
+#define HGetGV_NumOutpObjPar(PH)  \
+  HProcInfo[HGetGV_proc_index(PH)].NumOutpObjPar
+#define HGetGV_NumInpCtrlPar(PH)  \
+  HProcInfo[HGetGV_proc_index(PH)].NumInpCtrlPar
+#define HGetGV_NumOutpCtrlPar(PH) \
+  HProcInfo[HGetGV_proc_index(PH)].NumOutpCtrlPar
+
+/* ->HGetGV_proc_index: INT4 */
+#define HGetGV_proc_index(PH)              (((Hproc_handle_)PH)->proc_index)
+#define HReadGV_proc_index(PH,VAR)         (VAR=HGetGV_proc_index(PH))
+#define HWriteGV_proc_index(PH,VAR)        (HGetGV_proc_index(PH)=VAR)
+
+/* ->HGetGV_generator: proc_handle */
+#define HGetGV_generator(PH)              (((Hproc_handle_)PH)->generator)
+#define HReadGV_generator(PH,VAR)         (VAR=HGetGV_generator(PH))
+#define HWriteGV_generator(PH,VAR)        (HGetGV_generator(PH)=VAR)
+
+/* H_INSTANCE_INFO_EXCLUSIVE *info_excl
+ *---------------------------------------------------------------------------*/
+
+/* ->ctrl_inherited: HBOOL */
+#define HGetGV_ctrl_inherited(PH) \
+                               (((Hproc_handle_)PH)->info_excl->ctrl_inherited)
+#define HReadGV_ctrl_inherited(PH,VAR)     (VAR=HGetGV_ctrl_inherited(PH))
+#define HWriteGV_ctrl_inherited(PH,VAR)    (HGetGV_ctrl_inherited(PH)=VAR)
+
+/* ->Mem_handle: VOIDP */
+#define HGetGV_Mem_handle(PH)      (((Hproc_handle_)PH)->info_excl->Mem_handle)
+#define HReadGV_Mem_handle(PH,VAR)         (VAR=HGetGV_Mem_handle(PH))
+#define HWriteGV_Mem_handle(PH,VAR)        (HGetGV_Mem_handle(PH)=VAR)
+
+/* ->CurrentAlloc, CurrentMaxAlloc, PreviousMaxAlloc */
+#if defined H_TSD
+/* thread specific, thread safe documentation of memory consumption */
+# define HGetGV_CurrentAlloc(PH)      (((Hproc_handle_)PH)->info_excl->CurrentAlloc)
+# define HGetGV_CurrentMaxAlloc(PH)   (((Hproc_handle_)PH)->info_excl->CurrentMaxAlloc)
+# define HGetGV_PreviousMaxAlloc(PH)  (((Hproc_handle_)PH)->info_excl->PreviousMaxAlloc)
+#else
+# define HGetGV_CurrentAlloc(PH)      HROInfo.CurrentAlloc
+# define HGetGV_CurrentMaxAlloc(PH)   HROInfo.CurrentMaxAlloc
+# define HGetGV_PreviousMaxAlloc(PH)  HROInfo.PreviousMaxAlloc
+#endif
+
+/* ->DB_handle: VOIDP */
+#define HGetGV_DB_handle(PH)        (((Hproc_handle_)PH)->info_excl->DB_handle)
+#define HReadGV_DB_handle(PH,VAR)          (VAR=HGetGV_DB_handle(PH))
+#define HWriteGV_DB_handle(PH,VAR)         (HGetGV_DB_handle(PH)=VAR)
+
+/* ->InpObjList: Hkey*[(0..)1..NumInpObjPar(..MAX_INP_OBJ_PAR+1)] */
+#define HGetGV_InpObjList(PH)      (((Hproc_handle_)PH)->info_excl->InpObjList)
+#define HGetGV_InpObjList_p(PH,PAR)      (HGetGV_InpObjList(PH)[PAR])
+#define HGetGV_InpObjList_pi(PH,PAR,IDX) (HGetGV_InpObjList_p(PH,PAR)[IDX])
+#define HReadGV_InpObjList_pi(PH,PAR,IDX,VAR)                           \
+                                         (VAR=HGetGV_InpObjList_pi(PH,PAR,IDX))
+#define HInitGV_InpObjList_p(PH,PAR,VAR) (HGetGV_InpObjList_p(PH,PAR)=VAR)
+
+/* ->InpObjNum: INT4[(0..)1..NumInpObjPar(..MAX_INP_OBJ_PAR+1)] */
+#define HGetGV_InpObjNum(PH)        (((Hproc_handle_)PH)->info_excl->InpObjNum)
+#define HGetGV_InpObjNum_p(PH,PAR)         (HGetGV_InpObjNum(PH)[PAR])
+#define HReadGV_InpObjNum_p(PH,PAR,VAR)    (VAR=HGetGV_InpObjNum_p(PH,PAR))
+#define HWriteGV_InpObjNum_p(PH,PAR,VAR)   (HGetGV_InpObjNum_p(PH,PAR)=VAR)
+
+/* ->freeICP: INT1[] */ 
+#define HGetGV_freeIOP(PH)    (((Hproc_handle_)PH)->info_excl->freeIOP)
+#define HGetGV_freeIOP_p(PH,PAR)       (HGetGV_freeIOP(PH)[PAR])
+#define HReadGV_freeIOP_p(PH,PAR,VAR)  (VAR=HGetGV_freeIOP_p(PH,PAR))
+#define HWriteGV_freeIOP_p(PH,PAR,VAR)     (HGetGV_freeIOP_p(PH,PAR)=VAR)
+
+/* ->InpCtrlList: Hctuple[] */
+#define HGetGV_InpCtrlNested(PH)  (((Hproc_handle_)PH)->info_excl->InpCtrlNested)
+#define HGetGV_InpCtrlList(PH)    (((Hproc_handle_)PH)->info_excl->InpCtrlList)
+#define HGetGV_InpCtrlList_p(PH,PAR)       (HGetGV_InpCtrlList(PH)+PAR)
+#define HReadGV_InpCtrlList_p(PH,PAR,VAR)  (VAR=HGetGV_InpCtrlList_p(PH,PAR))
+#define HWriteGV_InpCtrlList(PH,VAR)       (HGetGV_InpCtrlList(PH)=VAR)
+#define HInitGV_InpCtrlList(PH,VAR)                               \
+{                                                                 \
+  HGetGV_InpCtrlList(PH) = HGetGV_InpCtrlNested(PH) = VAR;        \
+  HWriteGV_ctrl_inherited(PH,FALSE);                              \
+}
+
+/* ->freeICP: INT1[] */ 
+#define HGetGV_freeICP(PH)    (((Hproc_handle_)PH)->info_excl->freeICP)
+#define HGetGV_freeICP_p(PH,PAR)       (HGetGV_freeICP(PH)[PAR])
+#define HReadGV_freeICP_p(PH,PAR,VAR)  (VAR=HGetGV_freeICP_p(PH,PAR))
+#define HWriteGV_freeICP_p(PH,PAR,VAR)     (HGetGV_freeICP_p(PH,PAR)=VAR)
+
+/* ->OutpObjList: Hkey*[(0..)1..NumOutpObjPar(..MAX_OUTP_OBJ_PAR+1)] */
+#define HGetGV_OutpObjList(PH)    (((Hproc_handle_)PH)->info_excl->OutpObjList)
+#define HGetGV_OutpObjList_p(PH,PAR)       (HGetGV_OutpObjList(PH)[PAR])
+#define HGetGV_OutpObjList_pi(PH,PAR,IDX)  (HGetGV_OutpObjList_p(PH,PAR)[IDX])
+#define HReadGV_OutpObjList_pi(PH,PAR,IDX,VAR) \
+                                        (VAR=HGetGV_OutpObjList_pi(PH,PAR,IDX))
+#define HWriteGV_OutpObjList_pi(PH,PAR,IDX,VAR) \
+                                        (HGetGV_OutpObjList_pi(PH,PAR,IDX)=VAR)
+#define HInitGV_OutpObjList_p(PH,PAR,VAR)  (HGetGV_OutpObjList_p(PH,PAR)=VAR)
+
+/* ->OutpObjNum: INT4[(0..)1..NumOutpObjPar(..MAX_OUTP_OBJ_PAR+1)] */
+#define HGetGV_OutpObjNum(PH)      (((Hproc_handle_)PH)->info_excl->OutpObjNum)
+#define HGetGV_OutpObjNum_p(PH,PAR)        (HGetGV_OutpObjNum(PH)[PAR])
+#define HReadGV_OutpObjNum_p(PH,PAR,VAR)   (VAR=HGetGV_OutpObjNum_p(PH,PAR))
+#define HWriteGV_OutpObjNum_p(PH,PAR,VAR)  (HGetGV_OutpObjNum_p(PH,PAR)=VAR)
+
+/* ->OutpObjLen: INT4[(0..)1..LenOutpObjPar(..MAX_OUTP_OBJ_PAR+1)] */
+#define HGetGV_OutpObjLen(PH)      (((Hproc_handle_)PH)->info_excl->OutpObjLen)
+#define HGetGV_OutpObjLen_p(PH,PAR)        (HGetGV_OutpObjLen(PH)[PAR])
+#define HReadGV_OutpObjLen_p(PH,PAR,VAR)   (VAR=HGetGV_OutpObjLen_p(PH,PAR))
+#define HWriteGV_OutpObjLen_p(PH,PAR,VAR)  (HGetGV_OutpObjLen_p(PH,PAR)=VAR)
+
+/* ->OutpCtrlList: Hctuple[] */
+#define HGetGV_OutpCtrlList(PH) (((Hproc_handle_)PH)->info_excl->OutpCtrlList)
+#define HGetGV_OutpCtrlList_p(PH,PAR)      (HGetGV_OutpCtrlList(PH)+PAR)
+#define HReadGV_OutpCtrlList_p(PH,PAR,VAR) (VAR=HGetGV_OutpCtrlList_p(PH,PAR))
+#define HInitGV_OutpCtrlList(PH,VAR)       (HGetGV_OutpCtrlList(PH)=VAR)
+
+/* ->freeOCP: INT1[] */
+#define HGetGV_freeOCP(PH)            (((Hproc_handle_)PH)->info_excl->freeOCP)
+#define HGetGV_freeOCP_p(PH,PAR)           (HGetGV_freeOCP(PH)[PAR])
+#define HReadGV_freeOCP_p(PH,PAR,VAR)      (VAR=HGetGV_freeOCP_p(PH,PAR))
+#define HWriteGV_freeOCP_p(PH,PAR,VAR)     (HGetGV_freeOCP_p(PH,PAR)=VAR)
+
+/* ->usedOCP: HBOOL */
+#define HGetGV_usedOCP(PH)            (((Hproc_handle_)PH)->info_excl->usedOCP)
+#define HGetGV_usedOCP_p(PH,PAR)           (HGetGV_usedOCP(PH)[PAR])
+#define HReadGV_usedOCP_p(PH,PAR,VAR)      (VAR=HGetGV_usedOCP_p(PH,PAR))
+#define HWriteGV_usedOCP_p(PH,PAR,VAR)     (HGetGV_usedOCP_p(PH,PAR)=VAR)
+
+/* ->StringMem: char* */
+#define HGetGV_StringMem(PH)        (((Hproc_handle_)PH)->info_excl->StringMem)
+#define HReadGV_StringMem(PH,VAR)          (VAR=HGetGV_StringMem(PH))
+#define HWriteGV_StringMem(PH,VAR)         strcpy(HGetGV_StringMem(PH),VAR)
+#define HInitGV_StringMem(PH,VAR)          (HGetGV_StringMem(PH)=VAR)
+
+/* ->LastStringMem: char* */
+#define HGetGV_LastStringMem(PH) \
+                                (((Hproc_handle_)PH)->info_excl->LastStringMem)
+#define HReadGV_LastStringMem(PH,VAR)      (VAR=HGetGV_LastStringMem(PH))
+#define HWriteGV_LastStringMem(PH,VAR)     strcpy(HGetGV_StringMem(PH),VAR)
+#define HInitGV_LastStringMem(PH,VAR)      (HGetGV_LastStringMem(PH)=VAR)
+
+/* ->InitialTimer: double*/
+#define HGetGV_InitialTimer(PH)  (((Hproc_handle_)PH)->info_excl->InitialTimer)
+#define HReadGV_InitialTimer(PH,VAR)         (VAR=HGetGV_InitialTimer(PH))
+#define HWriteGV_InitialTimer(PH,VAR)        (HGetGV_InitialTimer(PH)=VAR)
+
+/* ->check_timeout: HBOOL */
+#define HGetGV_check_timeout(PH)    (((Hproc_handle_)PH)->info_excl->check_timeout)
+#define HReadGV_check_timeout(PH,VAR)         (VAR=HGetGV_check_timeout(PH))
+#define HWriteGV_check_timeout(PH,VAR)        (HGetGV_check_timeout(PH)=VAR)
+
+/* ->target_compute_device: UINT2 */
+#define HGetGV_target_compute_device(PH) \
+  (((Hproc_handle_)PH)->info_excl->target_compute_device)
+#define HReadGV_target_compute_device(PH,VAR) \
+  (VAR=HGetGV_target_compute_device(PH))
+#define HWriteGV_target_compute_device(PH,VAR) \
+  (HGetGV_target_compute_device(PH)=VAR)
+
+/* ->target_compute_device_id: UINT2 */
+#define HGetGV_target_compute_device_id(PH) \
+  (((Hproc_handle_)PH)->info_excl->target_compute_device_id)
+#define HReadGV_target_compute_device_id(PH,VAR) \
+  (VAR=HGetGV_target_compute_device_id(PH))
+#define HWriteGV_target_compute_device_id(PH,VAR) \
+  (HGetGV_target_compute_device_id(PH)=VAR)
+
+/* ->compute_device: UINT2 */
+#define HGetGV_compute_device(PH) \
+  (((Hproc_handle_)PH)->sys_info_excl->compute_device)
+#define HReadGV_compute_device(PH,VAR) \
+  (VAR=HGetGV_compute_device(PH))
+#define HWriteGV_compute_device(PH,VAR) \
+  (HGetGV_compute_device(PH)=VAR)
+
+/* ->target_compute_device_id: UINT4_8 */
+#define HGetGV_compute_device_id(PH) \
+  (((Hproc_handle_)PH)->sys_info_excl->compute_device_id)
+#define HReadGV_compute_device_id(PH,VAR) \
+  (VAR=HGetGVt_compute_device_id(PH))
+#define HWriteGV_compute_device_id(PH,VAR) \
+  (HGetGV_compute_device_id(PH)=VAR)
+
+/* ->target_compute_device_platform: UINT4_8 */
+#define HGetGV_compute_device_platform(PH) \
+  (((Hproc_handle_)PH)->sys_info_excl->compute_device_platform)
+#define HReadGV_compute_device_platform(PH,VAR) \
+  (VAR=HGetGVt_compute_device_platform(PH))
+#define HWriteGV_compute_device_platform(PH,VAR) \
+  (HGetGV_compute_device_platform(PH)=VAR)
+
+/* ->compute_device_handle: void* */
+#define HGetGV_compute_device_handle(PH) \
+  (((Hproc_handle_)PH)->sys_info_excl->compute_device_handle)
+#define HReadGV_compute_device_handle(PH,VAR) \
+  (VAR=HGetGV_compute_device_handle(PH))
+#define HWriteGV_compute_device_handle(PH,VAR) \
+  (HGetGV_compute_device_handle(PH)=VAR)
+
+/* ->cd_handle_cache: void* */
+#define HGetGV_cd_handle_cache(PH) \
+  (((Hproc_handle_)PH)->sys_info_excl->cd_handle_cache)
+#define HReadGV_cd_handle_cache(PH,VAR) \
+  (VAR=HGetGV_cd_handle_cache(PH))
+#define HWriteGV_cd_handle_cache(PH,VAR) \
+  (HGetGV_cd_handle_cache(PH)=VAR)
+
+/* ->rand48_handle: VIODP */
+#define HGetGV_rand48_handle(PH) (((Hproc_handle_)PH)->info_excl->rand48_handle)
+#define HReadGV_rand48_handle(PH,VAR)         (VAR=HGetGV_rand48_handle(PH))
+#define HWriteGV_rand48_handle(PH,VAR)        (HGetGV_rand48_handle(PH)=VAR)
+
+/* ->worker_id: INT */
+#define HGetGV_worker_id(PH) (((Hproc_handle_)PH)->info_excl->worker_id)
+#define HReadGV_worker_id(PH,VAR)         (VAR=HGetGV_worker_id(PH))
+#define HWriteGV_worker_id(PH,VAR)        (HGetGV_worker_id(PH)=VAR)
+
+/* ->parallel_ctrl: INT */
+#define HGetGV_parallel_ctrl(PH)             (((Hproc_handle_)PH)->info_excl->parallel_ctrl)
+#define HSetFlagGV_parallel_ctrl(PH,FLAGS)   (HGetGV_parallel_ctrl(PH)|=(FLAGS))
+#define HClearFlagGV_parallel_ctrl(PH,FLAGS) (HGetGV_parallel_ctrl(PH)&=~(FLAGS))
+#define HWriteGV_parallel_ctrl(PH,VAR)       (HGetGV_parallel_ctrl(PH)=VAR)
+
+/* ->parallel_method: INT */
+#define HGetGV_parallel_method(PH)         (((Hproc_handle_)PH)->info_excl->parallel_method)
+#define HReadGV_parallel_method(PH,VAR)    (VAR=HGetGV_parallel_method(PH))
+#define HWriteGV_parallel_method(PH,VAR)   (HGetGV_parallel_method(PH)=(VAR))
+
+/* ->last_parallel_method: INT */
+#define HGetGV_last_parallel_method(PH)      (((Hproc_handle_)PH)->info_excl->last_parallel_method)
+#define HReadGV_last_parallel_method(PH,VAR) (VAR=HGetGV_last_parallel_method(PH))
+#define HWriteGV_last_parallel_method(PH,VAR) (HGetGV_last_parallel_method(PH)=(VAR))
+#define HOrGV_last_parallel_method(PH,VAR) (HGetGV_last_parallel_method(PH)|=(VAR))
+
+/* -> last_thread_num: UINT4 */
+#define HGetGV_last_thread_num(PH)                      \
+  (((Hproc_handle_)(PH))->info_excl->last_thread_num)
+#define HWriteGV_last_thread_num(PH,SIZE)             \
+  HGetGV_last_thread_num(PH) = SIZE
+
+/* -> singlex: INT4 */
+#define HGetGV_singlex(PH)                      \
+  (((Hproc_handle_)(PH))->info_excl->singlex)
+#define HWriteGV_singlex(PH,TAG)                \
+  HGetGV_singlex(PH) = TAG
+
+
+/* ->recursion_depth: INT */
+#define HGetGV_recursion_depth(PH)         (((Hproc_handle_)PH)->info_excl->recursion_depth)
+#define HReadGV_recursion_depth(PH,VAR)    (VAR=HGetGV_recursion_depth(PH))
+#define HWriteGV_recursion_depth(PH,VAR)   (HGetGV_recursion_depth(PH)=VAR)
+#define HIncGV_recursion_depth(PH)         ( HGetGV_recursion_depth(PH)++ )
+#define HDecGV_recursion_depth(PH)         ( HGetGV_recursion_depth(PH)-- )
+
+
+/* H_INSTANCE_INFO_SHARED  *info_shared
+ *---------------------------------------------------------------------------*/
+
+/* ->CompactObj: HBOOL */
+#define HGetGV_CompactObj(PH)    (((Hproc_handle_)PH)->info_shared->CompactObj)
+#define HReadGV_CompactObj(PH,VAR)         (VAR=HGetGV_CompactObj(PH))
+#define HWriteGV_CompactObj(PH,VAR)        (HGetGV_CompactObj(PH)=VAR)
+
+/* ->NewFilter: HBOOL */
+#define HGetGV_NewFilter(PH)      (((Hproc_handle_)PH)->info_shared->NewFilter)
+#define HReadGV_NewFilter(PH,VAR)          (VAR=HGetGV_NewFilter(PH))
+#define HWriteGV_NewFilter(PH,VAR)         (HGetGV_NewFilter(PH)=VAR)
+
+/* ->nf_inp_key: Hkey* */
+#define HGetGV_nf_inp_key(PH)    (((Hproc_handle_)PH)->info_shared->nf_inp_key)
+#define HGetGV_nf_inp_key_i(PH,IDX)        (HGetGV_nf_inp_key(PH)[IDX])
+#define HReadGV_nf_inp_key_i(PH,IDX,VAR)   (VAR=HGetGV_nf_inp_key_i(PH,IDX))
+#define HWriteGV_nf_inp_key_i(PH,IDX,VAR)  (HGetGV_nf_inp_key_i(PH,IDX)=VAR)
+#define HInitGV_nf_inp_key(PH,VAR)         (HGetGV_nf_inp_key(PH)=VAR)
+
+/* ->nf_rem_inp_keys: Hkey* */
+#define HGetGV_nf_rem_inp_keys(PH) (((Hproc_handle_)PH)->info_shared->\
+                                      nf_rem_inp_keys)
+#define HGetGV_nf_rem_inp_keys_i(PH,IDX)   (HGetGV_nf_rem_inp_keys(PH)[IDX])
+#define HReadGV_nf_rem_inp_keys_i(PH,IDX,VAR) \
+          (VAR=HGetGV_nf_rem_inp_keys_i(PH,IDX))
+#define HWriteGV_nf_rem_inp_keys_i(PH,IDX,VAR) \
+          (HGetGV_nf_rem_inp_keys_i(PH,IDX)=VAR)
+#define HInitGV_nf_rem_inp_keys(PH,VAR)    (HGetGV_nf_rem_inp_keys(PH)=VAR)
+
+/* ->nf_index: INT2* */
+#define HGetGV_nf_index(PH)        (((Hproc_handle_)PH)->info_shared->nf_index)
+#define HGetGV_nf_index_i(PH,IDX)          (HGetGV_nf_index(PH)[IDX])
+#define HReadGV_nf_index_i(PH,IDX,VAR)     (VAR=HGetGV_nf_index_i(PH,IDX))
+#define HWriteGV_nf_index_i(PH,IDX,VAR)    (HGetGV_nf_index_i(PH,IDX)=VAR)
+#define HInitGV_nf_index(PH,VAR)           (HGetGV_nf_index(PH)=VAR)
+
+/* ->nf_img_type: INT2* */
+#define HGetGV_nf_img_type(PH)  (((Hproc_handle_)PH)->info_shared->nf_img_type)
+#define HGetGV_nf_img_type_i(PH,IDX)       (HGetGV_nf_img_type(PH)[IDX])
+#define HReadGV_nf_img_type_i(PH,IDX,VAR)  (VAR=HGetGV_nf_img_type_i(PH,IDX))
+#define HWriteGV_nf_img_type_i(PH,IDX,VAR) (HGetGV_nf_img_type_i(PH,IDX)=VAR)
+#define HInitGV_nf_img_type(PH,VAR)        (HGetGV_nf_img_type(PH)=VAR)
+
+/* ->nf_out: Hkey* */
+#define HGetGV_nf_out(PH)            (((Hproc_handle_)PH)->info_shared->nf_out)
+#define HGetGV_nf_out_i(PH,IDX)            (HGetGV_nf_out(PH)[IDX])
+#define HReadGV_nf_out_i(PH,IDX,VAR)       (VAR=HGetGV_nf_out_i(PH,IDX))
+#define HWriteGV_nf_out_i(PH,IDX,VAR)      (HGetGV_nf_out_i(PH,IDX)=VAR)
+#define HInitGV_nf_out(PH,VAR)             (HGetGV_nf_out(PH)=VAR)
+
+/* ->nf_image1: float** */
+#define HGetGV_nf_image1(PH)      (((Hproc_handle_)PH)->info_shared->nf_image1)
+#define HGetGV_nf_image1_i(PH,IDX)         (HGetGV_nf_image1(PH)[IDX])
+#define HReadGV_nf_image1_i(PH,IDX,VAR)    (VAR=HGetGV_nf_image1_i(PH,IDX))
+#define HWriteGV_nf_image1_i(PH,IDX,VAR)   (HGetGV_nf_image1_i(PH,IDX)=VAR)
+#define HInitGV_nf_image1(PH,VAR)          (HGetGV_nf_image1(PH)=VAR)
+
+/* ->nf_image2: float** */
+#define HGetGV_nf_image2(PH)      (((Hproc_handle_)PH)->info_shared->nf_image2)
+#define HGetGV_nf_image2_i(PH,IDX)         (HGetGV_nf_image2(PH)[IDX])
+#define HReadGV_nf_image2_i(PH,IDX,VAR)    (VAR=HGetGV_nf_image2_i(PH,IDX))
+#define HWriteGV_nf_image2_i(PH,IDX,VAR)   (HGetGV_nf_image2_i(PH,IDX)=VAR)
+#define HInitGV_nf_image2(PH,VAR)          (HGetGV_nf_image2(PH)=VAR)
+
+/* ->nf_num: INT4 */
+#define HGetGV_nf_num(PH)            (((Hproc_handle_)PH)->info_shared->nf_num)
+#define HReadGV_nf_num(PH,VAR)             (VAR=HGetGV_nf_num(PH))
+#define HWriteGV_nf_num(PH,VAR)            (HGetGV_nf_num(PH)=VAR)
+
+/* ->nf_num_alloc: INT4 */
+#define HGetGV_nf_num_alloc(PH) \
+                               (((Hproc_handle_)PH)->info_shared->nf_num_alloc)
+#define HReadGV_nf_num_alloc(PH,VAR)       (VAR=HGetGV_nf_num_alloc(PH))
+#define HWriteGV_nf_num_alloc(PH,VAR)      (HGetGV_nf_num_alloc(PH)=VAR)
+
+/* H_THREAD_TEAM_INFO  *team_shared
+ *---------------------------------------------------------------------------*/
+/* -> team size: INT */
+#define HGetGV_team_size(PH)                      \
+  (((Hproc_handle_)(PH))->team_shared->team_size)
+#define HWriteGV_team_size(PH,SIZE)             \
+  HGetGV_team_size(PH) = SIZE
+
+/* -> team flags: INT */
+#define HGetGV_team_flags(PH)                       \
+  (((Hproc_handle_)(PH))->team_shared->team_flags)
+#define HWriteGV_team_flags(PH,FLAGS)           \
+  HGetGV_team_flags(PH) = FLAGS
+
+/* -> team_data : void** */
+#define HGetGV_team_data(PH)                          \
+  (((Hproc_handle_)(PH))->team_shared->specific_data)
+#define HWriteGV_team_data(PH,PDATA)            \
+  HGetGV_team_data(PH) = (void**)PDATA
+
+#define HGetGV_team_data_i(PH,THRDID)                                 \
+  (((Hproc_handle_)(PH))->team_shared->specific_data[THRDID])
+#define HWriteGV_team_data_i(PH,DATA,THRDID)    \
+  HGetGV_team_data_i(PH,THRDID) = (void*)DATA
+
+/* -> singlex */
+#define HGetGV_team_singlex(PH)                 \
+  (((Hproc_handle_)(PH))->team_shared->singlex)
+#define HWriteGV_team_singlex(PH,TAG)           \
+  HGetGV_team_singlex(PH) = TAG
+
+/* -> team_pool */
+#define HGetGV_team_pool(PH)                 \
+  (((Hproc_handle_)(PH))->team_shared->team_pool)
+#define HWriteGV_team_pool(PH,TAG)           \
+  HGetGV_team_pool(PH) = TAG
+
+/* -> pool_size */
+#define HGetGV_pool_size(PH)                 \
+  (((Hproc_handle_)(PH))->team_shared->pool_size)
+#define HWriteGV_pool_size(PH,TAG)           \
+  HGetGV_pool_size(PH) = TAG
+
+/* -> pool_persists */
+#define HGetGV_pool_persists(PH)                 \
+  (((Hproc_handle_)(PH))->team_shared->pool_persists)
+#define HWriteGV_pool_persists(PH,TAG)           \
+  HGetGV_pool_persists(PH) = TAG
+
+/* -> barrier */
+#define HGetGV_team_barrier(PH)                     \
+  (((Hproc_handle_)(PH))->team_shared->barrier)
+
+/* -> mutex */
+#define HGetGV_team_mutex(PH)                     \
+  (((Hproc_handle_)(PH))->team_shared->mutex)
+
+
+
+/* H_SYS_INFO_EXCLUSIVE  *sys_info_excl
+ *---------------------------------------------------------------------------*/
+
+/* ->def_obj_images: INT4 */
+#define HGetGV_def_obj_images(PH) \
+                               (((Hproc_handle_)PH)->sys_info_excl->def_obj_images)
+#define HReadGV_def_obj_images(PH,VAR)     (VAR=HGetGV_def_obj_images(PH))
+#define HWriteGV_def_obj_images(PH,VAR)    (HGetGV_def_obj_images(PH)=VAR)
+
+/* ->check: INT4 */
+#define HGetGV_check(PH)          (((Hproc_handle_)PH)->sys_info_excl->check)
+#define HReadGV_check(PH,VAR)                 (VAR=HGetGV_check(PH))
+#define HWriteGV_check(PH,VAR)                 (HGetGV_check(PH)=(VAR))
+
+/* ->imsize: INT4 */
+#define HGetGV_imsize(PH)          (((Hproc_handle_)PH)->sys_info_excl->imsize)
+#define HReadGV_imsize(PH,VAR)             (VAR=HGetGV_imsize(PH))
+#define HWriteGV_imsize(PH,VAR)            (HGetGV_imsize(PH)=VAR)
+
+/* ->Width: INT4 */
+#define HGetGV_Width(PH)            (((Hproc_handle_)PH)->sys_info_excl->Width)
+#define HReadGV_Width(PH,VAR)              (VAR=HGetGV_Width(PH))
+#define HWriteGV_Width(PH,VAR)             (HGetGV_Width(PH)=VAR)
+
+/* ->Height: INT4 */
+#define HGetGV_Height(PH)          (((Hproc_handle_)PH)->sys_info_excl->Height)
+#define HReadGV_Height(PH,VAR)             (VAR=HGetGV_Height(PH))
+#define HWriteGV_Height(PH,VAR)            (HGetGV_Height(PH)=VAR)
+
+/* ->CurrentRL: INT4 */
+#define HGetGV_CurrentRL(PH)    (((Hproc_handle_)PH)->sys_info_excl->CurrentRL)
+#define HReadGV_CurrentRL(PH,VAR)          (VAR=HGetGV_CurrentRL(PH))
+#define HWriteGV_CurrentRL(PH,VAR)         (HGetGV_CurrentRL(PH)=VAR)
+
+/* ->ClipRegion: HBOOL */
+#define HGetGV_ClipRegion(PH) \
+                             (((Hproc_handle_)PH)->sys_info_excl->ClipRegion)
+#define HReadGV_ClipRegion(PH,VAR)            (VAR=HGetGV_ClipRegion(PH))
+#define HWriteGV_ClipRegion(PH,VAR)           (HGetGV_ClipRegion(PH)=VAR)
+
+/* ->StoreEmptyRegion: HBOOL */
+#define HGetGV_StoreEmptyRegion(PH) \
+                       (((Hproc_handle_)PH)->sys_info_excl->StoreEmptyRegion)
+#define HReadGV_StoreEmptyRegion(PH,VAR)      (VAR=HGetGV_StoreEmptyRegion(PH))
+#define HWriteGV_StoreEmptyRegion(PH,VAR)     (HGetGV_StoreEmptyRegion(PH)=VAR)
+
+/* ->InitNewImage: HBOOL */
+#define HGetGV_InitNewImage(PH)                       \
+  (((Hproc_handle_)PH)->sys_info_excl->InitNewImage)
+#define HReadGV_InitNewImage(PH,VAR)             (VAR=HGetGV_InitNewImage(PH))
+#define HWriteGV_InitNewImage(PH,VAR)            (HGetGV_InitNewImage(PH)=VAR)
+
+/* ->Neighbour: UINT1 */
+#define HGetGV_Neighbour(PH)  (((Hproc_handle_)PH)->sys_info_excl->Neighbour)
+#define HReadGV_Neighbour(PH,VAR)             (VAR=HGetGV_Neighbour(PH))
+#define HWriteGV_Neighbour(PH,VAR)            (HGetGV_Neighbour(PH)=VAR)
+
+/* ->DoIntZoom: HBOOL */
+#define HGetGV_DoIntZoom(PH)  (((Hproc_handle_)PH)->sys_info_excl->DoIntZoom)
+#define HReadGV_DoIntZoom(PH,VAR)             (VAR=HGetGV_DoIntZoom(PH))
+#define HWriteGV_DoIntZoom(PH,VAR)            (HGetGV_DoIntZoom(PH)=VAR)
+
+/* ->NoObjResult: Herror */
+#define HGetGV_NoObjResult(PH)                      \
+  (((Hproc_handle_)PH)->sys_info_excl->NoObjResult)
+#define HReadGV_NoObjResult(PH,VAR)           (VAR=HGetGV_NoObjResult(PH))
+#define HWriteGV_NoObjResult(PH,VAR)          (HGetGV_NoObjResult(PH)=VAR)
+
+/* ->EmptyObjResult: Herror */
+#define HGetGV_EmptyObjResult(PH)                       \
+  (((Hproc_handle_)PH)->sys_info_excl->EmptyObjResult)
+#define HReadGV_EmptyObjResult(PH,VAR)        (VAR=HGetGV_EmptyObjResult(PH))
+#define HWriteGV_EmptyObjResult(PH,VAR)       (HGetGV_EmptyObjResult(PH)=VAR)
+
+/* ->CancelDrawResult: Herror */
+#define HGetGV_CancelDrawResult(PH)                       \
+  (((Hproc_handle_)PH)->sys_info_excl->CancelDrawResult)
+#define HReadGV_CancelDrawResult(PH,VAR)     (VAR=HGetGV_CancelDrawResult(PH))
+#define HWriteGV_CancelDrawResult(PH,VAR)    (HGetGV_CancelDrawResult(PH)=VAR)
+
+/* H_SYS_INFO_SHARED   *sys_info_shared
+ *---------------------------------------------------------------------------*/
+/* ->HProcNum INT4 */
+#define HGetGV_HProcNum(PH)          (((Hproc_handle_)PH)->sys_info_shared->HProcNum)
+#define HReadGV_HProcNum(PH,VAR)     (VAR=HGetGV_HProcNum(PH))
+#define HWriteGV_HProcNum(PH,VAR)    (HGetGV_HProcNum(PH)=(VAR))
+
+
+/* ->UpdateLUT: HBOOL */
+#define HGetGV_UpdateLUT(PH)  (((Hproc_handle_)PH)->sys_info_shared->UpdateLUT)
+#define HReadGV_UpdateLUT(PH,VAR)             (VAR=HGetGV_UpdateLUT(PH))
+
+/* ->UsedModules: UINT4 */
+#define HGetGV_UsedModules(PH) \
+                            (((Hproc_handle_)PH)->sys_info_shared->UsedModules)
+#define HReadGV_UsedModules(PH,VAR)           (VAR=HGetGV_UsedModules(PH))
+
+
+
 /* lock a global context mutex variable                                      */
 #if defined H_PARALLEL
+# define HSysM_Lock(MUTEX) XHSysM_Lock(my_sys_info_shared.MUTEX)
+# define XHSysM_Lock(MUTEX)                         \
+  HpThreadMutexLock(&MUTEX )
+# define HSysM_Unlock(MUTEX) XHSysM_Unlock(my_sys_info_shared.MUTEX)
+# define XHSysM_Unlock(MUTEX)                         \
+  HpThreadMutexUnlock(& MUTEX )
+
 # define HLockGVM(ProcHandle,Element)                                   \
   HCkP(HAccessGlVar(ProcHandle,Element,GV_LOCK,NULL,(double)0,(char *)NULL, \
                     (Hkey)NULL,0))
@@ -1531,6 +1917,8 @@ HCkP(HAccessGlVar(ProcHandle,Element,GV_REALLOC_A,NULL,(double)0,(char *)NULL,(H
   HAccessGlVar(ProcHandle,Element,GV_UNLOCK,NULL,(double)0,(char *)NULL, \
                (Hkey)NULL,0)
 #else
+# define HSysM_Lock(MUTEX) H_MSG_OK
+# define HSysM_Unlock(MUTEX) H_MSG_OK
 # define HLockGVM(ProcHandle,Element)
 # define HLockGVMdirect(ProcHandle,Element) H_MSG_OK
 # define HUnlockGVM(ProcHandle,Element)
@@ -1632,6 +2020,6 @@ HCkP(HAccessGlVar(ProcHandle,Element,GV_INIT_INFO,Value,(double)0,(char *)NULL,(
 #define HGetAdrProcCallInfoA(ProcHandle,Element,Value) \
 HCkP(HAccessGlVar(ProcHandle,Element,GV_GET_ADRESS,Value,(double)0,(char *)NULL,(Hkey)NULL,0))
 
-#endif /* HMACRO_H */
+#endif
 
 

@@ -5,11 +5,13 @@
  * Project:     HALCON/libhalcon
  * Description: Basic tools
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2009 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  * 
+ * $Revision: 1.34 $
+ * $Date: 2010/05/18 08:08:34 $
  *
  */
 
@@ -35,14 +37,6 @@ extern HLibExport double Hatan2(double x, double y);
 
 extern HLibExport Herror HStripQuotes(Hproc_handle proc_handle, char *in,
                                       char **out);
-
-extern HLibExport char* HGetHalconRoot(void);
-extern HLibExport char* HGetHalconLibraryPath(void);
-
-extern HLibExport HBOOL HSetEnv(const char *name, const char *value);
-extern HLibExport char* HGetEnv(const char *name);
-extern HLibExport char* HGetEnvRaw(const char *name);
-extern HLibExport void HGetEnvFree(char* name);
 
 extern HLibExport Herror HIncrRL(Hproc_handle proc_handle);
 
@@ -73,9 +67,6 @@ extern HLibExport Herror HTmpImage(Hproc_handle proc_handle, Himage *image,
 
 extern HLibExport Herror HFreeLocalImage(Hproc_handle proc_handle,
                                          Himage *image);
-
-extern HLibExport Herror HLocalImageToGlobal(Hproc_handle proc_handle,
-                                             Himage *image);
 
 extern HLibExport Herror HLocalImage(Hproc_handle proc_handle, Himage *image,
                                      INT kind, HIMGDIM width, HIMGDIM height,
@@ -117,14 +108,8 @@ extern HLibExport Herror HNewImagePtr(Hproc_handle proc_handle, Himage *image,
                                       INT kind, HIMGDIM width, HIMGDIM height,
                                       VOIDP data, HBOOL initImg);
 
-Herror HSortDouble(Hproc_handle proc_handle, double *array,
-                   INT4_8 num, HBOOL ascending);
-
-Herror HSortINT4_8(Hproc_handle proc_handle, INT4_8 *array,
-                   INT4_8 num, HBOOL ascending);
-
-Herror HSortString(Hproc_handle proc_handle, char **array,
-                   INT4_8 num, HBOOL ascending);
+extern HLibExport Herror HSortDouble(Hproc_handle proc_handle, double *array,
+                                     int first, int last, HBOOL ascending);
 
 #if defined(__cplusplus)
 }

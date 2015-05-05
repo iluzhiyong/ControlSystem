@@ -40,19 +40,19 @@ extern "C"{
 #ifndef __IHObjectX_FWD_DEFINED__
 #define __IHObjectX_FWD_DEFINED__
 typedef interface IHObjectX IHObjectX;
-#endif  /* __IHObjectX_FWD_DEFINED__ */
+#endif 	/* __IHObjectX_FWD_DEFINED__ */
 
 
 #ifndef __IHUntypedObjectX_FWD_DEFINED__
 #define __IHUntypedObjectX_FWD_DEFINED__
 typedef interface IHUntypedObjectX IHUntypedObjectX;
-#endif  /* __IHUntypedObjectX_FWD_DEFINED__ */
+#endif 	/* __IHUntypedObjectX_FWD_DEFINED__ */
 
 
 #ifndef __IHandleAccess_FWD_DEFINED__
 #define __IHandleAccess_FWD_DEFINED__
 typedef interface IHandleAccess IHandleAccess;
-#endif  /* __IHandleAccess_FWD_DEFINED__ */
+#endif 	/* __IHandleAccess_FWD_DEFINED__ */
 
 
 /* header files for imported files */
@@ -79,9 +79,7 @@ EXTERN_C const IID IID_IHObjectX;
     public:
     };
     
-#else   /* C style interface */
-
-#pragma pack(push,8) /* sets the struct member alignment to 8 (default) */
+#else 	/* C style interface */
 
     typedef struct IHObjectXVtbl
     {
@@ -130,8 +128,6 @@ EXTERN_C const IID IID_IHObjectX;
         END_INTERFACE
     } IHObjectXVtbl;
 
-#pragma pack(pop)
-
     interface IHObjectX
     {
         CONST_VTBL struct IHObjectXVtbl __RPC_FAR *lpVtbl;
@@ -142,38 +138,38 @@ EXTERN_C const IID IID_IHObjectX;
 #ifdef COBJMACROS
 
 
-#define IHObjectX_QueryInterface(This,riid,ppvObject) \
+#define IHObjectX_QueryInterface(This,riid,ppvObject)	\
     (This)->lpVtbl -> QueryInterface(This,riid,ppvObject)
 
-#define IHObjectX_AddRef(This)  \
+#define IHObjectX_AddRef(This)	\
     (This)->lpVtbl -> AddRef(This)
 
-#define IHObjectX_Release(This) \
+#define IHObjectX_Release(This)	\
     (This)->lpVtbl -> Release(This)
 
 
-#define IHObjectX_GetTypeInfoCount(This,pctinfo)  \
+#define IHObjectX_GetTypeInfoCount(This,pctinfo)	\
     (This)->lpVtbl -> GetTypeInfoCount(This,pctinfo)
 
-#define IHObjectX_GetTypeInfo(This,iTInfo,lcid,ppTInfo) \
+#define IHObjectX_GetTypeInfo(This,iTInfo,lcid,ppTInfo)	\
     (This)->lpVtbl -> GetTypeInfo(This,iTInfo,lcid,ppTInfo)
 
-#define IHObjectX_GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId) \
+#define IHObjectX_GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)	\
     (This)->lpVtbl -> GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)
 
-#define IHObjectX_Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr) \
+#define IHObjectX_Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)	\
     (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)
 
 
 #endif /* COBJMACROS */
 
 
-#endif  /* C style interface */
+#endif 	/* C style interface */
 
 
 
 
-#endif  /* __IHObjectX_INTERFACE_DEFINED__ */
+#endif 	/* __IHObjectX_INTERFACE_DEFINED__ */
 
 
 #ifndef __IHUntypedObjectX_INTERFACE_DEFINED__
@@ -193,9 +189,7 @@ EXTERN_C const IID IID_IHUntypedObjectX;
     public:
     };
     
-#else   /* C style interface */
-
-#pragma pack(push,8) /* sets the struct member alignment to 8 (default) */
+#else 	/* C style interface */
 
     typedef struct IHUntypedObjectXVtbl
     {
@@ -244,8 +238,6 @@ EXTERN_C const IID IID_IHUntypedObjectX;
         END_INTERFACE
     } IHUntypedObjectXVtbl;
 
-#pragma pack(pop)
-
     interface IHUntypedObjectX
     {
         CONST_VTBL struct IHUntypedObjectXVtbl __RPC_FAR *lpVtbl;
@@ -256,38 +248,38 @@ EXTERN_C const IID IID_IHUntypedObjectX;
 #ifdef COBJMACROS
 
 
-#define IHUntypedObjectX_QueryInterface(This,riid,ppvObject)  \
+#define IHUntypedObjectX_QueryInterface(This,riid,ppvObject)	\
     (This)->lpVtbl -> QueryInterface(This,riid,ppvObject)
 
-#define IHUntypedObjectX_AddRef(This) \
+#define IHUntypedObjectX_AddRef(This)	\
     (This)->lpVtbl -> AddRef(This)
 
-#define IHUntypedObjectX_Release(This)  \
+#define IHUntypedObjectX_Release(This)	\
     (This)->lpVtbl -> Release(This)
 
 
-#define IHUntypedObjectX_GetTypeInfoCount(This,pctinfo) \
+#define IHUntypedObjectX_GetTypeInfoCount(This,pctinfo)	\
     (This)->lpVtbl -> GetTypeInfoCount(This,pctinfo)
 
-#define IHUntypedObjectX_GetTypeInfo(This,iTInfo,lcid,ppTInfo)  \
+#define IHUntypedObjectX_GetTypeInfo(This,iTInfo,lcid,ppTInfo)	\
     (This)->lpVtbl -> GetTypeInfo(This,iTInfo,lcid,ppTInfo)
 
-#define IHUntypedObjectX_GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)  \
+#define IHUntypedObjectX_GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)	\
     (This)->lpVtbl -> GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)
 
-#define IHUntypedObjectX_Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)  \
+#define IHUntypedObjectX_Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)	\
     (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)
 
 
 #endif /* COBJMACROS */
 
 
-#endif  /* C style interface */
+#endif 	/* C style interface */
 
 
 
 
-#endif  /* __IHUntypedObjectX_INTERFACE_DEFINED__ */
+#endif 	/* __IHUntypedObjectX_INTERFACE_DEFINED__ */
 
 
 #ifndef __IHandleAccess_INTERFACE_DEFINED__
@@ -320,9 +312,7 @@ EXTERN_C const IID IID_IHandleAccess;
         
     };
     
-#else   /* C style interface */
-
-#pragma pack(push,8)
+#else 	/* C style interface */
 
     typedef struct IHandleAccessVtbl
     {
@@ -389,8 +379,6 @@ EXTERN_C const IID IID_IHandleAccess;
         END_INTERFACE
     } IHandleAccessVtbl;
 
-#pragma pack(pop)
-
     interface IHandleAccess
     {
         CONST_VTBL struct IHandleAccessVtbl __RPC_FAR *lpVtbl;
@@ -401,48 +389,48 @@ EXTERN_C const IID IID_IHandleAccess;
 #ifdef COBJMACROS
 
 
-#define IHandleAccess_QueryInterface(This,riid,ppvObject) \
+#define IHandleAccess_QueryInterface(This,riid,ppvObject)	\
     (This)->lpVtbl -> QueryInterface(This,riid,ppvObject)
 
-#define IHandleAccess_AddRef(This)  \
+#define IHandleAccess_AddRef(This)	\
     (This)->lpVtbl -> AddRef(This)
 
-#define IHandleAccess_Release(This) \
+#define IHandleAccess_Release(This)	\
     (This)->lpVtbl -> Release(This)
 
 
-#define IHandleAccess_GetTypeInfoCount(This,pctinfo)  \
+#define IHandleAccess_GetTypeInfoCount(This,pctinfo)	\
     (This)->lpVtbl -> GetTypeInfoCount(This,pctinfo)
 
-#define IHandleAccess_GetTypeInfo(This,iTInfo,lcid,ppTInfo) \
+#define IHandleAccess_GetTypeInfo(This,iTInfo,lcid,ppTInfo)	\
     (This)->lpVtbl -> GetTypeInfo(This,iTInfo,lcid,ppTInfo)
 
-#define IHandleAccess_GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId) \
+#define IHandleAccess_GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)	\
     (This)->lpVtbl -> GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)
 
-#define IHandleAccess_Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr) \
+#define IHandleAccess_Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)	\
     (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)
 
 
-#define IHandleAccess_HandleAccess(This,rVal) \
+#define IHandleAccess_HandleAccess(This,rVal)	\
     (This)->lpVtbl -> HandleAccess(This,rVal)
 
-#define IHandleAccess_HandleEnterCriticalSection(This)  \
+#define IHandleAccess_HandleEnterCriticalSection(This)	\
     (This)->lpVtbl -> HandleEnterCriticalSection(This)
 
-#define IHandleAccess_HandleLeaveCriticalSection(This)  \
+#define IHandleAccess_HandleLeaveCriticalSection(This)	\
     (This)->lpVtbl -> HandleLeaveCriticalSection(This)
 
-#define IHandleAccess_HandleCleanUp(This,CallDestructor)  \
+#define IHandleAccess_HandleCleanUp(This,CallDestructor)	\
     (This)->lpVtbl -> HandleCleanUp(This,CallDestructor)
 
-#define IHandleAccess_HandleIsValid(This,isValid) \
+#define IHandleAccess_HandleIsValid(This,isValid)	\
     (This)->lpVtbl -> HandleIsValid(This,isValid)
 
 #endif /* COBJMACROS */
 
 
-#endif  /* C style interface */
+#endif 	/* C style interface */
 
 
 
@@ -505,7 +493,7 @@ void __RPC_STUB IHandleAccess_HandleIsValid_Stub(
 
 
 
-#endif  /* __IHandleAccess_INTERFACE_DEFINED__ */
+#endif 	/* __IHandleAccess_INTERFACE_DEFINED__ */
 
 
 /* Additional Prototypes for ALL interfaces */

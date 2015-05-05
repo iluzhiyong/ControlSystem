@@ -5,11 +5,13 @@
  * Project:     HALCON/C++
  * Description: Class HTemplate
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2008 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.9 $
+ * $Date: 2008/12/06 13:35:12 $
  *
  */
 
@@ -81,10 +83,6 @@ public:
   virtual void CreateTemplate(const HImage &Template, const Halcon::HTuple &FirstError, const Halcon::HTuple &NumLevel, const Halcon::HTuple &Optimize, const Halcon::HTuple &GrayValues);
   // Preparing a pattern for template matching.
   virtual void CreateTemplate(const HImage &Template, Hlong FirstError, Hlong NumLevel, const char *Optimize, const char *GrayValues);
-  // Serialize a template.
-  virtual HSerializedItem SerializeTemplate() const;
-  // Deserialize a serialized template.
-  virtual void DeserializeTemplate(const Halcon::HSerializedItem &SerializedItemHandle);
   // Writing a template to file.
   virtual void WriteTemplate(const Halcon::HTuple &FileName) const;
   // Writing a template to file.

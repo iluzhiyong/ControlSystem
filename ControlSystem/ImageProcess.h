@@ -25,14 +25,14 @@ public:
 	bool Action();
 
 	CDetectCircularhole* GetCircleDetecter();
-	HObject GetProcessImage(){ return m_hvImage; }
+	Hobject GetProcessImage(){ return m_hvImage; }
 	
 private:
 	bool m_paramPoseLoaded;
 	HTuple m_hvCamParam;
 	HTuple m_hvCamPose;
 
-	HObject m_hvImage;
+	Hobject m_hvImage;
 	float m_TargetRow;
 	float m_TargetColumn;
 

@@ -5,11 +5,13 @@
  * Project:     HALCON/C++
  * Description: Class HDeformableModel
  *
- * (c) 2007-2014 by MVTec Software GmbH
+ * (c) 2007-2008 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.4 $
+ * $Date: 2010/03/25 09:05:05 $
  *
  */
 
@@ -227,10 +229,6 @@ public:
   virtual HXLDContArray GetDeformableModelContours(const Halcon::HTuple &Level) const;
   // Return the contour representation of a deformable model.
   virtual HXLDContArray GetDeformableModelContours(Hlong Level) const;
-  // Deserialize a deformable model.
-  virtual void DeserializeDeformableModel(const Halcon::HSerializedItem &SerializedItemHandle);
-  // Serialize a deformable model.
-  virtual HSerializedItem SerializeDeformableModel() const;
   // Read a deformable model from a file.
   virtual void ReadDeformableModel(const Halcon::HTuple &FileName);
   // Read a deformable model from a file.

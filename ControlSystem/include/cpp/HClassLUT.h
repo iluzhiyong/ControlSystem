@@ -5,11 +5,13 @@
  * Project:     HALCON/C++
  * Description: Class HClassLUT
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2009 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.1 $
+ * $Date: 2009/02/16 12:57:42 $
  *
  */
 
@@ -53,10 +55,6 @@ public:
 
   // Classify a byte image using a look-up table.
   virtual HRegionArray ClassifyImageClassLut(const HImage &Image) const;
-  // Create a look-up table using a k-nearest neighbors
-  // classifier (k-NN) to classify byte
-  // images.
-  virtual void CreateClassLutKnn(const Halcon::HClassKnn &KNNHandle, const Halcon::HTuple &GenParamNames, const Halcon::HTuple &GenParamValues);
   // Create a look-up table using a gaussian mixture model to classify byte
   // images.
   virtual void CreateClassLutGmm(const Halcon::HClassGmm &GMMHandle, const Halcon::HTuple &GenParamNames, const Halcon::HTuple &GenParamValues);

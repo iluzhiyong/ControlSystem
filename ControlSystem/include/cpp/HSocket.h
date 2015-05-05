@@ -5,11 +5,13 @@
  * Project:     HALCON/C++
  * Description: Class HSocket
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2008 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.11 $
+ * $Date: 2010/07/23 12:41:30 $
  *
  */
 
@@ -94,8 +96,6 @@ public:
   virtual void SetSocketTimeout(const Halcon::HTuple &Timeout) const;
   // Set the timeout of a socket.
   virtual void SetSocketTimeout(double Timeout) const;
-  // Close all opened sockets.
-  static void CloseAllSockets(void);
   // Accept a connection request on a listening socket of the protocol type
   //  'HALCON' or 'TCP'/'TCP4'/'TCP6'.
   virtual HSocket SocketAcceptConnect(const Halcon::HTuple &Wait) const;
@@ -106,10 +106,6 @@ public:
   virtual void OpenSocketConnect(const Halcon::HTuple &HostName, const Halcon::HTuple &Port, const Halcon::HTuple &GenParamName, const Halcon::HTuple &GenParamValue);
   // Open a socket that accepts connection requests.
   virtual void OpenSocketAccept(const Halcon::HTuple &Port, const Halcon::HTuple &GenParamName, const Halcon::HTuple &GenParamValue);
-  // Receive a serialized item over a socket connection.
-  virtual HSerializedItem ReceiveSerializedItem() const;
-  // Send a serialized item over a socket connection.
-  virtual void SendSerializedItem(const Halcon::HSerializedItem &SerializedItemHandle) const;
 };
 
 }

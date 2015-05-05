@@ -5,10 +5,16 @@
  * Project:     HALCON/libhalcon
  * Description: Windows DLL specifications
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2008 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
- *****************************************************************************/
+ *****************************************************************************
+ *
+ * $Revision: 1.18 $
+ * $Date: 2010/07/02 12:48:24 $
+ *
+ */
+
 
 #ifndef HALCON_DECL_SPEC_H
 #define HALCON_DECL_SPEC_H

@@ -1,15 +1,17 @@
 /*****************************************************************************
  * CIOFrameGrab.h
- *****************************************************************************
+ ***************************************************************************** 
  *
  * Project:     HALCON/libhalcon
  * Description: Image acquisition integration interface
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2010 by MVTec Software GmbH
  *                  www.mvtec.com
- *
+ * 
  *****************************************************************************
  *
+ * $Revision: 1.55 $
+ * $Date: 2010/02/23 16:03:10 $
  *
  *****************************************************************************
  *
@@ -22,15 +24,13 @@
 #ifndef CIOFRAMEGRAB_H
 #define CIOFRAMEGRAB_H
 
-#ifndef HC_NO_FRAMEGRABBER
-
-#define FG_INTERFACE_VERSION 6
+#define FG_INTERFACE_VERSION 4
 
 #define FG_NUM_RESERVED      20
 
 #ifndef HE_TI_C6X
 #define FG_MAX_NUM  128 /* max. number of different frame grabber (classes) */
-#define FG_MAX_INST 256 /* max. number of handles (instances) per class     */
+#define FG_MAX_INST 64  /* max. number of handles (instances) per class     */
 #else
 #define FG_MAX_NUM  1
 #define FG_MAX_INST 1
@@ -51,7 +51,7 @@
 #define XL_SUFFIX ""
 #endif
 #endif
-
+ 
 #define FG_QUERY_PORT             0      /* Query: Available port values     */
 #define FG_QUERY_CAMERA_TYPE      1      /* Query: Available camera types    */
 #define FG_QUERY_GENERAL          2      /* Query: General information       */
@@ -86,10 +86,10 @@
 #define FG_FIELD_DEFAULT          5      /* default                          */
 
 /* corresponding text encoding: */
-#define FG_FIRST_FIELD_TXT               "first"
+#define FG_FIRST_FIELD_TXT               "first" 
 #define FG_SECOND_FIELD_TXT              "second"
-#define FG_NEXT_FIELD_TXT                "next"
-#define FG_FULL_FRAME_TXT                "interlaced"
+#define FG_NEXT_FIELD_TXT                "next"  
+#define FG_FULL_FRAME_TXT                "interlaced" 
 #define FG_PROGRESSIVE_FRAME_TXT         "progressive"
 #define FG_FIELD_DEFAULT_TXT             "default"
 
@@ -112,10 +112,9 @@
 
 #define FG_MAX_CHANNELS 1000 /* max. number of channels that can be grabbed */
 
-#define FG_MAX_LUT_LENGTH          65536  /* max. length of a Lut */
+#define FG_MAX_LUT_LENGTH          65536  /* max. length of a Lut */ 
 
 #define FG_INIT_NAME               "FGInit"
-#define FG_FLAGS_NAME              "FGFlags"
 
 #define FG_MAX_PARAM               2048
 
@@ -124,73 +123,20 @@
 #define FG_RLALLOC_TMP             2
 #define FG_RLALLOC_LOCAL           4
 
-/* This Macro checks the syntax of Generic.                                  *
- * Call it within the loop over the tuple of Generic parameters.             *
- * i          index of parameter                                             *
- * pos        char *, that points to the "="                                 *
- * ret_act_t  return action in case of wrong type (H_ERR_FGPART)             *
- * ret_act_v  return action in case of wrong value (H_ERR_FGPARV)            */
-#define CHECK_GENERIC(i,pos,ret_act_t,ret_act_v) { \
-  if (fginst->generic[(i)].type == STRING_PAR) \
-  { \
-    if (!strlen(fginst->generic[i].par.s)) \
-      continue; \
-    if ((pos) = strstr(fginst->generic[(i)].par.s,"=")) \
-    { \
-      if (strstr((pos) + 1,"=")) \
-      { \
-        sprintf(errMsg,"Error: More than one '=' found in %s. " \
-                       "Please make sure to use a syntax like this " \
-                       "for multiple parameters: " \
-                       "['par1=arg1','par2=arg2' ...]", \
-                fginst->generic[i].par.s); \
-        MY_PRINT_ERROR_MESSAGE(errMsg); \
-        ret_act_v; \
-      } \
-    } \
-    else \
-    { \
-      sprintf(errMsg,"Error: No '=' found in %s." \
-                     "Please make sure to use a syntax like this: " \
-                     "'parameter=argument'", \
-              fginst->generic[i].par.s); \
-      MY_PRINT_ERROR_MESSAGE(errMsg); \
-      ret_act_v; \
-    } \
-  } \
-  else \
-  { \
-    if (fginst->num_generic == 1 && \
-       (fginst->generic[(i)].type == LONG_PAR && \
-        fginst->generic[(i)].par.l == -1) || \
-       (fginst->generic[(i)].type == FLOAT_PAR && \
-        fginst->generic[(i)].par.f == -1.0)) \
-      break; \
-    else \
-    { \
-      MY_PRINT_ERROR_MESSAGE("Generic parameter accepts " \
-                             "only string values!"); \
-      ret_act_t; \
-    } \
-  } \
-}
-
 /* define HALCON acquisition callback */
 #ifndef _WIN32
 #define __stdcall
 #endif
-typedef Herror (__stdcall *HAcqCallback)(void *AcqHandle,void *Context,
-                                         void *UserContext);
+typedef Herror (__stdcall *HAcqCallback)(void *AcqHandle, void *Context, void *UserContext);
 
 
 #if defined(__cplusplus)
 extern "C" {
 #endif
 
-#ifndef HCVERSION_H
 #ifndef _WIN32
 /* time */
-#  if !defined(HE_TI_C6X)
+#  if !defined(TRIMEDIA) && !defined(_TMS320C6X)
 #    if defined(__vxworks)
 #      include <sys/times.h>
 #    else
@@ -209,16 +155,16 @@ struct timeval {
     int     tv_usec;        /* and microseconds */
 };
 #    endif
-#  endif /* ! HE_TI_C6X */
+#  endif /* !TRIMEDIA && ! _TMS320C6X */
 #endif /* _WIN32 */
-#endif /* ifndef HCVERSION_H */
+
 
 /*****************************************************************************
  *
  * struct FGInstance
  *
  *****************************************************************************/
-
+ 
 typedef struct _FGInstance {
   struct _FGClass *fgclass;         /* a pointer to the corresponding class */
   /* ----------------------- regular parameters --------------------------- */
@@ -257,14 +203,13 @@ typedef struct _FGInstance {
  * struct FGClass
  *
  *****************************************************************************/
-
+ 
 typedef struct _FGClass {
   /* -------------------------- internal -------------------------------- */
   char  name[MAX_STRING];        /* frame grabber name (interface module) */
   void  *lib_handle;             /* handle of interface library           */
   INT   interface_version;       /* current HALCON frame grabber          */
                                  /* interface version                     */
-  INT4  flags;                   /* interface flags                       */
   /* ------------------- properties / management ------------------------ */
   HBOOL  available;              /* supported for the current platform    */
   INT    instances_num;          /* current number instances (INTERNAL!)  */
@@ -277,9 +222,9 @@ typedef struct _FGClass {
   Herror (*Grab)             (Hproc_handle proc_id,FGInstance *fginst,
                               Himage *image,INT *num_image);
   Herror (*GrabStartAsync)   (Hproc_handle proc_id,FGInstance *fginst,
-                              double maxDelay);
+			      double maxDelay);
   Herror (*GrabAsync)        (Hproc_handle proc_id,FGInstance *fginst,
-                              double maxDelay,Himage *image,
+			      double maxDelay,Himage *image,
                               INT *num_image);
   Herror (*GrabData)         (Hproc_handle proc_id,FGInstance *fginst,
                               Himage **image,INT **num_channel,INT *num_image,
@@ -292,11 +237,11 @@ typedef struct _FGClass {
                               Hrlregion ***region,INT *num_region,
                               Hcont ***cont,INT  *num_cont,
                               Hcpar **data,INT *num_data);
-  Herror (*Info)             (Hproc_handle proc_id,INT queryType,
+  Herror (*Info)             (Hproc_handle proc_id,INT queryType, 
                               char **info,Hcpar **values,INT *numValues);
-  Herror (*SetParam)         (Hproc_handle proc_id, FGInstance *fginst,
+  Herror (*SetParam)         (Hproc_handle proc_id, FGInstance *fginst, 
                               char *param,Hcpar *value,INT num);
-  Herror (*GetParam)         (Hproc_handle proc_id, FGInstance *fginst,
+  Herror (*GetParam)         (Hproc_handle proc_id, FGInstance *fginst, 
                               char *param,Hcpar *value,INT *num);
   Herror (*SetLut)           (Hproc_handle proc_id,FGInstance *fginst,
                               INT4_8 *red,INT4_8 *green,INT4_8 *blue,INT num);
@@ -304,7 +249,7 @@ typedef struct _FGClass {
                               INT4_8 *red,INT4_8 *green,INT4_8 *blue,INT *num);
   Herror (*SetCallback)      (Hproc_handle proc_id,FGInstance *fginst,
                               char *callback_type,
-                              HAcqCallback callback_function,
+                              HAcqCallback callback_function, 
                               void* user_context);
   Herror (*GetCallback)      (Hproc_handle proc_id,FGInstance *fginst,
                               char *callback_type,
@@ -331,26 +276,15 @@ typedef struct _FGClass {
   void     *reserved[FG_NUM_RESERVED];
 } FGClass;
 
-/*
- * Special framegrabber flags. To set the flags, the interface should export
- * the symbol FG_FLAGS_NAME, which must be an INT4. Note that if the interface
- * is openend using the HAddFgClass function, the flags cannot be set.
- *
- * The following flags are defined:
- *
- * FG_FLAG_THREAD_OPEN: if set, the interface is opened and closed from the
- * same thread.
- */
-#define FG_FLAG_THREAD_OPEN         (1<<0)
 
 typedef Herror (*FG_INIT_FUNC) (Hproc_handle ,FGClass *);
 
-/* function for integrating image acquisition devices into the system using
+/* function for integrating image acquisition devices into the system using 
    a linked interface (instead of a dynamic object accessed online) */
-extern HLibExport Herror HAddFgClass(Hproc_handle proc_id, char *name,
-                                     FG_INIT_FUNC init_func);
+extern HLibExport Herror HAddFgClass(Hproc_handle proc_id, char *name, 
+		                     FG_INIT_FUNC init_func);
 
-/* function for writing the interface specific default values into an
+/* function for writing the interface specific default values into an 
    Hcpar array */
 extern HLibExport Herror HFgGetDefaults(Hproc_handle proc_id, FGClass *fgClass,
                                         Hcpar **values, INT *numValues);
@@ -358,14 +292,10 @@ extern HLibExport Herror HFgGetDefaults(Hproc_handle proc_id, FGClass *fgClass,
 /* helper function in HALCON library for displaying low-level error messages */
 extern HLibExport Herror IOPrintErrorMessage(char *err);
 
-/* prototypes to be included in global startup and shutdown */
-Herror HStartupFramegrabberInterface(void);
-Herror HShutdownFramegrabberInterface(void);
-
 #if defined(__cplusplus)
 }
 #endif
 
-#endif /* ifndef HC_NO_FRAMEGRABBER */
 
-#endif /* ifndef CIOFRAMEGRAB_H */
+#endif
+

@@ -5,11 +5,13 @@
  * Project:     HALCON/C++
  * Description: Class HClassMlp
  *
- * (c) 1996-2014 by MVTec Software GmbH
+ * (c) 1996-2008 by MVTec Software GmbH
  *                  www.mvtec.com
  * 
  *****************************************************************************
  *
+ * $Revision: 1.3 $
+ * $Date: 2008/12/06 13:35:12 $
  *
  */
 
@@ -50,21 +52,9 @@ public:
   // Add training samples from an image to the training data of a
   // multilayer perceptron.
   virtual void AddSamplesImageClassMlp(const HImage &Image, const HRegionArray &ClassRegions) const;
-  // Get the training data of a multilayer perceptron (MLP).
-  virtual HClassTrainData GetClassTrainDataMlp() const;
-  // Add training data to a multilayer perceptron (MLP).
-  virtual void AddClassTrainDataMlp(const Halcon::HClassTrainData &ClassTrainDataHandle) const;
-  // Selects an optimal combination of features to classify the provided data.
-  virtual HTuple SelectFeatureSetMlp(const Halcon::HClassTrainData &ClassTrainDataHandle, const Halcon::HTuple &SelectionMethod, const Halcon::HTuple &GenParamNames, const Halcon::HTuple &GenParamValues, Halcon::HTuple *Score);
-  // Selects an optimal combination of features to classify the provided data.
-  virtual HTuple SelectFeatureSetMlp(const Halcon::HClassTrainData &ClassTrainDataHandle, const char *SelectionMethod, const char *GenParamNames, double GenParamValues, Halcon::HTuple *Score);
   // Create a look-up table using a multi-layer perceptron to classify byte
   // images.
   virtual HClassLUT CreateClassLutMlp(const Halcon::HTuple &GenParamNames, const Halcon::HTuple &GenParamValues) const;
-  // Deserialize a serialized multilayer perceptron.
-  virtual void DeserializeClassMlp(const Halcon::HSerializedItem &SerializedItemHandle);
-  // Serialize a multilayer perceptron (MLP).
-  virtual HSerializedItem SerializeClassMlp() const;
   // Read a multilayer perceptron from a file.
   virtual void ReadClassMlp(const Halcon::HTuple &FileName);
   // Read a multilayer perceptron from a file.
@@ -107,23 +97,9 @@ public:
   // Return a training sample from the training data of a multilayer
   // perceptron.
   virtual HTuple GetSampleClassMlp(Hlong IndexSample, Halcon::HTuple *Target) const;
-  // Get the parameters of a rejection class.
-  virtual HTuple GetRejectionParamsClassMlp(const Halcon::HTuple &GenParamName) const;
-  // Get the parameters of a rejection class.
-  virtual HTuple GetRejectionParamsClassMlp(const char *GenParamName) const;
-  // Set the parameters of a rejection class.
-  virtual void SetRejectionParamsClassMlp(const Halcon::HTuple &GenParamName, const Halcon::HTuple &GenParamValue) const;
   // Add a training sample to the training data of a multilayer
   // perceptron.
   virtual void AddSampleClassMlp(const Halcon::HTuple &Features, const Halcon::HTuple &Target) const;
-  // Return the regularization parameters of a multilayer perceptron.
-  virtual HTuple GetRegularizationParamsClassMlp(const Halcon::HTuple &GenParamName) const;
-  // Return the regularization parameters of a multilayer perceptron.
-  virtual HTuple GetRegularizationParamsClassMlp(const char *GenParamName) const;
-  // Set the regularization parameters of a multilayer perceptron.
-  virtual void SetRegularizationParamsClassMlp(const Halcon::HTuple &GenParamName, const Halcon::HTuple &GenParamValue) const;
-  // Set the regularization parameters of a multilayer perceptron.
-  virtual void SetRegularizationParamsClassMlp(const char *GenParamName, double GenParamValue) const;
   // Return the parameters of a multilayer perceptron.
   virtual Hlong GetParamsClassMlp(Halcon::HTuple *NumHidden, Halcon::HTuple *NumOutput, Halcon::HTuple *OutputFunction, Halcon::HTuple *Preprocessing, Halcon::HTuple *NumComponents) const;
   // Return the parameters of a multilayer perceptron.
