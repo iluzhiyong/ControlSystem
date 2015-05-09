@@ -189,3 +189,22 @@ bool IMotorCtrl::IsOnMoving()
 		return true;
 	}
 }
+
+INT32 IMotorCtrl::SetAxisSoftwareP(WORD AObj,float Value)
+{
+	INT32 iResult = 0;
+	INT32 steps = 0;
+
+	if(1 == m_CloseEnable)
+	{
+		steps = MT_Help_Encoder_Line_Real_To_Steps((double)m_Pitch, (double)m_LineRatio, (double)m_CoderLineCount, Value);				//±Õ»·-±àÂëÆ÷
+	}
+	else
+	{
+		steps = MT_Help_Step_Line_Real_To_Steps((double)m_stepAngle, m_Div, (double)m_Pitch, (double)m_LineRatio, (double)Value);	//¿ª»·
+	}
+	
+	iResult = MT_Set_Axis_Software_P(AObj, steps);
+
+	return iResult;
+}

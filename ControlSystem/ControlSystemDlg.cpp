@@ -159,6 +159,9 @@ BEGIN_MESSAGE_MAP(CControlSystemDlg, CDialogEx)
 	ON_WM_TIMER()
 	ON_BN_CLICKED(IDC_STOP, &CControlSystemDlg::OnBnClickedStop)
 	ON_WM_SIZE()
+	ON_BN_CLICKED(IDC_CLEAR_ZERO_X, &CControlSystemDlg::OnBnClickedClearZeroX)
+	ON_BN_CLICKED(IDC_CLEAR_ZERO_Y, &CControlSystemDlg::OnBnClickedClearZeroY)
+	ON_BN_CLICKED(IDC_CLEAR_ZERO_Z, &CControlSystemDlg::OnBnClickedClearZeroZ)
 END_MESSAGE_MAP()
 
 
@@ -1037,4 +1040,33 @@ void CControlSystemDlg::ReSize()
 	}
 
 	m_OldPoint=Newp;
+}
+
+void CControlSystemDlg::OnBnClickedClearZeroX()
+{
+	if(NULL != m_IMotoCtrl && true == m_IsMotroCtrlConnected)
+	{
+		UpdateData(true);
+		m_IMotoCtrl->SetAxisSoftwareP(AXIS_X, m_CustomX);
+	}
+}
+
+
+void CControlSystemDlg::OnBnClickedClearZeroY()
+{
+	if(NULL != m_IMotoCtrl && true == m_IsMotroCtrlConnected)
+	{
+		UpdateData(true);
+		m_IMotoCtrl->SetAxisSoftwareP(AXIS_Y, m_CustomY);
+	}
+}
+
+
+void CControlSystemDlg::OnBnClickedClearZeroZ()
+{
+	if(NULL != m_IMotoCtrl && true == m_IsMotroCtrlConnected)
+	{
+		UpdateData(true);
+		m_IMotoCtrl->SetAxisSoftwareP(AXIS_Z, m_CustomZ);
+	}
 }

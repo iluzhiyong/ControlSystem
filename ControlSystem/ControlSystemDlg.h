@@ -108,4 +108,7 @@ public:
 	void ReSize(void);
 	POINT m_OldPoint;
 	afx_msg void OnSize(UINT nType, int cx, int cy);
+	afx_msg void OnBnClickedClearZeroX();
+	afx_msg void OnBnClickedClearZeroY();
+	afx_msg void OnBnClickedClearZeroZ();
 };
