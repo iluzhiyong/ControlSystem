@@ -22,7 +22,7 @@ public:
 	INT32 CloseUSB(void);
 	INT32 OpenUSB(void);
 	INT32 Check(void);
-	INT32 GetAxisSoftwarePNow(WORD AObj,INT32* pValue);
+	INT32 GetAxisSoftwarePNow(WORD AObj,float* pValue);
 	INT32 SetAxisPositionPTargetAbs(WORD AObj,INT32 Value);
 	INT32 SetAxisPositionStop(WORD AObj);
 

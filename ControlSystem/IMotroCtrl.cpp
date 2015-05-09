@@ -111,9 +111,18 @@ INT32 IMotorCtrl::Check(void)
 	return MT_Check();
 }
 
-INT32 IMotorCtrl::GetAxisSoftwarePNow(WORD AObj,INT32* pValue)
+INT32 IMotorCtrl::GetAxisSoftwarePNow(WORD AObj,float* pValue)
 {
-	return MT_Get_Axis_Software_P_Now(AObj, pValue);
+	INT32 iResult = 0;
+	INT32 steps = 0;
+
+	iResult = MT_Get_Axis_Software_P_Now(AObj, &steps);
+	if(R_OK == iResult)
+	{
+		*pValue = (float)MT_Help_Step_Line_Steps_To_Real((double)m_stepAngle, m_Div, (double)m_Pitch, (double)m_LineRatio, steps);
+	}
+	
+	return iResult;
 }
 
 INT32 IMotorCtrl::SetAxisPositionPTargetAbs(WORD AObj,INT32 Value)

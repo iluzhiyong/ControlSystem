@@ -940,7 +940,7 @@ void CControlSystemDlg::OnTimer(UINT_PTR nIDEvent)
 	if(NULL != m_IMotoCtrl)
 	{
 		//读取当前位置
-		INT32 iTempPos;
+		float iTempPos;
 		CString sTempPos;
 		m_IMotoCtrl->GetAxisSoftwarePNow(0,&iTempPos);
 		sTempPos.Format("%d", iTempPos);
