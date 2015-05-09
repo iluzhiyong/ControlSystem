@@ -158,6 +158,7 @@ BEGIN_MESSAGE_MAP(CControlSystemDlg, CDialogEx)
 	ON_WM_CLOSE()
 	ON_WM_TIMER()
 	ON_BN_CLICKED(IDC_STOP, &CControlSystemDlg::OnBnClickedStop)
+	ON_WM_SIZE()
 END_MESSAGE_MAP()
 
 
@@ -205,6 +206,12 @@ BOOL CControlSystemDlg::OnInitDialog()
 	SetWindowLong (m_ListData.m_hWnd, GWL_STYLE, lStyle); // set style 
 	m_ListData.SetExtendedStyle(LVS_EX_GRIDLINES|LVS_EX_FULLROWSELECT);
 
+	////对话框Resize
+	CRect rect;
+	GetClientRect(&rect);
+	m_OldPoint.x = rect.right - rect.left;
+	m_OldPoint.y = rect.bottom - rect.top;
+
 	//初始化相机
 	m_pCamera = new Camera();
 	if(NULL != m_pCamera)
@@ -228,7 +235,8 @@ BOOL CControlSystemDlg::OnInitDialog()
 		}
 		else
 		{
-			OnBnClickedMtConnect();
+			//Sleep(500);
+			//OnBnClickedMtConnect();
 		}
 	}
 
@@ -943,7 +951,7 @@ void CControlSystemDlg::OnTimer(UINT_PTR nIDEvent)
 		float iTempPos;
 		CString sTempPos;
 		m_IMotoCtrl->GetAxisSoftwarePNow(0,&iTempPos);
-		sTempPos.Format("%d", iTempPos);
+		sTempPos.Format("%.2f", iTempPos);
 		m_ZCurPosAbs.SetWindowText(sTempPos);
 
 		if(true == m_IMotoCtrl->IsOnMoving())
@@ -983,4 +991,50 @@ void CControlSystemDlg::OnBnClickedManualMear()
 	{
 		AfxMessageBox("控制卡未连接！");
 	}
+}
+
+
+void CControlSystemDlg::OnSize(UINT nType, int cx, int cy)
+{
+	CDialogEx::OnSize(nType, cx, cy);
+
+	// TODO: Add your message handler code here
+	if (nType==SIZE_RESTORED||nType==SIZE_MAXIMIZED)
+	{
+		ReSize();
+	}
+}
+
+void CControlSystemDlg::ReSize()
+{
+	float fsp[2];
+	POINT Newp;						//获取现在对话框的大小
+	CRect recta;
+	GetClientRect(&recta);			//取客户区大小
+	Newp.x=recta.right-recta.left;
+	Newp.y=recta.bottom-recta.top;
+	fsp[0]=(float)Newp.x/m_OldPoint.x;
+	fsp[1]=(float)Newp.y/m_OldPoint.y;
+	CRect Rect;
+	int woc;
+	CPoint OldTLPoint,TLPoint;		//左上角
+	CPoint OldBRPoint,BRPoint;		//右下角
+	HWND  hwndChild=::GetWindow(m_hWnd,GW_CHILD);	//列出所有控件
+	while(hwndChild)
+	{
+		woc=::GetDlgCtrlID(hwndChild);				//取得ID
+		GetDlgItem(woc)->GetWindowRect(Rect);
+		ScreenToClient(Rect);
+		OldTLPoint = Rect.TopLeft();
+		TLPoint.x = long(OldTLPoint.x*fsp[0]);
+		TLPoint.y = long(OldTLPoint.y*fsp[1]);
+		OldBRPoint = Rect.BottomRight();
+		BRPoint.x = long(OldBRPoint.x *fsp[0]);
+		BRPoint.y = long(OldBRPoint.y *fsp[1]);
+		Rect.SetRect(TLPoint,BRPoint);
+		GetDlgItem(woc)->MoveWindow(Rect,TRUE);
+		hwndChild=::GetWindow(hwndChild, GW_HWNDNEXT);
+	}
+
+	m_OldPoint=Newp;
 }

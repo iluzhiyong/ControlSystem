@@ -103,4 +103,9 @@ public:
 	bool m_IsMotroCtrlConnected;
 	bool m_IsMeasuring;
 	void EnableOtherControls();
+
+	//¶Ô»°¿òResize
+	void ReSize(void);
+	POINT m_OldPoint;
+	afx_msg void OnSize(UINT nType, int cx, int cy);
 };
