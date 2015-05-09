@@ -98,4 +98,11 @@ public:
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	afx_msg void OnBnClickedStop();
 	afx_msg void OnBnClickedButton4();
+	afx_msg void OnBnClickedManualMear();
+	int m_Process;
+
+	bool m_IsMeasuring;
+	bool m_StopMeasure;
+
+	void EnableOtherControls();
 };

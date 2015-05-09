@@ -73,7 +73,11 @@ CControlSystemDlg::CControlSystemDlg(CWnd* pParent /*=NULL*/)
 	, m_CustomY(0)
 	, m_CustomZ(0)
 	, m_IMotoCtrl(NULL)
+	, m_Process(0)
 {
+	m_IsMeasuring = false;
+	m_StopMeasure = false;
+
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 	m_IMotoCtrl = NULL;
 	m_IImageProcess = NULL;
@@ -130,6 +134,7 @@ void CControlSystemDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_CUR_POS_Z, m_ZCurPosAbs);
 	DDX_Control(pDX, IDC_CUR_POS_X, m_XCurPosAbs);
 	DDX_Control(pDX, IDC_CUR_POS_Y, m_YCurPosAbs);
+	DDX_Radio(pDX, IDC_RADIO1, m_Process);
 }
 
 BEGIN_MESSAGE_MAP(CControlSystemDlg, CDialogEx)
@@ -144,8 +149,8 @@ BEGIN_MESSAGE_MAP(CControlSystemDlg, CDialogEx)
 	ON_MESSAGE(WM_USER_IMAGE_ACQ,AcquireImage)
 	ON_BN_CLICKED(IDC_START, &CControlSystemDlg::OnBnClickedStart)
 	ON_BN_CLICKED(IDC_BUTTON2, &CControlSystemDlg::OnBnClickedButton2)
-	ON_BN_CLICKED(IDC_AUTO_MEAR, &CControlSystemDlg::OnBnClickedAutoMear)
-	ON_BN_CLICKED(IDC_CUSTOM_MEAR, &CControlSystemDlg::OnBnClickedCustomMear)
+	//ON_BN_CLICKED(IDC_AUTO_MEAR, &CControlSystemDlg::OnBnClickedAutoMear)
+	//ON_BN_CLICKED(IDC_CUSTOM_MEAR, &CControlSystemDlg::OnBnClickedCustomMear)
 	ON_BN_CLICKED(IDC_IMAGE_PROC_SETTING_BTN, &CControlSystemDlg::OnBnClickedImageProcSettingBtn)
 	ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST1, &CControlSystemDlg::OnItemchangedList)
 	ON_NOTIFY(LVN_COLUMNCLICK, IDC_LIST1, &CControlSystemDlg::OnColumnclickList1)
@@ -158,6 +163,7 @@ BEGIN_MESSAGE_MAP(CControlSystemDlg, CDialogEx)
 	ON_WM_TIMER()
 	ON_BN_CLICKED(IDC_STOP, &CControlSystemDlg::OnBnClickedStop)
 	ON_BN_CLICKED(IDC_BUTTON4, &CControlSystemDlg::OnBnClickedButton4)
+	//ON_BN_CLICKED(IDC_MANUAL_MEAR, &CControlSystemDlg::OnBnClickedManualMear)
 END_MESSAGE_MAP()
 
 
@@ -531,6 +537,57 @@ void CControlSystemDlg::OnBnClickedStart()
 
 	//Sleep(500); 
 	//m_pMotorCtrl->PostThreadMessage(WM_USER_READ_MOTOR_STATUS, NULL, NULL);
+
+	UpdateData(TRUE);
+	m_IsMeasuring = true;
+	EnableOtherControls();
+
+	if(m_Process == 0)
+	{
+		OnBnClickedAutoMear();
+	}
+	else if(m_Process == 1)
+	{
+		OnBnClickedCustomMear();
+	}
+	else if(m_Process == 2)
+	{
+		OnBnClickedManualMear();
+	}
+	m_IsMeasuring = false;
+	EnableOtherControls();
+}
+
+void CControlSystemDlg::EnableOtherControls()
+{
+	
+	GetDlgItem( IDC_MANUAL_LEFT_X)->EnableWindow(!m_IsMeasuring);
+	GetDlgItem( IDC_MANUAL_LEFT_Y)->EnableWindow(!m_IsMeasuring);
+	GetDlgItem( IDC_MANUAL_LEFT_Z)->EnableWindow(!m_IsMeasuring);
+
+	GetDlgItem( IDC_MANUAL_RIGHT_X)->EnableWindow(!m_IsMeasuring);
+	GetDlgItem( IDC_MANUAL_RIGHT_Y)->EnableWindow(!m_IsMeasuring);
+	GetDlgItem( IDC_MANUAL_RIGHT_Z)->EnableWindow(!m_IsMeasuring);
+
+	GetDlgItem( IDC_CLEAR_ZERO_X)->EnableWindow(!m_IsMeasuring);
+	GetDlgItem( IDC_CLEAR_ZERO_Y)->EnableWindow(!m_IsMeasuring);
+	
+	
+	GetDlgItem( IDC_CAMERA_PARAM)->EnableWindow(!m_IsMeasuring);
+	GetDlgItem( IDC_SET_PARAM)->EnableWindow(!m_IsMeasuring);
+
+	GetDlgItem( IDC_IMPORT)->EnableWindow(!m_IsMeasuring);
+	GetDlgItem( IDC_SAVE_AS)->EnableWindow(!m_IsMeasuring);
+
+	GetDlgItem( IDC_CUSTOM_X)->EnableWindow(!m_IsMeasuring);
+	GetDlgItem( IDC_CUSTOM_Y)->EnableWindow(!m_IsMeasuring);
+	GetDlgItem( IDC_CUSTOM_Z)->EnableWindow(!m_IsMeasuring);
+
+	GetDlgItem( IDC_RADIO1)->EnableWindow(!m_IsMeasuring);
+	GetDlgItem( IDC_RADIO2)->EnableWindow(!m_IsMeasuring);
+	GetDlgItem( IDC_RADIO3)->EnableWindow(!m_IsMeasuring);
+	
+	
 }
 
 
@@ -572,6 +629,7 @@ BOOL CControlSystemDlg::DestroyWindow()
 
 void CControlSystemDlg::OnBnClickedAutoMear()
 {
+	
 
 	if(!m_excelLoaded)
 	{
@@ -937,4 +995,9 @@ void CControlSystemDlg::OnBnClickedButton4()
 		INT32 temp = (INT32)m_CustomX;
 		m_IMotoCtrl->SetAxisPositionPTargetAbs(0, temp);
 	}
+}
+
+
+void CControlSystemDlg::OnBnClickedManualMear()
+{
 }
