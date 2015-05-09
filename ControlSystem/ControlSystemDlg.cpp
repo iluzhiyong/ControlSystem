@@ -1049,6 +1049,10 @@ void CControlSystemDlg::OnBnClickedClearZeroX()
 		UpdateData(true);
 		m_IMotoCtrl->SetAxisSoftwareP(AXIS_X, m_CustomX);
 	}
+	else
+	{
+		AfxMessageBox("控制卡未连接！");
+	}
 }
 
 
@@ -1059,6 +1063,10 @@ void CControlSystemDlg::OnBnClickedClearZeroY()
 		UpdateData(true);
 		m_IMotoCtrl->SetAxisSoftwareP(AXIS_Y, m_CustomY);
 	}
+	else
+	{
+		AfxMessageBox("控制卡未连接！");
+	}
 }
 
 
@@ -1068,5 +1076,9 @@ void CControlSystemDlg::OnBnClickedClearZeroZ()
 	{
 		UpdateData(true);
 		m_IMotoCtrl->SetAxisSoftwareP(AXIS_Z, m_CustomZ);
+	}
+	else
+	{
+		AfxMessageBox("控制卡未连接！");
 	}
 }
