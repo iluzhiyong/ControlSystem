@@ -1,10 +1,10 @@
 #ifndef _MT_API_
 #define _MT_API_
 /*
-上海小墨科技有限公司C接口文件
-V3.10 updated at 2014 07 25
-www.sh-xiaomo.com
+C接口文件
+V3.11 updated at 2015 05 04
 */
+#pragma comment(lib,"MT_API.lib")
 #ifdef __cplusplus
 #define MT_API extern "C" __declspec( dllexport )
 #else
@@ -114,6 +114,20 @@ MT_API INT32 __stdcall MT_Get_Axis_Software_P_Now(WORD AObj,INT32* pValue);
 MT_API INT32 __stdcall MT_Set_Axis_Software_P(WORD AObj,INT32 Value);
 
 MT_API INT32 __stdcall MT_Get_Axis_Status(WORD AObj,BYTE* pRun,BYTE* pDir,BYTE* pNeg,BYTE* pPos,BYTE* pZero,BYTE* pMode);
+
+MT_API INT32 __stdcall MT_Get_Axis_Status2(WORD AObj,INT32* pRun,INT32* pDir,INT32* pNeg,INT32* pPos,INT32* pZero,INT32* pMode);
+
+MT_API INT32 __stdcall MT_Get_Axis_Status_Run(WORD AObj,INT32* pRun);
+
+MT_API INT32 __stdcall MT_Get_Axis_Status_Dir(WORD AObj,INT32* pDir);
+
+MT_API INT32 __stdcall MT_Get_Axis_Status_Neg(WORD AObj,INT32* pNeg);
+
+MT_API INT32 __stdcall MT_Get_Axis_Status_Pos(WORD AObj,INT32* pPos);
+
+MT_API INT32 __stdcall MT_Get_Axis_Status_Zero(WORD AObj,INT32* pZero);
+
+MT_API INT32 __stdcall MT_Get_Axis_Status_Mode(WORD AObj,INT32* pMode);
 
 MT_API INT32 __stdcall MT_Get_Param_Mem_Len(INT32* pValue);
 
@@ -302,6 +316,10 @@ MT_API INT32 __stdcall MT_Set_Stream_Pause(void);
 MT_API INT32 __stdcall MT_Set_Stream_Clear(void);
 
 MT_API INT32 __stdcall MT_Get_Stream_Space(INT32* pValue);
+
+MT_API INT32 __stdcall MT_Get_Stream_Total(INT32* pValue);
+
+MT_API INT32 __stdcall MT_Get_Stream_Count(INT32* pValue);
 
 MT_API INT32 __stdcall MT_Set_Stream_Delay(INT32 Value);
 

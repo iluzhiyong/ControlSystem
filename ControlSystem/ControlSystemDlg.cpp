@@ -239,10 +239,6 @@ BOOL CControlSystemDlg::OnInitDialog()
 		{
 			AfxMessageBox(_T("初始化板卡失败."));
 		}
-		else
-		{
-			m_IMotoCtrl->SetAxisModePosition(0);
-		}
 	}
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
@@ -794,7 +790,7 @@ bool CControlSystemDlg ::CalculatePoint(float x, float y, float z, float &retx, 
 	//找到圆孔远心正上方。
 	if(ret)
 	{
-		ret = m_IMotoCtrl->MoveTo(retx, rety, 0);
+		ret = m_IMotoCtrl->MoveTo(AXIS_Z, retx);
 	}
 
 	if(ret)
