@@ -161,6 +161,15 @@ INT32 IMotorCtrl::MoveTo(WORD AObj, float AValue)
 	INT32 iResult = 0;
 	INT32 steps = 0;
 
+	if(this->m_CloseEnable == 1)
+	{
+		MT_Set_Axis_Mode_Position_Close(AXIS_Z);
+	}
+	else
+	{
+		MT_Set_Axis_Mode_Position_Open(AXIS_Z);
+	}
+
 	if(1 == m_CloseEnable)
 	{
 		steps = MT_Help_Encoder_Line_Real_To_Steps((double)m_Pitch, (double)m_LineRatio, (double)m_CoderLineCount, AValue);				//闭环-编码器
@@ -207,4 +216,30 @@ INT32 IMotorCtrl::SetAxisSoftwareP(WORD AObj,float Value)
 	iResult = MT_Set_Axis_Software_P(AObj, steps);
 
 	return iResult;
+}
+
+//1:正方向，其他:反方向
+INT32 IMotorCtrl::SetAxisVelocityStart(WORD AObj, INT32 nDir)
+{
+	INT32 iResult = R_OK;
+
+	iResult = MT_Set_Axis_Mode_Velocity(AObj);
+	if(R_OK == iResult)
+	{
+		if(nDir == 1)
+		{
+			iResult = MT_Set_Axis_Velocity_V_Target_Abs(AObj, m_MaxV);
+		}
+		else
+		{
+			iResult = MT_Set_Axis_Velocity_V_Target_Abs(AObj, -m_MaxV);
+		}
+	}
+
+	return iResult;
+}
+
+INT32 IMotorCtrl::SetAxisVelocityStop(WORD AObj)
+{
+	return MT_Set_Axis_Velocity_Stop(AObj);
 }

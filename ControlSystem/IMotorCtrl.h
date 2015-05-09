@@ -26,6 +26,8 @@ public:
 	INT32 SetAxisPositionPTargetAbs(WORD AObj,INT32 Value);
 	INT32 SetAxisPositionStop(WORD AObj);
 	INT32 SetAxisSoftwareP(WORD AObj,float Value);
+	INT32 SetAxisVelocityStart(WORD AObj, INT32 nDir);
+	INT32 SetAxisVelocityStop(WORD AObj);
 
 	INT32 MoveTo(WORD AObj, float AValue);
 	bool IsOnMoving();

@@ -133,6 +133,12 @@ void CControlSystemDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_CUR_POS_X, m_XCurPosAbs);
 	DDX_Control(pDX, IDC_CUR_POS_Y, m_YCurPosAbs);
 	DDX_Radio(pDX, IDC_RADIO1, m_Process);
+	DDX_Control(pDX, IDC_MANUAL_LEFT_X, m_LeftXBtn);
+	DDX_Control(pDX, IDC_MANUAL_LEFT_Y, m_LeftYBtn);
+	DDX_Control(pDX, IDC_MANUAL_LEFT_Z, m_LeftZBtn);
+	DDX_Control(pDX, IDC_MANUAL_RIGHT_X, m_RightXBtn);
+	DDX_Control(pDX, IDC_MANUAL_RIGHT_Y, m_RightYBtn);
+	DDX_Control(pDX, IDC_MANUAL_RIGHT_Z, m_RightZBtn);
 }
 
 BEGIN_MESSAGE_MAP(CControlSystemDlg, CDialogEx)
@@ -1076,6 +1082,70 @@ void CControlSystemDlg::OnBnClickedClearZeroZ()
 	{
 		UpdateData(true);
 		m_IMotoCtrl->SetAxisSoftwareP(AXIS_Z, m_CustomZ);
+	}
+	else
+	{
+		AfxMessageBox("控制卡未连接！");
+	}
+}
+
+void CControlSystemDlg::OnOpButtonUp(UINT nID)
+{
+	if(NULL != m_IMotoCtrl && true == m_IsMotroCtrlConnected)
+	{
+		switch(nID)
+		{
+		case IDC_MANUAL_LEFT_X:
+			break;
+		case IDC_MANUAL_RIGHT_X:
+			break;
+		case IDC_MANUAL_LEFT_Y:
+			break;
+		case IDC_MANUAL_RIGHT_Y:
+			break;
+		case IDC_MANUAL_LEFT_Z:
+			m_IMotoCtrl->SetAxisVelocityStart(AXIS_Z, 0);
+			break;
+
+		case IDC_MANUAL_RIGHT_Z:
+			m_IMotoCtrl->SetAxisVelocityStart(AXIS_Z, 1);
+			break;
+
+		default:
+			break;
+		}
+	}
+	else
+	{
+		AfxMessageBox("控制卡未连接！");
+	}
+}
+
+void CControlSystemDlg::OnOpButtonDown(UINT nID)
+{
+	if(NULL != m_IMotoCtrl && true == m_IsMotroCtrlConnected)
+	{
+		switch(nID)
+		{
+		case IDC_MANUAL_LEFT_X:
+			break;
+		case IDC_MANUAL_RIGHT_X:
+			break;
+		case IDC_MANUAL_LEFT_Y:
+			break;
+		case IDC_MANUAL_RIGHT_Y:
+			break;
+		case IDC_MANUAL_LEFT_Z:
+			m_IMotoCtrl->SetAxisVelocityStop(AXIS_Z);
+			break;
+
+		case IDC_MANUAL_RIGHT_Z:
+			m_IMotoCtrl->SetAxisVelocityStop(AXIS_Z);
+			break;
+
+		default:
+			break;
+		}
 	}
 	else
 	{

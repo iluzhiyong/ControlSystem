@@ -117,6 +117,9 @@
     <ClInclude Include="MT_API.h">
       <Filter>Header Files\MotorCtrl</Filter>
     </ClInclude>
+    <ClInclude Include="OPButton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ControlSystem.cpp">
@@ -157,6 +160,9 @@
     </ClCompile>
     <ClCompile Include="IMotroCtrl.cpp">
       <Filter>Source Files\MotorCtrl</Filter>
+    </ClCompile>
+    <ClCompile Include="OPButton.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

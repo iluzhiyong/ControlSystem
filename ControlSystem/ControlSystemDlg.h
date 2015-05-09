@@ -7,6 +7,7 @@
 #include "MotorCtrl.h"
 #include "Camera.h"
 #include "ImageProcSettingDlg.h"
+#include "OPButton.h"
 
 // CControlSystemDlg dialog
 class IMotorCtrl;
@@ -63,6 +64,8 @@ public:
 	bool SetFloatItem(int row, int column, float value);
 	bool ConvertStringToFloat(CString buffer, float &value);
 	void OpenHalconWind();
+	void OnOpButtonUp(UINT nID);
+	void OnOpButtonDown(UINT nID);
 
 private:
 	IMotorCtrl* m_IMotoCtrl;
@@ -111,4 +114,10 @@ public:
 	afx_msg void OnBnClickedClearZeroX();
 	afx_msg void OnBnClickedClearZeroY();
 	afx_msg void OnBnClickedClearZeroZ();
+	OPButton m_LeftXBtn;
+	OPButton m_LeftYBtn;
+	OPButton m_LeftZBtn;
+	OPButton m_RightXBtn;
+	OPButton m_RightYBtn;
+	OPButton m_RightZBtn;
 };
