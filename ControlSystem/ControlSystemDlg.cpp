@@ -76,7 +76,7 @@ CControlSystemDlg::CControlSystemDlg(CWnd* pParent /*=NULL*/)
 	, m_Process(0)
 {
 	m_IsMeasuring = false;
-	m_StopMeasure = false;
+	m_IsMotroCtrlConnected = false;
 
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 	m_IMotoCtrl = NULL;
@@ -224,7 +224,11 @@ BOOL CControlSystemDlg::OnInitDialog()
 		intResult = m_IMotoCtrl->Init();
 		if(0 != intResult)
 		{
-			AfxMessageBox(_T("初始化板卡失败."));
+			AfxMessageBox(_T("控制卡初始化失败！"));
+		}
+		else
+		{
+			OnBnClickedMtConnect();
 		}
 	}
 
@@ -279,8 +283,6 @@ HCURSOR CControlSystemDlg::OnQueryDragIcon()
 {
 	return static_cast<HCURSOR>(m_hIcon);
 }
-
-
 
 void CControlSystemDlg::OnBnClickedImport()
 {
@@ -522,7 +524,6 @@ void CControlSystemDlg::OnBnClickedStart()
 	//m_pMotorCtrl->PostThreadMessage(WM_USER_READ_MOTOR_STATUS, NULL, NULL);
 
 	UpdateData(TRUE);
-	m_IsMeasuring = true;
 	EnableOtherControls();
 
 	if(m_Process == 0)
@@ -537,7 +538,6 @@ void CControlSystemDlg::OnBnClickedStart()
 	{
 		OnBnClickedManualMear();
 	}
-	m_IsMeasuring = false;
 	EnableOtherControls();
 }
 
@@ -608,8 +608,6 @@ BOOL CControlSystemDlg::DestroyWindow()
 
 void CControlSystemDlg::OnBnClickedAutoMear()
 {
-	
-
 	if(!m_excelLoaded)
 	{
 		AfxMessageBox("Please load measure parameter excel first.");
@@ -823,8 +821,6 @@ void CControlSystemDlg::OnBnClickedImageProcSettingBtn()
 	}
 }
 
-
-
 void CControlSystemDlg::OnItemchangedList(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR);
@@ -892,32 +888,30 @@ void CControlSystemDlg::OnDblclkList1(NMHDR *pNMHDR, LRESULT *pResult)
 
 void CControlSystemDlg::OnBnClickedMtConnect()
 {
+	m_IsMotroCtrlConnected = false;
 	if(NULL != m_IMotoCtrl)
 	{
 		m_IMotoCtrl->CloseUSB();
 
-		//打开USB
 		INT32 iResult = m_IMotoCtrl->OpenUSB();
 		if(0 != iResult)
 		{
-			AfxMessageBox("打开USB失败。");
+			AfxMessageBox("打开控制卡USB失败!");
 			return;
 		}
 
-		//检测板卡
 		iResult = m_IMotoCtrl->Check();
 		if(0 != iResult)
 		{
-			AfxMessageBox("检测板卡失败。");
+			AfxMessageBox("检测控制卡失败！");
 			return;
 		}
 		else
 		{
-			AfxMessageBox("板卡正常。");
+			m_IsMotroCtrlConnected = true;
+			//启动定时器，定时读取电机状态
+			SetTimer(1,1000,NULL);
 		}
-
-		//启动定时器，在定时器中连续进行状态读取
-		SetTimer(1,1000,NULL);
 	}
 }
 
@@ -928,11 +922,12 @@ void CControlSystemDlg::OnClose()
 
 	if(NULL != m_IMotoCtrl)
 	{
+		m_IMotoCtrl->CloseUSB();
 		m_IMotoCtrl->DeInit();
-		
-		//关闭定时器
-		KillTimer(1);
 	}
+
+	//关闭定时器,停止读取电机状态
+	KillTimer(1);
 
 	CDialogEx::OnClose();
 }
@@ -940,7 +935,7 @@ void CControlSystemDlg::OnClose()
 
 void CControlSystemDlg::OnTimer(UINT_PTR nIDEvent)
 {
-	//定制器中读取状态
+	//定时读取状态
 
 	if(NULL != m_IMotoCtrl)
 	{
@@ -949,7 +944,16 @@ void CControlSystemDlg::OnTimer(UINT_PTR nIDEvent)
 		CString sTempPos;
 		m_IMotoCtrl->GetAxisSoftwarePNow(0,&iTempPos);
 		sTempPos.Format("%d", iTempPos);
-		m_XCurPosAbs.SetWindowText(sTempPos);
+		m_ZCurPosAbs.SetWindowText(sTempPos);
+
+		if(true == m_IMotoCtrl->IsOnMoving())
+		{
+			m_IsMeasuring = true;
+		}
+		else
+		{
+			m_IsMeasuring = false;
+		}
 	}
 
 	CDialogEx::OnTimer(nIDEvent);
@@ -958,18 +962,25 @@ void CControlSystemDlg::OnTimer(UINT_PTR nIDEvent)
 
 void CControlSystemDlg::OnBnClickedStop()
 {
-	// TODO: Add your control notification handler code here
-	if(NULL != m_IMotoCtrl)
+	if(NULL != m_IMotoCtrl && true == m_IsMotroCtrlConnected)
 	{
 		m_IMotoCtrl->SetAxisPositionStop(0);
+	}
+	else
+	{
+		AfxMessageBox("控制卡未连接！");
 	}
 }
 
 void CControlSystemDlg::OnBnClickedManualMear()
 {
-	if(NULL != m_IMotoCtrl)
+	if(NULL != m_IMotoCtrl && true == m_IsMotroCtrlConnected)
 	{
 		UpdateData(true);
 		m_IMotoCtrl->MoveTo(0, m_CustomZ);
+	}
+	else
+	{
+		AfxMessageBox("控制卡未连接！");
 	}
 }

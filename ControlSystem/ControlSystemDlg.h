@@ -100,8 +100,7 @@ public:
 	afx_msg void OnBnClickedManualMear();
 	int m_Process;
 
+	bool m_IsMotroCtrlConnected;
 	bool m_IsMeasuring;
-	bool m_StopMeasure;
-
 	void EnableOtherControls();
 };
