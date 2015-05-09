@@ -129,8 +129,6 @@ void CControlSystemDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_CUSTOM_X, m_CustomX);
 	DDX_Text(pDX, IDC_CUSTOM_Y, m_CustomY);
 	DDX_Text(pDX, IDC_CUSTOM_Z, m_CustomZ);
-	//  DDX_Control(pDX, IDC_CUR_POS_X, m_XPosAbs);
-	//  DDX_Control(pDX, IDC_CUR_POS_Y, m_YPosAbs);
 	DDX_Control(pDX, IDC_CUR_POS_Z, m_ZCurPosAbs);
 	DDX_Control(pDX, IDC_CUR_POS_X, m_XCurPosAbs);
 	DDX_Control(pDX, IDC_CUR_POS_Y, m_YCurPosAbs);
@@ -148,9 +146,7 @@ BEGIN_MESSAGE_MAP(CControlSystemDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON_IMAGE_PROC, &CControlSystemDlg::OnBnClickedButtonImageProc)
 	ON_MESSAGE(WM_USER_IMAGE_ACQ,AcquireImage)
 	ON_BN_CLICKED(IDC_START, &CControlSystemDlg::OnBnClickedStart)
-	ON_BN_CLICKED(IDC_BUTTON2, &CControlSystemDlg::OnBnClickedButton2)
-	//ON_BN_CLICKED(IDC_AUTO_MEAR, &CControlSystemDlg::OnBnClickedAutoMear)
-	//ON_BN_CLICKED(IDC_CUSTOM_MEAR, &CControlSystemDlg::OnBnClickedCustomMear)
+	ON_BN_CLICKED(IDC_BUTTON2, &CControlSystemDlg::OnBnClickedButtonCapture)
 	ON_BN_CLICKED(IDC_IMAGE_PROC_SETTING_BTN, &CControlSystemDlg::OnBnClickedImageProcSettingBtn)
 	ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST1, &CControlSystemDlg::OnItemchangedList)
 	ON_NOTIFY(LVN_COLUMNCLICK, IDC_LIST1, &CControlSystemDlg::OnColumnclickList1)
@@ -162,8 +158,6 @@ BEGIN_MESSAGE_MAP(CControlSystemDlg, CDialogEx)
 	ON_WM_CLOSE()
 	ON_WM_TIMER()
 	ON_BN_CLICKED(IDC_STOP, &CControlSystemDlg::OnBnClickedStop)
-	ON_BN_CLICKED(IDC_BUTTON4, &CControlSystemDlg::OnBnClickedButton4)
-	//ON_BN_CLICKED(IDC_MANUAL_MEAR, &CControlSystemDlg::OnBnClickedManualMear)
 END_MESSAGE_MAP()
 
 
@@ -210,13 +204,6 @@ BOOL CControlSystemDlg::OnInitDialog()
 	lStyle |= LVS_REPORT; // set style 
 	SetWindowLong (m_ListData.m_hWnd, GWL_STYLE, lStyle); // set style 
 	m_ListData.SetExtendedStyle(LVS_EX_GRIDLINES|LVS_EX_FULLROWSELECT);
-
-	//m_ListData.InsertColumn(0, _T("序号"), LVCFMT_LEFT, 60);
-	//m_ListData.InsertColumn(1, _T("项目"), LVCFMT_LEFT, 60);
-	//m_ListData.InsertColumn(2, _T("X 坐标 mm"), LVCFMT_LEFT, 60);
-	//m_ListData.InsertColumn(3, _T("Y 坐标 mm"), LVCFMT_LEFT, 60);
-	//m_ListData.InsertColumn(4, _T("Z 坐标 mm"), LVCFMT_LEFT, 60);
-	//m_ListData.InsertColumn(5, _T("XX"), LVCFMT_LEFT, 60);
 
 	//初始化相机
 	m_pCamera = new Camera();
@@ -338,7 +325,7 @@ void CControlSystemDlg::OnBnClickedImport()
 	int UsedColumnNum = excelApp.GetColumnCount();
 	CString strItemName;
 
-	//清楚残留数据
+	//清除残留数据
 	m_ListData.DeleteAllItems();
 	m_excelLoaded = false;
 	m_columnNum = 0;
@@ -556,7 +543,6 @@ void CControlSystemDlg::OnBnClickedStart()
 
 void CControlSystemDlg::EnableOtherControls()
 {
-	
 	GetDlgItem( IDC_MANUAL_LEFT_X)->EnableWindow(!m_IsMeasuring);
 	GetDlgItem( IDC_MANUAL_LEFT_Y)->EnableWindow(!m_IsMeasuring);
 	GetDlgItem( IDC_MANUAL_LEFT_Z)->EnableWindow(!m_IsMeasuring);
@@ -582,12 +568,9 @@ void CControlSystemDlg::EnableOtherControls()
 	GetDlgItem( IDC_RADIO1)->EnableWindow(!m_IsMeasuring);
 	GetDlgItem( IDC_RADIO2)->EnableWindow(!m_IsMeasuring);
 	GetDlgItem( IDC_RADIO3)->EnableWindow(!m_IsMeasuring);
-	
-	
 }
 
-
-void CControlSystemDlg::OnBnClickedButton2()
+void CControlSystemDlg::OnBnClickedButtonCapture()
 {
 	// TODO: Add your control notification handler code here
 	if(NULL != m_pCamera)
@@ -982,18 +965,11 @@ void CControlSystemDlg::OnBnClickedStop()
 	}
 }
 
-
-void CControlSystemDlg::OnBnClickedButton4()
+void CControlSystemDlg::OnBnClickedManualMear()
 {
 	if(NULL != m_IMotoCtrl)
 	{
 		UpdateData(true);
-		INT32 temp = (INT32)m_CustomX;
-		m_IMotoCtrl->SetAxisPositionPTargetAbs(0, temp);
+		m_IMotoCtrl->MoveTo(0, m_CustomZ);
 	}
-}
-
-
-void CControlSystemDlg::OnBnClickedManualMear()
-{
 }

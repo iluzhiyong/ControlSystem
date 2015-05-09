@@ -51,7 +51,7 @@ protected:
 public:
 	afx_msg void OnBnClickedStart();
 	CStatic m_staticPicture;
-	afx_msg void OnBnClickedButton2();
+	afx_msg void OnBnClickedButtonCapture();
 	virtual BOOL DestroyWindow();
 	afx_msg void OnBnClickedAutoMear();
 
@@ -97,7 +97,6 @@ public:
 	CEdit m_YCurPosAbs;
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	afx_msg void OnBnClickedStop();
-	afx_msg void OnBnClickedButton4();
 	afx_msg void OnBnClickedManualMear();
 	int m_Process;
 
