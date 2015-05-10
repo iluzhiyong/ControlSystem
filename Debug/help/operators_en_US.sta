@@ -1,0 +1,1616 @@
+Contours,UnionContours,FitClippingLength,FitLength,MaxTangAngle,MaxDist,MaxDistPerp,MaxOverlap,Mode:xld,transformations:XLD,Transformations:
+PolarContour,XYTransContour,Row,Column,AngleStart,AngleEnd,RadiusStart,RadiusEnd,WidthIn,HeightIn,Width,Height:xld,geometrictransformations:XLD,Geometric Transformations:
+Contour,PolarTransContour,Row,Column,AngleStart,AngleEnd,RadiusStart,RadiusEnd,Width,Height:xld,geometrictransformations:XLD,Geometric Transformations:
+Rows,Cols,Tangents,Degree,CtrlRows,CtrlCols,Knots:xld,creation:XLD,Creation:
+Contour,Rows,Cols,Knots,Weights,Degree,MaxError,MaxDistance:xld,creation:XLD,Creation:
+Polygons1,Polygons2,PolygonsUnion:xld,sets:XLD,Sets:
+Contours1,Contours2,ContoursUnion:xld,sets:XLD,Sets:
+Polygons1,Polygons2,PolygonsDifference:xld,sets:XLD,Sets:
+Contours1,Contours2,ContoursDifference:xld,sets:XLD,Sets:
+Polygons,Sub,PolygonsDifference:xld,sets:XLD,Sets:
+Contours,Sub,ContoursDifference:xld,sets:XLD,Sets:
+Polygons1,Polygons2,PolygonsIntersection:xld,sets:XLD,Sets:
+Contours1,Contours2,ContoursIntersection:xld,sets:XLD,Sets:
+Contours,UnionContours,MaxArcAngleDiff,MaxArcOverlap,MaxTangentAngle,MaxDist,MaxRadiusDiff,MaxCenterDist,MergeSmallContours,Iterations:xld,transformations:XLD,Transformations:
+Contours,CroppedContours,Row1,Col1,Row2,Col2,CloseContours:xld,transformations:XLD,Transformations:
+Cross,Row,Col,Size,Angle:xld,creation:XLD,Creation:
+Contours,SortedContours,SortMode,Order,RowOrCol:xld,transformations:XLD,Transformations:
+CurrConts,PrevConts,CurrMergedConts,PrevMergedConts,ImageHeight,Margin,MergeBorder,MaxImagesCont:xld,transformations:XLD,Transformations:
+Polygons,FileName:file,xld:File,XLD:
+Polygons,FileName:file,xld:File,XLD:
+Contours,FileName:file,xld:File,XLD:
+Contours,FileName:file,xld:File,XLD:
+FileName,WorldTransformation:file,misc:File,Misc:
+Contours,ParallelContours,Mode,Distance:xld,geometrictransformations:XLD,Geometric Transformations:
+Rectangle,Row,Column,Phi,Length1,Length2:xld,creation:XLD,Creation:
+Contour,ClippingEndPoints,Row,Column,Phi,Length1,Length2,Distances:xld,features:XLD,Features:
+Contours,Algorithm,MaxNumPoints,MaxClosureDist,ClippingEndPoints,Iterations,ClippingFactor,Row,Column,Phi,Length1,Length2,PointOrder:xld,features:XLD,Features:
+Contours,ContoursSplit,Mode,SmoothCont,MaxLineDist1,MaxLineDist2:xld,transformations:XLD,Transformations:
+Contours,Algorithm,MaxNumPoints,MaxClosureDist,ClippingEndPoints,Iterations,ClippingFactor,Row,Column,Radius,StartPhi,EndPhi,PointOrder:xld,features:XLD,Features:
+Contours,Algorithm,MaxNumPoints,ClippingEndPoints,Iterations,ClippingFactor,RowBegin,ColBegin,RowEnd,ColEnd,Nr,Nc,Dist:xld,features:XLD,Features:
+Contour,DistanceMode,ClippingEndPoints,Row,Column,Phi,Radius1,Radius2,Distances:xld,features:XLD,Features:
+Contours,Mode,MaxNumPoints,ClippingEndPoints,Row,Column,Phi,Radius1,Radius2,MinDist,MaxDist,AvgDist,SigmaDist:xld,features:XLD,Features:
+Contours,Algorithm,MaxNumPoints,MaxClosureDist,ClippingEndPoints,VossTabSize,Iterations,ClippingFactor,Row,Column,Phi,Radius1,Radius2,StartPhi,EndPhi,PointOrder:xld,features:XLD,Features:
+ContCircle,Row,Column,Radius,StartPhi,EndPhi,PointOrder,Resolution:xld,creation:XLD,Creation:
+ContEllipse,Row,Column,Phi,Radius1,Radius2,StartPhi,EndPhi,PointOrder,Resolution:xld,creation:XLD,Creation:
+Contours,NoisyContours,NumRegrPoints,Amp:xld,transformations:XLD,Transformations:
+EdgePolygons,ModParallels,ExtParallels,CenterLines,RoadSides,MaxAngleParallel,MaxAngleColinear,MaxDistanceParallel,MaxDistanceColinear:xld,transformations:XLD,Transformations:
+ExtParallels,MaxPolygons:xld,features:XLD,Features:
+Parallels,Image,ModParallels,ExtParallels,Quality,MinGray,MaxGray,MaxStandard:xld,creation:XLD,Creation:
+Parallels,Image,QualityMin,QualityMax,GrayMin,GrayMax,StandardMin,StandardMax:xld,features:XLD,Features:
+Parallels,Row1,Col1,Length1,Phi1,Row2,Col2,Length2,Phi2:xld,access:XLD,Access:
+Polygons,Parallels,Len,Dist,Alpha,Merge:xld,creation:XLD,Creation:
+Polygon,BeginRow,BeginCol,EndRow,EndCol,Length,Phi:xld,access:XLD,Access:
+Polygon,Row,Col,Length,Phi:xld,access:XLD,Access:
+Contours,Polygons,Type,Alpha:xld,creation:XLD,Creation:
+Polygons,Contours,Mode,Weight,Smooth:xld,transformations:XLD,Transformations:
+Contours,ContoursProjTrans,HomMat2D:xld,geometrictransformations:XLD,Geometric Transformations:
+Polygons,PolygonsAffinTrans,HomMat2D:xld,geometrictransformations:XLD,Geometric Transformations:
+Contours,ContoursAffinTrans,HomMat2D:xld,geometrictransformations:XLD,Geometric Transformations:
+Contours,ClosedContours:xld,transformations:XLD,Transformations:
+Contours,ClippedContours,Mode,Length:xld,transformations:XLD,Transformations:
+Contours,ClippedContours,Row1,Column1,Row2,Column2:xld,transformations:XLD,Transformations:
+Contours,Image,LocalMaxContours,MinPercent,MinDiff,Distance:xld,features:XLD,Features:
+Contours,UnionContours,SelectedContours,RefLineStartRow,RefLineStartColumn,RefLineEndRow,RefLineEndColumn,Width,MaxWidth,FilterSize,HistoValues:xld,transformations:XLD,Transformations:
+Contours,UnionContours,MaxDist,MaxDiff,Percent,Mode,Iterations:xld,transformations:XLD,Transformations:
+Contours,UnionContours,MaxDistAbs,MaxDistRel,MaxShift,MaxAngle,MaxOverlap,MaxRegrError,MaxCosts,WeightDist,WeightShift,WeightAngle,WeightLink,WeightRegr,Mode:xld,transformations:XLD,Transformations:
+Contours,UnionContours,MaxDistAbs,MaxDistRel,MaxShift,MaxAngle,Mode:xld,transformations:XLD,Transformations:
+Contours,UnionContours,MaxDistAbs,MaxDistRel,Mode:xld,transformations:XLD,Transformations:
+Contours,SelectedContours,Feature,Min1,Max1,Min2,Max2:xld,features:XLD,Features:
+Contours,Length,Nx,Ny,Dist,Fpx,Fpy,Lpx,Lpy,Mean,Deviation:xld,features:XLD,Features:
+Contours,RegressContours,Mode,Iterations:xld,transformations:XLD,Transformations:
+Contour,AngleMode,CalcMode,Lookaround,Angles:xld,features:XLD,Features:
+Contours,SmoothedContours,NumRegrPoints:xld,transformations:XLD,Transformations:
+Contour,Length:xld,features:XLD,Features:
+Contour,Attribs:xld,features:XLD,Features:
+Contour,Name,Attrib:xld,features:XLD,Features:
+Contour,Attribs:xld,features:XLD,Features:
+Contour,Name,Attrib:xld,features:XLD,Features:
+Contour,Row,Col:xld,access:XLD,Access:
+Regions,Contours,Mode:xld,creation:XLD,Creation:
+Contour,Row,Col,Radius,SamplingInterval:xld,creation:XLD,Creation:
+Contour,Row,Col:xld,creation:XLD,Creation:
+Skeleton,Contours,Length,Mode:xld,creation:XLD,Creation:
+XLDObject,WindowHandle:graphics,output:Graphics,Output:
+Image,Psf,NoiseRegion,RestoredImage,MaskWidth,MaskHeight:filters,wienerfilter:Filters,Wiener Filter:
+Image,Psf,FilteredImage,RestoredImage:filters,wienerfilter:Filters,Wiener Filter:
+Psf,PSFwidth,PSFheight,Blurring,Angle,Type:filters,wienerfilter:Filters,Wiener Filter:
+Image,MovedImage,Blurring,Angle,Type:filters,wienerfilter:Filters,Wiener Filter:
+Psf,PSFwidth,PSFheight,Blurring:filters,wienerfilter:Filters,Wiener Filter:
+Image,DefocusedImage,Blurring:filters,wienerfilter:Filters,Wiener Filter:
+FileName,ModelID:inspection,variationmodel:Inspection,Variation Model:
+ModelID,FileName:inspection,variationmodel:Inspection,Variation Model:
+MinImage,MaxImage,ModelID:inspection,variationmodel:Inspection,Variation Model:
+Image,VarImage,ModelID:inspection,variationmodel:Inspection,Variation Model:
+Image,Region,ModelID,Mode:inspection,variationmodel:Inspection,Variation Model:
+Image,Region,ModelID:inspection,variationmodel:Inspection,Variation Model:
+RefImage,VarImage,ModelID,AbsThreshold,VarThreshold:inspection,variationmodel:Inspection,Variation Model:
+ModelID,AbsThreshold,VarThreshold:inspection,variationmodel:Inspection,Variation Model:
+Images,ModelID:inspection,variationmodel:Inspection,Variation Model:
+:inspection,variationmodel:Inspection,Variation Model:
+ModelID:inspection,variationmodel:Inspection,Variation Model:
+ModelID:inspection,variationmodel:Inspection,Variation Model:
+Width,Height,Type,Mode,ModelID:inspection,variationmodel:Inspection,Variation Model:
+Tuple,Min,Max,NumBins,Histo,BinSize:tuple,features:Tuple,Features:
+Data,Expression,Selection:tuple,stringoperations:Tuple,String Operations:
+Data,Expression,NumMatches:tuple,stringoperations:Tuple,String Operations:
+Data,Expression,Replace,Result:tuple,stringoperations:Tuple,String Operations:
+Data,Expression,Matches:tuple,stringoperations:Tuple,String Operations:
+Length,Rand:tuple,creation:Tuple,Creation:
+Tuple,Length:tuple,features:Tuple,Features:
+T,Sgn:tuple,arithmetic:Tuple,Arithmetic:
+T1,T2,Max2:tuple,arithmetic:Tuple,Arithmetic:
+T1,T2,Min2:tuple,arithmetic:Tuple,Arithmetic:
+Tuple,Max:tuple,features:Tuple,Features:
+Tuple,Min:tuple,features:Tuple,Features:
+Tuple,Cumul:tuple,arithmetic:Tuple,Arithmetic:
+Tuple,RankIndex,Selected:tuple,selection:Tuple,Selection:
+Tuple,Median:tuple,features:Tuple,Features:
+Tuple,Sum:tuple,features:Tuple,Features:
+Tuple,Mean:tuple,features:Tuple,Features:
+Tuple,Deviation:tuple,features:Tuple,Features:
+Tuple,Uniq:tuple,selection:Tuple,Selection:
+T1,T2,Indices:tuple,selection:Tuple,Selection:
+Tuple,Indices:tuple,elementorder:Tuple,Element Order:
+Tuple,Sorted:tuple,elementorder:Tuple,Element Order:
+Tuple,Inverted:tuple,elementorder:Tuple,Element Order:
+T1,T2,Concat:tuple,creation:Tuple,Creation:
+Tuple,Leftindex,Rightindex,Selected:tuple,selection:Tuple,Selection:
+Tuple,Index,Selected:tuple,selection:Tuple,Selection:
+Tuple,Index,Selected:tuple,selection:Tuple,Selection:
+Tuple,Index,Reduced:tuple,selection:Tuple,Selection:
+Tuple,Index,Selected:tuple,selection:Tuple,Selection:
+Tuple,Index,Selected:tuple,selection:Tuple,Selection:
+Length,Const,Newtuple:tuple,creation:Tuple,Creation:
+Names,Values:tuple,stringoperations:Tuple,String Operations:
+T1,T2,Substrings:tuple,stringoperations:Tuple,String Operations:
+T1,T2,Substring:tuple,stringoperations:Tuple,String Operations:
+T1,T2,Substring:tuple,stringoperations:Tuple,String Operations:
+T1,T2,Position:tuple,stringoperations:Tuple,String Operations:
+T1,T2,Position:tuple,stringoperations:Tuple,String Operations:
+T1,T2,Position:tuple,stringoperations:Tuple,String Operations:
+T1,T2,Position:tuple,stringoperations:Tuple,String Operations:
+T1,Length:tuple,stringoperations:Tuple,String Operations:
+T1,T2,Lesseq:tuple,comparison:Tuple,Comparison:
+T1,T2,Less:tuple,comparison:Tuple,Comparison:
+T1,T2,Greatereq:tuple,comparison:Tuple,Comparison:
+T1,T2,Greater:tuple,comparison:Tuple,Comparison:
+T1,T2,Nequal:tuple,comparison:Tuple,Comparison:
+T1,T2,Equal:tuple,comparison:Tuple,Comparison:
+T,Not:tuple,logicaloperations:Tuple,Logical Operations:
+T1,T2,Xor:tuple,logicaloperations:Tuple,Logical Operations:
+T1,T2,Or:tuple,logicaloperations:Tuple,Logical Operations:
+T1,T2,And:tuple,logicaloperations:Tuple,Logical Operations:
+T,BNot:tuple,bitoperations:Tuple,Bit Operations:
+T1,T2,BXor:tuple,bitoperations:Tuple,Bit Operations:
+T1,T2,BOr:tuple,bitoperations:Tuple,Bit Operations:
+T1,T2,BAnd:tuple,bitoperations:Tuple,Bit Operations:
+T,Shift,Rsh:tuple,bitoperations:Tuple,Bit Operations:
+T,Shift,Lsh:tuple,bitoperations:Tuple,Bit Operations:
+T,Chrt:tuple,conversion:Tuple,Conversion:
+T,Ords:tuple,conversion:Tuple,Conversion:
+T,Chr:tuple,conversion:Tuple,Conversion:
+T,Ord:tuple,conversion:Tuple,Conversion:
+T,Format,String:tuple,conversion:Tuple,Conversion:
+T,IsNumber:tuple,conversion:Tuple,Conversion:
+T,Number:tuple,conversion:Tuple,Conversion:
+T,Round:tuple,conversion:Tuple,Conversion:
+T,Int:tuple,conversion:Tuple,Conversion:
+T,Real:tuple,conversion:Tuple,Conversion:
+T1,T2,Ldexp:tuple,arithmetic:Tuple,Arithmetic:
+T1,T2,Fmod:tuple,arithmetic:Tuple,Arithmetic:
+T1,T2,Mod:tuple,arithmetic:Tuple,Arithmetic:
+T,Ceil:tuple,arithmetic:Tuple,Arithmetic:
+T,Floor:tuple,arithmetic:Tuple,Arithmetic:
+T1,T2,Pow:tuple,arithmetic:Tuple,Arithmetic:
+T,Log:tuple,arithmetic:Tuple,Arithmetic:
+T,Log:tuple,arithmetic:Tuple,Arithmetic:
+T,Exp:tuple,arithmetic:Tuple,Arithmetic:
+T,Tanh:tuple,arithmetic:Tuple,Arithmetic:
+T,Cosh:tuple,arithmetic:Tuple,Arithmetic:
+T,Sinh:tuple,arithmetic:Tuple,Arithmetic:
+Deg,Rad:tuple,arithmetic:Tuple,Arithmetic:
+Rad,Deg:tuple,arithmetic:Tuple,Arithmetic:
+Y,X,ATan:tuple,arithmetic:Tuple,Arithmetic:
+T,ATan:tuple,arithmetic:Tuple,Arithmetic:
+T,ACos:tuple,arithmetic:Tuple,Arithmetic:
+T,ASin:tuple,arithmetic:Tuple,Arithmetic:
+T,Tan:tuple,arithmetic:Tuple,Arithmetic:
+T,Cos:tuple,arithmetic:Tuple,Arithmetic:
+T,Sin:tuple,arithmetic:Tuple,Arithmetic:
+T,Abs:tuple,arithmetic:Tuple,Arithmetic:
+T,Sqrt:tuple,arithmetic:Tuple,Arithmetic:
+T,Abs:tuple,arithmetic:Tuple,Arithmetic:
+T,Neg:tuple,arithmetic:Tuple,Arithmetic:
+Q1,Q2,Quot:tuple,arithmetic:Tuple,Arithmetic:
+P1,P2,Prod:tuple,arithmetic:Tuple,Arithmetic:
+D1,D2,Diff:tuple,arithmetic:Tuple,Arithmetic:
+S1,S2,Sum:tuple,arithmetic:Tuple,Arithmetic:
+Tuple,FileName:file,tuple:File,Tuple:
+FileName,Tuple:file,tuple:File,Tuple:
+Quaternion,Px,Py,Pz,Qx,Qy,Qz:transformations,quaternions:Transformations,Quaternions:
+Quaternion,ConjugatedQuaternion:transformations,quaternions:Transformations,Quaternions:
+Quaternion,NormalizedQuaternion:transformations,quaternions:Transformations,Quaternions:
+AxisX,AxisY,AxisZ,Angle,Quaternion:transformations,quaternions:Transformations,Quaternions:
+Quaternion,Pose:transformations,poses:Transformations,Poses:
+Quaternion,RotationMatrix:transformations,quaternions:Transformations,Quaternions:
+QuaternionStart,QuaternionEnd,InterpPos,QuaternionInterpolated:transformations,quaternions:Transformations,Quaternions:
+QuaternionLeft,QuaternionRight,QuaternionComposed:transformations,quaternions:Transformations,Quaternions:
+HomMat3D,Px,Py,Pz,Qx,Qy,Qz:transformations,3dtransformations:Transformations,3D Transformations:
+HomMat3D,HomMat3DInvert:transformations,3dtransformations:Transformations,3D Transformations:
+HomMat3DLeft,HomMat3DRight,HomMat3DCompose:transformations,3dtransformations:Transformations,3D Transformations:
+HomMat3D,Phi,Axis,HomMat3DRotate:transformations,3dtransformations:Transformations,3D Transformations:
+HomMat3D,Phi,Axis,Px,Py,Pz,HomMat3DRotate:transformations,3dtransformations:Transformations,3D Transformations:
+HomMat3D,Sx,Sy,Sz,HomMat3DScale:transformations,3dtransformations:Transformations,3D Transformations:
+HomMat3D,Sx,Sy,Sz,Px,Py,Pz,HomMat3DScale:transformations,3dtransformations:Transformations,3D Transformations:
+HomMat3D,Tx,Ty,Tz,HomMat3DTranslate:transformations,3dtransformations:Transformations,3D Transformations:
+HomMat3D,Tx,Ty,Tz,HomMat3DTranslate:transformations,3dtransformations:Transformations,3D Transformations:
+HomMat3DIdentity:transformations,3dtransformations:Transformations,3D Transformations:
+HomMat3D,PrincipalPointRow,PrincipalPointCol,Focus,HomMat2D:transformations,2dtransformations:Transformations,2D Transformations:
+NumImages,ReferenceImage,MappingSource,MappingDest,HomMatrices2D,Rows1,Cols1,Rows2,Cols2,NumCorrespondences,Transformation,MosaicMatrices2D,Rows,Cols,Error:tools,mosaicking:Tools,Mosaicking:
+Image1,Image2,Rows1,Cols1,Rows2,Cols2,GrayMatchMethod,MaskSize,HomMat2DGuide,DistanceTolerance,MatchThreshold,EstimationMethod,DistanceThreshold,RandSeed,HomMat2D,Points1,Points2:tools,mosaicking:Tools,Mosaicking:
+Image1,Image2,Rows1,Cols1,Rows2,Cols2,GrayMatchMethod,MaskSize,RowMove,ColMove,RowTolerance,ColTolerance,Rotation,MatchThreshold,EstimationMethod,DistanceThreshold,RandSeed,HomMat2D,Points1,Points2:tools,mosaicking:Tools,Mosaicking:
+Px,Py,Pw,Qx,Qy,Qw,Method,HomMat2D:transformations,2dtransformations:Transformations,2D Transformations:
+Px,Py,Qx,Qy,Method,CovXX1,CovYY1,CovXY1,CovXX2,CovYY2,CovXY2,HomMat2D,Covariance:transformations,2dtransformations:Transformations,2D Transformations:
+HomMat2D,Sx,Sy,Phi,Theta,Tx,Ty:transformations,2dtransformations:Transformations,2D Transformations:
+Row1,Column1,Angle1,Row2,Column2,Angle2,HomMat2D:transformations,2dtransformations:Transformations,2D Transformations:
+Px,Py,Qx,Qy,HomMat2D:transformations,2dtransformations:Transformations,2D Transformations:
+Px,Py,Qx,Qy,HomMat2D:transformations,2dtransformations:Transformations,2D Transformations:
+Px,Py,Qx,Qy,HomMat2D:transformations,2dtransformations:Transformations,2D Transformations:
+HomMat2D,Row,Col,RowTrans,ColTrans:transformations,2dtransformations:Transformations,2D Transformations:
+HomMat2D,Px,Py,Pw,Qx,Qy,Qw:transformations,2dtransformations:Transformations,2D Transformations:
+HomMat2D,Row,Col,RowTrans,ColTrans:transformations,2dtransformations:Transformations,2D Transformations:
+HomMat2D,Px,Py,Qx,Qy:transformations,2dtransformations:Transformations,2D Transformations:
+HomMat2D,Determinant:transformations,2dtransformations:Transformations,2D Transformations:
+HomMat2D,HomMat2DTranspose:transformations,2dtransformations:Transformations,2D Transformations:
+HomMat2D,HomMat2DInvert:transformations,2dtransformations:Transformations,2D Transformations:
+HomMat2DLeft,HomMat2DRight,HomMat2DCompose:transformations,2dtransformations:Transformations,2D Transformations:
+HomMat2D,Theta,Axis,HomMat2DSlant:transformations,2dtransformations:Transformations,2D Transformations:
+HomMat2D,Theta,Axis,Px,Py,HomMat2DSlant:transformations,2dtransformations:Transformations,2D Transformations:
+HomMat2D,Phi,HomMat2DRotate:transformations,2dtransformations:Transformations,2D Transformations:
+HomMat2D,Phi,Px,Py,HomMat2DRotate:transformations,2dtransformations:Transformations,2D Transformations:
+HomMat2D,Sx,Sy,HomMat2DScale:transformations,2dtransformations:Transformations,2D Transformations:
+HomMat2D,Sx,Sy,Px,Py,HomMat2DScale:transformations,2dtransformations:Transformations,2D Transformations:
+HomMat2D,Tx,Ty,HomMat2DTranslate:transformations,2dtransformations:Transformations,2D Transformations:
+HomMat2D,Tx,Ty,HomMat2DTranslate:transformations,2dtransformations:Transformations,2D Transformations:
+HomMat2DIdentity:transformations,2dtransformations:Transformations,2D Transformations:
+DeviceHandle,ParamName,ParamValue:system,computedevices:System,Compute Devices:
+DeviceHandle,ParamName,ParamValue:system,computedevices:System,Compute Devices:
+:system,computedevices:System,Compute Devices:
+DeviceHandle:system,computedevices:System,Compute Devices:
+:system,computedevices:System,Compute Devices:
+DeviceHandle:system,computedevices:System,Compute Devices:
+DeviceHandle:system,computedevices:System,Compute Devices:
+DeviceHandle,Operators:system,computedevices:System,Compute Devices:
+DeviceIdentifier,DeviceHandle:system,computedevices:System,Compute Devices:
+DeviceIdentifier,InfoName,Info:system,computedevices:System,Compute Devices:
+DeviceIdentifier:system,computedevices:System,Compute Devices:
+SerialHandle,Channel:system,serial:System,Serial:
+SerialHandle,Data:system,serial:System,Serial:
+SerialHandle,NumCharacters,Data:system,serial:System,Serial:
+SerialHandle,BaudRate,DataBits,FlowControl,Parity,StopBits,TotalTimeOut,InterCharTimeOut:system,serial:System,Serial:
+SerialHandle,BaudRate,DataBits,FlowControl,Parity,StopBits,TotalTimeOut,InterCharTimeOut:system,serial:System,Serial:
+:system,serial:System,Serial:
+SerialHandle:system,serial:System,Serial:
+PortName,SerialHandle:system,serial:System,Serial:
+Seconds:system,operatingsystem:System,Operating System:
+Command:system,operatingsystem:System,Operating System:
+SystemParameter,Value:system,parameters:System,Parameters:
+Check:system,errorhandling:System,Error Handling:
+DefaultImageWidth,DefaultImageHeight,DefaultChannels:system,database:System,Database:
+Query,Information:system,parameters:System,Parameters:
+Check:system,errorhandling:System,Error Handling:
+ErrorNumber,ErrorText:system,errorhandling:System,Error Handling:
+Seconds:system,operatingsystem:System,Operating System:
+RelationName,NumOfTuples:system,database:System,Database:
+Image,Socket:system,sockets:System,Sockets:
+Image,Socket:system,sockets:System,Sockets:
+Region,Socket:system,sockets:System,Sockets:
+Region,Socket:system,sockets:System,Sockets:
+XLD,Socket:system,sockets:System,Sockets:
+XLD,Socket:system,sockets:System,Sockets:
+Socket,Tuple:system,sockets:System,Sockets:
+Socket,Tuple:system,sockets:System,Sockets:
+Socket,Format,Data,From:system,sockets:System,Sockets:
+Socket,Format,Data,To:system,sockets:System,Sockets:
+Socket,ParamName,ParamValue:system,sockets:System,Sockets:
+Socket,ParamName,ParamValue:system,sockets:System,Sockets:
+Socket,DataType:system,sockets:System,Sockets:
+Socket,SocketDescriptor:system,sockets:System,Sockets:
+Socket,Timeout:legacy,system:Legacy,System:
+Socket,Timeout:legacy,system:Legacy,System:
+Socket:system,sockets:System,Sockets:
+AcceptingSocket,Wait,Socket:system,sockets:System,Sockets:
+HostName,Port,GenParamName,GenParamValue,Socket:system,sockets:System,Sockets:
+Port,GenParamName,GenParamValue,AcceptingSocket:system,sockets:System,Sockets:
+UsedModules,ModuleKey:system,database:System,Database:
+Image1,Image2,Distance,Score,CamParamRect1,CamParamRect2,RelPoseRect,GrayConstancy,GradientConstancy,Smoothness,InitialGuess,CalculateScore,MGParamName,MGParamValue:3dreconstruction,binocularstereo:3D Reconstruction,Binocular Stereo:
+Image1,Image2,Disparity,Score,GrayConstancy,GradientConstancy,Smoothness,InitialGuess,CalculateScore,MGParamName,MGParamValue:3dreconstruction,binocularstereo:3D Reconstruction,Binocular Stereo:
+Rows1,Cols1,Rows2,Cols2,CovRR1,CovRC1,CovCC1,CovRR2,CovRC2,CovCC2,FMatrix,CovFMat,X,Y,Z,W,CovXYZW:3dreconstruction,binocularstereo:3D Reconstruction,Binocular Stereo:
+Map1,Map2,FMatrix,CovFMat,Width1,Height1,Width2,Height2,SubSampling,Mapping,CovFMatRect,H1,H2:3dreconstruction,binocularstereo:3D Reconstruction,Binocular Stereo:
+RelPose,CovRelPose,CamPar1,CamPar2,FMatrix,CovFMat:3dreconstruction,binocularstereo:3D Reconstruction,Binocular Stereo:
+EMatrix,CovEMat,CamMat1,CamMat2,FMatrix,CovFMat:3dreconstruction,binocularstereo:3D Reconstruction,Binocular Stereo:
+Rows1,Cols1,Rows2,Cols2,CovRR1,CovRC1,CovCC1,CovRR2,CovRC2,CovCC2,CamPar1,CamPar2,Method,RelPose,CovRelPose,Error,X,Y,Z,CovXYZ:3dreconstruction,binocularstereo:3D Reconstruction,Binocular Stereo:
+Rows1,Cols1,Rows2,Cols2,CovRR1,CovRC1,CovCC1,CovRR2,CovRC2,CovCC2,CamMat1,CamMat2,Method,EMatrix,CovEMat,Error,X,Y,Z,CovXYZ:3dreconstruction,binocularstereo:3D Reconstruction,Binocular Stereo:
+Rows1,Cols1,Rows2,Cols2,CovRR1,CovRC1,CovCC1,CovRR2,CovRC2,CovCC2,Method,FMatrix,CovFMat,Error,X,Y,Z,W,CovXYZW:3dreconstruction,binocularstereo:3D Reconstruction,Binocular Stereo:
+Image1,Image2,Rows1,Cols1,Rows2,Cols2,CamPar1,CamPar2,GrayMatchMethod,MaskSize,RowMove,ColMove,RowTolerance,ColTolerance,Rotation,MatchThreshold,EstimationMethod,DistanceThreshold,RandSeed,RelPose,CovRelPose,Error,Points1,Points2:3dreconstruction,binocularstereo:3D Reconstruction,Binocular Stereo:
+Image1,Image2,Rows1,Cols1,Rows2,Cols2,CamMat1,CamMat2,GrayMatchMethod,MaskSize,RowMove,ColMove,RowTolerance,ColTolerance,Rotation,MatchThreshold,EstimationMethod,DistanceThreshold,RandSeed,EMatrix,CovEMat,Error,Points1,Points2:3dreconstruction,binocularstereo:3D Reconstruction,Binocular Stereo:
+Image1,Image2,Rows1,Cols1,Rows2,Cols2,GrayMatchMethod,MaskSize,RowMove,ColMove,RowTolerance,ColTolerance,Rotation,MatchThreshold,EstimationMethod,DistanceThreshold,RandSeed,FMatrix,CovFMat,Error,Points1,Points2:3dreconstruction,binocularstereo:3D Reconstruction,Binocular Stereo:
+Image1,Image2,Distance,Score,CamParamRect1,CamParamRect2,RelPoseRect,Method,MaskWidth,MaskHeight,TextureThresh,MinDisparity,MaxDisparity,NumLevels,ScoreThresh,Filter,SubDistance:3dreconstruction,binocularstereo:3D Reconstruction,Binocular Stereo:
+Image1,Image2,Disparity,Score,Method,MaskWidth,MaskHeight,TextureThresh,MinDisparity,MaxDisparity,NumLevels,ScoreThresh,Filter,SubDisparity:3dreconstruction,binocularstereo:3D Reconstruction,Binocular Stereo:
+CamParam1,CamParam2,RelPose,Row1,Col1,Row2,Col2,X,Y,Z,Dist:3dreconstruction,binocularstereo:3D Reconstruction,Binocular Stereo:
+Disparity,X,Y,Z,CamParamRect1,CamParamRect2,RelPoseRect:3dreconstruction,binocularstereo:3D Reconstruction,Binocular Stereo:
+CamParamRect1,CamParamRect2,RelPoseRect,Row1,Col1,Disparity,X,Y,Z:3dreconstruction,binocularstereo:3D Reconstruction,Binocular Stereo:
+CamParamRect1,CamParamRect2,RelPoseRect,Disparity,Distance:3dreconstruction,binocularstereo:3D Reconstruction,Binocular Stereo:
+CamParamRect1,CamParamRect2,RelPoseRect,Distance,Disparity:3dreconstruction,binocularstereo:3D Reconstruction,Binocular Stereo:
+Map1,Map2,CamParam1,CamParam2,RelPose,SubSampling,Method,MapType,CamParamRect1,CamParamRect2,CamPoseRect1,CamPoseRect2,RelPoseRect:3dreconstruction,binocularstereo:3D Reconstruction,Binocular Stereo:
+NX,NY,NZ,NRow1,NCol1,NRow2,NCol2,StartCamParam1,StartCamParam2,NStartPose1,NStartPose2,EstimateParams,CamParam1,CamParam2,NFinalPose1,NFinalPose2,RelPose,Errors:calibration,binocular:Calibration,Binocular:
+Classes,Values:system,errorhandling:System,Error Handling:
+Class,Value:system,errorhandling:System,Error Handling:
+Class,Value:system,errorhandling:System,Error Handling:
+SheetOfLightModelID,ObjectModel3DID:3dreconstruction,sheetoflight:3D Reconstruction,Sheet of Light:
+ResultValue,SheetOfLightModelID,ResultName:3dreconstruction,sheetoflight:3D Reconstruction,Sheet of Light:
+Disparity,SheetOfLightModelID:3dreconstruction,sheetoflight:3D Reconstruction,Sheet of Light:
+ProfileImage,SheetOfLightModelID,MovementPose:3dreconstruction,sheetoflight:3D Reconstruction,Sheet of Light:
+SheetOfLightModelID,GenParamName,GenParamValue:3dreconstruction,sheetoflight:3D Reconstruction,Sheet of Light:
+SheetOfLightModelID,GenParamName,GenParamValue:3dreconstruction,sheetoflight:3D Reconstruction,Sheet of Light:
+SheetOfLightModelID,QueryName,GenParamNames:3dreconstruction,sheetoflight:3D Reconstruction,Sheet of Light:
+:3dreconstruction,sheetoflight:3D Reconstruction,Sheet of Light:
+SheetOfLightModelID:3dreconstruction,sheetoflight:3D Reconstruction,Sheet of Light:
+ProfileRegion,GenParamNames,GenParamValues,SheetOfLightModelID:3dreconstruction,sheetoflight:3D Reconstruction,Sheet of Light:
+ImageHeight,ImageShade,Slant,Tilt,Albedo,Ambient,Shadows:3dreconstruction,photometricstereo:3D Reconstruction,Photometric Stereo:
+Image,Albedo,Ambient:3dreconstruction,photometricstereo:3D Reconstruction,Photometric Stereo:
+Image,Slant,Albedo:3dreconstruction,photometricstereo:3D Reconstruction,Photometric Stereo:
+Image,Slant,Albedo:3dreconstruction,photometricstereo:3D Reconstruction,Photometric Stereo:
+Image,Tilt:3dreconstruction,photometricstereo:3D Reconstruction,Photometric Stereo:
+Image,Tilt:3dreconstruction,photometricstereo:3D Reconstruction,Photometric Stereo:
+Images,Height,Slants,Tilts:3dreconstruction,photometricstereo:3D Reconstruction,Photometric Stereo:
+Image,Height,Slant,Tilt,Albedo,Ambient:3dreconstruction,photometricstereo:3D Reconstruction,Photometric Stereo:
+Image,Height,Slant,Tilt,Albedo,Ambient:3dreconstruction,photometricstereo:3D Reconstruction,Photometric Stereo:
+Image,Height,Slant,Tilt,Albedo,Ambient:3dreconstruction,photometricstereo:3D Reconstruction,Photometric Stereo:
+ObjectModel3DID,ParamName,ParamValue,ObjectModel3DOutID:3dtools,3dsegmentation:3D Tools,3D Segmentation:
+ObjectModel3DID,ParamName,ParamValue,ObjectModel3DOutID:3dtools,3dsegmentation:3D Tools,3D Segmentation:
+:ocr,segmentation:OCR,Segmentation:
+TextResultID:ocr,segmentation:OCR,Segmentation:
+Characters,TextResultID,ResultName:ocr,segmentation:OCR,Segmentation:
+TextResultID,ResultName,Value:ocr,segmentation:OCR,Segmentation:
+Image,TextModel,TextResultID:ocr,segmentation:OCR,Segmentation:
+TextModel,Param,Value:ocr,segmentation:OCR,Segmentation:
+TextModel,Param,Value:ocr,segmentation:OCR,Segmentation:
+:ocr,segmentation:OCR,Segmentation:
+TextModel:ocr,segmentation:OCR,Segmentation:
+TextModel:ocr,segmentation:OCR,Segmentation:
+Region,RegionCharacters,DotPrint,StrokeWidth,CharWidth,CharHeight,Punctuation,DiacriticMarks,PartitionMethod,PartitionLines,FragmentDistance,ConnectFragments,ClutterSizeMax,StopAfter:ocr,segmentation:OCR,Segmentation:
+Region,Image,ImageForeground,RegionForeground,Method,EliminateLines,DotPrint,StrokeWidth,CharWidth,CharHeight,ThresholdOffset,Contrast,UsedThreshold:ocr,segmentation:OCR,Segmentation:
+Region,Image,CharHeight,SlantFrom,SlantTo,SlantAngle:ocr,segmentation:OCR,Segmentation:
+Region,Image,CharHeight,OrientationFrom,OrientationTo,OrientationAngle:ocr,segmentation:OCR,Segmentation:
+Image,ClassRegions,ClassLUTHandle:segmentation,classification:Segmentation,Classification:
+Image,ClassRegions,GMMHandle,RejectionThreshold:segmentation,classification:Segmentation,Classification:
+Image,ClassRegions,GMMHandle,Randomize:segmentation,classification:Segmentation,Classification:
+Image,ClassRegions,SVMHandle:segmentation,classification:Segmentation,Classification:
+Image,ClassRegions,SVMHandle:segmentation,classification:Segmentation,Classification:
+Image,ClassRegions,MLPHandle,RejectionThreshold:segmentation,classification:Segmentation,Classification:
+Image,ClassRegions,MLPHandle:segmentation,classification:Segmentation,Classification:
+Foreground,Background,Image,Metric,Distance,MinNumberPercent,Radius,Center,Quality:segmentation,classification:Segmentation,Classification:
+Foreground,Background,MultiChannelImage,ClassifHandle:segmentation,classification:Segmentation,Classification:
+MultiChannelImage,Regions,ClassifHandle:segmentation,classification:Segmentation,Classification:
+MultiChannelImage,Regions,Metric,SingleMultiple,Radius,Center:segmentation,classification:Segmentation,Classification:
+ImageCol,ImageRow,FeatureSpace,RegionClass2Dim:segmentation,classification:Segmentation,Classification:
+Image1,Image2,Classes,Threshold,NumClasses:segmentation,classification:Segmentation,Classification:
+Image,Pattern,Selected,Mode,DiffLowerBound,DiffUpperBound,GrayOffset,AddRow,AddCol:segmentation,threshold:Segmentation,Threshold:
+Image,HistoRegion,Characters,Sigma,Percent,Threshold:segmentation,threshold:Segmentation,Threshold:
+LabelImage,Regions:regions,creation:Regions,Creation:
+ImgAmp,ImageResult,Mode:segmentation,edges:Segmentation,Edges:
+ImgAmp,ImgDir,ImageResult,Mode:segmentation,edges:Segmentation,Edges:
+Image,RegionHysteresis,Low,High,MaxLength:segmentation,edges:Segmentation,Edges:
+Image,Region,MaskWidth,MaskHeight,StdDevScale,AbsThreshold,LightDark:segmentation,threshold:Segmentation,Threshold:
+OrigImage,ThresholdImage,RegionDynThresh,Offset,LightDark:segmentation,threshold:Segmentation,Threshold:
+Image,Region,MinGray,MaxGray:segmentation,threshold:Segmentation,Threshold:
+Image,Border,Threshold:segmentation,threshold:Segmentation,Threshold:
+MultiChannelImage,Regions,Metric,MinTolerance,MaxTolerance,MinSize:segmentation,regiongrowing:Segmentation,Region Growing:
+Image,Regions,Row,Column,Tolerance,MinSize:segmentation,regiongrowing:Segmentation,Region Growing:
+Image,Regions,StartRows,StartColumns,Tolerance,MinSize:segmentation,regiongrowing:Segmentation,Region Growing:
+Image,Regions,Mode,MinGray,MaxGray:segmentation,topography:Segmentation,Topography:
+Image,Basins,Threshold:segmentation,topography:Segmentation,Topography:
+Image,Basins,Watersheds:segmentation,topography:Segmentation,Topography:
+Image,RegionCrossing:segmentation,threshold:Segmentation,Threshold:
+Image,ZeroCrossings:segmentation,threshold:Segmentation,Threshold:
+Image,RegionCrossings,MinSize,MinGray,Threshold:segmentation,threshold:Segmentation,Threshold:
+Image,RegionExpand,Coordinate,ExpandType,RowColumn,Threshold:segmentation,regiongrowing:Segmentation,Region Growing:
+Image,LocalMinima:segmentation,topography:Segmentation,Topography:
+Image,Lowlands:segmentation,topography:Segmentation,Topography:
+Image,Lowlands:segmentation,topography:Segmentation,Topography:
+Image,LocalMaxima:segmentation,topography:Segmentation,Topography:
+Image,Plateaus:segmentation,topography:Segmentation,Topography:
+Image,Plateaus:segmentation,topography:Segmentation,Topography:
+Histogramm,Sigma,MinThresh,MaxThresh:segmentation,threshold:Segmentation,Threshold:
+Image,Regions,Sigma:segmentation,threshold:Segmentation,Threshold:
+Image,Region:segmentation,threshold:Segmentation,Threshold:
+Image,Region,MinGray,MaxGray,MinSize:segmentation,threshold:Segmentation,Threshold:
+PolarRegion,XYTransRegion,Row,Column,AngleStart,AngleEnd,RadiusStart,RadiusEnd,WidthIn,HeightIn,Width,Height,Interpolation:regions,geometrictransformations:Regions,Geometric Transformations:
+Region,PolarTransRegion,Row,Column,AngleStart,AngleEnd,RadiusStart,RadiusEnd,Width,Height,Interpolation:regions,geometrictransformations:Regions,Geometric Transformations:
+CurrRegions,PrevRegions,CurrMergedRegions,PrevMergedRegions,ImageHeight,MergeBorder,MaxImagesRegion:regions,transformations:Regions,Transformations:
+Region,Partitioned,Width,Height:regions,transformations:Regions,Transformations:
+Region,Partitioned,Distance,Percent:regions,transformations:Regions,Transformations:
+Region,ImageLabel,Type,Width,Height:image,creation:Image,Creation:
+Region,BinImage,ForegroundGray,BackgroundGray,Width,Height:image,creation:Image,Creation:
+Region1,Region2,RegionUnion:regions,sets:Regions,Sets:
+Region,RegionUnion:regions,sets:Regions,Sets:
+Region,Distances,ClosestPoints,Metric,Foreground,ClosestPointMode,Width,Height:regions,transformations:Regions,Transformations:
+Region,DistanceImage,Metric,Foreground,Width,Height:regions,transformations:Regions,Transformations:
+Region,Skeleton:regions,transformations:Regions,Transformations:
+Regions,TransRegions,HomMat2D,Interpolation:regions,geometrictransformations:Regions,Geometric Transformations:
+Region,RegionAffineTrans,HomMat2D,Interpolate:regions,geometrictransformations:Regions,Geometric Transformations:
+Region,RegionMirror,Mode,WidthHeight:regions,geometrictransformations:Regions,Geometric Transformations:
+Region,RegionZoom,ScaleWidth,ScaleHeight:regions,geometrictransformations:Regions,Geometric Transformations:
+Region,RegionMoved,Row,Column:regions,geometrictransformations:Regions,Geometric Transformations:
+Region,EndPoints,JuncPoints:regions,transformations:Regions,Transformations:
+Region1,Region2,RegionIntersection:regions,sets:Regions,Sets:
+Region,RegionInterjacent,Mode:regions,transformations:Regions,Transformations:
+Region,RegionFillUp:regions,transformations:Regions,Transformations:
+Region,RegionFillUp,Feature,Min,Max:regions,transformations:Regions,Transformations:
+Regions,ForbiddenArea,RegionExpanded,Iterations,Mode:regions,transformations:Regions,Transformations:
+Region,RegionClipped,Top,Bottom,Left,Right:regions,transformations:Regions,Transformations:
+Region,RegionClipped,Row1,Column1,Row2,Column2:regions,transformations:Regions,Transformations:
+Region,RegionCount,Width,Height,Number:regions,transformations:Regions,Transformations:
+Region,ConnectedRegions:regions,transformations:Regions,Transformations:
+Region1,Region2,RegionDifference:regions,sets:Regions,Sets:
+Region,Sub,RegionDifference:regions,sets:Regions,Sets:
+Region,RegionComplement:regions,sets:Regions,Sets:
+Foreground,BackgroundRegions:regions,transformations:Regions,Transformations:
+InputRegion,OutputRegion,Width,Height,Distance:regions,transformations:Regions,Transformations:
+InputRegion,OutputRegion,Type:regions,transformations:Regions,Transformations:
+Region,RegionTrans,Type:regions,transformations:Regions,Transformations:
+Regions,Image,ForbiddenArea,RegionExpand,Iterations,Mode,Threshold:segmentation,regiongrowing:Segmentation,Region Growing:
+Regions,Image,ForbiddenArea,RegionExpand,Iterations,Mode,RefGray,Threshold:segmentation,regiongrowing:Segmentation,Region Growing:
+SkeletonRegion,MaxDistance,BeginRow,BeginCol,EndRow,EndCol:regions,transformations:Regions,Transformations:
+SkeletonRegion,RegionLines,MaxDistance:regions,transformations:Regions,Transformations:
+Region,Histogram,Row,Column,Scale:regions,creation:Regions,Creation:
+Region,RegionClipped,ElimShorter,ElimLonger:regions,transformations:Regions,Transformations:
+:3dreconstruction,multiviewstereo:3D Reconstruction,Multi-View Stereo:
+StereoModelID:3dreconstruction,multiviewstereo:3D Reconstruction,Multi-View Stereo:
+StereoModelID,Row,Column,CovIP,CameraIdx,PointIdx,X,Y,Z,CovWP,PointIdxOut:3dreconstruction,multiviewstereo:3D Reconstruction,Multi-View Stereo:
+Images,StereoModelID,ObjectModel3DID:3dreconstruction,multiviewstereo:3D Reconstruction,Multi-View Stereo:
+Object,StereoModelID,PairIndex,ObjectName:3dreconstruction,multiviewstereo:3D Reconstruction,Multi-View Stereo:
+StereoModelID,From,To:3dreconstruction,multiviewstereo:3D Reconstruction,Multi-View Stereo:
+StereoModelID,From,To:3dreconstruction,multiviewstereo:3D Reconstruction,Multi-View Stereo:
+StereoModelID,ParamName,ParamValue:3dreconstruction,multiviewstereo:3D Reconstruction,Multi-View Stereo:
+StereoModelID,ParamName,ParamValue:3dreconstruction,multiviewstereo:3D Reconstruction,Multi-View Stereo:
+CameraSetupModelID,Method,GenParamName,GenParamValue,StereoModelID:3dreconstruction,multiviewstereo:3D Reconstruction,Multi-View Stereo:
+:system,multithreading:System,Multithreading:
+ConditionHandle:system,multithreading:System,Multithreading:
+ConditionHandle:system,multithreading:System,Multithreading:
+ConditionHandle:system,multithreading:System,Multithreading:
+ConditionHandle,MutexHandle,Timeout:system,multithreading:System,Multithreading:
+ConditionHandle,MutexHandle:system,multithreading:System,Multithreading:
+AttribName,AttribValue,ConditionHandle:system,multithreading:System,Multithreading:
+:system,multithreading:System,Multithreading:
+BarrierHandle:system,multithreading:System,Multithreading:
+BarrierHandle:system,multithreading:System,Multithreading:
+AttribName,AttribValue,TeamSize,BarrierHandle:system,multithreading:System,Multithreading:
+:system,multithreading:System,Multithreading:
+EventHandle:system,multithreading:System,Multithreading:
+EventHandle:system,multithreading:System,Multithreading:
+EventHandle,Busy:system,multithreading:System,Multithreading:
+EventHandle:system,multithreading:System,Multithreading:
+AttribName,AttribValue,EventHandle:system,multithreading:System,Multithreading:
+:system,multithreading:System,Multithreading:
+MutexHandle:system,multithreading:System,Multithreading:
+MutexHandle:system,multithreading:System,Multithreading:
+MutexHandle,Busy:system,multithreading:System,Multithreading:
+MutexHandle:system,multithreading:System,Multithreading:
+AttribName,AttribValue,MutexHandle:system,multithreading:System,Multithreading:
+ThreadingHandle,ThreadingClass,AttribName,AttribValue:system,multithreading:System,Multithreading:
+FileName:legacy,parallelization:Legacy,Parallelization:
+FileName:legacy,parallelization:Legacy,Parallelization:
+AllInpPars:legacy,parallelization:Legacy,Parallelization:
+OperatorName,IndexName,IndexValue,InfoName,InfoValue:system,parallelization:System,Parallelization:
+OperatorName,IndexName,IndexValue,InfoName,InfoValue:system,parallelization:System,Parallelization:
+OperatorName,IndexName,IndexValue,Name,Value:system,parallelization:System,Parallelization:
+OperatorName,IconicType,FileName,ParamName,ParamValue:system,parallelization:System,Parallelization:
+FileName,ParamName,ParamValue:system,parallelization:System,Parallelization:
+FileName,ParamName,ParamValue,Attributes,OperatorNames:system,parallelization:System,Parallelization:
+Dimension,MeasurementIn,MeasurementOut:
+Object,IsDefined:
+Object,Dummy,NumReadChord,NumCopyObj,Write_chord:
+Objects,ObjectsSub,ObjectsDiff:object,manipulation:Object,Manipulation:
+Image,Row,Column,Grayval:image,manipulation:Image,Manipulation:
+XLD,Image,ImageResult,Grayval:image,manipulation:Image,Manipulation:
+Region,Image,ImageResult,Grayval,Type:image,manipulation:Image,Manipulation:
+Image,Region,Grayval,Type:image,manipulation:Image,Manipulation:
+Image,ImageCleared,Grayval:image,creation:Image,Creation:
+ImageSource,ImageDestination,MixedImage:image,manipulation:Image,Manipulation:
+ImageDestination,ImageSource:image,manipulation:Image,Manipulation:
+Objects,SurrogateTuple:object,manipulation:Object,Manipulation:
+Objects,Index,Number,SurrogateTuple:object,manipulation:Object,Manipulation:
+Objects,ObjectsSelected,Index,NumObj:object,manipulation:Object,Manipulation:
+Objects1,Objects2,ObjectsConcat:object,manipulation:Object,Manipulation:
+Objects:object,manipulation:Object,Manipulation:
+Image,DupImage:image,creation:Image,Creation:
+Objects,ObjectSelected,Index:object,manipulation:Object,Manipulation:
+Region1,Region2,IsSubset:regions,tests:Regions,Tests:
+Regions1,Regions2,IsEqual:regions,tests:Regions,Tests:
+Objects1,Objects2,IsEqual:object,information:Object,Information:
+Objects,Number:object,information:Object,Information:
+Object,Request,Channel,Information:object,information:Object,Information:
+Object,Class:object,information:Object,Information:
+ImageRGB,PixelPointer,ColorFormat,OriginalWidth,OriginalHeight,Alignment,Type,ImageWidth,ImageHeight,StartRow,StartColumn,BitsPerChannel,BitShift:image,creation:Image,Creation:
+Polygon,Region,Mode:regions,creation:Regions,Creation:
+Contour,Region,Mode:regions,creation:Regions,Creation:
+Region,Rows,Columns:regions,creation:Regions,Creation:
+Region,Rows,Columns:regions,creation:Regions,Creation:
+Region,Rows,Columns:regions,creation:Regions,Creation:
+Region,Row,ColumnBegin,ColumnEnd:regions,creation:Regions,Creation:
+Rectangle,Row,Column,Phi,Length1,Length2:regions,creation:Regions,Creation:
+Rectangle,Row1,Column1,Row2,Column2:regions,creation:Regions,Creation:
+RegionRandom,Width,Height:regions,creation:Regions,Creation:
+ImageRGB,Type,Width,Height,PixelPointerRed,PixelPointerGreen,PixelPointerBlue:image,creation:Image,Creation:
+Image,Type,Width,Height,PixelPointer:image,creation:Image,Creation:
+Image,Type,Width,Height:image,creation:Image,Creation:
+Ellipse,Row,Column,Phi,Radius1,Radius2:regions,creation:Regions,Creation:
+Circle,Row,Column,Radius:regions,creation:Regions,Creation:
+RegionChecker,WidthRegion,HeightRegion,WidthPattern,HeightPattern:regions,creation:Regions,Creation:
+RegionGrid,RowSteps,ColumnSteps,Type,Width,Height:regions,creation:Regions,Creation:
+Regions,Type,WidthMin,WidthMax,HeightMin,HeightMax,PhiMin,PhiMax,NumRegions,Width,Height:regions,creation:Regions,Creation:
+Regions,Orientation,Distance:regions,creation:Regions,Creation:
+RegionLines,BeginRow,BeginCol,EndRow,EndCol:regions,creation:Regions,Creation:
+EmptyObject:object,manipulation:Object,Manipulation:
+EmptyRegion:regions,creation:Regions,Creation:
+ImageGrayRamp,Alpha,Beta,Mean,Row,Column,Width,Height:image,creation:Image,Creation:
+Image,Type,Width,Height,PointerRed,PointerGreen,PointerBlue,ClearProc:image,creation:Image,Creation:
+Image,Type,Width,Height,PixelPointer,ClearProc:image,creation:Image,Creation:
+Image,PixelPointer,Width,Height,VerticalPitch,HorizontalBitPitch,BitsPerPixel,DoCopy,ClearProc:image,creation:Image,Creation:
+Image,PixelPointer,Width,Height,VerticalPitch,HorizontalBitPitch,BitsPerPixel:image,access:Image,Access:
+ImageRGB,PointerRed,PointerGreen,PointerBlue,Type,Width,Height:image,access:Image,Access:
+Image,Pointer,Type,Width,Height:image,access:Image,Access:
+Image,Type:image,access:Image,Access:
+Image,Width,Height:image,access:Image,Access:
+Image,MSecond,Second,Minute,Hour,Day,YDay,Month,Year:image,access:Image,Access:
+Image,Row,Column,Interpolation,Grayval:image,access:Image,Access:
+Image,Row,Column,Grayval:image,access:Image,Access:
+Region,Thickness,Histogramm:regions,features:Regions,Features:
+Region,Tolerance,Rows,Columns:regions,access:Regions,Access:
+Region,Rows,Columns:regions,access:Regions,Access:
+Region,Rows,Columns:regions,access:Regions,Access:
+Region,Row,ColumnBegin,ColumnEnd:regions,access:Regions,Access:
+Region,Row,Column,Chain:regions,access:Regions,Access:
+Region,Rows,Columns:regions,access:Regions,Access:
+Pattern,OCVHandle,PatternName,AdaptPos,AdaptSize,AdaptAngle,AdaptGray,Threshold,Quality:inspection,ocv:Inspection,OCV:
+Pattern,OCVHandle,Name,Mode:inspection,ocv:Inspection,OCV:
+FileName,OCVHandle:inspection,ocv:Inspection,OCV:
+OCVHandle,FileName:inspection,ocv:Inspection,OCV:
+:inspection,ocv:Inspection,OCV:
+OCVHandle:inspection,ocv:Inspection,OCV:
+PatternNames,OCVHandle:inspection,ocv:Inspection,OCV:
+:ocr,lexica:OCR,Lexica:
+LexiconHandle:ocr,lexica:OCR,Lexica:
+LexiconHandle,Word,Suggestion,NumCorrections:ocr,lexica:OCR,Lexica:
+LexiconHandle,Word,Found:ocr,lexica:OCR,Lexica:
+LexiconHandle,Words:ocr,lexica:OCR,Lexica:
+Name,FileName,LexiconHandle:ocr,lexica:OCR,Lexica:
+Name,Words,LexiconHandle:ocr,lexica:OCR,Lexica:
+:ocr,supportvectormachines:OCR,Support Vector Machines:
+OCRHandle:ocr,supportvectormachines:OCR,Support Vector Machines:
+FileName,OCRHandle:ocr,supportvectormachines:OCR,Support Vector Machines:
+OCRHandle,FileName:ocr,supportvectormachines:OCR,Support Vector Machines:
+Character,OCRHandle,Transform,Features:ocr,supportvectormachines:OCR,Support Vector Machines:
+Character,Image,OCRHandle,Expression,NumAlternatives,NumCorrections,Class,Word,Score:ocr,supportvectormachines:OCR,Support Vector Machines:
+Character,Image,OCRHandle,Class:ocr,supportvectormachines:OCR,Support Vector Machines:
+Character,Image,OCRHandle,Num,Class:ocr,supportvectormachines:OCR,Support Vector Machines:
+OCRHandle,Method,MinRemainingSV,MaxError,OCRHandleReduced:ocr,supportvectormachines:OCR,Support Vector Machines:
+OCRHandle,TrainingFile,Epsilon,TrainMode:ocr,supportvectormachines:OCR,Support Vector Machines:
+OCRHandle,TrainingFile,Preprocessing,InformationCont,CumInformationCont:ocr,supportvectormachines:OCR,Support Vector Machines:
+OCRHandle,NumSupportVectors,NumSVPerSVM:ocr,supportvectormachines:OCR,Support Vector Machines:
+OCRHandle,IndexSupportVector,Index:ocr,supportvectormachines:OCR,Support Vector Machines:
+OCRHandle,WidthCharacter,HeightCharacter,Interpolation,Features,Characters,KernelType,KernelParam,Nu,Mode,Preprocessing,NumComponents:ocr,supportvectormachines:OCR,Support Vector Machines:
+WidthCharacter,HeightCharacter,Interpolation,Features,Characters,KernelType,KernelParam,Nu,Mode,Preprocessing,NumComponents,OCRHandle:ocr,supportvectormachines:OCR,Support Vector Machines:
+:ocr,neuralnets:OCR,Neural Nets:
+OCRHandle:ocr,neuralnets:OCR,Neural Nets:
+FileName,OCRHandle:ocr,neuralnets:OCR,Neural Nets:
+OCRHandle,FileName:ocr,neuralnets:OCR,Neural Nets:
+Character,OCRHandle,Transform,Features:ocr,neuralnets:OCR,Neural Nets:
+Character,Image,OCRHandle,Expression,NumAlternatives,NumCorrections,Class,Confidence,Word,Score:ocr,neuralnets:OCR,Neural Nets:
+Character,Image,OCRHandle,Class,Confidence:ocr,neuralnets:OCR,Neural Nets:
+Character,Image,OCRHandle,Num,Class,Confidence:ocr,neuralnets:OCR,Neural Nets:
+OCRHandle,TrainingFile,MaxIterations,WeightTolerance,ErrorTolerance,Error,ErrorLog:ocr,neuralnets:OCR,Neural Nets:
+OCRHandle,TrainingFile,Preprocessing,InformationCont,CumInformationCont:ocr,neuralnets:OCR,Neural Nets:
+OCRHandle,WidthCharacter,HeightCharacter,Interpolation,Features,Characters,NumHidden,Preprocessing,NumComponents:ocr,neuralnets:OCR,Neural Nets:
+WidthCharacter,HeightCharacter,Interpolation,Features,Characters,NumHidden,Preprocessing,NumComponents,RandSeed,OCRHandle:ocr,neuralnets:OCR,Neural Nets:
+OcrHandle,FileName:ocr,hyperboxes:OCR,Hyperboxes:
+FileName,OcrHandle:ocr,hyperboxes:OCR,Hyperboxes:
+Character,Image,OcrHandle,Classes,Confidences:ocr,hyperboxes:OCR,Hyperboxes:
+Character,Image,OcrHandle,Class,Confidence:ocr,hyperboxes:OCR,Hyperboxes:
+OcrHandle,WidthPattern,HeightPattern,Interpolation,WidthMaxChar,HeightMaxChar,Features,Characters:ocr,hyperboxes:OCR,Hyperboxes:
+WidthPattern,HeightPattern,Interpolation,Features,Character,OcrHandle:ocr,hyperboxes:OCR,Hyperboxes:
+Character,Image,OcrHandle,Class,AvgConfidence:ocr,hyperboxes:OCR,Hyperboxes:
+OcrHandle,FileName,AvgConfidence:ocr,hyperboxes:OCR,Hyperboxes:
+Character,Image,Class,FileName:ocr,trainingfiles:OCR,Training Files:
+OcrHandle,Character:ocr,hyperboxes:OCR,Hyperboxes:
+OcrHandle:ocr,hyperboxes:OCR,Hyperboxes:
+Regions,SortedRegions,SortMode,Order,RowOrCol:regions,transformations:Regions,Transformations:
+:ocr,hyperboxes:OCR,Hyperboxes:
+Character,Image,OcrHandle,Class,Confidence:ocr,hyperboxes:OCR,Hyperboxes:
+Image,ImagePart,Top,Left,Bottom,Right:image,format:Image,Format:
+Character,OcrHandle,FeatureVector:ocr,hyperboxes:OCR,Hyperboxes:
+SingleFiles,ComposedFile:ocr,trainingfiles:OCR,Training Files:
+Character,Class,FileName:ocr,trainingfiles:OCR,Training Files:
+Character,Image,Class,FileName:ocr,trainingfiles:OCR,Training Files:
+TrainFileNames,CharacterNames,CharacterCount:ocr,trainingfiles:OCR,Training Files:
+Characters,TrainFileNames,SearchNames,FoundNames:ocr,trainingfiles:OCR,Training Files:
+Characters,TrainFileNames,CharacterNames:ocr,trainingfiles:OCR,Training Files:
+Region,RegionPrune,Length:morphology,region:Morphology,Region:
+Region,RegionBorder,BoundaryType:morphology,region:Morphology,Region:
+Region,StructElements,RegionFitted:morphology,region:Morphology,Region:
+StructElements,Type,Row,Column:morphology,region:Morphology,Region:
+Region,Transposed,Row,Column:regions,geometrictransformations:Regions,Geometric Transformations:
+Region,RegionThin,GolayElement,Iterations:morphology,region:Morphology,Region:
+Region,RegionThin,GolayElement,Rotation:morphology,region:Morphology,Region:
+Region,StructElement1,StructElement2,RegionThin,Row,Column,Iterations:morphology,region:Morphology,Region:
+Region,RegionThick,GolayElement,Iterations:morphology,region:Morphology,Region:
+Region,RegionThick,GolayElement,Rotation:morphology,region:Morphology,Region:
+Region,StructElement1,StructElement2,RegionThick,Row,Column,Iterations:morphology,region:Morphology,Region:
+Region,RegionHitMiss,GolayElement:morphology,region:Morphology,Region:
+Region,RegionHitMiss,GolayElement,Rotation:morphology,region:Morphology,Region:
+Region,StructElement1,StructElement2,RegionHitMiss,Row,Column:morphology,region:Morphology,Region:
+StructElement1,StructElement2,GolayElement,Rotation,Row,Column:morphology,region:Morphology,Region:
+Region,RegionSkiz,Iterations1,Iterations2:morphology,region:Morphology,Region:
+Region,RegionSkeleton:morphology,region:Morphology,Region:
+Region,StructElement,RegionMorphHat:morphology,region:Morphology,Region:
+Region,StructElement,RegionBottomHat:morphology,region:Morphology,Region:
+Region,StructElement,RegionTopHat:morphology,region:Morphology,Region:
+Region,StructElement,RegionMinkSub,Row,Column,Iterations:morphology,region:Morphology,Region:
+Region,StructElement,RegionMinkSub,Iterations:morphology,region:Morphology,Region:
+Region,StructElement,RegionMinkAdd,Row,Column,Iterations:morphology,region:Morphology,Region:
+Region,StructElement,RegionMinkAdd,Iterations:morphology,region:Morphology,Region:
+Region,RegionClosing,Width,Height:morphology,region:Morphology,Region:
+Region,RegionClosing,GolayElement,Rotation:morphology,region:Morphology,Region:
+Region,RegionClosing,Radius:morphology,region:Morphology,Region:
+Region,StructElement,RegionClosing:morphology,region:Morphology,Region:
+Region,StructElement,RegionOpening:morphology,region:Morphology,Region:
+Region,RegionOpening,GolayElement,Rotation:morphology,region:Morphology,Region:
+Region,RegionOpening,Width,Height:morphology,region:Morphology,Region:
+Region,RegionOpening,Radius:morphology,region:Morphology,Region:
+Region,StructElement,RegionOpening:morphology,region:Morphology,Region:
+Region,RegionErosion,GolayElement,Iterations:morphology,region:Morphology,Region:
+Region,RegionErosion,GolayElement,Iterations,Rotation:morphology,region:Morphology,Region:
+Region,RegionErosion,Width,Height:morphology,region:Morphology,Region:
+Region,RegionErosion,Radius:morphology,region:Morphology,Region:
+Region,StructElement,RegionErosion,Row,Column,Iterations:morphology,region:Morphology,Region:
+Region,StructElement,RegionErosion,Iterations:morphology,region:Morphology,Region:
+Region,RegionDilation,GolayElement,Iterations:morphology,region:Morphology,Region:
+Region,RegionDilation,GolayElement,Iterations,Rotation:morphology,region:Morphology,Region:
+Region,RegionDilation,Width,Height:morphology,region:Morphology,Region:
+Region,RegionDilation,Radius:morphology,region:Morphology,Region:
+Region,StructElement,RegionDilation,Row,Column,Iterations:morphology,region:Morphology,Region:
+Region,StructElement,RegionDilation,Iterations:morphology,region:Morphology,Region:
+Image,SE,ImageBotHat:morphology,grayvalues:Morphology,Gray Values:
+Image,SE,ImageTopHat:morphology,grayvalues:Morphology,Gray Values:
+Image,SE,ImageClosing:morphology,grayvalues:Morphology,Gray Values:
+Image,SE,ImageOpening:morphology,grayvalues:Morphology,Gray Values:
+Image,SE,ImageDilation:morphology,grayvalues:Morphology,Gray Values:
+Image,SE,ImageErosion:morphology,grayvalues:Morphology,Gray Values:
+SE,FileName:morphology,grayvalues:Morphology,Gray Values:
+SE,Type,Width,Height,Smax:morphology,grayvalues:Morphology,Gray Values:
+Image,MeasureHandle,Sigma,Threshold,Select,RowThresh,ColumnThresh,Distance:1dmeasuring:1D Measuring:
+:1dmeasuring:1D Measuring:
+MeasureHandle:1dmeasuring:1D Measuring:
+Image,MeasureHandle,GrayValues:1dmeasuring:1D Measuring:
+MeasureHandle,SetType:1dmeasuring:1D Measuring:
+MeasureHandle,PairSize,SetType,Function:1dmeasuring:1D Measuring:
+MeasureHandle,SetType,Function:1dmeasuring:1D Measuring:
+Image,MeasureHandle,Sigma,AmpThresh,FuzzyThresh,Transition,Pairing,NumPairs,RowEdgeFirst,ColumnEdgeFirst,AmplitudeFirst,RowEdgeSecond,ColumnEdgeSecond,AmplitudeSecond,RowPairCenter,ColumnPairCenter,FuzzyScore,IntraDistance:1dmeasuring:1D Measuring:
+Image,MeasureHandle,Sigma,AmpThresh,FuzzyThresh,Transition,RowEdgeFirst,ColumnEdgeFirst,AmplitudeFirst,RowEdgeSecond,ColumnEdgeSecond,AmplitudeSecond,RowEdgeCenter,ColumnEdgeCenter,FuzzyScore,IntraDistance,InterDistance:1dmeasuring:1D Measuring:
+Image,MeasureHandle,Sigma,AmpThresh,FuzzyThresh,Transition,RowEdge,ColumnEdge,Amplitude,FuzzyScore,Distance:1dmeasuring:1D Measuring:
+Image,MeasureHandle,Sigma,Threshold,Transition,Select,RowEdgeFirst,ColumnEdgeFirst,AmplitudeFirst,RowEdgeSecond,ColumnEdgeSecond,AmplitudeSecond,IntraDistance,InterDistance:1dmeasuring:1D Measuring:
+Image,MeasureHandle,Sigma,Threshold,Transition,Select,RowEdge,ColumnEdge,Amplitude,Distance:1dmeasuring:1D Measuring:
+MeasureHandle,Row,Column:1dmeasuring:1D Measuring:
+CenterRow,CenterCol,Radius,AngleStart,AngleExtent,AnnulusRadius,Width,Height,Interpolation,MeasureHandle:1dmeasuring:1D Measuring:
+Row,Column,Phi,Length1,Length2,Width,Height,Interpolation,MeasureHandle:1dmeasuring:1D Measuring:
+FileName,MatrixID:matrix,file:Matrix,File:
+MatrixID,FileFormat,FileName:matrix,file:Matrix,File:
+MatrixID,DecompositionType,OutputMatricesType,ComputeOrthogonal,MatrixOrthogonalID,MatrixTriangularID:matrix,decomposition:Matrix,Decomposition:
+MatrixID,MatrixType,Matrix1ID,Matrix2ID:matrix,decomposition:Matrix,Decomposition:
+MatrixID,SVDType,ComputeSingularVectors,MatrixUID,MatrixSID,MatrixVID:matrix,decomposition:Matrix,Decomposition:
+MatrixAID,MatrixBID,ComputeEigenvectors,EigenvaluesRealID,EigenvaluesImagID,EigenvectorsRealID,EigenvectorsImagID:matrix,eigenvalues:Matrix,Eigenvalues:
+MatrixAID,MatrixBID,ComputeEigenvectors,EigenvaluesID,EigenvectorsID:matrix,eigenvalues:Matrix,Eigenvalues:
+MatrixID,ComputeEigenvectors,EigenvaluesRealID,EigenvaluesImagID,EigenvectorsRealID,EigenvectorsImagID:matrix,eigenvalues:Matrix,Eigenvalues:
+MatrixID,ComputeEigenvectors,EigenvaluesID,EigenvectorsID:matrix,eigenvalues:Matrix,Eigenvalues:
+MatrixLHSID,MatrixLHSType,Epsilon,MatrixRHSID,MatrixResultID:matrix,arithmetic:Matrix,Arithmetic:
+MatrixID,MatrixType,Value:matrix,features:Matrix,Features:
+MatrixID,MatrixType,Epsilon:matrix,arithmetic:Matrix,Arithmetic:
+MatrixID,MatrixType,Epsilon,MatrixInvID:matrix,arithmetic:Matrix,Arithmetic:
+MatrixID:matrix,arithmetic:Matrix,Arithmetic:
+MatrixID,MatrixTransposedID:matrix,arithmetic:Matrix,Arithmetic:
+MatrixID,MaxType,MatrixMaxID:matrix,features:Matrix,Features:
+MatrixID,MinType,MatrixMinID:matrix,features:Matrix,Features:
+MatrixID,MatrixType,Power:matrix,arithmetic:Matrix,Arithmetic:
+MatrixID,MatrixType,Power,MatrixPowID:matrix,arithmetic:Matrix,Arithmetic:
+MatrixID,MatrixExpID:matrix,arithmetic:Matrix,Arithmetic:
+MatrixID,MatrixExpID,MatrixPowID:matrix,arithmetic:Matrix,Arithmetic:
+MatrixID,Power:matrix,arithmetic:Matrix,Arithmetic:
+MatrixID,Power,MatrixPowID:matrix,arithmetic:Matrix,Arithmetic:
+MatrixID:matrix,arithmetic:Matrix,Arithmetic:
+MatrixID,MatrixSqrtID:matrix,arithmetic:Matrix,Arithmetic:
+MatrixID:matrix,arithmetic:Matrix,Arithmetic:
+MatrixID,MatrixAbsID:matrix,arithmetic:Matrix,Arithmetic:
+MatrixID,NormType,Value:matrix,features:Matrix,Features:
+MatrixID,MeanType,MatrixMeanID:matrix,features:Matrix,Features:
+MatrixID,SumType,MatrixSumID:matrix,features:Matrix,Features:
+MatrixAID,MatrixBID:matrix,arithmetic:Matrix,Arithmetic:
+MatrixAID,MatrixBID,MatrixDivID:matrix,arithmetic:Matrix,Arithmetic:
+MatrixAID,MatrixBID:matrix,arithmetic:Matrix,Arithmetic:
+MatrixAID,MatrixBID,MatrixMultID:matrix,arithmetic:Matrix,Arithmetic:
+MatrixID,Factor:matrix,arithmetic:Matrix,Arithmetic:
+MatrixID,Factor,MatrixScaledID:matrix,arithmetic:Matrix,Arithmetic:
+MatrixAID,MatrixBID:matrix,arithmetic:Matrix,Arithmetic:
+MatrixAID,MatrixBID,MatrixSubID:matrix,arithmetic:Matrix,Arithmetic:
+MatrixAID,MatrixBID:matrix,arithmetic:Matrix,Arithmetic:
+MatrixAID,MatrixBID,MatrixSumID:matrix,arithmetic:Matrix,Arithmetic:
+MatrixAID,MatrixBID,MultType:matrix,arithmetic:Matrix,Arithmetic:
+MatrixAID,MatrixBID,MultType,MatrixMultID:matrix,arithmetic:Matrix,Arithmetic:
+MatrixID,Rows,Columns:matrix,features:Matrix,Features:
+MatrixID,Rows,Columns,MatrixRepeatedID:matrix,creation:Matrix,Creation:
+MatrixID,MatrixCopyID:matrix,creation:Matrix,Creation:
+MatrixID,VectorID,Diagonal:matrix,access:Matrix,Access:
+MatrixID,Diagonal,VectorID:matrix,access:Matrix,Access:
+MatrixID,MatrixSubID,Row,Column:matrix,access:Matrix,Access:
+MatrixID,Row,Column,RowsSub,ColumnsSub,MatrixSubID:matrix,access:Matrix,Access:
+MatrixID,Values:matrix,access:Matrix,Access:
+MatrixID,Values:matrix,access:Matrix,Access:
+MatrixID,Row,Column,Value:matrix,access:Matrix,Access:
+MatrixID,Row,Column,Value:matrix,access:Matrix,Access:
+:matrix,creation:Matrix,Creation:
+MatrixID:matrix,creation:Matrix,Creation:
+Rows,Columns,Value,MatrixID:matrix,creation:Matrix,Creation:
+FileName,ModelID:matching,shapebased:Matching,Shape-Based:
+ModelID,FileName:matching,shapebased:Matching,Shape-Based:
+:matching,shapebased:Matching,Shape-Based:
+ModelID:matching,shapebased:Matching,Shape-Based:
+ModelContours,ModelID,Level:matching,shapebased:Matching,Shape-Based:
+Template,NumLevels,AngleStart,AngleExtent,ScaleMin,ScaleMax,Optimization,Metric,Contrast,MinContrast,Parameters,ParameterName,ParameterValue:matching,shapebased:Matching,Shape-Based:
+ModelID,NumLevels,AngleStart,AngleExtent,AngleStep,ScaleMin,ScaleMax,ScaleStep,Metric,MinContrast:matching,shapebased:Matching,Shape-Based:
+ModelID,Row,Column:matching,shapebased:Matching,Shape-Based:
+ModelID,Row,Column:matching,shapebased:Matching,Shape-Based:
+Image,ModelIDs,AngleStart,AngleExtent,ScaleRMin,ScaleRMax,ScaleCMin,ScaleCMax,MinScore,NumMatches,MaxOverlap,SubPixel,NumLevels,Greediness,Row,Column,Angle,ScaleR,ScaleC,Score,Model:matching,shapebased:Matching,Shape-Based:
+Image,ModelIDs,AngleStart,AngleExtent,ScaleMin,ScaleMax,MinScore,NumMatches,MaxOverlap,SubPixel,NumLevels,Greediness,Row,Column,Angle,Scale,Score,Model:matching,shapebased:Matching,Shape-Based:
+Image,ModelIDs,AngleStart,AngleExtent,MinScore,NumMatches,MaxOverlap,SubPixel,NumLevels,Greediness,Row,Column,Angle,Score,Model:matching,shapebased:Matching,Shape-Based:
+Image,ModelID,AngleStart,AngleExtent,ScaleRMin,ScaleRMax,ScaleCMin,ScaleCMax,MinScore,NumMatches,MaxOverlap,SubPixel,NumLevels,Greediness,Row,Column,Angle,ScaleR,ScaleC,Score:matching,shapebased:Matching,Shape-Based:
+Image,ModelID,AngleStart,AngleExtent,ScaleMin,ScaleMax,MinScore,NumMatches,MaxOverlap,SubPixel,NumLevels,Greediness,Row,Column,Angle,Scale,Score:matching,shapebased:Matching,Shape-Based:
+Image,ModelID,AngleStart,AngleExtent,MinScore,NumMatches,MaxOverlap,SubPixel,NumLevels,Greediness,Row,Column,Angle,Score:matching,shapebased:Matching,Shape-Based:
+Image,ModelID,HomMat2D,Metric:matching,shapebased:Matching,Shape-Based:
+ModelID,GenParamNames,GenParamValues:matching,shapebased:Matching,Shape-Based:
+Contours,NumLevels,AngleStart,AngleExtent,AngleStep,ScaleRMin,ScaleRMax,ScaleRStep,ScaleCMin,ScaleCMax,ScaleCStep,Optimization,Metric,MinContrast,ModelID:matching,shapebased:Matching,Shape-Based:
+Contours,NumLevels,AngleStart,AngleExtent,AngleStep,ScaleMin,ScaleMax,ScaleStep,Optimization,Metric,MinContrast,ModelID:matching,shapebased:Matching,Shape-Based:
+Contours,NumLevels,AngleStart,AngleExtent,AngleStep,Optimization,Metric,MinContrast,ModelID:matching,shapebased:Matching,Shape-Based:
+Template,NumLevels,AngleStart,AngleExtent,AngleStep,ScaleRMin,ScaleRMax,ScaleRStep,ScaleCMin,ScaleCMax,ScaleCStep,Optimization,Metric,Contrast,MinContrast,ModelID:matching,shapebased:Matching,Shape-Based:
+Template,NumLevels,AngleStart,AngleExtent,AngleStep,ScaleMin,ScaleMax,ScaleStep,Optimization,Metric,Contrast,MinContrast,ModelID:matching,shapebased:Matching,Shape-Based:
+Template,NumLevels,AngleStart,AngleExtent,AngleStep,Optimization,Metric,Contrast,MinContrast,ModelID:matching,shapebased:Matching,Shape-Based:
+Image,ModelImages,ModelRegions,NumLevels,Contrast:matching,shapebased:Matching,Shape-Based:
+:matching,descriptorbased:Matching,Descriptor-Based:
+ModelID:matching,descriptorbased:Matching,Descriptor-Based:
+FileName,ModelID:matching,descriptorbased:Matching,Descriptor-Based:
+ModelID,FileName:matching,descriptorbased:Matching,Descriptor-Based:
+Image,ModelID,DetectorParamName,DetectorParamValue,DescriptorParamName,DescriptorParamValue,MinScore,NumMatches,CamParam,ScoreType,Pose,Score:matching,descriptorbased:Matching,Descriptor-Based:
+Image,ModelID,DetectorParamName,DetectorParamValue,DescriptorParamName,DescriptorParamValue,MinScore,NumMatches,ScoreType,HomMat2D,Score:matching,descriptorbased:Matching,Descriptor-Based:
+ModelID,Set,Subset,Row,Column:matching,descriptorbased:Matching,Descriptor-Based:
+ModelID,DetectorType,DetectorParamName,DetectorParamValue,DescriptorParamName,DescriptorParamValue:matching,descriptorbased:Matching,Descriptor-Based:
+Template,CamParam,ReferencePose,DetectorType,DetectorParamName,DetectorParamValue,DescriptorParamName,DescriptorParamValue,Seed,ModelID:matching,descriptorbased:Matching,Descriptor-Based:
+Template,DetectorType,DetectorParamName,DetectorParamValue,DescriptorParamName,DescriptorParamValue,Seed,ModelID:matching,descriptorbased:Matching,Descriptor-Based:
+ModelID,ObjectID,ResultNames,Results:matching,descriptorbased:Matching,Descriptor-Based:
+ModelID,Row,Column:matching,descriptorbased:Matching,Descriptor-Based:
+ModelID,Row,Column:matching,descriptorbased:Matching,Descriptor-Based:
+ModelID,Row,Column:matching,deformable:Matching,Deformable:
+ModelID,Row,Column:matching,deformable:Matching,Deformable:
+ModelID,GenParamNames,GenParamValues:matching,deformable:Matching,Deformable:
+ModelID,GenParamNames,GenParamValues:matching,deformable:Matching,Deformable:
+ModelContours,ModelID,Level:matching,deformable:Matching,Deformable:
+Template,NumLevels,AngleStart,AngleExtent,ScaleMin,ScaleMax,Optimization,Metric,Contrast,MinContrast,ParamName,ParamValue,Parameters,ParameterName,ParameterValue:matching,deformable:Matching,Deformable:
+FileName,ModelID:matching,deformable:Matching,Deformable:
+ModelID,FileName:matching,deformable:Matching,Deformable:
+:matching,deformable:Matching,Deformable:
+ModelID:matching,deformable:Matching,Deformable:
+Image,ImageRectified,VectorField,DeformedContours,ModelID,AngleStart,AngleExtent,ScaleRMin,ScaleRMax,ScaleCMin,ScaleCMax,MinScore,NumMatches,MaxOverlap,NumLevels,Greediness,ResultType,ParamName,ParamValue,Score,Row,Column:matching,deformable:Matching,Deformable:
+Image,ModelID,AngleStart,AngleExtent,ScaleRMin,ScaleRMax,ScaleCMin,ScaleCMax,MinScore,NumMatches,MaxOverlap,NumLevels,Greediness,ParamName,ParamValue,Pose,CovPose,Score:matching,deformable:Matching,Deformable:
+Image,ModelID,AngleStart,AngleExtent,ScaleRMin,ScaleRMax,ScaleCMin,ScaleCMax,MinScore,NumMatches,MaxOverlap,NumLevels,Greediness,ParamName,ParamValue,HomMat2D,Score:matching,deformable:Matching,Deformable:
+Image,VectorField,ModelID,Metric:matching,deformable:Matching,Deformable:
+Image,ModelID,Pose,Metric:matching,deformable:Matching,Deformable:
+Image,ModelID,HomMat2D,Metric:matching,deformable:Matching,Deformable:
+Contours,NumLevels,AngleStart,AngleExtent,AngleStep,ScaleRMin,ScaleRMax,ScaleRStep,ScaleCMin,ScaleCMax,ScaleCStep,Optimization,Metric,MinContrast,ParamName,ParamValue,ModelID:matching,deformable:Matching,Deformable:
+Contours,CamParam,ReferencePose,NumLevels,AngleStart,AngleExtent,AngleStep,ScaleRMin,ScaleRMax,ScaleRStep,ScaleCMin,ScaleCMax,ScaleCStep,Optimization,Metric,MinContrast,ParamName,ParamValue,ModelID:matching,deformable:Matching,Deformable:
+Contours,NumLevels,AngleStart,AngleExtent,AngleStep,ScaleRMin,ScaleRMax,ScaleRStep,ScaleCMin,ScaleCMax,ScaleCStep,Optimization,Metric,MinContrast,ParamName,ParamValue,ModelID:matching,deformable:Matching,Deformable:
+Template,NumLevels,AngleStart,AngleExtent,AngleStep,ScaleRMin,ScaleRMax,ScaleRStep,ScaleCMin,ScaleCMax,ScaleCStep,Optimization,Metric,Contrast,MinContrast,ParamName,ParamValue,ModelID:matching,deformable:Matching,Deformable:
+Template,CamParam,ReferencePose,NumLevels,AngleStart,AngleExtent,AngleStep,ScaleRMin,ScaleRMax,ScaleRStep,ScaleCMin,ScaleCMax,ScaleCStep,Optimization,Metric,Contrast,MinContrast,ParamName,ParamValue,ModelID:matching,deformable:Matching,Deformable:
+Template,NumLevels,AngleStart,AngleExtent,AngleStep,ScaleRMin,ScaleRMax,ScaleRStep,ScaleCMin,ScaleCMax,ScaleCStep,Optimization,Metric,Contrast,MinContrast,ParamName,ParamValue,ModelID:matching,deformable:Matching,Deformable:
+:matching,correlationbased:Matching,Correlation-Based:
+ModelID:matching,correlationbased:Matching,Correlation-Based:
+FileName,ModelID:matching,correlationbased:Matching,Correlation-Based:
+ModelID,FileName:matching,correlationbased:Matching,Correlation-Based:
+Template,NumLevels,AngleStart,AngleExtent,Metric,Parameters,ParameterName,ParameterValue:matching,correlationbased:Matching,Correlation-Based:
+ModelID,NumLevels,AngleStart,AngleExtent,AngleStep,Metric:matching,correlationbased:Matching,Correlation-Based:
+ModelID,Row,Column:matching,correlationbased:Matching,Correlation-Based:
+ModelID,Row,Column:matching,correlationbased:Matching,Correlation-Based:
+Image,ModelID,AngleStart,AngleExtent,MinScore,NumMatches,MaxOverlap,SubPixel,NumLevels,Row,Column,Angle,Score:matching,correlationbased:Matching,Correlation-Based:
+ModelID,GenParamNames,GenParamValues:matching,correlationbased:Matching,Correlation-Based:
+Template,NumLevels,AngleStart,AngleExtent,AngleStep,Metric,ModelID:matching,correlationbased:Matching,Correlation-Based:
+FoundComponents,ComponentModelID,ModelStart,ModelEnd,RowComp,ColumnComp,AngleComp,ScoreComp,ModelComp,ModelMatch,MarkOrientation,RowCompInst,ColumnCompInst,AngleCompInst,ScoreCompInst:matching,componentbased:Matching,Component-Based:
+Image,ComponentModelID,RootComponent,AngleStartRoot,AngleExtentRoot,MinScore,NumMatches,MaxOverlap,IfRootNotFound,IfComponentNotFound,PosePrediction,MinScoreComp,SubPixelComp,NumLevelsComp,GreedinessComp,ModelStart,ModelEnd,Score,RowComp,ColumnComp,AngleComp,ScoreComp,ModelComp:matching,componentbased:Matching,Component-Based:
+:matching,componentbased:Matching,Component-Based:
+ComponentModelID:matching,componentbased:Matching,Component-Based:
+Tree,Relations,ComponentModelID,RootComponent,Image,StartNode,EndNode,Row,Column,Phi,Length1,Length2,AngleStart,AngleExtent:matching,componentbased:Matching,Component-Based:
+ComponentModelID,MinScoreComp,RootRanking,ShapeModelIDs:matching,componentbased:Matching,Component-Based:
+FileName,ComponentModelID:matching,componentbased:Matching,Component-Based:
+ComponentModelID,FileName:matching,componentbased:Matching,Component-Based:
+ModelImage,ComponentRegions,VariationRow,VariationColumn,VariationAngle,AngleStart,AngleExtent,ContrastLowComp,ContrastHighComp,MinSizeComp,MinContrastComp,MinScoreComp,NumLevelsComp,AngleStepComp,OptimizationComp,MetricComp,PregenerationComp,ComponentModelID,RootRanking:matching,componentbased:Matching,Component-Based:
+ComponentTrainingID,AngleStart,AngleExtent,MinContrastComp,MinScoreComp,NumLevelsComp,AngleStepComp,OptimizationComp,MetricComp,PregenerationComp,ComponentModelID,RootRanking:matching,componentbased:Matching,Component-Based:
+:matching,componentbased:Matching,Component-Based:
+ComponentTrainingID:matching,componentbased:Matching,Component-Based:
+Relations,ComponentTrainingID,ReferenceComponent,Image,Row,Column,Phi,Length1,Length2,AngleStart,AngleExtent:matching,componentbased:Matching,Component-Based:
+TrainingComponents,ComponentTrainingID,Components,Image,MarkOrientation,Row,Column,Angle,Score:matching,componentbased:Matching,Component-Based:
+ComponentTrainingID,ReferenceComponent,ToleranceComponent,PositionTolerance,AngleTolerance:matching,componentbased:Matching,Component-Based:
+FileName,ComponentTrainingID:matching,componentbased:Matching,Component-Based:
+ComponentTrainingID,FileName:matching,componentbased:Matching,Component-Based:
+TrainingImages,ModelComponents,ComponentTrainingID,AmbiguityCriterion,MaxContourOverlap,ClusterThreshold:matching,componentbased:Matching,Component-Based:
+ModelComponents,ComponentTrainingID,AmbiguityCriterion,MaxContourOverlap,ClusterThreshold:matching,componentbased:Matching,Component-Based:
+ModelImage,InitialComponents,TrainingImages,ModelComponents,ContrastLow,ContrastHigh,MinSize,MinScore,SearchRowTol,SearchColumnTol,SearchAngleTol,TrainingEmphasis,AmbiguityCriterion,MaxContourOverlap,ClusterThreshold,ComponentTrainingID:matching,componentbased:Matching,Component-Based:
+ModelImage,InitialComponents,ContrastLow,ContrastHigh,MinSize,Mode,GenericName,GenericValue:matching,componentbased:Matching,Component-Based:
+SurfaceMatchingResultID,ResultName,ResultIndex,ResultValue:3dmatching,surfacebased:3D Matching,Surface-Based:
+:3dmatching,surfacebased:3D Matching,Surface-Based:
+SurfaceMatchingResultID:3dmatching,surfacebased:3D Matching,Surface-Based:
+:3dmatching,surfacebased:3D Matching,Surface-Based:
+SurfaceModelID:3dmatching,surfacebased:3D Matching,Surface-Based:
+FileName,SurfaceModelID:3dmatching,surfacebased:3D Matching,Surface-Based:
+SurfaceModelID,FileName:3dmatching,surfacebased:3D Matching,Surface-Based:
+SurfaceModelID,ObjectModel3DID,InitialPose,MinScore,ReturnResultHandle,GenParamName,GenParamValue,Pose,Score,SurfaceMatchingResultID:3dmatching,surfacebased:3D Matching,Surface-Based:
+SurfaceModelID,ObjectModel3DID,RelSamplingDistance,KeyPointFraction,MinScore,ReturnResultHandle,GenParamName,GenParamValue,Pose,Score,SurfaceMatchingResultID:3dmatching,surfacebased:3D Matching,Surface-Based:
+SurfaceModelID,ParamName,ParamValue:3dmatching,surfacebased:3D Matching,Surface-Based:
+ObjectModel3DID,RelSamplingDistance,GenParamName,GenParamValue,SurfaceModelID:3dmatching,surfacebased:3D Matching,Surface-Based:
+CamPosX,CamPosY,CamPosZ,LookAtX,LookAtY,LookAtZ,RefPlaneNormal,CamRoll,CamPose:3dmatching,shapebased:3D Matching,Shape-Based:
+Longitude,Latitude,Radius,EquatPlaneNormal,ZeroMeridian,X,Y,Z:transformations,misc:Transformations,Misc:
+X,Y,Z,EquatPlaneNormal,ZeroMeridian,Longitude,Latitude,Radius:transformations,misc:Transformations,Misc:
+:3dmatching,shapebased:3D Matching,Shape-Based:
+ShapeModel3DID:3dmatching,shapebased:3D Matching,Shape-Based:
+FileName,ShapeModel3DID:3dmatching,shapebased:3D Matching,Shape-Based:
+ShapeModel3DID,FileName:3dmatching,shapebased:3D Matching,Shape-Based:
+ShapeModel3DID,PoseIn,Transformation,PoseOut:3dmatching,shapebased:3D Matching,Shape-Based:
+ModelContours,ShapeModel3DID,CamParam,Pose,HiddenSurfaceRemoval,MinFaceAngle:3dmatching,shapebased:3D Matching,Shape-Based:
+ModelContours,ShapeModel3DID,Level,View,ViewPose:3dmatching,shapebased:3D Matching,Shape-Based:
+ShapeModel3DID,GenParamNames,GenParamValues:3dmatching,shapebased:3D Matching,Shape-Based:
+Image,ShapeModel3DID,MinScore,Greediness,NumLevels,GenParamNames,GenParamValues,Pose,CovPose,Score:3dmatching,shapebased:3D Matching,Shape-Based:
+ObjectModel3DID,CamParam,RefRotX,RefRotY,RefRotZ,OrderOfRotation,LongitudeMin,LongitudeMax,LatitudeMin,LatitudeMax,CamRollMin,CamRollMax,DistMin,DistMax,MinContrast,GenParamNames,GenParamValues,ShapeModel3DID:3dmatching,shapebased:3D Matching,Shape-Based:
+ObjectModel3DID,Attributes,CopiedObjectModel3DID:3dtools,3dobjectmodel:3D Tools,3D Object Model:
+ObjectModel3DID,Purpose,OverwriteData,GenParamName,GenParamValue:3dtools,3dobjectmodel:3D Tools,3D Object Model:
+X,Y,Z,ObjectModel3DID,Type,CamParam,Pose:3dtools,3dobjectmodel:3D Tools,3D Object Model:
+X,Y,Z,ObjectModel3DID:3dtools,3dobjectmodel:3D Tools,3D Object Model:
+ObjectModel3DID,ParamName,ParamValue:3dtools,3dobjectmodel:3D Tools,3D Object Model:
+ModelContours,ObjectModel3DID,CamParam,Pose,GenParamName,GenParamValue:3dtools,3dobjectmodel:3D Tools,3D Object Model:
+ObjectModel3DID,HomMat3D,ObjectModel3DIDAffineTrans:3dtools,3dobjectmodel:3D Tools,3D Object Model:
+:3dtools,3dobjectmodel:3D Tools,3D Object Model:
+ObjectModel3DID:3dtools,3dobjectmodel:3D Tools,3D Object Model:
+ObjectModel3DID,FileType,FileName,GenParamName,GenParamValue:3dtools,3dobjectmodel:3D Tools,3D Object Model:
+FileName,Scale,GenParamName,GenParamValue,ObjectModel3DID,Status:3dtools,3dobjectmodel:3D Tools,3D Object Model:
+FileName,Scale,GenParamNames,GenParamValues,ObjectModel3DID,DxfStatus:legacy,3dobjectmodel:Legacy,3D Object Model:
+FileName,Dimension,Model,Measurement,Prediction:tools,kalmanfilter:Tools,Kalman Filter:
+FileName,DimensionIn,ModelIn,MeasurementIn,DimensionOut,ModelOut,MeasurementOut:tools,kalmanfilter:Tools,Kalman Filter:
+Dimension,Model,Measurement,PredictionIn,PredictionOut,Estimate:tools,kalmanfilter:Tools,Kalman Filter:
+Slots:system,information:System,Information:
+Slots:system,information:System,Information:
+Pattern,ProcNames:system,information:System,Information:
+ProcName,InpCtrlParType,OutpCtrlParType:system,information:System,Information:
+ProcName,CName,InpObjPar,OutpObjPar,InpCtrlPar,OutpCtrlPar,Type:system,information:System,Information:
+ProcName,InpObjPar,OutpObjPar,InpCtrlPar,OutpCtrlPar:system,information:System,Information:
+ProcName,Slot,Information:system,information:System,Information:
+ProcName,ParamName,Slot,Information:system,information:System,Information:
+Keyword,ProcNames:system,information:System,Information:
+ProcName,Keywords:system,information:System,Information:
+Chapter,Info:system,information:System,Information:
+Images,MultiChannelImage:image,channel:Image,Channel:
+MultiChannelImage,Images:image,channel:Image,Channel:
+Image1,Image2,Image3,Image4,Image5,Image6,Image7,MultiChannelImage:image,channel:Image,Channel:
+Image1,Image2,Image3,Image4,Image5,Image6,MultiChannelImage:image,channel:Image,Channel:
+Image1,Image2,Image3,Image4,Image5,MultiChannelImage:image,channel:Image,Channel:
+Image1,Image2,Image3,Image4,MultiChannelImage:image,channel:Image,Channel:
+Image1,Image2,Image3,MultiChannelImage:image,channel:Image,Channel:
+Image1,Image2,MultiChannelImage:image,channel:Image,Channel:
+MultiChannelImage,Image1,Image2,Image3,Image4,Image5,Image6,Image7:image,channel:Image,Channel:
+MultiChannelImage,Image1,Image2,Image3,Image4,Image5,Image6:image,channel:Image,Channel:
+MultiChannelImage,Image1,Image2,Image3,Image4,Image5:image,channel:Image,Channel:
+MultiChannelImage,Image1,Image2,Image3,Image4:image,channel:Image,Channel:
+MultiChannelImage,Image1,Image2,Image3:image,channel:Image,Channel:
+MultiChannelImage,Image1,Image2:image,channel:Image,Channel:
+MultiChannelImage,Channels:image,channel:Image,Channel:
+MultiChannelImage,Image,ImageExtended:image,channel:Image,Channel:
+MultiChannelImage,Image,Channel:image,channel:Image,Channel:
+Images,TiledImage,OffsetRow,OffsetCol,Row1,Col1,Row2,Col2,Width,Height:image,format:Image,Format:
+Images,TiledImage,NumColumns,TileOrder:image,format:Image,Format:
+Image,TiledImage,NumColumns,TileOrder:image,format:Image,Format:
+Image,ImagePart:image,format:Image,Format:
+Image,ImagePart,Row1,Column1,Row2,Column2:image,format:Image,Format:
+Image,ImagePart,Row,Column,Width,Height:image,format:Image,Format:
+Image,ImagePart,Width,Height:image,format:Image,Format:
+Image,NewDomain,ImageNew:image,domain:Image,Domain:
+Regions,Image,GrayRegions:image,domain:Image,Domain:
+Image,ImageReduced,Row1,Column1,Row2,Column2:image,domain:Image,Domain:
+Image,Region,ImageReduced:image,domain:Image,Domain:
+Image,ImageFull:image,domain:Image,Domain:
+Image,Domain:image,domain:Image,Domain:
+RegionIn,RegionOut,Radius,Percent,Mode:tools,hough:Tools,Hough:
+Region,HoughImage,Radius:tools,hough:Tools,Hough:
+ImageDir,HoughImage,Lines,DirectionUncertainty,AngleResolution,Smoothing,FilterSize,Threshold,AngleGap,DistGap,GenLines,Angle,Dist:tools,hough:Tools,Hough:
+ImageDir,HoughImage,DirectionUncertainty,AngleResolution:tools,hough:Tools,Hough:
+RegionIn,AngleResolution,Threshold,AngleGap,DistGap,Angle,Dist:tools,hough:Tools,Hough:
+Region,HoughImage,AngleResolution:tools,hough:Tools,Hough:
+RegionIn,RegionLines,AngleIn,DistIn,LineWidth,Thresh,AngleOut,DistOut:tools,hough:Tools,Hough:
+Image,GridRegion,MinContrast,Radius:tools,gridrectification:Tools,Grid Rectification:
+Width,NumSquares,GridFile:tools,gridrectification:Tools,Grid Rectification:
+Image,ConnectingLines,Row,Col,Sigma,MaxDist:tools,gridrectification:Tools,Grid Rectification:
+Image,ConnectingLines,Map,Meshes,GridSpacing,Rotation,Row,Col,MapType:tools,gridrectification:Tools,Grid Rectification:
+Map,GridSpacing,Row,Col,GridWidth,ImageWidth,ImageHeight,MapType:tools,gridrectification:Tools,Grid Rectification:
+WindowHandle,LastRow,LastCol,CurrentRow,CurrentCol,Mode:graphics,window:Graphics,Window:
+Image,WindowHandle,Row,Column,ImageRow,ImageColumn,Height:graphics,window:Graphics,Window:
+WindowHandle,OSWindowHandle,OSDisplayHandle:graphics,window:Graphics,Window:
+WindowHandle,WINHDC:graphics,window:Graphics,Window:
+WINHWnd,Row,Column,Width,Height,WindowHandle:graphics,window:Graphics,Window:
+WindowHandleSource1,WindowHandleSource2,WindowHandle:graphics,window:Graphics,Window:
+WindowType:graphics,window:Graphics,Window:
+WindowHandle,Row,Column,Width,Height:graphics,window:Graphics,Window:
+AttributeName,AttributeValue:graphics,window:Graphics,Window:
+AttributeName,AttributeValue:graphics,window:Graphics,Window:
+WindowTypes:graphics,window:Graphics,Window:
+Row,Column,Width,Height,FatherWindow,Mode,Machine,WindowHandle:graphics,window:Graphics,Window:
+Row,Column,Width,Height,BorderWidth,BorderColor,BackgroundColor,FatherWindow,Mode,Machine,WindowHandle:graphics,window:Graphics,Window:
+WindowHandle,Row1,Column1,Row2,Column2,DestRow,DestColumn:graphics,window:Graphics,Window:
+WindowHandle,WindowType:graphics,window:Graphics,Window:
+WindowHandle,ImageRed,ImageGreen,ImageBlue,Width,Height:graphics,window:Graphics,Window:
+WindowHandle,Row,Column,Width,Height:graphics,window:Graphics,Window:
+Image,WindowHandle:graphics,window:Graphics,Window:
+WindowHandle,Device,FileName:graphics,window:Graphics,Window:
+WindowHandleSource,WindowHandleDestination,Row1,Column1,Row2,Column2,DestRow,DestColumn:graphics,window:Graphics,Window:
+WindowHandle:graphics,window:Graphics,Window:
+WindowHandle:graphics,window:Graphics,Window:
+WindowHandle,Row1,Column1,Row2,Column2:graphics,window:Graphics,Window:
+WindowHandle,String:graphics,text:Graphics,Text:
+WindowHandle,TextCursor:graphics,text:Graphics,Text:
+WindowHandle,Row,Column:graphics,text:Graphics,Text:
+WindowHandle,InString,Length,OutString:graphics,text:Graphics,Text:
+WindowHandle,Char,Code:graphics,text:Graphics,Text:
+WindowHandle:graphics,text:Graphics,Text:
+WindowHandle,TextCursor:graphics,text:Graphics,Text:
+WindowHandle,Row,Column:graphics,text:Graphics,Text:
+WindowHandle,MaxAscent,MaxDescent,MaxWidth,MaxHeight:graphics,text:Graphics,Text:
+WindowHandle,Values,Ascent,Descent,Width,Height:graphics,text:Graphics,Text:
+WindowHandle,Font:graphics,text:Graphics,Text:
+WindowHandle,TextCursor:graphics,text:Graphics,Text:
+WindowHandle,Font:graphics,text:Graphics,Text:
+WindowHandle,Font:graphics,text:Graphics,Text:
+WindowHandle,Param,Value:graphics,parameters:Graphics,Parameters:
+WindowHandle,Param,Value:graphics,parameters:Graphics,Parameters:
+WindowHandle,Shape:graphics,parameters:Graphics,Parameters:
+WindowHandle,Red,Green,Blue:graphics,parameters:Graphics,Parameters:
+WindowHandle,Pixel:graphics,parameters:Graphics,Parameters:
+WindowHandle,Style:graphics,parameters:Graphics,Parameters:
+WindowHandle,Row1,Column1,Row2,Column2:graphics,parameters:Graphics,Parameters:
+WindowHandle,Mode:graphics,parameters:Graphics,Parameters:
+WindowHandle,Width:graphics,parameters:Graphics,Parameters:
+WindowHandle,Style:graphics,parameters:Graphics,Parameters:
+WindowHandle,Approximation:graphics,parameters:Graphics,Parameters:
+WindowHandle,Mode:graphics,parameters:Graphics,Parameters:
+WindowHandle,Hue,Saturation,Intensity:graphics,parameters:Graphics,Parameters:
+WindowHandle,GrayValues:graphics,parameters:Graphics,Parameters:
+WindowHandle,Mode:graphics,parameters:Graphics,Parameters:
+WindowHandle,Mode:graphics,parameters:Graphics,Parameters:
+WindowHandle,NumberOfColors:graphics,parameters:Graphics,Parameters:
+WindowHandle,Color:graphics,parameters:Graphics,Parameters:
+WindowHandle,DisplayShape:graphics,parameters:Graphics,Parameters:
+WindowHandle,Red,Green,Blue:graphics,parameters:Graphics,Parameters:
+WindowHandle,Pixel:graphics,parameters:Graphics,Parameters:
+WindowHandle,Style:graphics,parameters:Graphics,Parameters:
+WindowHandle,Row1,Column1,Row2,Column2:graphics,parameters:Graphics,Parameters:
+WindowHandle,Mode:graphics,parameters:Graphics,Parameters:
+WindowHandle,Width:graphics,parameters:Graphics,Parameters:
+WindowHandle,Style:graphics,parameters:Graphics,Parameters:
+WindowHandle,Approximation:graphics,parameters:Graphics,Parameters:
+WindowHandle,Mode:graphics,parameters:Graphics,Parameters:
+WindowHandle,Hue,Saturation,Intensity:graphics,parameters:Graphics,Parameters:
+WindowHandle,Mode:graphics,parameters:Graphics,Parameters:
+WindowHandle,Mode:graphics,parameters:Graphics,Parameters:
+DisplayShape:graphics,parameters:Graphics,Parameters:
+WindowHandle,Mode:graphics,parameters:Graphics,Parameters:
+Min,Max:graphics,parameters:Graphics,Parameters:
+WindowHandle,Mode:graphics,parameters:Graphics,Parameters:
+WindowHandle,Grayval:graphics,parameters:Graphics,Parameters:
+PossibleNumberOfColors:graphics,parameters:Graphics,Parameters:
+WindowHandle,Colors:graphics,parameters:Graphics,Parameters:
+WindowHandle,Colors:graphics,parameters:Graphics,Parameters:
+Icon,WindowHandle:graphics,parameters:Graphics,Parameters:
+Icon,WindowHandle:graphics,parameters:Graphics,Parameters:
+DispRegions,WindowHandle:graphics,output:Graphics,Output:
+WindowHandle,CenterRow,CenterCol,Phi,Length1,Length2:graphics,output:Graphics,Output:
+WindowHandle,Row1,Column1,Row2,Column2:graphics,output:Graphics,Output:
+WindowHandle,Row,Column:graphics,output:Graphics,Output:
+WindowHandle,Row1,Column1,Row2,Column2:graphics,output:Graphics,Output:
+WindowHandle,Row,Column,Size,Angle:graphics,output:Graphics,Output:
+Image,WindowHandle:graphics,output:Graphics,Output:
+MultichannelImage,WindowHandle,Channel:graphics,output:Graphics,Output:
+ColorImage,WindowHandle:graphics,output:Graphics,Output:
+WindowHandle,CenterRow,CenterCol,Phi,Radius1,Radius2:graphics,output:Graphics,Output:
+WindowHandle,Distribution,Row,Column,Scale:graphics,output:Graphics,Output:
+WindowHandle,Row,Column,Radius:graphics,output:Graphics,Output:
+WindowHandle,Row1,Column1,Row2,Column2,Size:graphics,output:Graphics,Output:
+WindowHandle,CenterRow,CenterCol,Angle,BeginRow,BeginCol:graphics,output:Graphics,Output:
+Object,WindowHandle:graphics,output:Graphics,Output:
+WindowHandle,Cursor:graphics,mouse:Graphics,Mouse:
+WindowHandle,Cursor:graphics,mouse:Graphics,Mouse:
+WindowHandle,ShapeNames:graphics,mouse:Graphics,Mouse:
+WindowHandle,Row,Column,Button:graphics,mouse:Graphics,Mouse:
+WindowHandle,Row,Column,Button:graphics,mouse:Graphics,Mouse:
+WindowHandle,Row,Column,Button:graphics,mouse:Graphics,Mouse:
+WindowHandle,Row,Column,Button:graphics,mouse:Graphics,Mouse:
+WindowHandle,FileName:graphics,lut:Graphics,LUT:
+WindowHandle,Row,Column,Scale:graphics,lut:Graphics,LUT:
+WindowHandle,LookUpTable:graphics,lut:Graphics,LUT:
+WindowHandle:graphics,lut:Graphics,LUT:
+WindowHandle,Hue,Saturation,Intensity:graphics,lut:Graphics,LUT:
+WindowHandle,Hue,Saturation,Intensity:graphics,lut:Graphics,LUT:
+WindowHandle,LookUpTable:graphics,lut:Graphics,LUT:
+WindowHandle,LookUpTable:graphics,lut:Graphics,LUT:
+WindowHandle,Mode:graphics,parameters:Graphics,Parameters:
+WindowHandle,Mode:graphics,parameters:Graphics,Parameters:
+WindowHandle,Mode:graphics,lut:Graphics,LUT:
+WindowHandle,Mode:graphics,lut:Graphics,LUT:
+GnuplotFileID,Function:graphics,gnuplot:Graphics,Gnuplot:
+GnuplotFileID,Values:graphics,gnuplot:Graphics,Gnuplot:
+Image,GnuplotFileID,SamplesX,SamplesY,ViewRotX,ViewRotZ,Hidden3D:graphics,gnuplot:Graphics,Gnuplot:
+GnuplotFileID:graphics,gnuplot:Graphics,Gnuplot:
+FileName,GnuplotFileID:graphics,gnuplot:Graphics,Gnuplot:
+GnuplotFileID:graphics,gnuplot:Graphics,Gnuplot:
+SourceRegion,MaskRegion,DestinationRegion,WindowHandle,Row,Column:graphics,drawing:Graphics,Drawing:
+SourceRegion,DestinationRegion,WindowHandle,Row,Column:graphics,drawing:Graphics,Drawing:
+SourceRegion,DestinationRegion,WindowHandle:graphics,drawing:Graphics,Drawing:
+ContOut,WindowHandle,Rotate,Move,Scale,KeepRatio,Edit,Degree,RowsIn,ColsIn,TangentsIn,ControlRows,ControlCols,Knots,Rows,Cols,Tangents:graphics,drawing:Graphics,Drawing:
+ContOut,WindowHandle,Rotate,Move,Scale,KeepRatio,Degree,ControlRows,ControlCols,Knots,Rows,Cols,Tangents:graphics,drawing:Graphics,Drawing:
+ContOut,WindowHandle,Rotate,Move,Scale,KeepRatio,Edit,Degree,RowsIn,ColsIn,WeightsIn,Rows,Cols,Weights:graphics,drawing:Graphics,Drawing:
+ContOut,WindowHandle,Rotate,Move,Scale,KeepRatio,Degree,Rows,Cols,Weights:graphics,drawing:Graphics,Drawing:
+ContIn,ContOut,WindowHandle,Rotate,Move,Scale,KeepRatio,Edit:graphics,drawing:Graphics,Drawing:
+ContOut,WindowHandle,Rotate,Move,Scale,KeepRatio:graphics,drawing:Graphics,Drawing:
+WindowHandle,RowIn,ColumnIn,PhiIn,Length1In,Length2In,Row,Column,Phi,Length1,Length2:graphics,drawing:Graphics,Drawing:
+WindowHandle,Row,Column,Phi,Length1,Length2:graphics,drawing:Graphics,Drawing:
+WindowHandle,Row1In,Column1In,Row2In,Column2In,Row1,Column1,Row2,Column2:graphics,drawing:Graphics,Drawing:
+WindowHandle,Row1,Column1,Row2,Column2:graphics,drawing:Graphics,Drawing:
+WindowHandle,RowIn,ColumnIn,Row,Column:graphics,drawing:Graphics,Drawing:
+WindowHandle,Row,Column:graphics,drawing:Graphics,Drawing:
+WindowHandle,Row1In,Column1In,Row2In,Column2In,Row1,Column1,Row2,Column2:graphics,drawing:Graphics,Drawing:
+WindowHandle,Row1,Column1,Row2,Column2:graphics,drawing:Graphics,Drawing:
+WindowHandle,RowIn,ColumnIn,PhiIn,Radius1In,Radius2In,Row,Column,Phi,Radius1,Radius2:graphics,drawing:Graphics,Drawing:
+WindowHandle,Row,Column,Phi,Radius1,Radius2:graphics,drawing:Graphics,Drawing:
+WindowHandle,RowIn,ColumnIn,RadiusIn,Row,Column,Radius:graphics,drawing:Graphics,Drawing:
+WindowHandle,Row,Column,Radius:graphics,drawing:Graphics,Drawing:
+Region,WindowHandle:graphics,drawing:Graphics,Drawing:
+PolygonRegion,WindowHandle:graphics,drawing:Graphics,Drawing:
+Row,Column,Row1,Column1,Row2,Column2,RowProj,ColProj:tools,geometry:Tools,Geometry:
+Angle,Row,Column,Phi,Radius1,Radius2,RowPoint,ColPoint:tools,geometry:Tools,Geometry:
+RowA1,ColumnA1,RowA2,ColumnA2,RowB1,ColumnB1,RowB2,ColumnB2,Row,Column,IsParallel:tools,geometry:Tools,Geometry:
+Contour1,Contour2,Mode,DistanceMin:tools,geometry:Tools,Geometry:
+Contour1,Contour2,Mode,DistanceMin,DistanceMax:tools,geometry:Tools,Geometry:
+Contour,Row1,Column1,Row2,Column2,DistanceMin,DistanceMax:tools,geometry:Tools,Geometry:
+Contour,Row1,Column1,Row2,Column2,DistanceMin,DistanceMax:tools,geometry:Tools,Geometry:
+Contour,Row,Column,DistanceMin,DistanceMax:tools,geometry:Tools,Geometry:
+Region,Row1,Column1,Row2,Column2,DistanceMin,DistanceMax:tools,geometry:Tools,Geometry:
+Region,Row1,Column1,Row2,Column2,DistanceMin,DistanceMax:tools,geometry:Tools,Geometry:
+Region,Row,Column,DistanceMin,DistanceMax:tools,geometry:Tools,Geometry:
+Row1,Column1,Row2,Column2,Angle:tools,geometry:Tools,Geometry:
+RowA1,ColumnA1,RowA2,ColumnA2,RowB1,ColumnB1,RowB2,ColumnB2,Angle:tools,geometry:Tools,Geometry:
+RowA1,ColumnA1,RowA2,ColumnA2,RowB1,ColumnB1,RowB2,ColumnB2,DistanceMin,DistanceMax:tools,geometry:Tools,Geometry:
+RowA1,ColumnA1,RowA2,ColumnA2,RowB1,ColumnB1,RowB2,ColumnB2,DistanceMin,DistanceMax:tools,geometry:Tools,Geometry:
+Row,Column,Row1,Column1,Row2,Column2,DistanceMin,DistanceMax:tools,geometry:Tools,Geometry:
+Row,Column,Row1,Column1,Row2,Column2,Distance:tools,geometry:Tools,Geometry:
+Row1,Column1,Row2,Column2,Distance:tools,geometry:Tools,Geometry:
+Function1,Function2,Border,ComposedFunction:tools,function:Tools,Function:
+Function,InverseFunction:tools,function:Tools,Function:
+Function,Mode,Derivative:tools,function:Tools,Function:
+Function,Mode,Interpolation,Min,Max:tools,function:Tools,Function:
+Function,ZeroCrossings:tools,function:Tools,Function:
+Function,Mult,Add,FunctionScaled:tools,function:Tools,Function:
+Function,FunctionInverted:tools,function:Tools,Function:
+Function,FunctionAbsolute:tools,function:Tools,Function:
+Function,X,Border,Y:tools,function:Tools,Function:
+Function,Index,X,Y:tools,function:Tools,Function:
+Function,Length:tools,function:Tools,Function:
+Function,YMin,YMax:tools,function:Tools,Function:
+Function,XMin,XMax:tools,function:Tools,Function:
+Function,XValues,YValues:tools,function:Tools,Function:
+Function,XMin,XMax,XDist,Border,SampledFunction:tools,function:Tools,Function:
+Function,Params,TransformedFunction:tools,function:Tools,Function:
+Function1,Function2,Border,ParamsConst,UseParams,Params,ChiSquare,Covar:tools,function:Tools,Function:
+Function1,Function2,Mode,Sigma,Distance:tools,function:Tools,Function:
+Function,Sigma,SmoothedFunction:tools,function:Tools,Function:
+Function,Positive,Negative:tools,function:Tools,Function:
+FileName,Function:tools,function:Tools,Function:
+Function,FileName:tools,function:Tools,Function:
+YValues,Function:tools,function:Tools,Function:
+XValues,YValues,Function:tools,function:Tools,Function:
+Function,SmoothSize,Iterations,SmoothedFunction:tools,function:Tools,Function:
+RealCoef1,ImaginaryCoef1,RealCoef2,ImaginaryCoef2,MaxCoef,Damping,Distance:legacy,fourierdescriptor:Legacy,Fourier Descriptor:
+RealCoef,ImaginaryCoef,MaxCoef,Rows,Columns:legacy,fourierdescriptor:Legacy,Fourier Descriptor:
+RealInvar,ImaginaryInvar,CoefP,CoefQ,AZInvar,RealAbsInvar,ImaginaryAbsInvar:legacy,fourierdescriptor:Legacy,Fourier Descriptor:
+RealCoef,ImaginaryCoef,NormPar,InvarType,RealInvar,ImaginaryInvar:legacy,fourierdescriptor:Legacy,Fourier Descriptor:
+Rows,Columns,ParContour,MaxCoef,RealCoef,ImaginaryCoef:legacy,fourierdescriptor:Legacy,Fourier Descriptor:
+Rows,Columns,TransMode,ParContour:legacy,fourierdescriptor:Legacy,Fourier Descriptor:
+Rows,Columns,RowsMoved,ColumnsMoved:legacy,fourierdescriptor:Legacy,Fourier Descriptor:
+Image,ImageTexture,FilterTypes,Shift,FilterSize:filters,texture:Filters,Texture:
+Image,ImageDeviation,Width,Height:filters,texture:Filters,Texture:
+Image,ImageEntropy,Width,Height:filters,texture:Filters,Texture:
+Image,SmoothedImage,Sigma,Iterations:filters,smoothing:Filters,Smoothing:
+Image,ImageAniso,Mode,Contrast,Theta,Iterations:filters,smoothing:Filters,Smoothing:
+Image,ImageSmooth,Filter,Alpha:filters,smoothing:Filters,Smoothing:
+Image,ImageSigma,MaskHeight,MaskWidth,Sigma:filters,smoothing:Filters,Smoothing:
+Image,Mask,ImageMidrange,Margin:filters,smoothing:Filters,Smoothing:
+Image,Mask,ImageTMean,Number,Margin:filters,smoothing:Filters,Smoothing:
+Image,ImageSMedian,MaskWidth,MaskHeight,Margin:filters,smoothing:Filters,Smoothing:
+Image,ImageMedian,MaskWidth,MaskHeight:filters,smoothing:Filters,Smoothing:
+Image,ImageMedian,MaskType,Radius,Margin:filters,smoothing:Filters,Smoothing:
+Image,ImageWMedian,MaskType,MaskSize:filters,smoothing:Filters,Smoothing:
+Image,ImageRank,MaskWidth,MaskHeight,Rank:filters,smoothing:Filters,Smoothing:
+Image,Mask,ImageRank,Rank,Margin:filters,smoothing:Filters,Smoothing:
+Image,ImageRank,MaskType,Radius,ModePercent,Margin:morphology,grayvalues:Morphology,Gray Values:
+Image,ImageMean,MaskWidth,MaskHeight:filters,smoothing:Filters,Smoothing:
+Filter,Alpha,Size,Coeffs:filters,smoothing:Filters,Smoothing:
+Image,ImageBinomial,MaskWidth,MaskHeight:filters,smoothing:Filters,Smoothing:
+Image,ImageGauss,Size:filters,smoothing:Filters,Smoothing:
+Image,FilteredImage,MaskWidth,MaskHeight,Gap,Mode:filters,smoothing:Filters,Smoothing:
+Image,ImageAniso,Percent,Mode,Iteration,NeighborhoodType:legacy,filters:Legacy,Filters:
+ImageCamera,ImageFilled,Mode:filters,smoothing:Filters,Smoothing:
+Image,RankImage,RankIndex:filters,smoothing:Filters,Smoothing:
+Image,ImageMean:filters,smoothing:Filters,Smoothing:
+Image,ImageFillSP,MaskWidth,MaskHeight,MinThresh,MaxThresh:filters,smoothing:Filters,Smoothing:
+Image,ImageSPMean,MaskWidth,MaskHeight,MinThresh,MaxThresh:filters,smoothing:Filters,Smoothing:
+Image,MaskSize,SigmaW,SigmaD,MinGrad,MinApparentness,MinAngle,Subpix,Row,Column:filters,points:Filters,Points:
+Image,DotImage,Diameter,FilterType,PixelShift:filters,points:Filters,Points:
+Image,Filter,Sigma,Threshold,Row,Column:segmentation,topography:Segmentation,Topography:
+Image,Filter,Sigma,Threshold,Row,Column:segmentation,topography:Segmentation,Topography:
+Image,Filter,Sigma,Threshold,Row,Column:segmentation,topography:Segmentation,Topography:
+Image,Filter,Sigma,Threshold,RowMin,ColumnMin,RowMax,ColumnMax,RowSaddle,ColumnSaddle:segmentation,topography:Segmentation,Topography:
+Image,SigmaGrad,SigmaSmooth,Alpha,Threshold,Row,Column:filters,points:Filters,Points:
+Image,MaskSizeGrd,MaskSizeSmooth,Alpha,Threshold,Subpix,Row,Column:filters,points:Filters,Points:
+Image,Radius,CheckNeighbor,MinCheckNeighborDiff,MinScore,Subpix,Row,Column:filters,points:Filters,Points:
+Image,SigmaGrad,SigmaInt,SigmaPoints,ThreshInhom,ThreshShape,Smoothing,EliminateDoublets,RowJunctions,ColumnJunctions,CoRRJunctions,CoRCJunctions,CoCCJunctions,RowArea,ColumnArea,CoRRArea,CoRCArea,CoCCArea:filters,points:Filters,Points:
+Image,Method,Percent,Sigma:image,features:Image,Features:
+ConstRegion,Image,FilterSize,Distribution:filters,noise:Filters,Noise:
+Image,ImageNoise,Amp:filters,noise:Filters,Noise:
+Image,ImageNoise,Distribution:filters,noise:Filters,Noise:
+Sigma,Distribution:filters,noise:Filters,Noise:
+PercentSalt,PercentPepper,Distribution:filters,noise:Filters,Noise:
+Image,Region,InpaintedImage,MaskSize,SearchSize,Anisotropy,PostIteration,Smoothness:filters,inpainting:Filters,Inpainting:
+Image,Region,InpaintedImage,Epsilon,Kappa,Sigma,Rho,ChannelCoefficients:filters,inpainting:Filters,Inpainting:
+Image,Region,InpaintedImage,Sigma,Theta,Iterations:filters,inpainting:Filters,Inpainting:
+Image,Region,InpaintedImage,Sigma,Rho,Theta,Iterations:filters,inpainting:Filters,Inpainting:
+Image,Region,InpaintedImage,Mode,Contrast,Theta,Iterations,Rho:filters,inpainting:Filters,Inpainting:
+Image,Region,InpaintedImage,Precision:filters,inpainting:Filters,Inpainting:
+InputImage,ExpandedImage,ExpansionRange:filters,misc:Filters,Misc:
+Image,Sketch:filters,misc:Filters,Misc:
+Image,ImageTrans,TransMat:filters,color:Filters,Color:
+MultichannelImage,Trans,TransInv,Mean,Cov,InfoPerComp:filters,color:Filters,Color:
+MultichannelImage,PCAImage,InfoPerComp:filters,color:Filters,Color:
+Regions,Image,Apar,Cpar,Entropy:image,features:Image,Features:
+Regions,Image,Apar,Cpar,Perimeter:image,features:Image,Features:
+Image,ImageClosing,MaskHeight,MaskWidth,MaskShape:morphology,grayvalues:Morphology,Gray Values:
+Image,ImageOpening,MaskHeight,MaskWidth,MaskShape:morphology,grayvalues:Morphology,Gray Values:
+Image,ImageMin,MaskHeight,MaskWidth,MaskShape:morphology,grayvalues:Morphology,Gray Values:
+Image,ImageMax,MaskHeight,MaskWidth,MaskShape:morphology,grayvalues:Morphology,Gray Values:
+Image,ImageResult,MaskHeight,MaskWidth:morphology,grayvalues:Morphology,Gray Values:
+Image,ImageClosing,MaskHeight,MaskWidth:morphology,grayvalues:Morphology,Gray Values:
+Image,ImageOpening,MaskHeight,MaskWidth:morphology,grayvalues:Morphology,Gray Values:
+Image,ImageMin,MaskHeight,MaskWidth:morphology,grayvalues:Morphology,Gray Values:
+Image,ImageMax,MaskHeight,MaskWidth:morphology,grayvalues:Morphology,Gray Values:
+Image,GraySkeleton:filters,misc:Filters,Misc:
+Image,ImageResult,Lut:filters,misc:Filters,Misc:
+Image,ImageResult,FilterMask,Margin:filters,misc:Filters,Misc:
+Image,ImageConverted,NewType:image,typeconversion:Image,Type Conversion:
+Row,Col,VectorField:image,typeconversion:Image,Type Conversion:
+VectorField,Row,Col:image,typeconversion:Image,Type Conversion:
+ImageReal,ImageImaginary,ImageComplex:image,typeconversion:Image,Type Conversion:
+ImageComplex,ImageReal,ImageImaginary:image,typeconversion:Image,Type Conversion:
+Regions,Image,ImageMean:image,creation:Image,Creation:
+Image,ImageDist:filters,misc:Filters,Misc:
+Image,ImageSymmetry,MaskSize,Direction,Exponent:filters,misc:Filters,Misc:
+MultichannelImage,IndexImage,Selected:3dreconstruction,depthfromfocus:3D Reconstruction,Depth From Focus:
+MultiFocusImage,Depth,Confidence,Filter,Selection:3dreconstruction,depthfromfocus:3D Reconstruction,Depth From Focus:
+Image,VectorField,ImageUnwarped:filters,opticalflow:Filters,Optical Flow:
+VectorField,Length,Mode:filters,opticalflow:Filters,Optical Flow:
+Image1,Image2,VectorField,Algorithm,SmoothingSigma,IntegrationSigma,FlowSmoothness,GradientConstancy,MGParamName,MGParamValue:filters,opticalflow:Filters,Optical Flow:
+Image,ImageTemplate,ImageMatch,Mode,Level,Threshold:filters,match:Filters,Match:
+Template,NumLevel,AngleStart,AngleExtend,AngleStep,Optimize,GrayValues,TemplateID:matching,grayvaluebased:Matching,Gray-Value-Based:
+Template,FirstError,NumLevel,Optimize,GrayValues,TemplateID:matching,grayvaluebased:Matching,Gray-Value-Based:
+TemplateID,FileName:matching,grayvaluebased:Matching,Gray-Value-Based:
+FileName,TemplateID:matching,grayvaluebased:Matching,Gray-Value-Based:
+:matching,grayvaluebased:Matching,Gray-Value-Based:
+TemplateID:matching,grayvaluebased:Matching,Gray-Value-Based:
+TemplateID,GrayOffset:matching,grayvaluebased:Matching,Gray-Value-Based:
+TemplateID,Row,Column:matching,grayvaluebased:Matching,Gray-Value-Based:
+Image,TemplateID:matching,grayvaluebased:Matching,Gray-Value-Based:
+Image,Matches,TemplateID,MaxError,NumLevel:matching,grayvaluebased:Matching,Gray-Value-Based:
+ImagePyramid,TemplateID,MaxError,SubPixel,NumLevels,WhichLevels,Row,Column,Error:matching,grayvaluebased:Matching,Gray-Value-Based:
+Image,TemplateID,MaxError,SubPixel,NumLevels,WhichLevels,Row,Column,Error:matching,grayvaluebased:Matching,Gray-Value-Based:
+Image,Matches,TemplateID,MaxError:matching,grayvaluebased:Matching,Gray-Value-Based:
+Image,TemplateID,AngleStart,AngleExtend,MaxError,SubPixel,NumLevels,Row,Column,Angle,Error:matching,grayvaluebased:Matching,Gray-Value-Based:
+Image,TemplateID,AngleStart,AngleExtend,MaxError,SubPixel,Row,Column,Angle,Error:matching,grayvaluebased:Matching,Gray-Value-Based:
+Image,TemplateID,MaxError,SubPixel,Row,Column,Error:matching,grayvaluebased:Matching,Gray-Value-Based:
+Image,RegionOfInterest,ImageTemplate,ImageMatch,Mode:filters,match:Filters,Match:
+Image,ImageCorner,Size,Weight:filters,points:Filters,Points:
+Image,ImagePyramid,Mode,Scale:filters,match:Filters,Match:
+Image,ImageMonotony:filters,match:Filters,Match:
+Image,ImageBandpass,FilterType:filters,lines:Filters,Lines:
+Image,Lines,Sigma,Low,High,ExtractWidth,CompleteJunctions:filters,lines:Filters,Lines:
+Image,Lines,Sigma,Low,High,LightDark,ExtractWidth,LineModel,CompleteJunctions:filters,lines:Filters,Lines:
+Image,Lines,MaskSize,Low,High,LightDark:filters,lines:Filters,Lines:
+ImageFilter,FilterMask,Scale,Width,Height:filters,fft:Filters,FFT:
+ImageMean,MaskShape,Diameter1,Diameter2,Phi,Norm,Mode,Width,Height:filters,fft:Filters,FFT:
+ImageGauss,Sigma1,Sigma2,Phi,Norm,Mode,Width,Height:filters,fft:Filters,FFT:
+ImageDerivative,Derivative,Exponent,Norm,Mode,Width,Height:filters,fft:Filters,FFT:
+ImageFilter,Frequency,Sigma,Type,Norm,Mode,Width,Height:filters,fft:Filters,FFT:
+ImageFilter,Frequency,Norm,Mode,Width,Height:filters,fft:Filters,FFT:
+ImageFilter,MinFrequency,MaxFrequency,Norm,Mode,Width,Height:filters,fft:Filters,FFT:
+ImageBandpass,MinFrequency,MaxFrequency,Norm,Mode,Width,Height:filters,fft:Filters,FFT:
+ImageLowpass,Frequency,Norm,Mode,Width,Height:filters,fft:Filters,FFT:
+ImageHighpass,Frequency,Norm,Mode,Width,Height:filters,fft:Filters,FFT:
+Image,ImageResult:filters,fft:Filters,FFT:
+Image,ImageResult:filters,fft:Filters,FFT:
+Image,PowerByte:filters,fft:Filters,FFT:
+ImageComplex,ImagePhase:filters,fft:Filters,FFT:
+ImageComplex,ImagePhase:filters,fft:Filters,FFT:
+ImageGabor,ImageHilbert,Energy:filters,fft:Filters,FFT:
+ImageFFT,GaborFilter,ImageResultGabor,ImageResultHilbert:filters,fft:Filters,FFT:
+ImageFilter,Angle,Frequency,Bandwidth,Orientation,Norm,Mode,Width,Height:filters,fft:Filters,FFT:
+ImageFFT1,ImageFFT2,ImageCorrelation:filters,fft:Filters,FFT:
+ImageFFT,ImageFilter,ImageConvol:filters,fft:Filters,FFT:
+FileName:filters,fft:Filters,FFT:
+FileName:filters,fft:Filters,FFT:
+Width,Height,Mode:filters,fft:Filters,FFT:
+Width,Height,Mode:filters,fft:Filters,FFT:
+Image,ImageFFT,Direction,Norm,ResultType,Width:filters,fft:Filters,FFT:
+Image,ImageFFTInv:filters,fft:Filters,FFT:
+Image,ImageFFT:filters,fft:Filters,FFT:
+Image,ImageFFT,Direction,Exponent,Norm,Mode,ResultType:filters,fft:Filters,FFT:
+Image,SharpenedImage,Theta,Iterations,Mode,Sigma:filters,enhancement:Filters,Enhancement:
+Image,ImageMCF,Sigma,Theta,Iterations:filters,enhancement:Filters,Enhancement:
+Image,ImageCED,Sigma,Rho,Theta,Iterations:filters,enhancement:Filters,Enhancement:
+Image,ImageEquHisto:filters,enhancement:Filters,Enhancement:
+Image,ImageIlluminate,MaskWidth,MaskHeight,Factor:filters,enhancement:Filters,Enhancement:
+Image,ImageEmphasize,MaskWidth,MaskHeight,Factor:filters,enhancement:Filters,Enhancement:
+Image,ImageScaleMax:filters,enhancement:Filters,Enhancement:
+Image,ImageEdgeAmp,ImageEdgeDir:filters,edges:Filters,Edges:
+Image,ImageEdgeAmp:filters,edges:Filters,Edges:
+Image,ImageEdgeAmp,ImageEdgeDir:filters,edges:Filters,Edges:
+Image,ImageEdgeAmp:filters,edges:Filters,Edges:
+Image,ImageEdgeAmp,ImageEdgeDir:filters,edges:Filters,Edges:
+Image,ImageEdgeAmp:filters,edges:Filters,Edges:
+Image,ImageEdgeAmp,ImageEdgeDir:filters,edges:Filters,Edges:
+Image,ImageEdgeAmp:filters,edges:Filters,Edges:
+Image,EdgeAmplitude,FilterType,Size:filters,edges:Filters,Edges:
+Image,EdgeAmplitude,EdgeDirection,FilterType,Size:filters,edges:Filters,Edges:
+Image,ImageRoberts,FilterType:filters,edges:Filters,Edges:
+Image,ImageLaplace,ResultType,MaskSize,FilterMask:filters,edges:Filters,Edges:
+Image,Highpass,Width,Height:filters,edges:Filters,Edges:
+Filter,Mode,Alpha,Size,Coeffs:filters,edges:Filters,Edges:
+Image,Edges,Filter,Alpha,Low,High:filters,edges:Filters,Edges:
+Image,ImaAmp,ImaDir,Filter,Alpha,NMS,Low,High:filters,edges:Filters,Edges:
+Image,Edges,Filter,Alpha,Low,High:filters,edges:Filters,Edges:
+Image,ImaAmp,ImaDir,Filter,Alpha,NMS,Low,High:filters,edges:Filters,Edges:
+Image,DerivGauss,Sigma,Component:filters,edges:Filters,Edges:
+Image,ImageLaplace,Sigma:filters,edges:Filters,Edges:
+Image,DiffOfGauss,Sigma,SigFactor:filters,edges:Filters,Edges:
+Edges,Gradient,ClosedEdges,MinAmplitude,MaxGapLength:filters,edges:Filters,Edges:
+Edges,EdgeImage,RegionResult,MinAmplitude:filters,edges:Filters,Edges:
+Image,SobelSize,MinAmplitude,MaxDistance,MinLength,BeginRow,BeginCol,EndRow,EndCol:segmentation,edges:Segmentation,Edges:
+:filters,color:Filters,Color:
+ColorTransLUTHandle:filters,color:Filters,Color:
+Image1,Image2,Image3,ImageResult1,ImageResult2,ImageResult3,ColorTransLUTHandle:filters,color:Filters,Color:
+ColorSpace,TransDirection,NumBits,ColorTransLUTHandle:filters,color:Filters,Color:
+CFAImage,RGBImage,CFAType,Interpolation:filters,color:Filters,Color:
+RGBImage,GrayImage:filters,color:Filters,Color:
+ImageRed,ImageGreen,ImageBlue,ImageGray:filters,color:Filters,Color:
+ImageRed,ImageGreen,ImageBlue,ImageResult1,ImageResult2,ImageResult3,ColorSpace:filters,color:Filters,Color:
+ImageInput1,ImageInput2,ImageInput3,ImageRed,ImageGreen,ImageBlue,ColorSpace:filters,color:Filters,Color:
+Image,ImageMask,BitMask:filters,bit:Filters,Bit:
+Image,ImageSlice,Bit:filters,bit:Filters,Bit:
+Image,ImageRShift,Shift:filters,bit:Filters,Bit:
+Image,ImageLShift,Shift:filters,bit:Filters,Bit:
+Image,ImageNot:filters,bit:Filters,Bit:
+Image1,Image2,ImageXor:filters,bit:Filters,Bit:
+Image1,Image2,ImageOr:filters,bit:Filters,Bit:
+Image1,Image2,ImageAnd:filters,bit:Filters,Bit:
+Image1,Image2,ImageAbsDiff,Mult:filters,arithmetic:Filters,Arithmetic:
+Image,SqrtImage:filters,arithmetic:Filters,Arithmetic:
+ImageMinuend,ImageSubtrahend,ImageSub,Mult,Add:filters,arithmetic:Filters,Arithmetic:
+Image,ImageScaled,Mult,Add:filters,arithmetic:Filters,Arithmetic:
+Image1,Image2,ImageResult,Mult,Add:filters,arithmetic:Filters,Arithmetic:
+Image1,Image2,ImageResult,Mult,Add:filters,arithmetic:Filters,Arithmetic:
+Image1,Image2,ImageResult,Mult,Add:filters,arithmetic:Filters,Arithmetic:
+Image,ImageAbs:filters,arithmetic:Filters,Arithmetic:
+Image1,Image2,ImageMin:filters,arithmetic:Filters,Arithmetic:
+Image1,Image2,ImageMax:filters,arithmetic:Filters,Arithmetic:
+Image,ImageInvert:filters,arithmetic:Filters,Arithmetic:
+Images,CorrectedImages,From,To,ReferenceImage,HomMatrices2D,EstimationMethod,EstimateParameters,OECFModel:tools,mosaicking:Tools,Mosaicking:
+Images,Front,Rear,Left,Right,Top,Bottom,CameraMatrices,RotationMatrices,CubeMapDimension,StackingOrder,Interpolation:tools,mosaicking:Tools,Mosaicking:
+Images,MosaicImage,CameraMatrices,RotationMatrices,LatMin,LatMax,LongMin,LongMax,LatLongStep,StackingOrder,Interpolation:tools,mosaicking:Tools,Mosaicking:
+Images,MosaicImage,HomMatrices2D,StackingOrder,TransformRegion,TransMat2D:tools,mosaicking:Tools,Mosaicking:
+Images,MosaicImage,StartImage,MappingSource,MappingDest,HomMatrices2D,StackingOrder,TransformRegion,MosaicMatrices2D:tools,mosaicking:Tools,Mosaicking:
+Image,TransImage,HomMat2D,Interpolation,Width,Height,TransformRegion:filters,geometrictransformations:Filters,Geometric Transformations:
+Image,TransImage,HomMat2D,Interpolation,AdaptImageSize,TransformRegion:filters,geometrictransformations:Filters,Geometric Transformations:
+Image,ImageAffinTrans,HomMat2D,Interpolation,Width,Height:filters,geometrictransformations:Filters,Geometric Transformations:
+Image,ImageAffinTrans,HomMat2D,Interpolation,AdaptImageSize:filters,geometrictransformations:Filters,Geometric Transformations:
+Image,ImageZoomed,ScaleWidth,ScaleHeight,Interpolation:filters,geometrictransformations:Filters,Geometric Transformations:
+Image,ImageZoom,Width,Height,Interpolation:filters,geometrictransformations:Filters,Geometric Transformations:
+Image,ImageMirror,Mode:filters,geometrictransformations:Filters,Geometric Transformations:
+Image,ImageRotate,Phi,Interpolation:filters,geometrictransformations:Filters,Geometric Transformations:
+PolarImage,XYTransImage,Row,Column,AngleStart,AngleEnd,RadiusStart,RadiusEnd,Width,Height,Interpolation:filters,geometrictransformations:Filters,Geometric Transformations:
+Image,PolarTransImage,Row,Column,AngleStart,AngleEnd,RadiusStart,RadiusEnd,Width,Height,Interpolation:filters,geometrictransformations:Filters,Geometric Transformations:
+ImageXY,ImagePolar,Row,Column,Width,Height:filters,geometrictransformations:Filters,Geometric Transformations:
+VectorField,HomMat2D:transformations,2dtransformations:Transformations,2D Transformations:
+Polygons,FileName,GenParamNames,GenParamValues,DxfStatus:file,xld:File,XLD:
+Polygons,FileName:file,xld:File,XLD:
+Contours,FileName,GenParamNames,GenParamValues,DxfStatus:file,xld:File,XLD:
+Contours,FileName:file,xld:File,XLD:
+Directory,Options,Files:file,misc:File,Misc:
+FileName:file,misc:File,Misc:
+FileName,FileExists:file,misc:File,Misc:
+Region,FileName:file,region:File,Region:
+Image,Format,FillColor,FileName:file,images:File,Images:
+Image,HeaderSize,SourceWidth,SourceHeight,StartRow,StartColumn,DestWidth,DestHeight,PixelType,BitOrder,ByteOrder,Pad,Index,FileName:file,images:File,Images:
+Region,FileName:file,region:File,Region:
+Image,FileName:file,images:File,Images:
+FileName,FileType,FileHandle:file,text:File,Text:
+FileHandle,String:file,text:File,Text:
+FileHandle,OutLine,IsEOF:file,text:File,Text:
+FileHandle,OutString,IsEOF:file,text:File,Text:
+FileHandle,Char:file,text:File,Text:
+FileHandle:file,text:File,Text:
+FileHandle:file,text:File,Text:
+:file,text:File,Text:
+Image,Contour,Interpolation,Grayval:image,access:Image,Access:
+XLD,Mode,Area,CenterRow,CenterCol,P,Q,M:xld,features:XLD,Features:
+XLD,Anisometry:xld,features:XLD,Features:
+XLD,Ra,Rb,Phi:xld,features:XLD,Features:
+XLD,Phi:xld,features:XLD,Features:
+XLD,M11,M20,M02:xld,features:XLD,Features:
+XLD,Area,Row,Column:xld,features:XLD,Features:
+XLD,CloseXLD,DoesIntersect:xld,features:XLD,Features:
+XLDs,DestXLDs,Row,Column:xld,features:XLD,Features:
+XLD,Row,Column,IsInside:xld,features:XLD,Features:
+XLD,SelectedXLD,Features,Operation,Min,Max:xld,features:XLD,Features:
+XLD,Phi:xld,features:XLD,Features:
+XLD,Anisometry,Bulkiness,StructureFactor:xld,features:XLD,Features:
+XLD,Compactness:xld,features:XLD,Features:
+XLD,Row1,Column1,Row2,Column2,Diameter:xld,features:XLD,Features:
+XLD,Convexity:xld,features:XLD,Features:
+XLD,Circularity:xld,features:XLD,Features:
+XLD,Ra,Rb,Phi:xld,features:XLD,Features:
+XLD,Row,Column,Phi,Length1,Length2:xld,features:XLD,Features:
+XLD,Row1,Column1,Row2,Column2:xld,features:XLD,Features:
+XLD,Row,Column,Radius:xld,features:XLD,Features:
+XLD,XLDTrans,Type:xld,transformations:XLD,Transformations:
+XLD,Length:xld,features:XLD,Features:
+XLD,Mode,PointOrder,Area,CenterRow,CenterCol,P,Q,M:xld,features:XLD,Features:
+XLD,M11,M20,M02:xld,features:XLD,Features:
+XLD,Area,Row,Column,PointOrder:xld,features:XLD,Features:
+Regions,PSI1,PSI2,PSI3,PSI4:regions,features:Regions,Features:
+Regions,I1,I2,I3,I4:regions,features:Regions,Features:
+Regions,M21,M12,M03,M30:regions,features:Regions,Features:
+Regions,M21,M12,M03,M30:regions,features:Regions,Features:
+Regions,Row,Column,Phi,Length1,Length2:regions,features:Regions,Features:
+Regions,Row1,Column1,Row2,Column2:regions,features:Regions,Features:
+Regions,Row,Column,Radius:regions,features:Regions,Features:
+Regions,Pattern,SelectedRegions,Feature,Min,Max:regions,features:Regions,Features:
+Regions,SelectedRegions,Features,Operation,Min,Max:regions,features:Regions,Features:
+Regions,NumRuns,KFactor,LFactor,MeanLength,Bytes:regions,features:Regions,Features:
+Regions1,Regions2,MaxDistance,RegionIndex1,RegionIndex2:regions,features:Regions,Features:
+Regions,PHI1,PHI2:regions,features:Regions,Features:
+Regions,M11,M20,M02:regions,features:Regions,Features:
+Regions,M11,M20,M02,Ia,Ib:regions,features:Regions,Features:
+Regions1,Regions2,MinDistance,Row1,Column1,Row2,Column2:tools,geometry:Tools,Geometry:
+Regions1,Regions2,MinDistance:tools,geometry:Tools,Geometry:
+Regions,Row1,Column1,Row2,Column2,Diameter:regions,features:Regions,Features:
+Regions,Row,Column,IsInside:regions,tests:Regions,Tests:
+Regions,Row,Column,Index:regions,features:Regions,Features:
+Regions,DestRegions,Row,Column:regions,features:Regions,Features:
+Regions,SelectedRegions,Shape,Percent:regions,features:Regions,Features:
+Regions1,Regions2,Norm,Distance,Similarity:regions,features:Regions,Features:
+Regions1,Regions2,Distance,Similarity:regions,features:Regions,Features:
+Regions,Anisometry,Bulkiness,StructureFactor:regions,features:Regions,Features:
+Regions,EulerNumber:regions,features:Regions,Features:
+Regions,Phi:regions,features:Regions,Features:
+Regions,Ra,Rb,Phi:regions,features:Regions,Features:
+Regions1,Regions2,Direction,RegionIndex1,RegionIndex2:regions,features:Regions,Features:
+Regions1,Regions2,Percent,RegionIndex1,RegionIndex2,Relation1,Relation2:regions,features:Regions,Features:
+Regions,Convexity:regions,features:Regions,Features:
+Regions,ContLength:regions,features:Regions,Features:
+Regions,NumConnected,NumHoles:regions,features:Regions,Features:
+Regions,Rectangularity:regions,features:Regions,Features:
+Regions,Compactness:regions,features:Regions,Features:
+Regions,Circularity:regions,features:Regions,Features:
+Regions,Area:regions,features:Regions,Features:
+Regions,Area,Row,Column:regions,features:Regions,Features:
+Region,Foreground,Background:regions,features:Regions,Features:
+Regions,Distance,Sigma,Roundness,Sides:regions,features:Regions,Features:
+Regions,Row1,Column1,Row2,Column2:regions,features:Regions,Features:
+Regions,Row,Column,Radius:regions,features:Regions,Features:
+RowBeginIn,ColBeginIn,RowEndIn,ColEndIn,Num,RowBeginOut,ColBeginOut,RowEndOut,ColEndOut:tools,lines:Tools,Lines:
+RowBeginIn,ColBeginIn,RowEndIn,ColEndIn,Feature,Operation,Min,Max,RowBeginOut,ColBeginOut,RowEndOut,ColEndOut,FailRowBOut,FailColBOut,FailRowEOut,FailColEOut:tools,lines:Tools,Lines:
+RowBeginIn,ColBeginIn,RowEndIn,ColEndIn,Feature,Operation,Min,Max,RowBeginOut,ColBeginOut,RowEndOut,ColEndOut:tools,lines:Tools,Lines:
+RowBegin,ColBegin,RowEnd,ColEnd,RowCenter,ColCenter,Length,Phi:tools,lines:Tools,Lines:
+RowBegin,ColBegin,RowEnd,ColEnd,Phi:tools,lines:Tools,Lines:
+Row,Column,ArcCenterRow,ArcCenterCol,ArcAngle,ArcBeginRow,ArcBeginCol,LineBeginRow,LineBeginCol,LineEndRow,LineEndCol,Order:tools,lines:Tools,Lines:
+Row,Column,MinWidthCoord,MaxWidthCoord,ThreshStart,ThreshEnd,ThreshStep,MinWidthSmooth,MaxWidthSmooth,MinWidthCurve,MaxWidthCurve,Weight1,Weight2,Weight3,ArcCenterRow,ArcCenterCol,ArcAngle,ArcBeginRow,ArcBeginCol,LineBeginRow,LineBeginCol,LineEndRow,LineEndCol,Order:tools,lines:Tools,Lines:
+Regions,Image,Algorithm,Iterations,ClippingFactor,Alpha,Beta,Gamma:image,features:Image,Features:
+Regions,Image,Algorithm,Iterations,ClippingFactor,Alpha,Beta,Gamma,Delta,Epsilon,Zeta:image,features:Image,Features:
+ImageSurface,Type,Alpha,Beta,Gamma,Delta,Epsilon,Zeta,Row,Col,Width,Height:image,creation:Image,Creation:
+ImageSurface,Type,Alpha,Beta,Gamma,Row,Col,Width,Height:image,creation:Image,Creation:
+Region,Image,Feature,Row,Column,AbsoluteHisto,RelativeHisto:image,features:Image,Features:
+Region,Image,Feature,AbsoluteHisto,RelativeHisto:image,features:Image,Features:
+Regions,Image,SelectedRegions,Features,Operation,Min,Max:image,features:Image,Features:
+Regions,Image,Percent,Min,Max,Range:image,features:Image,Features:
+Regions,Image,Mean,Deviation:image,features:Image,Features:
+Regions,Image,Min,Max,NumBins,Histo,BinSize:image,features:Image,Features:
+Regions,ImageCol,ImageRow,Histo2Dim:image,features:Image,Features:
+Regions,Image,Quantization,AbsoluteHisto:image,features:Image,Features:
+Regions,Image,AbsoluteHisto,RelativeHisto:image,features:Image,Features:
+Regions,Image,Entropy,Anisotropy:image,features:Image,Features:
+CoocMatrix,Energy,Correlation,Homogeneity,Contrast:image,features:Image,Features:
+Regions,Image,LdGray,Direction,Energy,Correlation,Homogeneity,Contrast:image,features:Image,Features:
+Regions,Image,Matrix,LdGray,Direction:image,features:Image,Features:
+Regions,Image,MRow,MCol,Alpha,Beta,Mean:image,features:Image,Features:
+Regions,Image,Deviation:image,features:Image,Features:
+Regions,Image,Ra,Rb,Phi:image,features:Image,Features:
+Regions,Image,Area,Row,Column:image,features:Image,Features:
+Region,Image,Mode,HorProjection,VertProjection:image,features:Image,Features:
+DataCodeObjects,DataCodeHandle,CandidateHandle,ObjectName:identification,datacode:Identification,Data Code:
+DataCodeHandle,CandidateHandle,ResultNames,ResultValues:identification,datacode:Identification,Data Code:
+Image,SymbolXLDs,DataCodeHandle,GenParamNames,GenParamValues,ResultHandles,DecodedDataStrings:identification,datacode:Identification,Data Code:
+DataCodeHandle,GenParamNames,GenParamValues:identification,datacode:Identification,Data Code:
+DataCodeHandle,GenParamNames,GenParamValues:identification,datacode:Identification,Data Code:
+DataCodeHandle,QueryName,GenParamNames:identification,datacode:Identification,Data Code:
+FileName,DataCodeHandle:identification,datacode:Identification,Data Code:
+DataCodeHandle,FileName:identification,datacode:Identification,Data Code:
+:identification,datacode:Identification,Data Code:
+DataCodeHandle:identification,datacode:Identification,Data Code:
+SymbolType,GenParamNames,GenParamValues,DataCodeHandle:identification,datacode:Identification,Data Code:
+:classification,lookuptable:Classification,Look-Up Table:
+ClassLUTHandle:classification,lookuptable:Classification,Look-Up Table:
+GMMHandle,GenParamNames,GenParamValues,ClassLUTHandle:classification,lookuptable:Classification,Look-Up Table:
+SVMHandle,GenParamNames,GenParamValues,ClassLUTHandle:classification,lookuptable:Classification,Look-Up Table:
+MLPHandle,GenParamNames,GenParamValues,ClassLUTHandle:classification,lookuptable:Classification,Look-Up Table:
+:classification,gaussianmixturemodels:Classification,Gaussian Mixture Models:
+GMMHandle:classification,gaussianmixturemodels:Classification,Gaussian Mixture Models:
+GMMHandle:classification,gaussianmixturemodels:Classification,Gaussian Mixture Models:
+FileName,GMMHandle:classification,gaussianmixturemodels:Classification,Gaussian Mixture Models:
+GMMHandle,FileName:classification,gaussianmixturemodels:Classification,Gaussian Mixture Models:
+GMMHandle,FileName:classification,gaussianmixturemodels:Classification,Gaussian Mixture Models:
+GMMHandle,FileName:classification,gaussianmixturemodels:Classification,Gaussian Mixture Models:
+GMMHandle,Features,Num,ClassID,ClassProb,Density,KSigmaProb:classification,gaussianmixturemodels:Classification,Gaussian Mixture Models:
+GMMHandle,Features,ClassProb,Density,KSigmaProb:classification,gaussianmixturemodels:Classification,Gaussian Mixture Models:
+GMMHandle,MaxIter,Threshold,ClassPriors,Regularize,Centers,Iter:classification,gaussianmixturemodels:Classification,Gaussian Mixture Models:
+GMMHandle,Preprocessing,InformationCont,CumInformationCont:classification,gaussianmixturemodels:Classification,Gaussian Mixture Models:
+GMMHandle,NumSamples:classification,gaussianmixturemodels:Classification,Gaussian Mixture Models:
+GMMHandle,NumSample,Features,ClassID:classification,gaussianmixturemodels:Classification,Gaussian Mixture Models:
+GMMHandle,Features,ClassID,Randomize:classification,gaussianmixturemodels:Classification,Gaussian Mixture Models:
+GMMHandle,NumDim,NumClasses,MinCenters,MaxCenters,CovarType:classification,gaussianmixturemodels:Classification,Gaussian Mixture Models:
+NumDim,NumClasses,NumCenters,CovarType,Preprocessing,NumComponents,RandSeed,GMMHandle:classification,gaussianmixturemodels:Classification,Gaussian Mixture Models:
+:classification,supportvectormachines:Classification,Support Vector Machines:
+SVMHandle:classification,supportvectormachines:Classification,Support Vector Machines:
+SVMHandle:classification,supportvectormachines:Classification,Support Vector Machines:
+FileName,SVMHandle:classification,supportvectormachines:Classification,Support Vector Machines:
+SVMHandle,FileName:classification,supportvectormachines:Classification,Support Vector Machines:
+SVMHandle,FileName:classification,supportvectormachines:Classification,Support Vector Machines:
+SVMHandle,FileName:classification,supportvectormachines:Classification,Support Vector Machines:
+SVMHandle,Features,Num,Class:classification,supportvectormachines:Classification,Support Vector Machines:
+SVMHandle,Method,MinRemainingSV,MaxError,SVMHandleReduced:classification,supportvectormachines:Classification,Support Vector Machines:
+SVMHandle,Epsilon,TrainMode:classification,supportvectormachines:Classification,Support Vector Machines:
+SVMHandle,Preprocessing,InformationCont,CumInformationCont:classification,supportvectormachines:Classification,Support Vector Machines:
+SVMHandle,NumSupportVectors,NumSVPerSVM:classification,supportvectormachines:Classification,Support Vector Machines:
+SVMHandle,IndexSupportVector,Index:classification,supportvectormachines:Classification,Support Vector Machines:
+SVMHandle,NumSamples:classification,supportvectormachines:Classification,Support Vector Machines:
+SVMHandle,IndexSample,Features,Target:classification,supportvectormachines:Classification,Support Vector Machines:
+SVMHandle,Features,Class:classification,supportvectormachines:Classification,Support Vector Machines:
+SVMHandle,NumFeatures,KernelType,KernelParam,Nu,NumClasses,Mode,Preprocessing,NumComponents:classification,supportvectormachines:Classification,Support Vector Machines:
+NumFeatures,KernelType,KernelParam,Nu,NumClasses,Mode,Preprocessing,NumComponents,SVMHandle:classification,supportvectormachines:Classification,Support Vector Machines:
+:classification,neuralnets:Classification,Neural Nets:
+MLPHandle:classification,neuralnets:Classification,Neural Nets:
+MLPHandle:classification,neuralnets:Classification,Neural Nets:
+FileName,MLPHandle:classification,neuralnets:Classification,Neural Nets:
+MLPHandle,FileName:classification,neuralnets:Classification,Neural Nets:
+MLPHandle,FileName:classification,neuralnets:Classification,Neural Nets:
+MLPHandle,FileName:classification,neuralnets:Classification,Neural Nets:
+MLPHandle,Features,Num,Class,Confidence:classification,neuralnets:Classification,Neural Nets:
+MLPHandle,Features,Result:classification,neuralnets:Classification,Neural Nets:
+MLPHandle,MaxIterations,WeightTolerance,ErrorTolerance,Error,ErrorLog:classification,neuralnets:Classification,Neural Nets:
+MLPHandle,Preprocessing,InformationCont,CumInformationCont:classification,neuralnets:Classification,Neural Nets:
+MLPHandle,NumSamples:classification,neuralnets:Classification,Neural Nets:
+MLPHandle,IndexSample,Features,Target:classification,neuralnets:Classification,Neural Nets:
+MLPHandle,Features,Target:classification,neuralnets:Classification,Neural Nets:
+MLPHandle,NumInput,NumHidden,NumOutput,OutputFunction,Preprocessing,NumComponents:classification,neuralnets:Classification,Neural Nets:
+NumInput,NumHidden,NumOutput,OutputFunction,Preprocessing,NumComponents,RandSeed,MLPHandle:classification,neuralnets:Classification,Neural Nets:
+ClassifHandle,FileName:classification,hyperboxes:Classification,Hyperboxes:
+ClassifHandle,Flag,Value:classification,hyperboxes:Classification,Hyperboxes:
+FileName,SampKey:classification,hyperboxes:Classification,Hyperboxes:
+ClassifHandle,FileName:classification,hyperboxes:Classification,Hyperboxes:
+ClassifHandle,SampKey,Outfile,NSamples,StopError,ErrorN:classification,hyperboxes:Classification,Hyperboxes:
+ClassifHandle,Features,Class:classification,hyperboxes:Classification,Hyperboxes:
+ClassifHandle,Flag,Value:classification,hyperboxes:Classification,Hyperboxes:
+SampKey:classification,hyperboxes:Classification,Hyperboxes:
+ClassifHandle:classification,hyperboxes:Classification,Hyperboxes:
+ClassifHandle:classification,hyperboxes:Classification,Hyperboxes:
+ClassifHandle,Dimensions:classification,hyperboxes:Classification,Hyperboxes:
+ClassifHandle,SampKey,Error:classification,hyperboxes:Classification,Hyperboxes:
+ClassifHandle,FeatureList,Class:classification,hyperboxes:Classification,Hyperboxes:
+ClassifHandle,FeatureList,Class:classification,hyperboxes:Classification,Hyperboxes:
+:classification,hyperboxes:Classification,Hyperboxes:
+Map,MapConverted,NewType,ImageWidth:filters,geometrictransformations:Filters,Geometric Transformations:
+WorldX,WorldY,WorldZ,ImageRow,ImageColumn,CameraParam,Method,QualityType,Pose,Quality:transformations,poses:Transformations,Poses:
+Homography,CameraMatrix,Method,Pose:transformations,poses:Transformations,Poses:
+Contours,SelectedContours,Width,Height,InlierThreshold,RandSeed,DistortionModel,DistortionCenter,PrincipalPointVar,CameraParam:calibration,selfcalibration:Calibration,Self-Calibration:
+CameraParam,CameraMatrix,ImageWidth,ImageHeight:calibration,cameraparameters:Calibration,Camera Parameters:
+CameraMatrix,Kappa,ImageWidth,ImageHeight,CameraParam:calibration,cameraparameters:Calibration,Camera Parameters:
+NumImages,ImageWidth,ImageHeight,ReferenceImage,MappingSource,MappingDest,HomMatrices2D,Rows1,Cols1,Rows2,Cols2,NumCorrespondences,EstimationMethod,CameraModel,FixedCameraParams,CameraMatrices,Kappa,RotationMatrices,X,Y,Z,Error:calibration,selfcalibration:Calibration,Self-Calibration:
+Contour,CameraParam,Width,Height,WeightingMode,ClippingFactor,Pose,CovPose,Error:transformations,poses:Transformations,Poses:
+Contour,CameraParam,Radius,OutputType,Pose1,Pose2:transformations,poses:Transformations,Poses:
+Images,ExposureRatios,Features,FunctionType,Smoothness,PolynomialDegree,InverseResponse:calibration,selfcalibration:Calibration,Self-Calibration:
+Image,Map,ImageMapped:filters,geometrictransformations:Filters,Geometric Transformations:
+Map,CamParamIn,CamParamOut,MapType:calibration,rectification:Calibration,Rectification:
+Map,CameraParam,WorldPose,WidthIn,HeightIn,WidthMapped,HeightMapped,Scale,MapType:calibration,rectification:Calibration,Rectification:
+Image,ImageWorld,CameraParam,WorldPose,Width,Height,Scale,Interpolation:calibration,rectification:Calibration,Rectification:
+Contours,ContoursTrans,CameraParam,WorldPose,Scale:calibration,rectification:Calibration,Rectification:
+CameraParam,WorldPose,Rows,Cols,Scale,X,Y:calibration,rectification:Calibration,Rectification:
+PoseIn,DX,DY,DZ,PoseNewOrigin:transformations,poses:Transformations,Poses:
+X,Y,Z,Row,Col,NumPoints,RobotPoses,CameraParam,Method,QualityType,CameraPose,CalibrationPose,Quality:calibration,handeye:Calibration,Hand-Eye:
+Pose,OrderOfTransform,OrderOfRotation,ViewOfTransform:transformations,poses:Transformations,Poses:
+PoseIn,OrderOfTransform,OrderOfRotation,ViewOfTransform,PoseOut:transformations,poses:Transformations,Poses:
+TransX,TransY,TransZ,RotX,RotY,RotZ,OrderOfTransform,OrderOfRotation,ViewOfTransform,Pose:transformations,poses:Transformations,Poses:
+Contours,ContoursRectified,CamParamIn,CamParamOut:calibration,rectification:Calibration,Rectification:
+Row,Col,CamParamIn,CamParamOut,RowChanged,ColChanged:calibration,rectification:Calibration,Rectification:
+Image,Region,ImageRectified,CamParamIn,CamParamOut:calibration,rectification:Calibration,Rectification:
+Mode,CamParamIn,DistortionCoeffs,CamParamOut:calibration,rectification:Calibration,Rectification:
+Width,CalTabDescrFile,CalTabFile:calibration,calibrationobject:Calibration,Calibration Object:
+XNum,YNum,MarkDist,DiameterRatio,CalTabDescrFile,CalTabPSFile:calibration,calibrationobject:Calibration,Calibration Object:
+CalTabDescrFile,X,Y,Z:calibration,calibrationobject:Calibration,Calibration Object:
+Row,Column,CameraParam,PX,PY,PZ,QX,QY,QZ:transformations,misc:Transformations,Misc:
+X,Y,Z,CameraParam,Row,Column:calibration,monocular:Calibration,Monocular:
+HomMat3D,Pose:transformations,3dtransformations:Transformations,3D Transformations:
+Pose,HomMat3D:transformations,3dtransformations:Transformations,3D Transformations:
+PoseFile,Pose:transformations,poses:Transformations,Poses:
+Pose,PoseFile:transformations,poses:Transformations,Poses:
+CamParFile,CameraParam:calibration,cameraparameters:Calibration,Camera Parameters:
+CameraParam,CamParFile:calibration,cameraparameters:Calibration,Camera Parameters:
+SimImage,CalTabDescrFile,CameraParam,CaltabPose,GrayBackground,GrayCaltab,GrayMarks,ScaleFac:calibration,calibrationobject:Calibration,Calibration Object:
+WindowHandle,CalTabDescrFile,CameraParam,CaltabPose,ScaleFac:calibration,calibrationobject:Calibration,Calibration Object:
+NX,NY,NZ,NRow,NCol,StartCamParam,NStartPose,EstimateParams,CameraParam,NFinalPose,Errors:calibration,monocular:Calibration,Monocular:
+Image,CalTabRegion,CalTabDescrFile,StartCamParam,StartThresh,DeltaThresh,MinThresh,Alpha,MinContLength,MaxDiamMarks,RCoord,CCoord,StartPose:calibration,calibrationobject:Calibration,Calibration Object:
+Image,Caltab,CalTabDescrFile,SizeGauss,MarkThresh,MinDiamMarks:calibration,calibrationobject:Calibration,Calibration Object:
+:calibration,multiview:Calibration,Multi-View:
+CameraSetupModelID:calibration,multiview:Calibration,Multi-View:
+CameraSetupModelID,FileName:calibration,multiview:Calibration,Multi-View:
+FileName,CameraSetupModelID:calibration,multiview:Calibration,Multi-View:
+CameraSetupModelID,CameraIdx,ParamName,ParamValue:calibration,multiview:Calibration,Multi-View:
+CameraSetupModelID,CameraIdx,ParamName,ParamValue:calibration,multiview:Calibration,Multi-View:
+CameraSetupModelID,CameraIdx,CameraType,CameraParam,CameraPose:calibration,multiview:Calibration,Multi-View:
+NumCameras,CameraSetupModelID:calibration,multiview:Calibration,Multi-View:
+:calibration,multiview:Calibration,Multi-View:
+CalibDataID:calibration,multiview:Calibration,Multi-View:
+FileName,CalibDataID:calibration,multiview:Calibration,Multi-View:
+CalibDataID,FileName:calibration,multiview:Calibration,Multi-View:
+CalibDataID,Error:calibration,multiview:Calibration,Multi-View:
+CalibDataID,ItemType,ItemIdx,DataName,DataValue:calibration,multiview:Calibration,Multi-View:
+CalibDataID,CameraIdx,CalibObjIdx,CalibObjPoseIdx,Row,Column,Index,Pose:calibration,multiview:Calibration,Multi-View:
+CalibDataID,CameraIdx,CalibObjIdx,CalibObjPoseIdx,Row,Column,Index,Pose:calibration,multiview:Calibration,Multi-View:
+CalibDataID,ItemType,ItemIdx,Index1,Index2:calibration,multiview:Calibration,Multi-View:
+CalibDataID,ItemType,ItemIdx,DataName,DataValue:calibration,multiview:Calibration,Multi-View:
+CalibDataID,CalibObjIdx,CalibObjDescr:calibration,multiview:Calibration,Multi-View:
+CalibDataID,CameraIdx,CameraType,CameraParam:calibration,multiview:Calibration,Multi-View:
+CalibSetup,NumCameras,NumCalibObjects,CalibDataID:calibration,multiview:Calibration,Multi-View:
+BarCodeObjects,BarCodeHandle,CandidateHandle,ObjectName:identification,barcode:Identification,Bar Code:
+BarCodeHandle,CandidateHandle,ResultName,BarCodeResults:identification,barcode:Identification,Bar Code:
+Image,BarCodeHandle,CodeType,Row,Column,Phi,Length1,Length2,DecodedDataStrings:identification,barcode:Identification,Bar Code:
+Image,SymbolRegions,BarCodeHandle,CodeType,DecodedDataStrings:identification,barcode:Identification,Bar Code:
+BarCodeHandle,Properties,GenParamNames:identification,barcode:Identification,Bar Code:
+BarCodeHandle,CodeTypes,GenParamNames,GenParamValues:identification,barcode:Identification,Bar Code:
+BarCodeHandle,GenParamNames,GenParamValues:identification,barcode:Identification,Bar Code:
+BarCodeHandle,CodeTypes,GenParamNames,GenParamValues:identification,barcode:Identification,Bar Code:
+BarCodeHandle,GenParamNames,GenParamValues:identification,barcode:Identification,Bar Code:
+:identification,barcode:Identification,Bar Code:
+BarCodeHandle:identification,barcode:Identification,Bar Code:
+GenParamNames,GenParamValues,BarCodeHandle:identification,barcode:Identification,Bar Code:
+BarCodeDescr,BarCodeDimension,BarCodeData,SymbolCharacters,CorrSymbolData,DecodedData,DecodingError,StructuredAppend:legacy,2dbarcode:Legacy,2D Bar Code:
+BarCodeRegion,Image,BarCodeDescr,CodeRegDescr,GenParamNames,GenParamValues,BarCodeDimension,BarCodeData,DataElementRow,DataElementCol:legacy,2dbarcode:Legacy,2D Bar Code:
+BarCodeRegion,Image,BarCodeDescr,CodeRegDescr,GenParamNames,GenParamValues,BarCodeDimension,BarCodeData:legacy,2dbarcode:Legacy,2D Bar Code:
+Image,CodeRegion,BarCodeDescr,GenParamNames,GenParamValues,CodeRegDescr:legacy,2dbarcode:Legacy,2D Bar Code:
+CodeType,GenParamNames,GenParamValues,BarCodeDescr:legacy,2dbarcode:Legacy,2D Bar Code:
+Elements,BarCodeDescr,DiscreteBarCode:legacy,1dbarcode:Legacy,1D Bar Code:
+BarCodeElements,BarCodeDescr,Characters,Reference,IsCorrect:legacy,1dbarcode:Legacy,1D Bar Code:
+BarCodeRegion,BarCodeDescr,GenericName,GenericValue,Orientation,StopIfFound,BarCodeElements,ScanlineNumPoints,ScanlineDecoded,ScanlinePointsRow,ScanlinePointsColumn:legacy,1dbarcode:Legacy,1D Bar Code:
+BarCodeRegion,BarCodeDescr,GenericName,GenericValue,Orientation,BarCodeElements:legacy,1dbarcode:Legacy,1D Bar Code:
+Image,CodeRegion,BarCodeDescr,GenericName,GenericValue,Orientation:legacy,1dbarcode:Legacy,1D Bar Code:
+Image,CodeRegion,BarCodeDescr,GenericName,GenericValue,StopIfFound,BarcodeFound,BarCodeElements,Orientation,ScanlineNumPoints,ScanlineDecoded,ScanlinePointsRow,ScanlinePointsColumn:legacy,1dbarcode:Legacy,1D Bar Code:
+Image,CodeRegion,BarCodeDescr,GenericName,GenericValue,BarcodeFound,BarCodeElements,Orientation:legacy,1dbarcode:Legacy,1D Bar Code:
+CodeName,MinCharacters,MaxCharacters,BarCodeDescr:legacy,1dbarcode:Legacy,1D Bar Code:
+MinCodeLength,MaxCodeLength,ElementSizes,StartElement,StopElement,MaxSizeRatio,DiscreteCode,BarCodeDescr:legacy,1dbarcode:Legacy,1D Bar Code:
+BgEstiHandle:tools,backgroundestimator:Tools,Background Estimator:
+BackgroundImage,BgEstiHandle:tools,backgroundestimator:Tools,Background Estimator:
+PresentImage,UpDateRegion,BgEstiHandle:tools,backgroundestimator:Tools,Background Estimator:
+PresentImage,ForegroundRegion,BgEstiHandle:tools,backgroundestimator:Tools,Background Estimator:
+BgEstiHandle,Syspar1,Syspar2,GainMode,Gain1,Gain2,AdaptMode,MinDiff,StatNum,ConfidenceC,TimeC:tools,backgroundestimator:Tools,Background Estimator:
+BgEstiHandle,Syspar1,Syspar2,GainMode,Gain1,Gain2,AdaptMode,MinDiff,StatNum,ConfidenceC,TimeC:tools,backgroundestimator:Tools,Background Estimator:
+InitializeImage,Syspar1,Syspar2,GainMode,Gain1,Gain2,AdaptMode,MinDiff,StatNum,ConfidenceC,TimeC,BgEstiHandle:tools,backgroundestimator:Tools,Background Estimator:
+:tools,backgroundestimator:Tools,Background Estimator:
+AcqHandle,Param,Value:image,acquisition:Image,Acquisition:
+AcqHandle,Param,Value:image,acquisition:Image,Acquisition:
+AcqHandle,CallbackType,CallbackFunction,UserContext:image,acquisition:Image,Acquisition:
+AcqHandle,CallbackType,CallbackFunction,UserContext:image,acquisition:Image,Acquisition:
+Image,Region,Contours,AcqHandle,MaxDelay,Data:image,acquisition:Image,Acquisition:
+Image,Region,Contours,AcqHandle,Data:image,acquisition:Image,Acquisition:
+Image,AcqHandle,MaxDelay:image,acquisition:Image,Acquisition:
+AcqHandle,MaxDelay:image,acquisition:Image,Acquisition:
+Image,AcqHandle:image,acquisition:Image,Acquisition:
+Name,Query,Information,ValueList:image,acquisition:Image,Acquisition:
+:image,acquisition:Image,Acquisition:
+AcqHandle:image,acquisition:Image,Acquisition:
+Name,HorizontalResolution,VerticalResolution,ImageWidth,ImageHeight,StartRow,StartColumn,Field,BitsPerChannel,ColorSpace,Generic,ExternalTrigger,CameraType,Device,Port,LineIn,AcqHandle:image,acquisition:Image,Acquisition:
+AcqHandle,ImageRed,ImageGreen,ImageBlue:image,acquisition:Image,Acquisition:
+AcqHandle,ImageRed,ImageGreen,ImageBlue:image,acquisition:Image,Acquisition:
