@@ -1,0 +1,1 @@
+建立（C:\ProgramFiles\MVTec\halcon）目录，复制help文件夹到目录下面
