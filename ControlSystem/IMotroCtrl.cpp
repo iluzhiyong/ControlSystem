@@ -4,9 +4,9 @@
 #include "DataUtility.h"
 
 #define POSMOdE			_T("Position Mode")
-#define ACC				_T("Acc")				//加速度
-#define DEC				_T("Dec")				//减速度
-#define MAXV			_T("MaxV")				//最大速度
+#define ACC				_T("Acc")				//位置模式加速度
+#define DEC				_T("Dec")				//位置模式减速度
+#define MAXV			_T("MaxV")				//位置模式最大速度
 #define DIV				_T("Div")				//细分
 #define STEPANGLE		_T("StepAngle")			//电机步距角
 #define PITCH			_T("Pitch")				//螺距
@@ -19,6 +19,11 @@
 #define CLOSEOVERSTABLE	_T("CloseOverStable")	//在开启闭环补偿功能后，本参数决定补偿的稳定判据，默认为 50
 #define ZPOLARITY		_T("ZPolarity")			//编码器/光栅尺接口 Z 信号的电平定义,一般情况下无需设置,0:正常电平,1： 反向电平
 #define DIRPOLARITY		_T("DirPolarity")		//编码器/光栅尺接口计数方向， 一般情况下无需设置,0： 正常方向,1： 反向方向
+
+#define VEMOdE			_T("Velocity Mode")
+#define VACC			_T("VAcc")				//速度模式加速度
+#define VDEC			_T("VDec")				//速度模式减速度
+#define VMAXV			_T("VMaxV")				//速度模式最大速度
 
 IMotorCtrl::IMotorCtrl(void)
 {
@@ -37,9 +42,14 @@ void IMotorCtrl::SetConfigPath(CString path)
 
 INT32 IMotorCtrl::Init(void)
 {
-	this->m_Acc = GetPrivateProfileInt(POSMOdE, ACC, 10, m_ConfigPath);
-	this->m_Dec = GetPrivateProfileInt(POSMOdE, DEC, 10, m_ConfigPath);
-	this->m_MaxV = GetPrivateProfileInt(POSMOdE, MAXV, 100, m_ConfigPath);
+	DataUtility::ConvertStringToFloat(GetFloatConfigString(POSMOdE, ACC), this->m_Acc, 1000);
+	DataUtility::ConvertStringToFloat(GetFloatConfigString(POSMOdE, DEC), this->m_Dec, 1000);
+	DataUtility::ConvertStringToFloat(GetFloatConfigString(POSMOdE, MAXV), this->m_MaxV, 40);
+
+	DataUtility::ConvertStringToFloat(GetFloatConfigString(VEMOdE, VACC), this->m_VModeAcc, 1000);
+	DataUtility::ConvertStringToFloat(GetFloatConfigString(VEMOdE, VDEC), this->m_VModeDec, 1000);
+	DataUtility::ConvertStringToFloat(GetFloatConfigString(VEMOdE, VMAXV), this->m_VModeMaxV, 50);
+
 	this->m_Div = GetPrivateProfileInt(POSMOdE, DIV, 8, m_ConfigPath);
 	this->m_CloseEnable = GetPrivateProfileInt(POSMOdE, CLOSEENABLE, 1, m_ConfigPath);
 	this->m_CoderLineCount = GetPrivateProfileInt(POSMOdE, CODERLINECOUNT, 1000, m_ConfigPath);
@@ -50,14 +60,16 @@ INT32 IMotorCtrl::Init(void)
 	this->m_DirPolarity = GetPrivateProfileInt(POSMOdE, DIRPOLARITY, 0, m_ConfigPath);
 
 	DataUtility::ConvertStringToFloat(GetFloatConfigString(POSMOdE, CLOSEDECFACTOR), this->m_CloseDecFactor, 1.0);
-	DataUtility::ConvertStringToFloat(GetFloatConfigString(POSMOdE, STEPANGLE), this->m_stepAngle, 1.8);
+	DataUtility::ConvertStringToFloat(GetFloatConfigString(POSMOdE, STEPANGLE), this->m_stepAngle, 1.8f);
 	DataUtility::ConvertStringToFloat(GetFloatConfigString(POSMOdE, PITCH), this->m_Pitch, 12);
 	DataUtility::ConvertStringToFloat(GetFloatConfigString(POSMOdE, LINERATIO), this->m_LineRatio, 1);
 	
 	INT32 iResult = MT_Init();
 	if(iResult == R_OK)
 	{
-		if(this->m_CloseEnable == 1)
+		INT32 acc, dec, maxV;
+		
+		if(1 == this->m_CloseEnable)
 		{
 			MT_Set_Axis_Mode_Position_Close(AXIS_Z);
 			MT_Set_Axis_Position_Close_Dec_Factor(AXIS_Z, m_CloseDecFactor);
@@ -67,15 +79,23 @@ INT32 IMotorCtrl::Init(void)
 
 			MT_Set_Encoder_Z_Polarity(AXIS_Z, m_ZPolarity);
 			MT_Set_Encoder_Dir_Polarity(AXIS_Z, m_DirPolarity);
+
+			acc = MT_Help_Encoder_Line_Real_To_Steps((double)m_Pitch, (double)m_LineRatio, m_CoderLineCount, m_Acc);
+			dec = MT_Help_Encoder_Line_Real_To_Steps((double)m_Pitch, (double)m_LineRatio, m_CoderLineCount, m_Dec);
+			maxV = MT_Help_Encoder_Line_Real_To_Steps((double)m_Pitch, (double)m_LineRatio, m_CoderLineCount, m_MaxV);
 		}
 		else
 		{
 			MT_Set_Axis_Mode_Position_Open(AXIS_Z);
+
+			acc = MT_Help_Step_Line_Real_To_Steps((double)m_stepAngle, m_Div, (double)m_Pitch, (double)m_LineRatio, (double)m_Dec);
+			dec = MT_Help_Step_Line_Real_To_Steps((double)m_stepAngle, m_Div, (double)m_Pitch, (double)m_LineRatio, (double)m_Dec);
+			maxV = MT_Help_Step_Line_Real_To_Steps((double)m_stepAngle, m_Div, (double)m_Pitch, (double)m_LineRatio, (double)m_MaxV);
 		}
-		
-		MT_Set_Axis_Acc(AXIS_Z, m_Acc);
-		MT_Set_Axis_Dec(AXIS_Z, m_Dec);
-		MT_Set_Axis_Position_V_Max(AXIS_Z, m_MaxV);
+
+		MT_Set_Axis_Acc(AXIS_Z, acc);
+		MT_Set_Axis_Dec(AXIS_Z, dec);
+		MT_Set_Axis_Position_V_Max(AXIS_Z, maxV);
 	}
 
 	return iResult;
@@ -159,43 +179,54 @@ CString IMotorCtrl::GetFloatConfigString(CString section, CString key, CString d
 INT32 IMotorCtrl::MoveTo(WORD AObj, float AValue)
 {
 	INT32 iResult = 0;
-	INT32 steps = 0;
-
-	if(this->m_CloseEnable == 1)
-	{
-		MT_Set_Axis_Mode_Position_Close(AXIS_Z);
-	}
-	else
-	{
-		MT_Set_Axis_Mode_Position_Open(AXIS_Z);
-	}
-
+	INT32 steps, acc, dec, maxV;
 	if(1 == m_CloseEnable)
 	{
-		steps = MT_Help_Encoder_Line_Real_To_Steps((double)m_Pitch, (double)m_LineRatio, (double)m_CoderLineCount, AValue);				//闭环-编码器
+		MT_Set_Axis_Mode_Position_Close(AObj);
+
+		steps = MT_Help_Encoder_Line_Real_To_Steps((double)m_Pitch, (double)m_LineRatio, m_CoderLineCount, AValue);
+
+		acc = MT_Help_Encoder_Line_Real_To_Steps((double)m_Pitch, (double)m_LineRatio, m_CoderLineCount, m_Acc);
+		dec = MT_Help_Encoder_Line_Real_To_Steps((double)m_Pitch, (double)m_LineRatio, m_CoderLineCount, m_Dec);
+		maxV = MT_Help_Encoder_Line_Real_To_Steps((double)m_Pitch, (double)m_LineRatio, m_CoderLineCount, m_MaxV);
 	}
 	else
 	{
-		steps = MT_Help_Step_Line_Real_To_Steps((double)m_stepAngle, m_Div, (double)m_Pitch, (double)m_LineRatio, (double)AValue);	//开环
+		MT_Set_Axis_Mode_Position_Open(AObj);
+
+		steps = MT_Help_Step_Line_Real_To_Steps((double)m_stepAngle, m_Div, (double)m_Pitch, (double)m_LineRatio, (double)AValue);
+
+		acc = MT_Help_Step_Line_Real_To_Steps((double)m_stepAngle, m_Div, (double)m_Pitch, (double)m_LineRatio, (double)m_Acc);
+		dec = MT_Help_Step_Line_Real_To_Steps((double)m_stepAngle, m_Div, (double)m_Pitch, (double)m_LineRatio, (double)m_Dec);
+		maxV = MT_Help_Step_Line_Real_To_Steps((double)m_stepAngle, m_Div, (double)m_Pitch, (double)m_LineRatio, (double)m_MaxV);
 	}
+
+	MT_Set_Axis_Acc(AObj, acc);
+	MT_Set_Axis_Dec(AObj, dec);
+	MT_Set_Axis_Position_V_Max(AObj, maxV);
 	
 	iResult = MT_Set_Axis_Position_P_Target_Abs(AObj, steps);
+	//CString buffer = "";
+	//buffer.Format("目标位置=%f mm, 脉冲数=%d, 加速度mm=%f, 最大速度mm=%f, 结果=%d, 加速度脉冲=%d, 最大速度脉冲=%d", AValue, steps, m_Acc, m_MaxV, iResult, acc, maxV);
+	//AfxMessageBox(buffer);
 
 	return iResult;
 }
 
 bool IMotorCtrl::IsOnMoving()
 {
-	INT32 aRun = 1;
+	INT32 xRun, yRun, zRun;
 	//指定轴的当前运动状态， 1 为运动， 0 为不运动
-	MT_Get_Axis_Status_Run(AXIS_Z, &aRun);
-	if(0 == aRun)
+	MT_Get_Axis_Status_Run(AXIS_X, &xRun);
+	MT_Get_Axis_Status_Run(AXIS_Y, &yRun);
+	MT_Get_Axis_Status_Run(AXIS_Z, &zRun);
+	//if((1 == xRun) || (1 == yRun) || (1 == zRun))
+	//{
+	//	return true;
+	//}
+	//else
 	{
 		return false;
-	}
-	else
-	{
-		return true;
 	}
 }
 
@@ -204,16 +235,13 @@ INT32 IMotorCtrl::SetAxisSoftwareP(WORD AObj,float Value)
 	INT32 iResult = 0;
 	INT32 steps = 0;
 
-	if(1 == m_CloseEnable)
-	{
-		steps = MT_Help_Encoder_Line_Real_To_Steps((double)m_Pitch, (double)m_LineRatio, (double)m_CoderLineCount, Value);				//闭环-编码器
-	}
-	else
-	{
-		steps = MT_Help_Step_Line_Real_To_Steps((double)m_stepAngle, m_Div, (double)m_Pitch, (double)m_LineRatio, (double)Value);	//开环
-	}
+	steps = MT_Help_Step_Line_Real_To_Steps((double)m_stepAngle, m_Div, (double)m_Pitch, (double)m_LineRatio, (double)Value);
 	
 	iResult = MT_Set_Axis_Software_P(AObj, steps);
+
+	//CString buffer = "";
+	//buffer.Format("目标位置=%f mm, 脉冲数=%d, 结果=%d", Value, steps, iResult);
+	//AfxMessageBox(buffer);
 
 	return iResult;
 }
@@ -223,18 +251,31 @@ INT32 IMotorCtrl::SetAxisVelocityStart(WORD AObj, INT32 nDir)
 {
 	INT32 iResult = R_OK;
 
+	INT32 acc, dec, maxV;
+
+	acc = MT_Help_Step_Line_Real_To_Steps((double)m_stepAngle, m_Div, (double)m_Pitch, (double)m_LineRatio, (double)m_VModeAcc);
+	dec = MT_Help_Step_Line_Real_To_Steps((double)m_stepAngle, m_Div, (double)m_Pitch, (double)m_LineRatio, (double)m_VModeDec);
+	maxV = MT_Help_Step_Line_Real_To_Steps((double)m_stepAngle, m_Div, (double)m_Pitch, (double)m_LineRatio, (double)m_VModeMaxV);
+
 	iResult = MT_Set_Axis_Mode_Velocity(AObj);
+	MT_Set_Axis_Velocity_Acc(AObj, acc);
+	MT_Set_Axis_Velocity_Dec(AObj, dec);
+
 	if(R_OK == iResult)
 	{
 		if(nDir == 1)
 		{
-			iResult = MT_Set_Axis_Velocity_V_Target_Abs(AObj, m_MaxV);
+			iResult = MT_Set_Axis_Velocity_V_Target_Abs(AObj, maxV);
 		}
 		else
 		{
-			iResult = MT_Set_Axis_Velocity_V_Target_Abs(AObj, -m_MaxV);
+			iResult = MT_Set_Axis_Velocity_V_Target_Abs(AObj, -maxV);
 		}
 	}
+
+	//CString buffer = "";
+	//buffer.Format("速度模式：加速度=%f, 加速度脉冲=%d, 最大速度=%f, 最大速度脉冲=%d", m_VModeAcc, acc, m_VModeMaxV, maxV);
+	//AfxMessageBox(buffer);
 
 	return iResult;
 }

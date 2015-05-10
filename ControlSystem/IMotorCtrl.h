@@ -38,9 +38,12 @@ private:
 private:
 	CString m_ConfigPath;
 private:
-	INT32 m_Acc;
-	INT32 m_Dec;
-	INT32 m_MaxV;
+	float m_Acc;
+	float m_Dec;
+	float m_MaxV;
+	float m_VModeAcc;
+	float m_VModeDec;
+	float m_VModeMaxV;
 	INT32 m_Div;
 	INT32 m_CloseEnable;
 	INT32 m_CoderLineCount;
