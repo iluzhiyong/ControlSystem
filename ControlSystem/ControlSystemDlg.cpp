@@ -845,7 +845,7 @@ bool CControlSystemDlg ::CalculatePoint(float x, float y, float z, float &retx, 
 	//找到圆孔远心正上方。
 	if(ret)
 	{
-		ret = m_IMotoCtrl->MoveTo(AXIS_Z, retx);
+		m_IMotoCtrl->MoveTo(AXIS_Z, retx);
 	}
 
 	if(ret)
@@ -1017,9 +1017,17 @@ void CControlSystemDlg::OnTimer(UINT_PTR nIDEvent)
 			//读取当前位置
 			float iTempPos;
 			CString sTempPos;
-			m_IMotoCtrl->GetAxisSoftwarePNow(0,&iTempPos);
+		m_IMotoCtrl->GetAxisSoftwarePNow(AXIS_Z, &iTempPos);
 			sTempPos.Format("%.2f", iTempPos);
 			m_ZCurPosAbs.SetWindowText(sTempPos);
+
+		m_IMotoCtrl->GetAxisSoftwarePNow(AXIS_X, &iTempPos);
+		sTempPos.Format("%.2f", iTempPos);
+		m_XCurPosAbs.SetWindowText(sTempPos);
+
+		m_IMotoCtrl->GetAxisSoftwarePNow(AXIS_Y, &iTempPos);
+		sTempPos.Format("%.2f", iTempPos);
+		m_YCurPosAbs.SetWindowText(sTempPos);
 
 			if(true == m_IMotoCtrl->IsOnMoving())
 			{
@@ -1154,7 +1162,7 @@ void CControlSystemDlg::OnBnClickedClearZeroZ()
 	if(NULL != m_IMotoCtrl && true == m_IsMotroCtrlConnected)
 	{
 		UpdateData(true);
-		m_IMotoCtrl->SetAxisSoftwareP(AXIS_Z, m_CustomZ);
+		m_IMotoCtrl->SetAxisSoftwareP(AXIS_Z, 0);
 	}
 	else
 	{
@@ -1162,7 +1170,7 @@ void CControlSystemDlg::OnBnClickedClearZeroZ()
 	}
 }
 
-void CControlSystemDlg::OnOpButtonUp(UINT nID)
+void CControlSystemDlg::OnOpButtonDown(UINT nID)
 {
 	if(NULL != m_IMotoCtrl && true == m_IsMotroCtrlConnected)
 	{
@@ -1177,11 +1185,11 @@ void CControlSystemDlg::OnOpButtonUp(UINT nID)
 		case IDC_MANUAL_RIGHT_Y:
 			break;
 		case IDC_MANUAL_LEFT_Z:
-			m_IMotoCtrl->SetAxisVelocityStart(AXIS_Z, 0);
+			m_IMotoCtrl->SetAxisVelocityStart(AXIS_Z, 1);
 			break;
 
 		case IDC_MANUAL_RIGHT_Z:
-			m_IMotoCtrl->SetAxisVelocityStart(AXIS_Z, 1);
+			m_IMotoCtrl->SetAxisVelocityStart(AXIS_Z, 0);
 			break;
 
 		default:
@@ -1194,7 +1202,7 @@ void CControlSystemDlg::OnOpButtonUp(UINT nID)
 	}
 }
 
-void CControlSystemDlg::OnOpButtonDown(UINT nID)
+void CControlSystemDlg::OnOpButtonUp(UINT nID)
 {
 	if(NULL != m_IMotoCtrl && true == m_IsMotroCtrlConnected)
 	{
