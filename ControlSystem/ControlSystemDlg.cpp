@@ -959,15 +959,15 @@ void CControlSystemDlg::OnTimer(UINT_PTR nIDEvent)
 		//读取当前位置
 		float iTempPos;
 		CString sTempPos;
-		m_IMotoCtrl->GetAxisSoftwarePNow(AXIS_Z, &iTempPos);
+		m_IMotoCtrl->GetAxisCurrPos(AXIS_Z, &iTempPos);
 		sTempPos.Format("%.2f", iTempPos);
 		m_ZCurPosAbs.SetWindowText(sTempPos);
 
-		m_IMotoCtrl->GetAxisSoftwarePNow(AXIS_X, &iTempPos);
+		m_IMotoCtrl->GetAxisCurrPos(AXIS_X, &iTempPos);
 		sTempPos.Format("%.2f", iTempPos);
 		m_XCurPosAbs.SetWindowText(sTempPos);
 
-		m_IMotoCtrl->GetAxisSoftwarePNow(AXIS_Y, &iTempPos);
+		m_IMotoCtrl->GetAxisCurrPos(AXIS_Y, &iTempPos);
 		sTempPos.Format("%.2f", iTempPos);
 		m_YCurPosAbs.SetWindowText(sTempPos);
 
@@ -1061,7 +1061,7 @@ void CControlSystemDlg::OnBnClickedClearZeroX()
 	if(NULL != m_IMotoCtrl && true == m_IsMotroCtrlConnected)
 	{
 		UpdateData(true);
-		m_IMotoCtrl->SetAxisSoftwareP(AXIS_X, m_CustomX);
+		m_IMotoCtrl->SetAxisCurrPos(AXIS_X, m_CustomX);
 	}
 	else
 	{
@@ -1075,7 +1075,7 @@ void CControlSystemDlg::OnBnClickedClearZeroY()
 	if(NULL != m_IMotoCtrl && true == m_IsMotroCtrlConnected)
 	{
 		UpdateData(true);
-		m_IMotoCtrl->SetAxisSoftwareP(AXIS_Y, m_CustomY);
+		m_IMotoCtrl->SetAxisCurrPos(AXIS_Y, m_CustomY);
 	}
 	else
 	{
@@ -1089,7 +1089,7 @@ void CControlSystemDlg::OnBnClickedClearZeroZ()
 	if(NULL != m_IMotoCtrl && true == m_IsMotroCtrlConnected)
 	{
 		UpdateData(true);
-		m_IMotoCtrl->SetAxisSoftwareP(AXIS_Z, 0);
+		m_IMotoCtrl->SetAxisCurrPos(AXIS_Z, 0);
 	}
 	else
 	{

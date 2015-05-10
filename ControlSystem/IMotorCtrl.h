@@ -22,10 +22,10 @@ public:
 	INT32 CloseUSB(void);
 	INT32 OpenUSB(void);
 	INT32 Check(void);
-	INT32 GetAxisSoftwarePNow(WORD AObj,float* pValue);
+	INT32 GetAxisCurrPos(WORD AObj,float* pValue);
 	INT32 SetAxisPositionPTargetAbs(WORD AObj,INT32 Value);
 	INT32 SetAxisPositionStop(WORD AObj);
-	INT32 SetAxisSoftwareP(WORD AObj,float Value);
+	INT32 SetAxisCurrPos(WORD AObj,float Value);
 	INT32 SetAxisVelocityStart(WORD AObj, INT32 nDir);
 	INT32 SetAxisVelocityStop(WORD AObj);
 
