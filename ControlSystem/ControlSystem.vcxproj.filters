@@ -40,6 +40,21 @@
     <None Include="res\ControlSystem.ico">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="res\Alram0.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Alram1.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\icon1.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\icon2.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\ico00001.ico">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ControlSystem.h">
