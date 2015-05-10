@@ -65,6 +65,7 @@ END_MESSAGE_MAP()
 // CControlSystemDlg dialog
 
 
+#define DETECTLIMIT_TIMER 2
 
 
 CControlSystemDlg::CControlSystemDlg(CWnd* pParent /*=NULL*/)
@@ -93,6 +94,51 @@ CControlSystemDlg::CControlSystemDlg(CWnd* pParent /*=NULL*/)
 
 	CLog::Instance()->CreateLog(DataUtility::GetExePath() + _T("log.txt"), true);
 
+	m_hIconRed = AfxGetApp()->LoadIcon(IDI_ICON_RED); 
+	m_hIconGray = AfxGetApp()->LoadIcon(IDI_ICON_GRAY); 
+	m_hIconGreen = AfxGetApp()->LoadIcon(IDI_ICON_GREEN);
+	
+}
+
+bool flagx = true;
+bool flagy = true;
+bool flagz = true;
+void CControlSystemDlg::UpdateXAlarmOn()
+{
+	if(m_XAxisLimit)
+	{
+		m_LimitErrX.SetIcon(flagx ? m_hIconRed : m_hIconGray);
+		flagx = !flagx;
+	}
+	else
+	{
+		m_LimitErrX.SetIcon(m_hIconGreen);
+	}
+}
+
+void CControlSystemDlg::UpdateYAlarmOn()
+{
+	if(m_YAxisLimit)
+	{
+		m_LimitErrY.SetIcon(flagy ? m_hIconRed : m_hIconGray);
+		flagy = !flagy;
+	}
+	else
+	{
+		m_LimitErrY.SetIcon(m_hIconGreen);
+	}
+}
+void CControlSystemDlg::UpdateZAlarmOn()
+{
+	if(m_ZAxisLimit)
+	{
+		m_LimitErrZ.SetIcon(flagz ? m_hIconRed : m_hIconGray);
+		flagz = !flagz;
+	}
+	else
+	{
+		m_LimitErrZ.SetIcon(m_hIconGreen);
+	}
 }
 
 CControlSystemDlg::~CControlSystemDlg()
@@ -139,6 +185,9 @@ void CControlSystemDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_MANUAL_RIGHT_X, m_RightXBtn);
 	DDX_Control(pDX, IDC_MANUAL_RIGHT_Y, m_RightYBtn);
 	DDX_Control(pDX, IDC_MANUAL_RIGHT_Z, m_RightZBtn);
+	DDX_Control(pDX, IDC_LIMIT_X_ERROR, m_LimitErrX);
+	DDX_Control(pDX, IDC_LIMIT_Y_ERROR, m_LimitErrY);
+	DDX_Control(pDX, IDC_LIMIT_Z_ERROR, m_LimitErrZ);
 }
 
 BEGIN_MESSAGE_MAP(CControlSystemDlg, CDialogEx)
@@ -201,6 +250,11 @@ BOOL CControlSystemDlg::OnInitDialog()
 	//  when the application's main window is not a dialog
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
+
+	SetTimer(DETECTLIMIT_TIMER, 1000, NULL);
+
+	GetDlgItem( IDC_SAVE_AS)->EnableWindow(false);
+	
 
 	// TODO: Add extra initialization here
 	CFont font;
@@ -370,6 +424,8 @@ void CControlSystemDlg::OnBnClickedImport()
 	excelApp.CloseExcelFile();
 	excelApp.ReleaseExcel();
 	m_excelLoaded = true;
+
+	GetDlgItem( IDC_SAVE_AS)->EnableWindow(true);
 
 	m_columnNum = UsedColumnNum;
 	m_rowNum = UsedRowNum;
@@ -541,6 +597,7 @@ void CControlSystemDlg::OnBnClickedStart()
 	//m_pMotorCtrl->PostThreadMessage(WM_USER_READ_MOTOR_STATUS, NULL, NULL);
 
 	UpdateData(TRUE);
+
 	EnableOtherControls();
 
 	if(m_Process == 0)
@@ -576,7 +633,7 @@ void CControlSystemDlg::EnableOtherControls()
 	GetDlgItem( IDC_SET_PARAM)->EnableWindow(!m_IsMeasuring);
 
 	GetDlgItem( IDC_IMPORT)->EnableWindow(!m_IsMeasuring);
-	GetDlgItem( IDC_SAVE_AS)->EnableWindow(!m_IsMeasuring);
+	GetDlgItem( IDC_SAVE_AS)->EnableWindow(m_excelLoaded ? (!m_IsMeasuring) : false);
 
 	GetDlgItem( IDC_CUSTOM_X)->EnableWindow(!m_IsMeasuring);
 	GetDlgItem( IDC_CUSTOM_Y)->EnableWindow(!m_IsMeasuring);
@@ -617,11 +674,10 @@ BOOL CControlSystemDlg::DestroyWindow()
 	return CDialogEx::DestroyWindow();
 }
 
-	const int StartRow = 4;
-	const int XColumn = 2; const int XResultColumn = 5;
-	const int YColumn = 3; const int YResultColumn = 6;
-	const int ZColumn = 4; const int ZResultColumn = 7;
-
+const int StartRow = 4;
+const int XColumn = 2; const int XResultColumn = 5;
+const int YColumn = 3; const int YResultColumn = 6;
+const int ZColumn = 4; const int ZResultColumn = 7;
 
 void CControlSystemDlg::OnBnClickedAutoMear()
 {
@@ -647,6 +703,7 @@ void CControlSystemDlg::OnBnClickedAutoMear()
 		if(GetMeasureTargetValue(i, x, y, z))
 		{
 			testNum = m_ListData.GetItemText(i, 0);
+			
 			if(CalculatePoint(x, y, z, retX, retY, retZ))
 			{
 				CString log;
@@ -949,41 +1006,57 @@ void CControlSystemDlg::OnClose()
 	CDialogEx::OnClose();
 }
 
-
 void CControlSystemDlg::OnTimer(UINT_PTR nIDEvent)
 {
 	//定时读取状态
 
-	if(NULL != m_IMotoCtrl)
+	if(nIDEvent == 1)
 	{
-		//读取当前位置
-		float iTempPos;
-		CString sTempPos;
-		m_IMotoCtrl->GetAxisCurrPos(AXIS_Z, &iTempPos);
-		sTempPos.Format("%.2f", iTempPos);
-		m_ZCurPosAbs.SetWindowText(sTempPos);
-
-		m_IMotoCtrl->GetAxisCurrPos(AXIS_X, &iTempPos);
-		sTempPos.Format("%.2f", iTempPos);
-		m_XCurPosAbs.SetWindowText(sTempPos);
-
-		m_IMotoCtrl->GetAxisCurrPos(AXIS_Y, &iTempPos);
-		sTempPos.Format("%.2f", iTempPos);
-		m_YCurPosAbs.SetWindowText(sTempPos);
-
-		if(true == m_IMotoCtrl->IsOnMoving())
+		if(NULL != m_IMotoCtrl)
 		{
-			m_IsMeasuring = true;
-		}
-		else
-		{
-			m_IsMeasuring = false;
+			//读取当前位置
+			float iTempPos;
+			CString sTempPos;
+			m_IMotoCtrl->GetAxisCurrPos(AXIS_Z, &iTempPos);
+			sTempPos.Format("%.2f", iTempPos);
+			m_ZCurPosAbs.SetWindowText(sTempPos);
+
+			m_IMotoCtrl->GetAxisCurrPos(AXIS_X, &iTempPos);
+			sTempPos.Format("%.2f", iTempPos);
+			m_XCurPosAbs.SetWindowText(sTempPos);
+
+			m_IMotoCtrl->GetAxisCurrPos(AXIS_Y, &iTempPos);
+			sTempPos.Format("%.2f", iTempPos);
+			m_YCurPosAbs.SetWindowText(sTempPos);
+
+			if(true == m_IMotoCtrl->IsOnMoving())
+			{
+				m_IsMeasuring = true;
+			}
+			else
+			{
+				m_IsMeasuring = false;
+			}
 		}
 	}
-
+	else if(nIDEvent == (DETECTLIMIT_TIMER))
+	{
+		OnAxisLimtiTimer();
+	}
 	CDialogEx::OnTimer(nIDEvent);
 }
 
+void CControlSystemDlg::OnAxisLimtiTimer()
+{
+	// Get Axis Limit State
+	m_XAxisLimit = true;
+	m_YAxisLimit = false;
+	m_ZAxisLimit = true;
+
+	UpdateXAlarmOn();
+	UpdateYAlarmOn();
+	UpdateZAlarmOn();
+}
 
 void CControlSystemDlg::OnBnClickedStop()
 {
@@ -1160,3 +1233,4 @@ void CControlSystemDlg::OnOpButtonUp(UINT nID)
 		AfxMessageBox("控制卡未连接！");
 	}
 }
+

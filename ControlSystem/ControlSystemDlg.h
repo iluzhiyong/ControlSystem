@@ -8,6 +8,7 @@
 #include "Camera.h"
 #include "ImageProcSettingDlg.h"
 #include "OPButton.h"
+#include "afxwin.h"
 
 // CControlSystemDlg dialog
 class IMotorCtrl;
@@ -120,4 +121,25 @@ public:
 	OPButton m_RightXBtn;
 	OPButton m_RightYBtn;
 	OPButton m_RightZBtn;
+	afx_msg void OnBnClickedLimitX();
+
+public:
+	HICON m_hIconRed;
+	HICON m_hIconGray;
+	HICON m_hIconGreen;
+
+	void UpdateXAlarmOn();
+	void UpdateYAlarmOn();
+	void UpdateZAlarmOn();
+
+	CStatic m_LimitErrX;
+	CStatic m_LimitErrY;
+	CStatic m_LimitErrZ;
+
+	bool m_XAxisLimit;
+	bool m_YAxisLimit;
+	bool m_ZAxisLimit;
+
+	void OnAxisLimtiTimer();
+
 };
