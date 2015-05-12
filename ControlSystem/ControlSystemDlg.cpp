@@ -587,19 +587,31 @@ LRESULT CControlSystemDlg::AcquireImage(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
+static UINT ProcessThread(LPVOID lpParam)
+{
+	CControlSystemDlg* dlg = (CControlSystemDlg*)lpParam;
+
+	dlg->m_IsMeasuring = true;
+	dlg->EnableOtherControls();
+
+	dlg->StartProcess();
+
+	dlg->m_IsMeasuring = false;
+	dlg->EnableOtherControls();
+
+	AfxEndThread(0,true);
+	return 0;
+}
+
 void CControlSystemDlg::OnBnClickedStart()
 {
-	// TODO: Add your control notification handler code here
-	//创建电机监控线程
-	//m_pMotorCtrl = (CMotorCtrl*)AfxBeginThread(RUNTIME_CLASS(CMotorCtrl));
-
-	//Sleep(500); 
-	//m_pMotorCtrl->PostThreadMessage(WM_USER_READ_MOTOR_STATUS, NULL, NULL);
-
 	UpdateData(TRUE);
+	OpenHalconWind();
+	m_ProcessThread = AfxBeginThread(ProcessThread, (LPVOID)(this));
+}
 
-	EnableOtherControls();
-
+void CControlSystemDlg::StartProcess()
+{
 	if(m_Process == 0)
 	{
 		OnBnClickedAutoMear();
@@ -612,8 +624,9 @@ void CControlSystemDlg::OnBnClickedStart()
 	{
 		OnBnClickedManualMear();
 	}
-	EnableOtherControls();
 }
+
+
 
 void CControlSystemDlg::EnableOtherControls()
 {
@@ -627,6 +640,7 @@ void CControlSystemDlg::EnableOtherControls()
 
 	GetDlgItem( IDC_CLEAR_ZERO_X)->EnableWindow(!m_IsMeasuring);
 	GetDlgItem( IDC_CLEAR_ZERO_Y)->EnableWindow(!m_IsMeasuring);
+	GetDlgItem( IDC_CLEAR_ZERO_Z)->EnableWindow(!m_IsMeasuring);
 	
 	
 	GetDlgItem( IDC_CAMERA_PARAM)->EnableWindow(!m_IsMeasuring);
@@ -683,7 +697,7 @@ void CControlSystemDlg::OnBnClickedAutoMear()
 {
 	if(!m_excelLoaded)
 	{
-		AfxMessageBox("Please load measure parameter excel first.");
+		AfxMessageBox("请先加载图纸尺寸数据！");
 		return;
 	}
 
@@ -693,8 +707,6 @@ void CControlSystemDlg::OnBnClickedAutoMear()
 		detecter->LoadConfig();
 	}
 
-	OpenHalconWind();
-
 	float x, y, z;
 	float retX, retY, retZ;
 	CString testNum;
@@ -703,7 +715,6 @@ void CControlSystemDlg::OnBnClickedAutoMear()
 		if(GetMeasureTargetValue(i, x, y, z))
 		{
 			testNum = m_ListData.GetItemText(i, 0);
-			
 			if(CalculatePoint(x, y, z, retX, retY, retZ))
 			{
 				CString log;
@@ -809,45 +820,36 @@ bool CControlSystemDlg :: SetMeasureResultValue(int row, float resultX, float re
 
 bool CControlSystemDlg ::CalculatePoint(float x, float y, float z, float &retx, float &rety, float &retz)
 {
-	/*retx = x + 10;
-	rety = y + 10;
-	retz = z + 10;
-	return true;*/
+	if((NULL == m_IMotoCtrl) || (NULL == m_pCamera) || (NULL == m_IImageProcess) /*|| (NULL == m_IHeightDectector)*/)
+	{
+		return false;
+	}
 
-	//bool ret = ((NULL != m_IMotoCtrl) && (NULL != m_pCamera) && (NULL != m_IImageProcess) && (NULL != m_IHeightDectector));
+	//bool ret = MotoMoveToXY(x, y);
 	//if(ret)
 	//{
-	//	ret = m_IMotoCtrl->MoveTo(x, y, 0);
+	//	ret = (1 == m_pCamera->DoCapture());
 	//}
-	//if(ret)
-	//{
-	//	while(1)
-	//	{
-	//		if(m_IMotoCtrl->IsOnMoving() == false)
-	//		{
-	//			break;
-	//		}
-	//		Sleep(100);
-	//	}
-	//}
-	//if(ret)
-	//{
-	//	ret = (m_pCamera->DoCapture() == 0);
-	//}
-
 	bool ret = true;
 	if(ret)
 	{
 		m_IImageProcess->GetCircleDetecter()->ShowErrorMessage(false);
 		ret = m_IImageProcess->Process(x, y, retx, rety);
+		
 	}
-
-	//找到圆孔远心正上方。
-	if(ret)
-	{
-		m_IMotoCtrl->MoveTo(AXIS_Z, retx);
-	}
-
+	//if(ret)
+	//{
+	//	ret = MotoMoveToXY(retx, rety);;
+	//}
+	////找到圆孔远心正上方。
+	//if(ret)
+	//{
+	//	m_IMotoCtrl->MoveTo(AXIS_Z, z);
+	//}
+	//if(ret)
+	//{
+	//	while(m_IMotoCtrl->IsOnMoving(AXIS_Z)){ }
+	//}
 	if(ret)
 	{
 		//ret = m_IHeightDectector->Dectect(z, retz);
@@ -856,9 +858,26 @@ bool CControlSystemDlg ::CalculatePoint(float x, float y, float z, float &retx, 
 	return ret;
 }
 
+bool CControlSystemDlg::MotoMoveToXY(float x, float y)
+{
+	bool ret = (0 == m_IMotoCtrl->MoveTo(AXIS_X, x));
+	if(ret)
+	{
+		while(m_IMotoCtrl->IsOnMoving(AXIS_X)){ }
+	}
+	if(ret)
+	{
+		ret = (0 == m_IMotoCtrl->MoveTo(AXIS_Y, y));
+	}
+	if(ret)
+	{
+		while(m_IMotoCtrl->IsOnMoving(AXIS_Y)){ }
+	}
+	return ret;
+}
+
 void CControlSystemDlg::OnBnClickedCustomMear()
 {
-	UpdateData(true);
 	float x, y, z;
 	if(CalculatePoint(m_CustomX, m_CustomY, m_CustomZ, x, y, z))
 	{
@@ -870,6 +889,7 @@ void CControlSystemDlg::OnBnClickedCustomMear()
 	{
 		AfxMessageBox("测量失败！");
 	}
+
 }
 
 void CControlSystemDlg::OnBnClickedImageProcSettingBtn()
@@ -1017,26 +1037,17 @@ void CControlSystemDlg::OnTimer(UINT_PTR nIDEvent)
 			//读取当前位置
 			float iTempPos;
 			CString sTempPos;
-		m_IMotoCtrl->GetAxisSoftwarePNow(AXIS_Z, &iTempPos);
+			m_IMotoCtrl->GetAxisSoftwarePNow(AXIS_Z, &iTempPos);
 			sTempPos.Format("%.2f", iTempPos);
 			m_ZCurPosAbs.SetWindowText(sTempPos);
 
-		m_IMotoCtrl->GetAxisSoftwarePNow(AXIS_X, &iTempPos);
-		sTempPos.Format("%.2f", iTempPos);
-		m_XCurPosAbs.SetWindowText(sTempPos);
+			m_IMotoCtrl->GetAxisSoftwarePNow(AXIS_X, &iTempPos);
+			sTempPos.Format("%.2f", iTempPos);
+			m_XCurPosAbs.SetWindowText(sTempPos);
 
-		m_IMotoCtrl->GetAxisSoftwarePNow(AXIS_Y, &iTempPos);
-		sTempPos.Format("%.2f", iTempPos);
-		m_YCurPosAbs.SetWindowText(sTempPos);
-
-			if(true == m_IMotoCtrl->IsOnMoving())
-			{
-				m_IsMeasuring = true;
-			}
-			else
-			{
-				m_IsMeasuring = false;
-			}
+			m_IMotoCtrl->GetAxisSoftwarePNow(AXIS_Y, &iTempPos);
+			sTempPos.Format("%.2f", iTempPos);
+			m_YCurPosAbs.SetWindowText(sTempPos);
 		}
 	}
 	else if(nIDEvent == (DETECTLIMIT_TIMER))
@@ -1068,6 +1079,11 @@ void CControlSystemDlg::OnBnClickedStop()
 	{
 		AfxMessageBox("控制卡未连接！");
 	}
+	//if(NULL != m_ProcessThread)
+	//{
+	//	m_ProcessThread->SuspendThread();
+	//	GetDlgItem(IDC_STOP)->SetWindowTextA(_T("继续"));
+	//}
 }
 
 void CControlSystemDlg::OnBnClickedManualMear()

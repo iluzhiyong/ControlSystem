@@ -213,21 +213,12 @@ INT32 IMotorCtrl::MoveTo(WORD AObj, float AValue)
 	return iResult;
 }
 
-bool IMotorCtrl::IsOnMoving()
+bool IMotorCtrl::IsOnMoving(WORD AObj)
 {
-	INT32 xRun, yRun, zRun;
+	INT32 isRun;
 	//指定轴的当前运动状态， 1 为运动， 0 为不运动
-	MT_Get_Axis_Status_Run(AXIS_X, &xRun);
-	MT_Get_Axis_Status_Run(AXIS_Y, &yRun);
-	MT_Get_Axis_Status_Run(AXIS_Z, &zRun);
-	//if((1 == xRun) || (1 == yRun) || (1 == zRun))
-	//{
-	//	return true;
-	//}
-	//else
-	{
-		return false;
-	}
+	MT_Get_Axis_Status_Run(AObj, &isRun);
+	return (1 == isRun);
 }
 
 INT32 IMotorCtrl::SetAxisSoftwareP(WORD AObj,float Value)

@@ -82,6 +82,7 @@ private:
 	CImageProcSettingDlg* m_ImageProcSetDlg;
 
 public:
+	bool MotoMoveToXY(float x, float y);
 	afx_msg void OnBnClickedCustomMear();
 	float m_CustomX;
 	float m_CustomY;
@@ -141,5 +142,12 @@ public:
 	bool m_ZAxisLimit;
 
 	void OnAxisLimtiTimer();
+
+public:
+	void StartProcess();
+
+private:
+	CWinThread* m_ProcessThread;
+
 
 };

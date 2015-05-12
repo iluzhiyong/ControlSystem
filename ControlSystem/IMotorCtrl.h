@@ -30,7 +30,7 @@ public:
 	INT32 SetAxisVelocityStop(WORD AObj);
 
 	INT32 MoveTo(WORD AObj, float AValue);
-	bool IsOnMoving();
+	bool IsOnMoving(WORD AObj);
 
 private:
 	CString GetFloatConfigString(CString section, CString key, CString defautValue="");
