@@ -131,15 +131,26 @@ INT32 IMotorCtrl::Check(void)
 	return MT_Check();
 }
 
-INT32 IMotorCtrl::GetAxisSoftwarePNow(WORD AObj,float* pValue)
+INT32 IMotorCtrl::GetAxisCurrPos(WORD AObj,float* pValue)
 {
 	INT32 iResult = 0;
 	INT32 steps = 0;
 
-	iResult = MT_Get_Axis_Software_P_Now(AObj, &steps);
-	if(R_OK == iResult)
+	if(1 == m_CloseEnable)
 	{
-		*pValue = (float)MT_Help_Step_Line_Steps_To_Real((double)m_stepAngle, m_Div, (double)m_Pitch, (double)m_LineRatio, steps);
+		iResult = MT_Get_Encoder_Pos(AObj, &steps);
+		if(R_OK == iResult)
+		{
+			*pValue = (float)MT_Help_Encoder_Line_Steps_To_Real((double)m_Pitch, (double)m_LineRatio, m_CoderLineCount, steps);
+		}
+	}
+	else
+	{
+		iResult = MT_Get_Axis_Software_P_Now(AObj, &steps);
+		if(R_OK == iResult)
+		{
+			*pValue = (float)MT_Help_Step_Line_Steps_To_Real((double)m_stepAngle, m_Div, (double)m_Pitch, (double)m_LineRatio, steps);
+		}
 	}
 	
 	return iResult;
@@ -221,14 +232,21 @@ bool IMotorCtrl::IsOnMoving(WORD AObj)
 	return (1 == isRun);
 }
 
-INT32 IMotorCtrl::SetAxisSoftwareP(WORD AObj,float Value)
+INT32 IMotorCtrl::SetAxisCurrPos(WORD AObj,float Value)
 {
 	INT32 iResult = 0;
 	INT32 steps = 0;
 
-	steps = MT_Help_Step_Line_Real_To_Steps((double)m_stepAngle, m_Div, (double)m_Pitch, (double)m_LineRatio, (double)Value);
-	
-	iResult = MT_Set_Axis_Software_P(AObj, steps);
+	if(1 == m_CloseEnable)
+	{
+		steps = MT_Help_Encoder_Line_Real_To_Steps((double)m_Pitch, (double)m_LineRatio, m_CoderLineCount, Value);
+		iResult = MT_Set_Encoder_Pos(AObj, steps);
+	}
+	else
+	{
+		steps = MT_Help_Step_Line_Real_To_Steps((double)m_stepAngle, m_Div, (double)m_Pitch, (double)m_LineRatio, (double)Value);
+		iResult = MT_Set_Axis_Software_P(AObj, steps);
+	}
 
 	//CString buffer = "";
 	//buffer.Format("目标位置=%f mm, 脉冲数=%d, 结果=%d", Value, steps, iResult);
