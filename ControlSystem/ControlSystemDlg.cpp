@@ -1037,15 +1037,7 @@ void CControlSystemDlg::OnTimer(UINT_PTR nIDEvent)
 			//读取当前位置
 			float iTempPos;
 			CString sTempPos;
-<<<<<<< HEAD
-			m_IMotoCtrl->GetAxisSoftwarePNow(AXIS_Z, &iTempPos);
-			sTempPos.Format("%.2f", iTempPos);
-			m_ZCurPosAbs.SetWindowText(sTempPos);
 
-			m_IMotoCtrl->GetAxisSoftwarePNow(AXIS_X, &iTempPos);
-			sTempPos.Format("%.2f", iTempPos);
-			m_XCurPosAbs.SetWindowText(sTempPos);
-=======
 			m_IMotoCtrl->GetAxisCurrPos(AXIS_Z, &iTempPos);
 			sTempPos.Format("%.2f", iTempPos);
 			m_ZCurPosAbs.SetWindowText(sTempPos);
@@ -1055,11 +1047,6 @@ void CControlSystemDlg::OnTimer(UINT_PTR nIDEvent)
 			m_XCurPosAbs.SetWindowText(sTempPos);
 
 			m_IMotoCtrl->GetAxisCurrPos(AXIS_Y, &iTempPos);
-			sTempPos.Format("%.2f", iTempPos);
-			m_YCurPosAbs.SetWindowText(sTempPos);
->>>>>>> be167d166b3a2c7d1c8a5d0f4b177c7e8230805d
-
-			m_IMotoCtrl->GetAxisSoftwarePNow(AXIS_Y, &iTempPos);
 			sTempPos.Format("%.2f", iTempPos);
 			m_YCurPosAbs.SetWindowText(sTempPos);
 		}
