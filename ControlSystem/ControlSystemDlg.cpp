@@ -199,7 +199,7 @@ BEGIN_MESSAGE_MAP(CControlSystemDlg, CDialogEx)
 	ON_WM_CTLCOLOR()
 	ON_BN_CLICKED(IDC_CAMERA_PARAM, &CControlSystemDlg::OnBnClickedCameraParam)
 	ON_BN_CLICKED(IDC_BUTTON_IMAGE_PROC, &CControlSystemDlg::OnBnClickedButtonImageProc)
-	ON_MESSAGE(WM_USER_IMAGE_ACQ,AcquireImage)
+	
 	ON_BN_CLICKED(IDC_START, &CControlSystemDlg::OnBnClickedStart)
 	ON_BN_CLICKED(IDC_BUTTON2, &CControlSystemDlg::OnBnClickedButtonCapture)
 	ON_BN_CLICKED(IDC_IMAGE_PROC_SETTING_BTN, &CControlSystemDlg::OnBnClickedImageProcSettingBtn)
@@ -217,6 +217,7 @@ BEGIN_MESSAGE_MAP(CControlSystemDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_CLEAR_ZERO_X, &CControlSystemDlg::OnBnClickedClearZeroX)
 	ON_BN_CLICKED(IDC_CLEAR_ZERO_Y, &CControlSystemDlg::OnBnClickedClearZeroY)
 	ON_BN_CLICKED(IDC_CLEAR_ZERO_Z, &CControlSystemDlg::OnBnClickedClearZeroZ)
+	
 END_MESSAGE_MAP()
 
 
@@ -357,7 +358,6 @@ HCURSOR CControlSystemDlg::OnQueryDragIcon()
 
 void CControlSystemDlg::OnBnClickedImport()
 {
-	// TODO: Add your control notification handler code here
 	IllusionExcelFile excelApp;
 	if(FALSE == excelApp.InitExcel())
 	{
@@ -366,8 +366,13 @@ void CControlSystemDlg::OnBnClickedImport()
 	excelApp.ShowInExcel(FALSE);
 
 	CString FilePathName;
-	CFileDialog dlg(TRUE);///TRUE为OPEN对话框，FALSE为SAVE AS对话框
-
+	char szFilters[]= "Excel 工作薄(*.xls)|*.xls|Excel 工作薄(*.xlsx)|*.xlsx|所有文件(*.*)|*.*||";
+	CFileDialog dlg (	true, 
+							_T( "xls" ), 
+							"", 
+							OFN_CREATEPROMPT | OFN_HIDEREADONLY | OFN_CREATEPROMPT, 
+							szFilters, 
+							this); //TRUE为OPEN对话框，FALSE为SAVE AS对话框
 	if(dlg.DoModal() == IDOK)
 	{
 		FilePathName = dlg.GetPathName();
@@ -380,17 +385,25 @@ void CControlSystemDlg::OnBnClickedImport()
 	}
 	else
 	{
-		AfxMessageBox("Open file opetation has been canceled.");
+		AfxMessageBox("取消打开文件！");
+		excelApp.CloseExcelFile();
+		excelApp.ReleaseExcel();
 		return;
 	}
 
 	if(FALSE == excelApp.OpenExcelFile(FilePathName))
 	{
+		AfxMessageBox("打开文件失败！");
+		excelApp.CloseExcelFile();
+		excelApp.ReleaseExcel();
 		return;
 	}
 
 	if(FALSE == excelApp.LoadSheet(1))
 	{
+		AfxMessageBox("打开文件失败！");
+		excelApp.CloseExcelFile();
+		excelApp.ReleaseExcel();
 		return;
 	}
 
@@ -425,16 +438,16 @@ void CControlSystemDlg::OnBnClickedImport()
 	excelApp.ReleaseExcel();
 	m_excelLoaded = true;
 
-	GetDlgItem( IDC_SAVE_AS)->EnableWindow(true);
-
 	m_columnNum = UsedColumnNum;
 	m_rowNum = UsedRowNum;
+
+	UpdateData(false);
+	GetDlgItem( IDC_SAVE_AS)->EnableWindow(true);
 }
 
 
 void CControlSystemDlg::OnBnClickedSaveAs()
 {
-	// TODO: Add your control notification handler code here
 	IllusionExcelFile excelApp;
 	if(FALSE == excelApp.InitExcel())
 	{
@@ -463,7 +476,7 @@ void CControlSystemDlg::OnBnClickedSaveAs()
 		{
 			if(TRUE == excelApp.LoadSheet(1))
 			{
-				UpdateData();
+				UpdateData(true);
 
 				CString strItemName;
 				CHeaderCtrl* pHeader = m_ListData.GetHeaderCtrl();
@@ -582,10 +595,6 @@ void CControlSystemDlg::OnBnClickedButtonImageProc()
 	}
 }
 
-LRESULT CControlSystemDlg::AcquireImage(WPARAM wParam,LPARAM lParam)
-{
-	return 0;
-}
 
 static UINT ProcessThread(LPVOID lpParam)
 {
@@ -641,8 +650,7 @@ void CControlSystemDlg::EnableOtherControls()
 	GetDlgItem( IDC_CLEAR_ZERO_X)->EnableWindow(!m_IsMeasuring);
 	GetDlgItem( IDC_CLEAR_ZERO_Y)->EnableWindow(!m_IsMeasuring);
 	GetDlgItem( IDC_CLEAR_ZERO_Z)->EnableWindow(!m_IsMeasuring);
-	
-	
+		
 	GetDlgItem( IDC_CAMERA_PARAM)->EnableWindow(!m_IsMeasuring);
 	GetDlgItem( IDC_SET_PARAM)->EnableWindow(!m_IsMeasuring);
 
@@ -714,6 +722,7 @@ void CControlSystemDlg::OnBnClickedAutoMear()
 	{
 		if(GetMeasureTargetValue(i, x, y, z))
 		{
+			Sleep(200);
 			testNum = m_ListData.GetItemText(i, 0);
 			if(CalculatePoint(x, y, z, retX, retY, retZ))
 			{
@@ -1250,4 +1259,5 @@ void CControlSystemDlg::OnOpButtonUp(UINT nID)
 		AfxMessageBox("控制卡未连接！");
 	}
 }
+
 

@@ -53,8 +53,8 @@ bool CDetectCircularhole::DetectCirleCenter(float &row, float &column)
 {
 	if(RunFitCirle())
 	{
-		row = hv_Row[0].D();
-		column = hv_Column[0].D();
+		row = (float)(hv_Row[0].D());
+		column = (float)(hv_Column[0].D());
 		return true;
 	}
 	return false;

@@ -14,7 +14,14 @@
 //	rename("ReplaceText", "ExcelReplaceText") \
 //	no_auto_exclude
 
-#import "C:\\Program Files (x86)\\Microsoft Office\\Office14\\EXCEL.EXE" \
+//#import "C:\\Program Files (x86)\\Microsoft Office\\Office14\\EXCEL.EXE" \
+//	rename("DialogBox", "ExcelDialogBox") \
+//	rename("RGB", "ExcelRGB") \
+//	rename("CopyFile", "ExcelCopyFile") \
+//	rename("ReplaceText", "ExcelReplaceText") \
+//	no_auto_exclude
+
+#import "C:\\Program Files\\Microsoft Office\\Office14\\EXCEL.EXE" \
 	rename("DialogBox", "ExcelDialogBox") \
 	rename("RGB", "ExcelRGB") \
 	rename("CopyFile", "ExcelCopyFile") \

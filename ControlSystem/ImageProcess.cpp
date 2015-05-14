@@ -127,7 +127,7 @@ bool CImageProcess::Process(float x, float y, float &cenertX, float &centerY)
 		float cx = 0.0, cy = 0.0;
 		float targetX = 0.0, targetY = 0.0;
 
-		ret = ConvertImagePoint(hv_height[0].D() / 2, hv_width[0].D() / 2, cx, cy);
+		ret = ConvertImagePoint( (float)(hv_height[0].D() / 2.0), (float)(hv_width[0].D() / 2.0), cx, cy);
 		if(ret)
 		{
 			ret = FindTargetPoint(targetX, targetY);
@@ -170,8 +170,8 @@ bool CImageProcess::ConvertImagePoint(float imgRow, float imgCol, float &wX, flo
 	}
 	HTuple hv_centX, hv_centY;
 	image_points_to_world_plane(m_hvCamParam, m_hvCamPose, imgRow, imgCol, "mm", &hv_centX, &hv_centY);
-	wX = hv_centX[0].D();
-	wY = hv_centY[0].D();
+	wX = (float)(hv_centX[0].D());
+	wY = (float)(hv_centY[0].D());
 	return true;
 }
 

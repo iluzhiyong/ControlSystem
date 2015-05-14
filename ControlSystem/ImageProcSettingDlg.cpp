@@ -89,7 +89,7 @@ void CImageProcSettingDlg::DoDataExchange(CDataExchange* pDX)
 	DDV_MinMaxFloat(pDX, m_DilationRadius, 0.5, 511.5);
 	DDX_CBString(pDX, IDC_COMBO1, m_EdgeFilter);
 	DDX_Text(pDX, IDC_EDIT8, m_EdgeAlpha);
-	DDV_MinMaxFloat(pDX, m_EdgeAlpha, 0.2, 50.0);
+	DDV_MinMaxFloat(pDX, m_EdgeAlpha, 0.2f, 50.0f);
 	DDX_Text(pDX, IDC_EDIT9, m_EdgeMinThreld);
 	DDV_MinMaxInt(pDX, m_EdgeMinThreld, 0, 255);
 	DDX_Text(pDX, IDC_EDIT10, m_EdgeMaxThreld);
@@ -190,28 +190,28 @@ void CImageProcSettingDlg::OnSelchangeCombo4()
 	switch(m_EdgeAlphaComboBox.GetCurSel())
 	{
 	case 0:
-		m_EdgeAlpha = 0.1;
+		m_EdgeAlpha = 0.1f;
 		break;
 	case 1:
-		m_EdgeAlpha = 0.2;
+		m_EdgeAlpha = 0.2f;
 		break;
 	case 2:
-		m_EdgeAlpha = 0.3;
+		m_EdgeAlpha = 0.3f;
 		break;
 	case 3:
-		m_EdgeAlpha = 0.4;
+		m_EdgeAlpha = 0.4f;
 		break;
 	case 4:
-		m_EdgeAlpha = 0.5;
+		m_EdgeAlpha = 0.5f;
 		break;
 	case 5:
-		m_EdgeAlpha = 0.7;
+		m_EdgeAlpha = 0.7f;
 		break;
 	case 6:
-		m_EdgeAlpha = 0.9;
+		m_EdgeAlpha = 0.9f;
 		break;
 	case 7:
-		m_EdgeAlpha = 1.1;
+		m_EdgeAlpha = 1.1f;
 			break;
 	default:
 		break;
