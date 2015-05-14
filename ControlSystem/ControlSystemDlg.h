@@ -9,6 +9,7 @@
 #include "ImageProcSettingDlg.h"
 #include "OPButton.h"
 #include "afxwin.h"
+#include "ItemResize.h"
 
 // CControlSystemDlg dialog
 class IMotorCtrl;
@@ -131,10 +132,8 @@ public:
 	bool m_IsMeasuring;	
 	void EnableOtherControls();
 
-public:
-	void ReSize(void); //¶Ô»°¿òResize
 private:
-	POINT m_OldPoint;
+	CItemResize m_itemSize;
 
 public:
 	void OnAxisLimtiTimer();
