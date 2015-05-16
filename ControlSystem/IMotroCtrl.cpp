@@ -3,7 +3,9 @@
 #include "IMotorCtrl.h"
 #include "DataUtility.h"
 
-#define POSMOdE			_T("Position Mode")
+#define XAXISPOSMODE	_T("X Axis Position Mode")
+#define YAXISPOSMODE	_T("Y Axis Position Mode")
+#define ZAXISPOSMODE	_T("Z Axis Position Mode")
 #define ACC				_T("Acc")				//位置模式加速度
 #define DEC				_T("Dec")				//位置模式减速度
 #define MAXV			_T("MaxV")				//位置模式最大速度
@@ -12,7 +14,7 @@
 #define PITCH			_T("Pitch")				//螺距
 #define LINERATIO		_T("LineRatio")			//直线传动比
 #define CLOSEENABLE		_T("CloseEnable")		//闭环开关，1 闭环，0 开环，默认 1
-#define CODERLINECOUNT	_T("m_CoderLineCount")	//编码器线数
+#define CODERLINECOUNT	_T("CoderLineCount")	//编码器线数
 #define CLOSEDECFACTOR	_T("CloseDecFactor")	//闭环位置模式的减速系数，默认为 1
 #define CLOSEOVERENABLE	_T("CloseOverEnable")	//闭环运动时是否进行过冲补偿,默认不开启，1： 开启补偿功能，0： 不开启补偿功能
 #define CLOSEOVERMAX	_T("CloseOverMax")		//在开启闭环补偿功能后，本参数决定补偿的最大步数，默认为 100
@@ -20,7 +22,9 @@
 #define ZPOLARITY		_T("ZPolarity")			//编码器/光栅尺接口 Z 信号的电平定义,一般情况下无需设置,0:正常电平,1： 反向电平
 #define DIRPOLARITY		_T("DirPolarity")		//编码器/光栅尺接口计数方向， 一般情况下无需设置,0： 正常方向,1： 反向方向
 
-#define VEMOdE			_T("Velocity Mode")
+#define XAXISVEMODE		_T("X Axis Velocity Mode")
+#define YAXISVEMODE		_T("Y Axis Velocity Mode")
+#define ZAXISVEMODE		_T("Z Axis Velocity Mode")
 #define VACC			_T("VAcc")				//速度模式加速度
 #define VDEC			_T("VDec")				//速度模式减速度
 #define VMAXV			_T("VMaxV")				//速度模式最大速度
@@ -42,60 +46,78 @@ void IMotorCtrl::SetConfigPath(CString path)
 
 INT32 IMotorCtrl::Init(void)
 {
-	DataUtility::ConvertStringToFloat(GetFloatConfigString(POSMOdE, ACC), this->m_Acc, 1000);
-	DataUtility::ConvertStringToFloat(GetFloatConfigString(POSMOdE, DEC), this->m_Dec, 1000);
-	DataUtility::ConvertStringToFloat(GetFloatConfigString(POSMOdE, MAXV), this->m_MaxV, 40);
-
-	DataUtility::ConvertStringToFloat(GetFloatConfigString(VEMOdE, VACC), this->m_VModeAcc, 1000);
-	DataUtility::ConvertStringToFloat(GetFloatConfigString(VEMOdE, VDEC), this->m_VModeDec, 1000);
-	DataUtility::ConvertStringToFloat(GetFloatConfigString(VEMOdE, VMAXV), this->m_VModeMaxV, 50);
-
-	this->m_Div = GetPrivateProfileInt(POSMOdE, DIV, 8, m_ConfigPath);
-	this->m_CloseEnable = GetPrivateProfileInt(POSMOdE, CLOSEENABLE, 1, m_ConfigPath);
-	this->m_CoderLineCount = GetPrivateProfileInt(POSMOdE, CODERLINECOUNT, 1000, m_ConfigPath);
-	this->m_CloseOverEnable = GetPrivateProfileInt(POSMOdE, CLOSEOVERENABLE, 1, m_ConfigPath);
-	this->m_CloseOverMax = GetPrivateProfileInt(POSMOdE, CLOSEOVERMAX, 100, m_ConfigPath);
-	this->m_CloseOverStable = GetPrivateProfileInt(POSMOdE, CLOSEOVERSTABLE, 50, m_ConfigPath);
-	this->m_ZPolarity = GetPrivateProfileInt(POSMOdE, ZPOLARITY, 0, m_ConfigPath);
-	this->m_DirPolarity = GetPrivateProfileInt(POSMOdE, DIRPOLARITY, 0, m_ConfigPath);
-
-	DataUtility::ConvertStringToFloat(GetFloatConfigString(POSMOdE, CLOSEDECFACTOR), this->m_CloseDecFactor, 1.0);
-	DataUtility::ConvertStringToFloat(GetFloatConfigString(POSMOdE, STEPANGLE), this->m_stepAngle, 1.8f);
-	DataUtility::ConvertStringToFloat(GetFloatConfigString(POSMOdE, PITCH), this->m_Pitch, 12);
-	DataUtility::ConvertStringToFloat(GetFloatConfigString(POSMOdE, LINERATIO), this->m_LineRatio, 1);
-	
-	INT32 iResult = MT_Init();
-	if(iResult == R_OK)
+	INT32 iResult = R_OK;
+	CString PosModeName[AXIS_NUM] = 
 	{
-		INT32 acc, dec, maxV;
+		XAXISPOSMODE,
+		YAXISPOSMODE,
+		ZAXISPOSMODE,
+	};
+	CString VModeName[AXIS_NUM] = 
+	{
+		XAXISVEMODE,
+		YAXISVEMODE,
+		ZAXISVEMODE,
+	};
+
+	iResult = MT_Init();
+
+	for(int i = AXIS_X; i < AXIS_NUM; i++)
+	{
+		DataUtility::ConvertStringToFloat(GetFloatConfigString(PosModeName[i], ACC), this->m_Acc[i], 1000);
+		DataUtility::ConvertStringToFloat(GetFloatConfigString(PosModeName[i], DEC), this->m_Dec[i], 1000);
+		DataUtility::ConvertStringToFloat(GetFloatConfigString(PosModeName[i], MAXV), this->m_MaxV[i], 40);
+
+		DataUtility::ConvertStringToFloat(GetFloatConfigString(VModeName[i], VACC), this->m_VModeAcc[i], 1000);
+		DataUtility::ConvertStringToFloat(GetFloatConfigString(VModeName[i], VDEC), this->m_VModeDec[i], 1000);
+		DataUtility::ConvertStringToFloat(GetFloatConfigString(VModeName[i], VMAXV), this->m_VModeMaxV[i], 50);
+
+		this->m_Div[i] = GetPrivateProfileInt(PosModeName[i], DIV, 8, m_ConfigPath);
+		this->m_CloseEnable[i] = GetPrivateProfileInt(PosModeName[i], CLOSEENABLE, 1, m_ConfigPath);
+		this->m_CoderLineCount[i] = GetPrivateProfileInt(PosModeName[i], CODERLINECOUNT, 1000, m_ConfigPath);
+		this->m_CloseOverEnable[i] = GetPrivateProfileInt(PosModeName[i], CLOSEOVERENABLE, 1, m_ConfigPath);
+		this->m_CloseOverMax[i] = GetPrivateProfileInt(PosModeName[i], CLOSEOVERMAX, 100, m_ConfigPath);
+		this->m_CloseOverStable[i] = GetPrivateProfileInt(PosModeName[i], CLOSEOVERSTABLE, 50, m_ConfigPath);
+		this->m_ZPolarity[i] = GetPrivateProfileInt(PosModeName[i], ZPOLARITY, 0, m_ConfigPath);
+		this->m_DirPolarity[i] = GetPrivateProfileInt(PosModeName[i], DIRPOLARITY, 0, m_ConfigPath);
+
+		DataUtility::ConvertStringToFloat(GetFloatConfigString(PosModeName[i], CLOSEDECFACTOR), this->m_CloseDecFactor[i], 1.0);
+		DataUtility::ConvertStringToFloat(GetFloatConfigString(PosModeName[i], STEPANGLE), this->m_StepAngle[i], 1.8f);
+		DataUtility::ConvertStringToFloat(GetFloatConfigString(PosModeName[i], PITCH), this->m_Pitch[i], 12);
+		DataUtility::ConvertStringToFloat(GetFloatConfigString(PosModeName[i], LINERATIO), this->m_LineRatio[i], 1);
+
+		if(iResult == R_OK)
+		{
+			INT32 acc, dec, maxV;
 		
-		if(1 == this->m_CloseEnable)
-		{
-			MT_Set_Axis_Mode_Position_Close(AXIS_Z);
-			MT_Set_Axis_Position_Close_Dec_Factor(AXIS_Z, m_CloseDecFactor);
-			MT_Set_Encoder_Over_Enable(AXIS_Z, m_CloseOverEnable);
-			MT_Set_Encoder_Over_Max(AXIS_Z, m_CloseOverMax);
-			MT_Set_Encoder_Over_Stable(AXIS_Z, m_CloseOverStable);
+			if(1 == this->m_CloseEnable[i])
+			{
+				MT_Set_Axis_Mode_Position_Close(i);
+				MT_Set_Axis_Position_Close_Dec_Factor(i, m_CloseDecFactor[i]);
+				MT_Set_Encoder_Over_Enable(i, m_CloseOverEnable[i]);
+				MT_Set_Encoder_Over_Max(i, m_CloseOverMax[i]);
+				MT_Set_Encoder_Over_Stable(i, m_CloseOverStable[i]);
 
-			MT_Set_Encoder_Z_Polarity(AXIS_Z, m_ZPolarity);
-			MT_Set_Encoder_Dir_Polarity(AXIS_Z, m_DirPolarity);
+				MT_Set_Encoder_Z_Polarity(i, m_ZPolarity[i]);
+				MT_Set_Encoder_Dir_Polarity(i, m_DirPolarity[i]);
 
-			acc = MT_Help_Encoder_Line_Real_To_Steps((double)m_Pitch, (double)m_LineRatio, m_CoderLineCount, m_Acc);
-			dec = MT_Help_Encoder_Line_Real_To_Steps((double)m_Pitch, (double)m_LineRatio, m_CoderLineCount, m_Dec);
-			maxV = MT_Help_Encoder_Line_Real_To_Steps((double)m_Pitch, (double)m_LineRatio, m_CoderLineCount, m_MaxV);
+				acc = MT_Help_Encoder_Line_Real_To_Steps((double)m_Pitch[i], (double)m_LineRatio[i], m_CoderLineCount[i], m_Acc[i]);
+				dec = MT_Help_Encoder_Line_Real_To_Steps((double)m_Pitch[i], (double)m_LineRatio[i], m_CoderLineCount[i], m_Dec[i]);
+				maxV = MT_Help_Encoder_Line_Real_To_Steps((double)m_Pitch[i], (double)m_LineRatio[i], m_CoderLineCount[i], m_MaxV[i]);
+			}
+			else
+			{
+				MT_Set_Axis_Mode_Position_Open(i);
+
+				acc = MT_Help_Step_Line_Real_To_Steps((double)m_StepAngle[i], m_Div[i], (double)m_Pitch[i], (double)m_LineRatio[i], (double)m_Dec[i]);
+				dec = MT_Help_Step_Line_Real_To_Steps((double)m_StepAngle[i], m_Div[i], (double)m_Pitch[i], (double)m_LineRatio[i], (double)m_Dec[i]);
+				maxV = MT_Help_Step_Line_Real_To_Steps((double)m_StepAngle[i], m_Div[i], (double)m_Pitch[i], (double)m_LineRatio[i], (double)m_MaxV[i]);
+			}
+
+			MT_Set_Axis_Acc(i, acc);
+			MT_Set_Axis_Dec(i, dec);
+			MT_Set_Axis_Position_V_Max(i, maxV);
 		}
-		else
-		{
-			MT_Set_Axis_Mode_Position_Open(AXIS_Z);
-
-			acc = MT_Help_Step_Line_Real_To_Steps((double)m_stepAngle, m_Div, (double)m_Pitch, (double)m_LineRatio, (double)m_Dec);
-			dec = MT_Help_Step_Line_Real_To_Steps((double)m_stepAngle, m_Div, (double)m_Pitch, (double)m_LineRatio, (double)m_Dec);
-			maxV = MT_Help_Step_Line_Real_To_Steps((double)m_stepAngle, m_Div, (double)m_Pitch, (double)m_LineRatio, (double)m_MaxV);
-		}
-
-		MT_Set_Axis_Acc(AXIS_Z, acc);
-		MT_Set_Axis_Dec(AXIS_Z, dec);
-		MT_Set_Axis_Position_V_Max(AXIS_Z, maxV);
 	}
 
 	return iResult;
@@ -136,12 +158,12 @@ INT32 IMotorCtrl::GetAxisCurrPos(WORD AObj,float* pValue)
 	INT32 iResult = 0;
 	INT32 steps = 0;
 
-	if(1 == m_CloseEnable)
+	if(1 == m_CloseEnable[AObj])
 	{
 		iResult = MT_Get_Encoder_Pos(AObj, &steps);
 		if(R_OK == iResult)
 		{
-			*pValue = (float)MT_Help_Encoder_Line_Steps_To_Real((double)m_Pitch, (double)m_LineRatio, m_CoderLineCount, steps);
+			*pValue = (float)MT_Help_Encoder_Line_Steps_To_Real((double)m_Pitch[AObj], (double)m_LineRatio[AObj], m_CoderLineCount[AObj], steps);
 		}
 	}
 	else
@@ -149,7 +171,7 @@ INT32 IMotorCtrl::GetAxisCurrPos(WORD AObj,float* pValue)
 		iResult = MT_Get_Axis_Software_P_Now(AObj, &steps);
 		if(R_OK == iResult)
 		{
-			*pValue = (float)MT_Help_Step_Line_Steps_To_Real((double)m_stepAngle, m_Div, (double)m_Pitch, (double)m_LineRatio, steps);
+			*pValue = (float)MT_Help_Step_Line_Steps_To_Real((double)m_StepAngle[AObj], m_Div[AObj], (double)m_Pitch[AObj], (double)m_LineRatio[AObj], steps);
 		}
 	}
 	
@@ -191,25 +213,25 @@ INT32 IMotorCtrl::MoveTo(WORD AObj, float AValue)
 {
 	INT32 iResult = 0;
 	INT32 steps, acc, dec, maxV;
-	if(1 == m_CloseEnable)
+	if(1 == m_CloseEnable[AObj])
 	{
 		MT_Set_Axis_Mode_Position_Close(AObj);
 
-		steps = MT_Help_Encoder_Line_Real_To_Steps((double)m_Pitch, (double)m_LineRatio, m_CoderLineCount, AValue);
+		steps = MT_Help_Encoder_Line_Real_To_Steps((double)m_Pitch[AObj], (double)m_LineRatio[AObj], m_CoderLineCount[AObj], AValue);
 
-		acc = MT_Help_Encoder_Line_Real_To_Steps((double)m_Pitch, (double)m_LineRatio, m_CoderLineCount, m_Acc);
-		dec = MT_Help_Encoder_Line_Real_To_Steps((double)m_Pitch, (double)m_LineRatio, m_CoderLineCount, m_Dec);
-		maxV = MT_Help_Encoder_Line_Real_To_Steps((double)m_Pitch, (double)m_LineRatio, m_CoderLineCount, m_MaxV);
+		acc = MT_Help_Encoder_Line_Real_To_Steps((double)m_Pitch[AObj], (double)m_LineRatio[AObj], m_CoderLineCount[AObj], m_Acc[AObj]);
+		dec = MT_Help_Encoder_Line_Real_To_Steps((double)m_Pitch[AObj], (double)m_LineRatio[AObj], m_CoderLineCount[AObj], m_Dec[AObj]);
+		maxV = MT_Help_Encoder_Line_Real_To_Steps((double)m_Pitch[AObj], (double)m_LineRatio[AObj], m_CoderLineCount[AObj], m_MaxV[AObj]);
 	}
 	else
 	{
 		MT_Set_Axis_Mode_Position_Open(AObj);
 
-		steps = MT_Help_Step_Line_Real_To_Steps((double)m_stepAngle, m_Div, (double)m_Pitch, (double)m_LineRatio, (double)AValue);
+		steps = MT_Help_Step_Line_Real_To_Steps((double)m_StepAngle[AObj], m_Div[AObj], (double)m_Pitch[AObj], (double)m_LineRatio[AObj], (double)AValue);
 
-		acc = MT_Help_Step_Line_Real_To_Steps((double)m_stepAngle, m_Div, (double)m_Pitch, (double)m_LineRatio, (double)m_Acc);
-		dec = MT_Help_Step_Line_Real_To_Steps((double)m_stepAngle, m_Div, (double)m_Pitch, (double)m_LineRatio, (double)m_Dec);
-		maxV = MT_Help_Step_Line_Real_To_Steps((double)m_stepAngle, m_Div, (double)m_Pitch, (double)m_LineRatio, (double)m_MaxV);
+		acc = MT_Help_Step_Line_Real_To_Steps((double)m_StepAngle[AObj], m_Div[AObj], (double)m_Pitch[AObj], (double)m_LineRatio[AObj], (double)m_Acc[AObj]);
+		dec = MT_Help_Step_Line_Real_To_Steps((double)m_StepAngle[AObj], m_Div[AObj], (double)m_Pitch[AObj], (double)m_LineRatio[AObj], (double)m_Dec[AObj]);
+		maxV = MT_Help_Step_Line_Real_To_Steps((double)m_StepAngle[AObj], m_Div[AObj], (double)m_Pitch[AObj], (double)m_LineRatio[AObj], (double)m_MaxV[AObj]);
 	}
 
 	MT_Set_Axis_Acc(AObj, acc);
@@ -237,14 +259,14 @@ INT32 IMotorCtrl::SetAxisCurrPos(WORD AObj,float Value)
 	INT32 iResult = 0;
 	INT32 steps = 0;
 
-	if(1 == m_CloseEnable)
+	if(1 == m_CloseEnable[AObj])
 	{
-		steps = MT_Help_Encoder_Line_Real_To_Steps((double)m_Pitch, (double)m_LineRatio, m_CoderLineCount, Value);
+		steps = MT_Help_Encoder_Line_Real_To_Steps((double)m_Pitch[AObj], (double)m_LineRatio[AObj], m_CoderLineCount[AObj], Value);
 		iResult = MT_Set_Encoder_Pos(AObj, steps);
 	}
 	else
 	{
-		steps = MT_Help_Step_Line_Real_To_Steps((double)m_stepAngle, m_Div, (double)m_Pitch, (double)m_LineRatio, (double)Value);
+		steps = MT_Help_Step_Line_Real_To_Steps((double)m_StepAngle[AObj], m_Div[AObj], (double)m_Pitch[AObj], (double)m_LineRatio[AObj], (double)Value);
 		iResult = MT_Set_Axis_Software_P(AObj, steps);
 	}
 
@@ -262,9 +284,9 @@ INT32 IMotorCtrl::SetAxisVelocityStart(WORD AObj, INT32 nDir)
 
 	INT32 acc, dec, maxV;
 
-	acc = MT_Help_Step_Line_Real_To_Steps((double)m_stepAngle, m_Div, (double)m_Pitch, (double)m_LineRatio, (double)m_VModeAcc);
-	dec = MT_Help_Step_Line_Real_To_Steps((double)m_stepAngle, m_Div, (double)m_Pitch, (double)m_LineRatio, (double)m_VModeDec);
-	maxV = MT_Help_Step_Line_Real_To_Steps((double)m_stepAngle, m_Div, (double)m_Pitch, (double)m_LineRatio, (double)m_VModeMaxV);
+	acc = MT_Help_Step_Line_Real_To_Steps((double)m_StepAngle[AObj], m_Div[AObj], (double)m_Pitch[AObj], (double)m_LineRatio[AObj], (double)m_VModeAcc[AObj]);
+	dec = MT_Help_Step_Line_Real_To_Steps((double)m_StepAngle[AObj], m_Div[AObj], (double)m_Pitch[AObj], (double)m_LineRatio[AObj], (double)m_VModeDec[AObj]);
+	maxV = MT_Help_Step_Line_Real_To_Steps((double)m_StepAngle[AObj], m_Div[AObj], (double)m_Pitch[AObj], (double)m_LineRatio[AObj], (double)m_VModeMaxV[AObj]);
 
 	iResult = MT_Set_Axis_Mode_Velocity(AObj);
 	MT_Set_Axis_Velocity_Acc(AObj, acc);

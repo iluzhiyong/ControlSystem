@@ -2,9 +2,15 @@
 
 enum
 {
-	AXIS_X		= 1,
-	AXIS_Y		= 2,
-	AXIS_Z		= 0,
+	AXIS_X		= 0,
+	AXIS_Y		= 1,
+	AXIS_Z		= 2,
+	AXIS_NUM,
+};
+
+enum MotoStatus
+{
+	CURR_POS				= 0,
 };
 
 class IMotorCtrl
@@ -37,23 +43,24 @@ private:
 
 private:
 	CString m_ConfigPath;
+
 private:
-	float m_Acc;
-	float m_Dec;
-	float m_MaxV;
-	float m_VModeAcc;
-	float m_VModeDec;
-	float m_VModeMaxV;
-	INT32 m_Div;
-	INT32 m_CloseEnable;
-	INT32 m_CoderLineCount;
-	INT32 m_CloseOverEnable;
-	INT32 m_CloseOverMax;
-	INT32 m_CloseOverStable;
-	INT32 m_ZPolarity;
-	INT32 m_DirPolarity;
-	float m_CloseDecFactor;
-	float m_stepAngle;
-	float m_Pitch;
-	float m_LineRatio;
+	float m_Acc[AXIS_NUM];
+	float m_Dec[AXIS_NUM];
+	float m_MaxV[AXIS_NUM];
+	float m_VModeAcc[AXIS_NUM];
+	float m_VModeDec[AXIS_NUM];
+	float m_VModeMaxV[AXIS_NUM];
+	INT32 m_Div[AXIS_NUM];
+	INT32 m_CloseEnable[AXIS_NUM];
+	INT32 m_CoderLineCount[AXIS_NUM];
+	INT32 m_CloseOverEnable[AXIS_NUM];
+	INT32 m_CloseOverMax[AXIS_NUM];
+	INT32 m_CloseOverStable[AXIS_NUM];
+	INT32 m_ZPolarity[AXIS_NUM];
+	INT32 m_DirPolarity[AXIS_NUM];
+	float m_CloseDecFactor[AXIS_NUM];
+	float m_StepAngle[AXIS_NUM];
+	float m_Pitch[AXIS_NUM];
+	float m_LineRatio[AXIS_NUM];
 };

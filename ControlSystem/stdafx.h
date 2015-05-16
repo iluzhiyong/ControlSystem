@@ -17,6 +17,10 @@
 #define WM_USER_IMAGE_ACQ			WM_USER + 1
 #define WM_USER_READ_MOTOR_STATUS	WM_USER + 2
 
+#define DETECT_MOTOR_STATUS_TIMER	1
+#define DETECTLIMIT_TIMER			2
+
+
 #include "targetver.h"
 
 #define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS      // some CString constructors will be explicit

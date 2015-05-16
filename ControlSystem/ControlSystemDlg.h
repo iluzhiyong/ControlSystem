@@ -5,7 +5,6 @@
 #pragma once
 #include "HalconAction.h"
 #include "MotorCtrl.h"
-#include "Camera.h"
 #include "ImageProcSettingDlg.h"
 #include "OPButton.h"
 #include "afxwin.h"
@@ -44,18 +43,12 @@ public:
 	afx_msg HCURSOR OnQueryDragIcon();
 	afx_msg void OnBnClickedImport();
 	afx_msg void OnBnClickedSaveAs();
-	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 	afx_msg void OnBnClickedCameraParam();
 	afx_msg void OnBnClickedButtonImageProc();	
 	afx_msg void OnBnClickedStart();
 	afx_msg void OnBnClickedButtonCapture();
 	afx_msg void OnBnClickedAutoMear();
 	afx_msg void OnBnClickedImageProcSettingBtn();
-	afx_msg void OnItemchangedList(NMHDR *pNMHDR, LRESULT *pResult);
-	afx_msg void OnColumnclickList1(NMHDR *pNMHDR, LRESULT *pResult);
-	afx_msg void OnItemclickList1(NMHDR *pNMHDR, LRESULT *pResult);
-	afx_msg void OnLinkclickList1(NMHDR *pNMHDR, LRESULT *pResult);
-	afx_msg void OnClickList1(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnDblclkList1(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnBnClickedMtConnect();
 	afx_msg void OnClose();
@@ -68,6 +61,7 @@ public:
 	afx_msg void OnBnClickedClearZeroY();
 	afx_msg void OnBnClickedClearZeroZ();
 	afx_msg void OnBnClickedLimitX();
+	afx_msg LRESULT OnUpdateMotorStatus(WPARAM wParam,LPARAM lParam);
 
 private:
 	CStatic m_staticPicture;
@@ -95,15 +89,11 @@ private:
 	int			m_columnNum;
 	int			m_rowNum;
 
-private:
-	Camera*     m_pCamera;
-
 public:
 	bool MotoMoveToXY(float x, float y);
 	void OnOpButtonUp(UINT nID);
 	void OnOpButtonDown(UINT nID);
 private:
-	CMotorCtrl* m_pMotorCtrl;
 	IMotorCtrl* m_IMotoCtrl;
 	IHeightDectector* m_IHeightDectector;
 	bool m_IsMotroCtrlConnected;
@@ -154,11 +144,7 @@ private:
 	bool m_YAxisLimit;
 	bool m_ZAxisLimit;
 
-
-public:
-	void StartProcess();
-
 private:
-	CWinThread* m_ProcessThread;
+	CWinThread* m_UIProcThread;
 
 };

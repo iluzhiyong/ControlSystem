@@ -23,6 +23,7 @@
 #include <ctype.h>
 #include "Log.h"
 #include "DataUtility.h"
+#include "ProcThread.h"
 
 using namespace std;
 
@@ -64,32 +65,23 @@ END_MESSAGE_MAP()
 
 // CControlSystemDlg dialog
 
-
-#define DETECTLIMIT_TIMER 2
-
-
 CControlSystemDlg::CControlSystemDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(CControlSystemDlg::IDD, pParent)
 	, m_CustomX(0)
 	, m_CustomY(0)
 	, m_CustomZ(0)
-	, m_IMotoCtrl(NULL)
 	, m_Process(0)
 {
 	m_IsMeasuring = false;
 	m_IsMotroCtrlConnected = false;
 
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
-	m_IMotoCtrl = NULL;
-	m_IImageProcess = NULL;
 	m_IHeightDectector = NULL;
 
     m_excelLoaded = false;
 	m_columnNum = 0;
 	m_rowNum = 0;
 
-	m_IImageProcess = new CImageProcess();
-	m_ImageProcSetDlg = NULL;
 	m_HalconWndOpened = false;
 
 	CLog::Instance()->CreateLog(DataUtility::GetExePath() + _T("log.txt"), true);
@@ -145,22 +137,7 @@ CControlSystemDlg::~CControlSystemDlg()
 {
 	CLog::Instance()->CloseLog();
 
-	if(m_ImageProcSetDlg != NULL)
-	{
-		delete m_ImageProcSetDlg;
-		m_ImageProcSetDlg = NULL;
-	}
-
-	if(m_IMotoCtrl != NULL)
-	{
-		delete m_IMotoCtrl;
-	}
-
-	if(m_IImageProcess != NULL)
-	{
-		delete m_IImageProcess;
-	}
-
+	
 	if(m_IHeightDectector != NULL)
 	{
 		delete m_IHeightDectector;
@@ -203,11 +180,6 @@ BEGIN_MESSAGE_MAP(CControlSystemDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_START, &CControlSystemDlg::OnBnClickedStart)
 	ON_BN_CLICKED(IDC_BUTTON2, &CControlSystemDlg::OnBnClickedButtonCapture)
 	ON_BN_CLICKED(IDC_IMAGE_PROC_SETTING_BTN, &CControlSystemDlg::OnBnClickedImageProcSettingBtn)
-	ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST1, &CControlSystemDlg::OnItemchangedList)
-	ON_NOTIFY(LVN_COLUMNCLICK, IDC_LIST1, &CControlSystemDlg::OnColumnclickList1)
-	ON_NOTIFY(HDN_ITEMCLICK, 0, &CControlSystemDlg::OnItemclickList1)
-	ON_NOTIFY(LVN_LINKCLICK, IDC_LIST1, &CControlSystemDlg::OnLinkclickList1)
-	ON_NOTIFY(NM_CLICK, IDC_LIST1, &CControlSystemDlg::OnClickList1)
 	ON_NOTIFY(NM_DBLCLK, IDC_LIST1, &CControlSystemDlg::OnDblclkList1)
 	ON_BN_CLICKED(IDC_MT_CONNECT, &CControlSystemDlg::OnBnClickedMtConnect)
 	ON_WM_CLOSE()
@@ -217,7 +189,7 @@ BEGIN_MESSAGE_MAP(CControlSystemDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_CLEAR_ZERO_X, &CControlSystemDlg::OnBnClickedClearZeroX)
 	ON_BN_CLICKED(IDC_CLEAR_ZERO_Y, &CControlSystemDlg::OnBnClickedClearZeroY)
 	ON_BN_CLICKED(IDC_CLEAR_ZERO_Z, &CControlSystemDlg::OnBnClickedClearZeroZ)
-	
+	ON_MESSAGE(WM_MOTOR_UPDATE_STATUS,&CControlSystemDlg::OnUpdateMotorStatus)
 END_MESSAGE_MAP()
 
 
@@ -279,33 +251,19 @@ BOOL CControlSystemDlg::OnInitDialog()
 		m_itemSize.AddItemRect(itemId, this);
 		hwndChild=::GetWindow(hwndChild, GW_HWNDNEXT);
 	}
+
+	m_UIProcThread=AfxBeginThread(RUNTIME_CLASS(CProcThread));
+	if (NULL == m_UIProcThread)
+	{
+		AfxMessageBox("用户界面线程启动失败!",MB_OK|MB_ICONERROR);
+	}
 	
 	//初始化相机
-	m_pCamera = new Camera();
-	if(NULL != m_pCamera)
+	if (NULL == m_UIProcThread)
 	{
-		m_pCamera->Initialize();
-		RECT    rect;
+		RECT rect;
 		m_staticPicture.GetClientRect( &rect );
-		m_pCamera->SetDispRect(rect);
-		m_pCamera->DoPlay(TRUE, m_staticPicture.m_hWnd);
-	}
-
-	//初始化板卡
-	m_IMotoCtrl = new IMotorCtrl();
-	if(NULL != m_IMotoCtrl)
-	{
-		INT32 intResult = 0;
-		intResult = m_IMotoCtrl->Init();
-		if(0 != intResult)
-		{
-			AfxMessageBox(_T("控制卡初始化失败！"));
-		}
-		else
-		{
-			//Sleep(500);
-			//OnBnClickedMtConnect();
-		}
+		m_UIProcThread->PostThreadMessage(WM_MOTOR_CONNECT, (WPARAM)&rect, (LPARAM)m_staticPicture.m_hWnd);
 	}
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
@@ -511,34 +469,13 @@ void CControlSystemDlg::OnBnClickedSaveAs()
 	excelApp.ReleaseExcel();
 }
 
-
-HBRUSH CControlSystemDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
-{
-	HBRUSH hbr = CDialogEx::OnCtlColor(pDC, pWnd, nCtlColor);
-
-	// TODO:  Change any attributes of the DC here
-
-	// TODO:  Return a different brush if the default is not desired
-	return hbr;
-}
-
-
 void CControlSystemDlg::OnBnClickedCameraParam()
 {
 	// TODO: Add your control notification handler code here
 
-	CCameraParaDlg cameraDlg;
-	cameraDlg.SetCamera(m_pCamera);
-
-	int ret = cameraDlg.DoModal();
-
-	if(ret == IDOK)
+	if(NULL != m_UIProcThread)
 	{
-	
-	}
-	else if(ret == IDCANCEL)
-	{
-		
+		m_UIProcThread->PostThreadMessage(WM_CAMERA_SET_PARAM, 0, 0);
 	}
 }
 
@@ -575,56 +512,16 @@ void CControlSystemDlg::OnBnClickedButtonImageProc()
 		clear_window(HDevWindowStack::GetActive());
 	}
 
-	if((NULL != m_IImageProcess) && m_IImageProcess->LoadProcessImage())
+	if(NULL != m_UIProcThread)
 	{
-		CDetectCircularhole* detecter = m_IImageProcess->GetCircleDetecter();
-		if(detecter != NULL)
-		{
-			detecter->LoadConfig();
-		}
-		
-		float x = 0.0;
-		float y = 0.0;
-		bool ret = m_IImageProcess->FindTargetPoint(x, y);
-		if(!ret)
-		{
-			AfxMessageBox("Can not find target!");
-		}
-		else
-		{
-			CString msg;
-			msg.Format("测量结果为x=%f, y=%f.", x, y);
-			AfxMessageBox(msg);
-		}
+		m_UIProcThread->PostThreadMessage(WM_IMAGE_PROC, 0, 0);
 	}
-}
-
-
-static UINT ProcessThread(LPVOID lpParam)
-{
-	CControlSystemDlg* dlg = (CControlSystemDlg*)lpParam;
-
-	dlg->m_IsMeasuring = true;
-	dlg->EnableOtherControls();
-
-	dlg->StartProcess();
-
-	dlg->m_IsMeasuring = false;
-	dlg->EnableOtherControls();
-
-	AfxEndThread(0,true);
-	return 0;
 }
 
 void CControlSystemDlg::OnBnClickedStart()
 {
 	UpdateData(TRUE);
-	OpenHalconWind();
-	m_ProcessThread = AfxBeginThread(ProcessThread, (LPVOID)(this));
-}
 
-void CControlSystemDlg::StartProcess()
-{
 	if(m_Process == 0)
 	{
 		OnBnClickedAutoMear();
@@ -638,8 +535,6 @@ void CControlSystemDlg::StartProcess()
 		OnBnClickedManualMear();
 	}
 }
-
-
 
 void CControlSystemDlg::EnableOtherControls()
 {
@@ -673,9 +568,11 @@ void CControlSystemDlg::EnableOtherControls()
 void CControlSystemDlg::OnBnClickedButtonCapture()
 {
 	// TODO: Add your control notification handler code here
-	if(NULL != m_pCamera)
+	if(NULL != m_UIProcThread)
 	{
-		m_pCamera->DoCapture();
+		m_UIProcThread->PostThreadMessage(WM_CAMERA_DO_CAPTURE, 0, 0);
+		//等待拍照完成，有没有同步消息，使用SendMessage()是否可以？
+		Sleep(500);
 	}
 
 	OpenHalconWind();
@@ -683,19 +580,16 @@ void CControlSystemDlg::OnBnClickedButtonCapture()
 	{
 		clear_window(HDevWindowStack::GetActive());
 	}
-	if(NULL != m_IImageProcess)
+
+	if(NULL != m_UIProcThread)
 	{
-		m_IImageProcess->LoadProcessImage();
+		m_UIProcThread->PostThreadMessage(WM_IMAGE_LOAD, 0, 0);
 	}
 }
 
 BOOL CControlSystemDlg::DestroyWindow()
 {
 	// TODO: Add your specialized code here and/or call the base class
-	if(NULL != m_pCamera)
-	{
-		delete m_pCamera;
-	}
 
 	return CDialogEx::DestroyWindow();
 }
@@ -833,10 +727,10 @@ bool CControlSystemDlg :: SetMeasureResultValue(int row, float resultX, float re
 
 bool CControlSystemDlg ::CalculatePoint(float x, float y, float z, float &retx, float &rety, float &retz)
 {
-	if((NULL == m_IMotoCtrl) || (NULL == m_pCamera) || (NULL == m_IImageProcess) /*|| (NULL == m_IHeightDectector)*/)
-	{
-		return false;
-	}
+	//if(/*(NULL == m_pCamera) || */(NULL == m_IImageProcess) /*|| (NULL == m_IHeightDectector)*/)
+	//{
+	//	return false;
+	//}
 
 	//bool ret = MotoMoveToXY(x, y);
 	//if(ret)
@@ -852,7 +746,7 @@ bool CControlSystemDlg ::CalculatePoint(float x, float y, float z, float &retx, 
 	}
 	//if(ret)
 	//{
-	//	ret = MotoMoveToXY(retx, rety);;
+	//	ret = MotoMoveToXY(retx, rety);
 	//}
 	////找到圆孔远心正上方。
 	//if(ret)
@@ -891,18 +785,13 @@ bool CControlSystemDlg::MotoMoveToXY(float x, float y)
 
 void CControlSystemDlg::OnBnClickedCustomMear()
 {
-	float x, y, z;
-	if(CalculatePoint(m_CustomX, m_CustomY, m_CustomZ, x, y, z))
-	{
-		CString buffer = "";
-		buffer.Format("测量结果： x=%f, y=%f, z=%f", x, y, z);
-		AfxMessageBox(buffer);
-	}
-	else
-	{
-		AfxMessageBox("测量失败！");
-	}
+	UpdateData(TRUE);
+	float pos[3] = {m_CustomX, m_CustomY, m_CustomZ};
 
+	if(NULL != m_UIProcThread)
+	{
+		m_UIProcThread->PostThreadMessage(WM_DO_MEAR, WPARAM(pos), 0);
+	}
 }
 
 void CControlSystemDlg::OnBnClickedImageProcSettingBtn()
@@ -912,62 +801,12 @@ void CControlSystemDlg::OnBnClickedImageProcSettingBtn()
 	{
 		clear_window(HDevWindowStack::GetActive());
 	}
-	if(NULL != m_IImageProcess && m_IImageProcess->LoadProcessImage())
+
+	if(NULL != m_UIProcThread)
 	{
-		if(m_ImageProcSetDlg == NULL)
-		{
-			m_ImageProcSetDlg = new CImageProcSettingDlg();
-			m_ImageProcSetDlg->Create(CImageProcSettingDlg::IDD, this);
-		}
-		CDetectCircularhole* detecter = m_IImageProcess->GetCircleDetecter();
-		if(detecter != NULL)
-		{
-			m_ImageProcSetDlg->SetCircleDetecter(detecter);
-			m_ImageProcSetDlg->ShowWindow(SW_SHOW);
-		}
+		m_UIProcThread->PostThreadMessage(WM_IMAGE_PROC_SETTING, 0, 0);
 	}
 }
-
-void CControlSystemDlg::OnItemchangedList(NMHDR *pNMHDR, LRESULT *pResult)
-{
-	LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR);
-	// TODO: Add your control notification handler code here
-	*pResult = 0;
-
-}
-
-
-void CControlSystemDlg::OnColumnclickList1(NMHDR *pNMHDR, LRESULT *pResult)
-{
-	LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR);
-	// TODO: Add your control notification handler code here
-	*pResult = 0;
-}
-
-
-void CControlSystemDlg::OnItemclickList1(NMHDR *pNMHDR, LRESULT *pResult)
-{
-	LPNMHEADER phdr = reinterpret_cast<LPNMHEADER>(pNMHDR);
-	// TODO: Add your control notification handler code here
-	*pResult = 0;
-}
-
-
-void CControlSystemDlg::OnLinkclickList1(NMHDR *pNMHDR, LRESULT *pResult)
-{
-	// TODO: Add your control notification handler code here
-	*pResult = 0;
-}
-
-
-void CControlSystemDlg::OnClickList1(NMHDR *pNMHDR, LRESULT *pResult)
-{
-	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
-	// TODO: Add your control notification handler code here
-	*pResult = 0;
-   
-}
-
 
 void CControlSystemDlg::OnDblclkList1(NMHDR *pNMHDR, LRESULT *pResult)
 {
@@ -995,30 +834,11 @@ void CControlSystemDlg::OnDblclkList1(NMHDR *pNMHDR, LRESULT *pResult)
 
 void CControlSystemDlg::OnBnClickedMtConnect()
 {
-	m_IsMotroCtrlConnected = false;
-	if(NULL != m_IMotoCtrl)
+	if(NULL != m_UIProcThread)
 	{
-		m_IMotoCtrl->CloseUSB();
-
-		INT32 iResult = m_IMotoCtrl->OpenUSB();
-		if(0 != iResult)
-		{
-			AfxMessageBox("打开控制卡USB失败!");
-			return;
-		}
-
-		iResult = m_IMotoCtrl->Check();
-		if(0 != iResult)
-		{
-			AfxMessageBox("检测控制卡失败！");
-			return;
-		}
-		else
-		{
-			m_IsMotroCtrlConnected = true;
-			//启动定时器，定时读取电机状态
-			SetTimer(1,1000,NULL);
-		}
+		m_UIProcThread->PostThreadMessage(WM_MOTOR_CONNECT, 0, 0);
+		//启动定时器读取电机状态
+		SetTimer(DETECT_MOTOR_STATUS_TIMER,1000,NULL);
 	}
 }
 
@@ -1027,14 +847,24 @@ void CControlSystemDlg::OnClose()
 {
 	// TODO: Add your message handler code here and/or call default
 
-	if(NULL != m_IMotoCtrl)
-	{
-		m_IMotoCtrl->CloseUSB();
-		m_IMotoCtrl->DeInit();
-	}
-
 	//关闭定时器,停止读取电机状态
 	KillTimer(1);
+
+	//销毁线程
+	if(m_UIProcThread)
+	{
+		//1.发一个WM_QUIT　消息结　UI　线程
+		m_UIProcThread->PostThreadMessage(WM_QUIT, NULL, NULL);
+		//2. 等待　UI　线程正常退出
+		if (WAIT_OBJECT_0 == WaitForSingleObject(m_UIProcThread->m_hThread, INFINITE))
+		{
+			//3.删除 UI 线程对象，只有当设置了m_bAutoDelete = FALSE;　时才调用
+			if(m_UIProcThread->m_bAutoDelete == FALSE)
+			{
+				delete m_UIProcThread;
+			}
+		}
+	}
 
 	CDialogEx::OnClose();
 }
@@ -1043,25 +873,13 @@ void CControlSystemDlg::OnTimer(UINT_PTR nIDEvent)
 {
 	//定时读取状态
 
-	if(nIDEvent == 1)
+	if(nIDEvent == DETECT_MOTOR_STATUS_TIMER)
 	{
-		if(NULL != m_IMotoCtrl)
+		if(NULL != m_UIProcThread)
 		{
-			//读取当前位置
-			float iTempPos;
-			CString sTempPos;
-
-			m_IMotoCtrl->GetAxisCurrPos(AXIS_Z, &iTempPos);
-			sTempPos.Format("%.2f", iTempPos);
-			m_ZCurPosAbs.SetWindowText(sTempPos);
-
-			m_IMotoCtrl->GetAxisCurrPos(AXIS_X, &iTempPos);
-			sTempPos.Format("%.2f", iTempPos);
-			m_XCurPosAbs.SetWindowText(sTempPos);
-
-			m_IMotoCtrl->GetAxisCurrPos(AXIS_Y, &iTempPos);
-			sTempPos.Format("%.2f", iTempPos);
-			m_YCurPosAbs.SetWindowText(sTempPos);
+			m_UIProcThread->PostThreadMessage(WM_MOTOR_GET_STATUS, AXIS_X, CURR_POS);
+			m_UIProcThread->PostThreadMessage(WM_MOTOR_GET_STATUS, AXIS_Y, CURR_POS);
+			m_UIProcThread->PostThreadMessage(WM_MOTOR_GET_STATUS, AXIS_Z, CURR_POS);
 		}
 	}
 	else if(nIDEvent == (DETECTLIMIT_TIMER))
@@ -1071,6 +889,34 @@ void CControlSystemDlg::OnTimer(UINT_PTR nIDEvent)
 	CDialogEx::OnTimer(nIDEvent);
 }
 
+LRESULT CControlSystemDlg::OnUpdateMotorStatus(WPARAM wParam,LPARAM lParam)
+{
+	//读取当前位置
+	int axis = int(wParam);
+	float iTempPos = float(lParam);
+	CString sTempPos;
+
+	sTempPos.Format("%.2f", iTempPos);
+	switch(axis)
+	{
+	case AXIS_X:
+		m_XCurPosAbs.SetWindowText(sTempPos);
+		break;
+
+	case AXIS_Y:
+		m_YCurPosAbs.SetWindowText(sTempPos);
+		break;
+
+	case AXIS_Z:
+		m_ZCurPosAbs.SetWindowText(sTempPos);
+		break;
+
+	default:
+		break;
+	}
+
+	return 0;
+}
 void CControlSystemDlg::OnAxisLimtiTimer()
 {
 	// Get Axis Limit State
@@ -1085,31 +931,28 @@ void CControlSystemDlg::OnAxisLimtiTimer()
 
 void CControlSystemDlg::OnBnClickedStop()
 {
-	if(NULL != m_IMotoCtrl && true == m_IsMotroCtrlConnected)
+	if(NULL != m_UIProcThread)
 	{
-		m_IMotoCtrl->SetAxisPositionStop(0);
+		m_UIProcThread->PostThreadMessage(WM_MOTOR_STOP, AXIS_X, 0);
+		m_UIProcThread->PostThreadMessage(WM_MOTOR_STOP, AXIS_Y, 0);
+		m_UIProcThread->PostThreadMessage(WM_MOTOR_STOP, AXIS_Z, 0);
 	}
-	else
-	{
-		AfxMessageBox("控制卡未连接！");
-	}
-	//if(NULL != m_ProcessThread)
-	//{
-	//	m_ProcessThread->SuspendThread();
-	//	GetDlgItem(IDC_STOP)->SetWindowTextA(_T("继续"));
-	//}
 }
 
 void CControlSystemDlg::OnBnClickedManualMear()
 {
-	if(NULL != m_IMotoCtrl && true == m_IsMotroCtrlConnected)
+	//if(NULL != m_UIProcThread)
+	//{
+	//	UpdateData(true);
+	//	m_UIProcThread->PostThreadMessage(WM_MOTOR_MOVE_TO, AXIS_Z, (LPARAM)m_CustomZ);
+	//}
+
+	UpdateData(TRUE);
+	float pos[3] = {m_CustomX, m_CustomY, m_CustomZ};
+
+	if(NULL != m_UIProcThread)
 	{
-		UpdateData(true);
-		m_IMotoCtrl->MoveTo(0, m_CustomZ);
-	}
-	else
-	{
-		AfxMessageBox("控制卡未连接！");
+		m_UIProcThread->PostThreadMessage(WM_DO_MEAR, WPARAM(pos), 0);
 	}
 }
 
@@ -1125,65 +968,58 @@ void CControlSystemDlg::OnSize(UINT nType, int cx, int cy)
 
 void CControlSystemDlg::OnBnClickedClearZeroX()
 {
-	if(NULL != m_IMotoCtrl && true == m_IsMotroCtrlConnected)
+	if(NULL != m_UIProcThread)
 	{
-		UpdateData(true);
-		m_IMotoCtrl->SetAxisCurrPos(AXIS_X, m_CustomX);
-	}
-	else
-	{
-		AfxMessageBox("控制卡未连接！");
+		m_UIProcThread->PostThreadMessage(WM_MOTOR_CLEAR_ZERO_X, 0, 0);
 	}
 }
 
 
 void CControlSystemDlg::OnBnClickedClearZeroY()
 {
-	if(NULL != m_IMotoCtrl && true == m_IsMotroCtrlConnected)
+	if(NULL != m_UIProcThread)
 	{
-		UpdateData(true);
-		m_IMotoCtrl->SetAxisCurrPos(AXIS_Y, m_CustomY);
-	}
-	else
-	{
-		AfxMessageBox("控制卡未连接！");
+		m_UIProcThread->PostThreadMessage(WM_MOTOR_CLEAR_ZERO_Y, 0, 0);
 	}
 }
 
 
 void CControlSystemDlg::OnBnClickedClearZeroZ()
 {
-	if(NULL != m_IMotoCtrl && true == m_IsMotroCtrlConnected)
+	if(NULL != m_UIProcThread)
 	{
-		UpdateData(true);
-		m_IMotoCtrl->SetAxisCurrPos(AXIS_Z, 0);
-	}
-	else
-	{
-		AfxMessageBox("控制卡未连接！");
+		m_UIProcThread->PostThreadMessage(WM_MOTOR_CLEAR_ZERO_Z, 0, 0);
 	}
 }
 
 void CControlSystemDlg::OnOpButtonDown(UINT nID)
 {
-	if(NULL != m_IMotoCtrl && true == m_IsMotroCtrlConnected)
+	if(NULL != m_UIProcThread)
 	{
 		switch(nID)
 		{
 		case IDC_MANUAL_LEFT_X:
+			m_UIProcThread->PostThreadMessage(WM_MOTOR_MANUAL_START_MOVE, AXIS_X, 1);
 			break;
+
 		case IDC_MANUAL_RIGHT_X:
+			m_UIProcThread->PostThreadMessage(WM_MOTOR_MANUAL_START_MOVE, AXIS_X, 0);
 			break;
+
 		case IDC_MANUAL_LEFT_Y:
+			m_UIProcThread->PostThreadMessage(WM_MOTOR_MANUAL_START_MOVE, AXIS_Y, 1);
 			break;
+
 		case IDC_MANUAL_RIGHT_Y:
+			m_UIProcThread->PostThreadMessage(WM_MOTOR_MANUAL_START_MOVE, AXIS_Y, 0);
 			break;
+
 		case IDC_MANUAL_LEFT_Z:
-			m_IMotoCtrl->SetAxisVelocityStart(AXIS_Z, 1);
+			m_UIProcThread->PostThreadMessage(WM_MOTOR_MANUAL_START_MOVE, AXIS_Z, 1);
 			break;
 
 		case IDC_MANUAL_RIGHT_Z:
-			m_IMotoCtrl->SetAxisVelocityStart(AXIS_Z, 0);
+			m_UIProcThread->PostThreadMessage(WM_MOTOR_MANUAL_START_MOVE, AXIS_Z, 0);
 			break;
 
 		default:
@@ -1198,24 +1034,32 @@ void CControlSystemDlg::OnOpButtonDown(UINT nID)
 
 void CControlSystemDlg::OnOpButtonUp(UINT nID)
 {
-	if(NULL != m_IMotoCtrl && true == m_IsMotroCtrlConnected)
+	if(NULL != m_UIProcThread)
 	{
 		switch(nID)
 		{
 		case IDC_MANUAL_LEFT_X:
+			m_UIProcThread->PostThreadMessage(WM_MOTOR_MANUAL_STOP_MOVE, AXIS_X, 0);
 			break;
+
 		case IDC_MANUAL_RIGHT_X:
+			m_UIProcThread->PostThreadMessage(WM_MOTOR_MANUAL_STOP_MOVE, AXIS_X, 0);
 			break;
+
 		case IDC_MANUAL_LEFT_Y:
+			m_UIProcThread->PostThreadMessage(WM_MOTOR_MANUAL_STOP_MOVE, AXIS_Y, 0);
 			break;
+
 		case IDC_MANUAL_RIGHT_Y:
+			m_UIProcThread->PostThreadMessage(WM_MOTOR_MANUAL_STOP_MOVE, AXIS_Y, 0);
 			break;
+
 		case IDC_MANUAL_LEFT_Z:
-			m_IMotoCtrl->SetAxisVelocityStop(AXIS_Z);
+			m_UIProcThread->PostThreadMessage(WM_MOTOR_MANUAL_STOP_MOVE, AXIS_Z, 0);
 			break;
 
 		case IDC_MANUAL_RIGHT_Z:
-			m_IMotoCtrl->SetAxisVelocityStop(AXIS_Z);
+			m_UIProcThread->PostThreadMessage(WM_MOTOR_MANUAL_STOP_MOVE, AXIS_Z, 0);
 			break;
 
 		default:
