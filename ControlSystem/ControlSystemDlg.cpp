@@ -178,7 +178,7 @@ BEGIN_MESSAGE_MAP(CControlSystemDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON_IMAGE_PROC, &CControlSystemDlg::OnBnClickedButtonImageProc)
 	
 	ON_BN_CLICKED(IDC_START, &CControlSystemDlg::OnBnClickedStart)
-	ON_BN_CLICKED(IDC_BUTTON2, &CControlSystemDlg::OnBnClickedButtonCapture)
+	ON_BN_CLICKED(IDC_BUTTON_CAPTURE, &CControlSystemDlg::OnBnClickedButtonCapture)
 	ON_BN_CLICKED(IDC_IMAGE_PROC_SETTING_BTN, &CControlSystemDlg::OnBnClickedImageProcSettingBtn)
 	ON_NOTIFY(NM_DBLCLK, IDC_LIST1, &CControlSystemDlg::OnDblclkList1)
 	ON_BN_CLICKED(IDC_MT_CONNECT, &CControlSystemDlg::OnBnClickedMtConnect)
@@ -481,26 +481,43 @@ void CControlSystemDlg::OnBnClickedCameraParam()
 
 void CControlSystemDlg::OpenHalconWind()
 {
-	if(m_HalconWndOpened)
-	{
-		return;
-	}
+	//if(m_HalconWndOpened)
+	//{
+	//	return;
+	//}
+
+	//CRect rtWindow;
+
+	//HWND hImgWnd = GetDlgItem(IDC_STATIC_VIDEO1)->m_hWnd;
+
+	//GetDlgItem( IDC_STATIC_VIDEO1)->GetClientRect(&rtWindow);
+
+	//Halcon::set_window_attr("background_color","black");
+
+	//Halcon::open_window(rtWindow.left,rtWindow.top, rtWindow.Width(),rtWindow.Height(),(Hlong)hImgWnd,"","",&hv_WindowID);
+
+	//Halcon::set_part(hv_WindowID, 0, 0, rtWindow.Height() -1, rtWindow.Width() - 1);
+
+	//HDevWindowStack::Push(hv_WindowID);
+
+	//m_HalconWndOpened = true;
 
 	CRect rtWindow;
-
-	HWND hImgWnd = GetDlgItem( IDC_STATIC_VIDEO1)->m_hWnd;
+	HWND hImgWnd = GetDlgItem(IDC_STATIC_VIDEO1)->m_hWnd;
 
 	GetDlgItem( IDC_STATIC_VIDEO1)->GetClientRect(&rtWindow);
 
-	Halcon::set_window_attr("background_color","black");
+	static IMAGE_WND_PARAM imageWndParam;
+	imageWndParam.hParentWnd = hImgWnd;
+	imageWndParam.rect.top = rtWindow.top;
+	imageWndParam.rect.bottom = rtWindow.bottom;
+	imageWndParam.rect.left = rtWindow.left;
+	imageWndParam.rect.right = rtWindow.right;
 
-	Halcon::open_window(rtWindow.left,rtWindow.top, rtWindow.Width(),rtWindow.Height(),(Hlong)hImgWnd,"","",&hv_WindowID);
-
-	Halcon::set_part(hv_WindowID, 0, 0, rtWindow.Height() -1, rtWindow.Width() - 1);
-
-	HDevWindowStack::Push(hv_WindowID);
-
-	m_HalconWndOpened = true;
+	if(NULL != m_UIProcThread)
+	{
+		m_UIProcThread->PostThreadMessage(WM_OPEN_HALCON_WINDOW, (WPARAM)&imageWndParam, 0);
+	}
 }
 
 void CControlSystemDlg::OnBnClickedButtonImageProc()
@@ -510,6 +527,7 @@ void CControlSystemDlg::OnBnClickedButtonImageProc()
 	if(HDevWindowStack::IsOpen())
 	{
 		clear_window(HDevWindowStack::GetActive());
+
 	}
 
 	if(NULL != m_UIProcThread)
@@ -576,6 +594,8 @@ void CControlSystemDlg::OnBnClickedButtonCapture()
 	}
 
 	OpenHalconWind();
+
+	Hobject m_hvImage;
 	if(HDevWindowStack::IsOpen())
 	{
 		clear_window(HDevWindowStack::GetActive());
@@ -963,8 +983,29 @@ void CControlSystemDlg::OnSize(UINT nType, int cx, int cy)
 
 	//ReSize();
 	m_itemSize.ResizeItem();
+
+	CRect rtWindow;
+
+	HWND hImgWnd = GetDlgItem(IDC_STATIC_VIDEO1)->m_hWnd;
+
+	GetDlgItem( IDC_STATIC_VIDEO1)->GetClientRect(&rtWindow);
+
+	static IMAGE_WND_PARAM imageWndResizeParam;
+	imageWndResizeParam.hParentWnd = hImgWnd;
+	imageWndResizeParam.rect.top = rtWindow.top;
+	imageWndResizeParam.rect.bottom = rtWindow.bottom;
+	imageWndResizeParam.rect.left = rtWindow.left;
+	imageWndResizeParam.rect.right = rtWindow.right;
+
+	if(NULL != m_UIProcThread)
+	{
+		m_UIProcThread->PostThreadMessage(WM_RESIZE_HALCON_WINDOW, (WPARAM)&imageWndResizeParam, 0);
+	}
+
 	Invalidate();
 }
+
+
 
 void CControlSystemDlg::OnBnClickedClearZeroX()
 {

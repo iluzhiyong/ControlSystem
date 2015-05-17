@@ -20,6 +20,7 @@ CProcThread::CProcThread()
 , m_pCamera(NULL)
 , m_IImageProcess(NULL)
 , m_ImageProcSetDlg(NULL)
+,m_HalconWndOpened(false)
 {
 }
 
@@ -29,7 +30,6 @@ CProcThread::~CProcThread()
 
 BOOL CProcThread::InitInstance()
 {
-	// TODO:  perform and per-thread initialization here
 	//³õÊ¼»¯°å¿¨
 	m_IMotoCtrl = new IMotorCtrl();
 	if(NULL != m_IMotoCtrl)
@@ -44,12 +44,13 @@ BOOL CProcThread::InitInstance()
 
 	m_IImageProcess = new CImageProcess();
 
+	
+
 	return TRUE;
 }
 
 int CProcThread::ExitInstance()
 {
-	// TODO:  perform any per-thread cleanup here
 	if(NULL != m_pCamera)
 	{
 		delete m_pCamera;
@@ -94,6 +95,9 @@ BEGIN_MESSAGE_MAP(CProcThread, CWinThread)
 	ON_THREAD_MESSAGE(WM_IMAGE_PROC,&CProcThread::OnDoImageProc)
 	ON_THREAD_MESSAGE(WM_IMAGE_LOAD,&CProcThread::OnDoImageLoad)
 	ON_THREAD_MESSAGE(WM_IMAGE_PROC_SETTING,&CProcThread::OnImageProcSetting)
+	ON_THREAD_MESSAGE(WM_OPEN_HALCON_WINDOW,&CProcThread::OnOpenHalconWindow)
+	ON_THREAD_MESSAGE(WM_RESIZE_HALCON_WINDOW,&CProcThread::OnReSizeHalconWindow)
+
 END_MESSAGE_MAP()
 
 void CProcThread::OnMotorConnect(WPARAM wParam,LPARAM lParam)
@@ -383,4 +387,35 @@ void CProcThread::OnImageProcSetting(WPARAM wParam,LPARAM lParam)
 		}
 	}
 }
+
+void CProcThread::OnOpenHalconWindow(WPARAM wParam,LPARAM lParam)
+{
+	IMAGE_WND_PARAM* pImageWndParam = ((IMAGE_WND_PARAM*)wParam);
+	if(m_HalconWndOpened)
+	{
+		return;
+	}
+
+	Halcon::set_window_attr("background_color","black");
+
+	Halcon::open_window(pImageWndParam->rect.left, pImageWndParam->rect.top, pImageWndParam->rect.Width(), pImageWndParam->rect.Height(), (Hlong)(pImageWndParam->hParentWnd), "","",&m_WindowHandle);
+
+	HDevWindowStack::Push(m_WindowHandle);
+
+	m_HalconWndOpened = true;
+}
+
+
+void CProcThread::OnReSizeHalconWindow(WPARAM wParam,LPARAM lParam)
+{
+	if(m_HalconWndOpened)
+	{
+		IMAGE_WND_PARAM* pImageWndParam = ((IMAGE_WND_PARAM*)wParam);
+		if(HDevWindowStack::IsOpen())
+		{
+			Halcon::set_window_extents(m_WindowHandle, pImageWndParam->rect.left, pImageWndParam->rect.top, pImageWndParam->rect.Width(), pImageWndParam->rect.Height());
+		}
+	}
+}
+
 // CProcThread message handlers
