@@ -159,8 +159,8 @@ void CControlSystemDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_MANUAL_RIGHT_X, m_RightXBtn);
 	DDX_Control(pDX, IDC_MANUAL_RIGHT_Y, m_RightYBtn);
 	DDX_Control(pDX, IDC_MANUAL_RIGHT_Z, m_RightZBtn);
-	DDX_Control(pDX, IDC_STATIC_MOTOR_STATUS, m_MotorRunStatus);
-	DDX_Control(pDX, IDC_STATIC_CAMERA_STATUS, m_CameraRunStatus);
+	DDX_Control(pDX, IDC_PIC_MOTOR_STATUS, m_MotorRunStatus);
+	DDX_Control(pDX, IDC_PIC_CAMERA_STATUS, m_CameraRunStatus);
 }
 
 BEGIN_MESSAGE_MAP(CControlSystemDlg, CDialogEx)
@@ -268,10 +268,6 @@ void CControlSystemDlg::OnSysCommand(UINT nID, LPARAM lParam)
 	}
 }
 
-// If you add a minimize button to your dialog, you will need the code below
-//  to draw the icon.  For MFC applications using the document/view model,
-//  this is automatically done for you by the framework.
-
 void CControlSystemDlg::OnPaint()
 {
 	if (IsIconic())
@@ -297,8 +293,6 @@ void CControlSystemDlg::OnPaint()
 	}
 }
 
-// The system calls this function to obtain the cursor to display while the user drags
-//  the minimized window.
 HCURSOR CControlSystemDlg::OnQueryDragIcon()
 {
 	return static_cast<HCURSOR>(m_hIcon);
@@ -453,27 +447,6 @@ void CControlSystemDlg::OnBnClickedSaveAs()
 	}
 
 	excelApp.ReleaseExcel();
-}
-
-void CControlSystemDlg::OpenHalconWind()
-{
-	//CRect rtWindow;
-	//HWND hImgWnd = GetDlgItem(IDC_STATIC_VIDEO1)->m_hWnd;
-
-	//GetDlgItem( IDC_STATIC_VIDEO1)->GetClientRect(&rtWindow);
-
-	//static IMAGE_WND_PARAM imageWndParam;
-	////imageWndParam.hParentWnd = hImgWnd;
-	//imageWndParam.hParentWnd = m_hWnd;
-	//imageWndParam.rect.top = rtWindow.top;
-	//imageWndParam.rect.bottom = rtWindow.bottom;
-	//imageWndParam.rect.left = rtWindow.left;
-	//imageWndParam.rect.right = rtWindow.right;
-
-	//if(NULL != m_UIProcThread)
-	//{
-	//	m_UIProcThread->PostThreadMessage(WM_OPEN_HALCON_WINDOW, (WPARAM)&imageWndParam, 0);
-	//}
 }
 
 void CControlSystemDlg::OnBnClickedStart()
@@ -803,6 +776,9 @@ void CControlSystemDlg::OnTimer(UINT_PTR nIDEvent)
 
 LRESULT CControlSystemDlg::OnUpdateMotorStatus(WPARAM wParam,LPARAM lParam)
 {
+	//当可以从处理线程收到电机状态信息时，此时，认为电机工作状态正常
+	m_bMotorRunStatus = true;
+
 	//读取当前位置
 	int axis = int(wParam);
 	float iTempPos = float(lParam);
@@ -856,27 +832,7 @@ void CControlSystemDlg::OnSize(UINT nType, int cx, int cy)
 {
 	CDialogEx::OnSize(nType, cx, cy);
 
-	//ReSize();
 	m_itemSize.ResizeItem();
-
-	//CRect rtWindow;
-
-	//HWND hImgWnd = GetDlgItem(IDC_STATIC_VIDEO1)->m_hWnd;
-
-	//GetDlgItem( IDC_STATIC_VIDEO1)->GetClientRect(&rtWindow);
-
-	//static IMAGE_WND_PARAM imageWndResizeParam;
-	//imageWndResizeParam.hParentWnd = hImgWnd;
-	//imageWndResizeParam.rect.top = rtWindow.top;
-	//imageWndResizeParam.rect.bottom = rtWindow.bottom;
-	//imageWndResizeParam.rect.left = rtWindow.left;
-	//imageWndResizeParam.rect.right = rtWindow.right;
-
-	//if(NULL != m_UIProcThread)
-	//{
-	//	m_UIProcThread->PostThreadMessage(WM_RESIZE_HALCON_WINDOW, (WPARAM)&imageWndResizeParam, 0);
-	//}
-
 	Invalidate();
 }
 
@@ -1011,6 +967,7 @@ void CControlSystemDlg::CameraDestroy(void)
 
 void CControlSystemDlg::CameraInit(void)
 {
+	m_bCameraRunStatus = false;
 	IDevice::DeviceInitialSDK(NULL, FALSE);
 
 	if(m_pCameraSetupDlg != NULL)
@@ -1047,6 +1004,7 @@ void CControlSystemDlg::CameraInit(void)
 		else
 		{
 			CameraPlay();
+			m_bCameraRunStatus = true;
 		}
 	}
 }
@@ -1197,21 +1155,6 @@ void CControlSystemDlg::OnCameraConnect()
 void CControlSystemDlg::OnCameraCapture()
 {
 	CameraCapture();
-	//等待拍照完成，有没有同步消息，使用SendMessage()是否可以？
-	Sleep(500);
-
-	//OpenHalconWind();
-
-	//Hobject m_hvImage;
-	//if(HDevWindowStack::IsOpen())
-	//{
-	//	clear_window(HDevWindowStack::GetActive());
-	//}
-
-	//if(NULL != m_UIProcThread)
-	//{
-	//	m_UIProcThread->PostThreadMessage(WM_IMAGE_LOAD, 0, 0);
-	//}
 }
 
 void CControlSystemDlg::OnCameraParamSet()
@@ -1243,28 +1186,14 @@ void CControlSystemDlg::OnMotorConnect()
 
 void CControlSystemDlg::OnImageProc()
 {
-	//OpenHalconWind();
-
-	//if(HDevWindowStack::IsOpen())
-	//{
-	//	clear_window(HDevWindowStack::GetActive());
-
-	//}
-
-	//if(NULL != m_UIProcThread)
-	//{
-	//	//m_UIProcThread->PostThreadMessage(WM_IMAGE_PROC, 0, 0);
-	//}
+	if(NULL != m_UIProcThread)
+	{
+		m_UIProcThread->PostThreadMessage(WM_IMAGE_PROC, 0, 0);
+	}
 }
 
 void CControlSystemDlg::OnImageParamSet()
 {
-	OpenHalconWind();
-	if(HDevWindowStack::IsOpen())
-	{
-		clear_window(HDevWindowStack::GetActive());
-	}
-
 	if(NULL != m_UIProcThread)
 	{
 		m_UIProcThread->PostThreadMessage(WM_IMAGE_PROC_SETTING, 0, 0);

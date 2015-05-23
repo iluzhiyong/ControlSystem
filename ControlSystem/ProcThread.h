@@ -14,10 +14,6 @@ enum UserProcMsg
 	WM_MOTOR_STOP,
 	WM_MOTOR_MOVE_TO,
 
-	WM_CAMERA_INIT,
-	WM_CAMERA_SET_PARAM,
-	WM_CAMERA_DO_CAPTURE,
-
 	WM_IMAGE_PROC,
 	WM_IMAGE_LOAD,
 	WM_IMAGE_PROC_SETTING,
@@ -26,7 +22,6 @@ enum UserProcMsg
 	WM_DO_CAPTURE,
 
 	WM_OPEN_HALCON_WINDOW,
-	WM_RESIZE_HALCON_WINDOW,
 };
 
 typedef struct IMAGE_WND_PARAM
@@ -36,8 +31,6 @@ typedef struct IMAGE_WND_PARAM
 } image_wnd_param;
 
 class IMotorCtrl;
-class Camera;
-class CGCamera;
 class CCameraParaDlg;
 class CImageProcess;
 class CImageProcSettingDlg;
@@ -66,23 +59,14 @@ public:
 	afx_msg void OnMotorStop(WPARAM wParam,LPARAM lParam);
 	afx_msg void OnMotorMoveTo(WPARAM wParam,LPARAM lParam);
 	afx_msg void OnDoMear(WPARAM wParam,LPARAM lParam);
-	afx_msg void OnInitCamera(WPARAM wParam,LPARAM lParam);
-	afx_msg void OnCameraSetParam(WPARAM wParam,LPARAM lParam);
-	afx_msg void OnCameraDoCapture(WPARAM wParam,LPARAM lParam);
 	afx_msg void OnDoImageProc(WPARAM wParam,LPARAM lParam);
 	afx_msg void OnDoImageLoad(WPARAM wParam,LPARAM lParam);
 	afx_msg void OnImageProcSetting(WPARAM wParam,LPARAM lParam);
 
-	afx_msg void OnOpenHalconWindow(WPARAM wParam,LPARAM lParam);
-	afx_msg void OnReSizeHalconWindow(WPARAM wParam,LPARAM lParam);
-
+	void OpenHalconWindow();
 private:
 	IMotorCtrl* m_IMotoCtrl;
 	bool m_IsMotroCtrlConnected;
-
-private:
-	//Camera*	m_pCamera;
-	CGCamera*	m_pCamera;
 
 private:
 	CImageProcess* m_IImageProcess;

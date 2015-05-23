@@ -73,8 +73,6 @@ private:
 public:
 	bool CalculatePoint(float x, float y, float z, float &retx, float &rety, float &retz);
 
-public:
-	void OpenHalconWind();
 private:
 	HTuple  hv_WindowID;
 	bool m_HalconWndOpened;

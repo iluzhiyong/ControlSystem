@@ -5,9 +5,6 @@
 #include "ControlSystem.h"
 #include "ProcThread.h"
 #include "IMotorCtrl.h"
-#include "DLCCamera.h"
-#include "CGCamera.h"
-#include "CameraDlg.h"
 #include "ImageProcess.h"
 #include "ImageProcSettingDlg.h"
 
@@ -18,7 +15,6 @@ IMPLEMENT_DYNCREATE(CProcThread, CWinThread)
 CProcThread::CProcThread()
 : m_IMotoCtrl(NULL)
 , m_IsMotroCtrlConnected(FALSE)
-, m_pCamera(NULL)
 , m_IImageProcess(NULL)
 , m_ImageProcSetDlg(NULL)
 ,m_HalconWndOpened(false)
@@ -50,11 +46,6 @@ BOOL CProcThread::InitInstance()
 
 int CProcThread::ExitInstance()
 {
-	//if(NULL != m_pCamera)
-	//{
-	//	delete m_pCamera;
-	//}
-
 	if(m_ImageProcSetDlg != NULL)
 	{
 		delete m_ImageProcSetDlg;
@@ -88,15 +79,9 @@ BEGIN_MESSAGE_MAP(CProcThread, CWinThread)
 	ON_THREAD_MESSAGE(WM_MOTOR_STOP,&CProcThread::OnMotorStop)
 	ON_THREAD_MESSAGE(WM_MOTOR_MOVE_TO,&CProcThread::OnMotorMoveTo)
 	ON_THREAD_MESSAGE(WM_DO_MEAR,&CProcThread::OnDoMear)
-	ON_THREAD_MESSAGE(WM_CAMERA_INIT,&CProcThread::OnInitCamera)
-	ON_THREAD_MESSAGE(WM_CAMERA_SET_PARAM,&CProcThread::OnCameraSetParam)
-	ON_THREAD_MESSAGE(WM_CAMERA_DO_CAPTURE,&CProcThread::OnCameraDoCapture)
 	ON_THREAD_MESSAGE(WM_IMAGE_PROC,&CProcThread::OnDoImageProc)
 	ON_THREAD_MESSAGE(WM_IMAGE_LOAD,&CProcThread::OnDoImageLoad)
 	ON_THREAD_MESSAGE(WM_IMAGE_PROC_SETTING,&CProcThread::OnImageProcSetting)
-	ON_THREAD_MESSAGE(WM_OPEN_HALCON_WINDOW,&CProcThread::OnOpenHalconWindow)
-	ON_THREAD_MESSAGE(WM_RESIZE_HALCON_WINDOW,&CProcThread::OnReSizeHalconWindow)
-
 END_MESSAGE_MAP()
 
 void CProcThread::OnMotorConnect(WPARAM wParam,LPARAM lParam)
@@ -294,56 +279,10 @@ void CProcThread::OnDoMear(WPARAM wParam,LPARAM lParam)
 	}
 }
 
-void CProcThread::OnInitCamera(WPARAM wParam,LPARAM lParam)
-{
-	//RECT rect = *(RECT*)wParam;
-	//HWND hwndParent = HWND(lParam);
-	//
-	//m_pCamera = new CGCamera();
-	//if(NULL != m_pCamera)
-	//{
-	//	m_pCamera->Initialize();
-	//	m_pCamera->SetDispRect(rect);
-	//	m_pCamera->DoPlay(TRUE, hwndParent);
-	//}
-}
-
-void CProcThread::OnCameraSetParam(WPARAM wParam,LPARAM lParam)
-{
-	//CCameraParaDlg cameraDlg;
-	//cameraDlg.SetCamera(m_pCamera);
-
-	//int ret = cameraDlg.DoModal();
-
-	//if(ret == IDOK)
-	//{
-	//
-	//}
-	//else if(ret == IDCANCEL)
-	//{
-	//	
-	//}
-
-	//if(m_pDevice != NULL){
-	//	if(m_pSetupDlg == NULL) m_pSetupDlg = new CSetupDlg(m_pDevice, this);
-	//	if(m_pSetupDlg->GetSafeHwnd() == NULL){
-	//		m_pSetupDlg->Create(IDD_SETUP, NULL);
-	//		m_pSetupDlg->Invalidate();
-	//	}
-	//	m_pSetupDlg->ShowWindow(TRUE);
-	//}
-}
-
-void CProcThread::OnCameraDoCapture(WPARAM wParam,LPARAM lParam)
-{
-	//if(NULL != m_pCamera)
-	//{
-	//	m_pCamera->DoCapture();
-	//}
-}
-
 void CProcThread::OnDoImageProc(WPARAM wParam,LPARAM lParam)
 {
+	OpenHalconWindow();
+
 	if((NULL != m_IImageProcess) && m_IImageProcess->LoadProcessImage())
 	{
 		CDetectCircularhole* detecter = m_IImageProcess->GetCircleDetecter();
@@ -378,7 +317,7 @@ void CProcThread::OnDoImageLoad(WPARAM wParam,LPARAM lParam)
 
 void CProcThread::OnImageProcSetting(WPARAM wParam,LPARAM lParam)
 {
-	HWND hwndParent = HWND(wParam);
+	OpenHalconWindow();
 	
 	if(NULL != m_IImageProcess && m_IImageProcess->LoadProcessImage())
 	{
@@ -396,9 +335,8 @@ void CProcThread::OnImageProcSetting(WPARAM wParam,LPARAM lParam)
 	}
 }
 
-void CProcThread::OnOpenHalconWindow(WPARAM wParam,LPARAM lParam)
+void CProcThread::OpenHalconWindow()
 {
-	IMAGE_WND_PARAM* pImageWndParam = ((IMAGE_WND_PARAM*)wParam);
 	if(m_HalconWndOpened)
 	{
 		return;
@@ -406,24 +344,11 @@ void CProcThread::OnOpenHalconWindow(WPARAM wParam,LPARAM lParam)
 
 	Halcon::set_window_attr("background_color","black");
 
-	Halcon::open_window(pImageWndParam->rect.left, pImageWndParam->rect.top, pImageWndParam->rect.Width(), pImageWndParam->rect.Height(), (Hlong)(pImageWndParam->hParentWnd), "","",&m_WindowHandle);
+	Halcon::open_window(0, 0, 640, 480, 0, "","",&m_WindowHandle);
 
 	HDevWindowStack::Push(m_WindowHandle);
 
 	m_HalconWndOpened = true;
-}
-
-
-void CProcThread::OnReSizeHalconWindow(WPARAM wParam,LPARAM lParam)
-{
-	if(m_HalconWndOpened)
-	{
-		IMAGE_WND_PARAM* pImageWndParam = ((IMAGE_WND_PARAM*)wParam);
-		if(HDevWindowStack::IsOpen())
-		{
-			Halcon::set_window_extents(m_WindowHandle, pImageWndParam->rect.left, pImageWndParam->rect.top, pImageWndParam->rect.Width(), pImageWndParam->rect.Height());
-		}
-	}
 }
 
 // CProcThread message handlers
