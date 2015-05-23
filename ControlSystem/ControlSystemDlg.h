@@ -9,6 +9,8 @@
 #include "OPButton.h"
 #include "afxwin.h"
 #include "ItemResize.h"
+#include <IDevice.h>
+#include "SetupDlg.h"
 
 // CControlSystemDlg dialog
 class IMotorCtrl;
@@ -62,6 +64,7 @@ public:
 	afx_msg void OnBnClickedClearZeroZ();
 	afx_msg void OnBnClickedLimitX();
 	afx_msg LRESULT OnUpdateMotorStatus(WPARAM wParam,LPARAM lParam);
+	afx_msg void OnBnClickedBtnOutputImage(UINT nID);
 
 private:
 	CStatic m_staticPicture;
@@ -147,4 +150,27 @@ private:
 private:
 	CWinThread* m_UIProcThread;
 
+private:
+	//相机相关变量开始:考虑到相机需要实时的显示镜头前的影响，直接做到主线程下。
+	CSetupDlg			*m_pCameraSetupDlg;
+	BOOL				m_bImageAspectRatio;
+	IDevice				*m_pCameraDevice;
+	CCriticalSection	m_csImageData;
+	BYTE				*m_pImageData;
+	int					m_nImageDataSize;
+	int					m_nImageWidth;
+	int					m_nImageHeight;
+	CString				m_sImagefilename;
+	//相机相关变量结束
+
+	//相机相关方法开始
+	void CameraDestroy(void);
+	void CameraInit(void);
+	void CameraReceiveDataProc(BYTE *pImgData, int nWidth, int nHeight);
+	static void CALLBACK CameraInitReceiveDataProc(LPVOID pDevice, BYTE *pImageBuffer, DeviceFrameInfo *pFrInfo, LPVOID lParam);
+	void CameraUpdatePictureDisp(void);
+	void CameraPlay(void);
+	void CameraStop(void);
+	void CameraCapture(void);
+	//相机相关方法结束
 };

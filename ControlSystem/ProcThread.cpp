@@ -5,7 +5,8 @@
 #include "ControlSystem.h"
 #include "ProcThread.h"
 #include "IMotorCtrl.h"
-#include "Camera.h"
+#include "DLCCamera.h"
+#include "CGCamera.h"
 #include "CameraDlg.h"
 #include "ImageProcess.h"
 #include "ImageProcSettingDlg.h"
@@ -44,17 +45,15 @@ BOOL CProcThread::InitInstance()
 
 	m_IImageProcess = new CImageProcess();
 
-	
-
 	return TRUE;
 }
 
 int CProcThread::ExitInstance()
 {
-	if(NULL != m_pCamera)
-	{
-		delete m_pCamera;
-	}
+	//if(NULL != m_pCamera)
+	//{
+	//	delete m_pCamera;
+	//}
 
 	if(m_ImageProcSetDlg != NULL)
 	{
@@ -257,10 +256,10 @@ void CProcThread::OnDoMear(WPARAM wParam,LPARAM lParam)
 
 	//::PostMessage((HWND)(GetMainWnd()->GetSafeHwnd()),WM_DO_CAPTURE, wParam, 0);
 	//Sleep(5000);
-	if(ret)
-	{
-		ret = (1 == m_pCamera->DoCapture());
-	}
+	//if(ret)
+	//{
+	//	ret = (1 == m_pCamera->DoCapture());
+	//}
 
 	//::PostMessage((HWND)(GetMainWnd()->GetSafeHwnd()),WM_DO_IMAGE_PROC, 0, 0);
 	//Sleep(500);
@@ -297,41 +296,50 @@ void CProcThread::OnDoMear(WPARAM wParam,LPARAM lParam)
 
 void CProcThread::OnInitCamera(WPARAM wParam,LPARAM lParam)
 {
-	RECT rect = *(RECT*)wParam;
-	HWND hwndParent = HWND(lParam);
-	
-	m_pCamera = new Camera();
-	if(NULL != m_pCamera)
-	{
-		m_pCamera->Initialize();
-		m_pCamera->SetDispRect(rect);
-		m_pCamera->DoPlay(TRUE, hwndParent);
-	}
+	//RECT rect = *(RECT*)wParam;
+	//HWND hwndParent = HWND(lParam);
+	//
+	//m_pCamera = new CGCamera();
+	//if(NULL != m_pCamera)
+	//{
+	//	m_pCamera->Initialize();
+	//	m_pCamera->SetDispRect(rect);
+	//	m_pCamera->DoPlay(TRUE, hwndParent);
+	//}
 }
 
 void CProcThread::OnCameraSetParam(WPARAM wParam,LPARAM lParam)
 {
-	CCameraParaDlg cameraDlg;
-	cameraDlg.SetCamera(m_pCamera);
+	//CCameraParaDlg cameraDlg;
+	//cameraDlg.SetCamera(m_pCamera);
 
-	int ret = cameraDlg.DoModal();
+	//int ret = cameraDlg.DoModal();
 
-	if(ret == IDOK)
-	{
-	
-	}
-	else if(ret == IDCANCEL)
-	{
-		
-	}
+	//if(ret == IDOK)
+	//{
+	//
+	//}
+	//else if(ret == IDCANCEL)
+	//{
+	//	
+	//}
+
+	//if(m_pDevice != NULL){
+	//	if(m_pSetupDlg == NULL) m_pSetupDlg = new CSetupDlg(m_pDevice, this);
+	//	if(m_pSetupDlg->GetSafeHwnd() == NULL){
+	//		m_pSetupDlg->Create(IDD_SETUP, NULL);
+	//		m_pSetupDlg->Invalidate();
+	//	}
+	//	m_pSetupDlg->ShowWindow(TRUE);
+	//}
 }
 
 void CProcThread::OnCameraDoCapture(WPARAM wParam,LPARAM lParam)
 {
-	if(NULL != m_pCamera)
-	{
-		m_pCamera->DoCapture();
-	}
+	//if(NULL != m_pCamera)
+	//{
+	//	m_pCamera->DoCapture();
+	//}
 }
 
 void CProcThread::OnDoImageProc(WPARAM wParam,LPARAM lParam)

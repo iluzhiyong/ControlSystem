@@ -1,5 +1,5 @@
 #include "StdAfx.h"
-#include "Camera.h"
+#include "DLCCamera.h"
 
 VOID CALLBACK AWBCallback( DWORD dw1, LPVOID lpContext )
 {

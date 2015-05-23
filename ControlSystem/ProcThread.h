@@ -37,6 +37,7 @@ typedef struct IMAGE_WND_PARAM
 
 class IMotorCtrl;
 class Camera;
+class CGCamera;
 class CCameraParaDlg;
 class CImageProcess;
 class CImageProcSettingDlg;
@@ -80,7 +81,8 @@ private:
 	bool m_IsMotroCtrlConnected;
 
 private:
-	Camera*	m_pCamera;
+	//Camera*	m_pCamera;
+	CGCamera*	m_pCamera;
 
 private:
 	CImageProcess* m_IImageProcess;

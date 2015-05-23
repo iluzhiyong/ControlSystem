@@ -1,7 +1,7 @@
 #pragma once
 
 #include "HQDLAPIUSER.h"
-#include "Camera.h"
+#include "DLCCamera.h"
 
 
 // CCameraParaDlg dialog

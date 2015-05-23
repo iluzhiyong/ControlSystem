@@ -95,7 +95,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>HQDLAPI.lib;halconcpp.lib;MT_API.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>HQDLAPI.lib;halconcpp.lib;MT_API.lib;CGDEVSDK.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\ControlSystem\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <Midl>
@@ -197,7 +197,8 @@
     <None Include="res\icon2.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Camera.h" />
+    <ClInclude Include="CGCamera.h" />
+    <ClInclude Include="DLCCamera.h" />
     <ClInclude Include="CameraDlg.h" />
     <ClInclude Include="CApplication.h" />
     <ClInclude Include="ControlSystem.h" />
@@ -209,10 +210,13 @@
     <ClInclude Include="CWorksheets.h" />
     <ClInclude Include="DataUtility.h" />
     <ClInclude Include="DetectCircularhole.h" />
+    <ClInclude Include="DeviceInfoDlg.h" />
     <ClInclude Include="ExcelFileApp.h" />
+    <ClInclude Include="ExposeDlg.h" />
     <ClInclude Include="HalconAction.h" />
     <ClInclude Include="IHeightDectector.h" />
     <ClInclude Include="ImageProcess.h" />
+    <ClInclude Include="ImageProcessDlg.h" />
     <ClInclude Include="ImageProcSetting.h" />
     <ClInclude Include="ImageProcSettingDlg.h" />
     <ClInclude Include="IMotorCtrl.h" />
@@ -221,27 +225,37 @@
     <ClInclude Include="MotorCtrl.h" />
     <ClInclude Include="MT_API.h" />
     <ClInclude Include="OPButton.h" />
+    <ClInclude Include="OutputModeDlg.h" />
     <ClInclude Include="ProcThread.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="ROIDlg.h" />
+    <ClInclude Include="SetupDlg.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="CGCamera.cpp" />
+    <ClCompile Include="DLCCamera.cpp" />
     <ClCompile Include="CameraDlg.cpp" />
     <ClCompile Include="ControlSystem.cpp" />
     <ClCompile Include="ControlSystemDlg.cpp" />
     <ClCompile Include="DataUtility.cpp" />
     <ClCompile Include="DetectCircularhole.cpp" />
+    <ClCompile Include="DeviceInfoDlg.cpp" />
     <ClCompile Include="ExcelFileApp.cpp" />
+    <ClCompile Include="ExposeDlg.cpp" />
     <ClCompile Include="ImageProcess.cpp" />
+    <ClCompile Include="ImageProcessDlg.cpp" />
     <ClCompile Include="ImageProcSettingDlg.cpp" />
     <ClCompile Include="IMotroCtrl.cpp" />
     <ClCompile Include="ItemResize.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="MotorCtrl.cpp" />
     <ClCompile Include="OPButton.cpp" />
+    <ClCompile Include="OutputModeDlg.cpp" />
     <ClCompile Include="ProcThread.cpp" />
+    <ClCompile Include="ROIDlg.cpp" />
+    <ClCompile Include="SetupDlg.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

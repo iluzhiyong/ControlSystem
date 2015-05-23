@@ -71,6 +71,14 @@ CControlSystemDlg::CControlSystemDlg(CWnd* pParent /*=NULL*/)
 	, m_CustomY(0)
 	, m_CustomZ(0)
 	, m_Process(0)
+	, m_pCameraDevice(NULL)
+	, m_pImageData(NULL)
+	, m_nImageDataSize(0)
+	, m_nImageWidth(0)
+	, m_nImageHeight(0)
+	, m_bImageAspectRatio(TRUE)
+	, m_pCameraSetupDlg(NULL)
+	, m_sImagefilename(_T( "Image.png" ))
 {
 	m_IsMeasuring = false;
 	m_IsMotroCtrlConnected = false;
@@ -190,6 +198,7 @@ BEGIN_MESSAGE_MAP(CControlSystemDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_CLEAR_ZERO_Y, &CControlSystemDlg::OnBnClickedClearZeroY)
 	ON_BN_CLICKED(IDC_CLEAR_ZERO_Z, &CControlSystemDlg::OnBnClickedClearZeroZ)
 	ON_MESSAGE(WM_MOTOR_UPDATE_STATUS,&CControlSystemDlg::OnUpdateMotorStatus)
+	ON_CONTROL_RANGE(BN_CLICKED, IDC_RAD_ASPECTRATIO, IDC_RAD_FIXWINDOW, OnBnClickedBtnOutputImage)
 END_MESSAGE_MAP()
 
 
@@ -259,12 +268,7 @@ BOOL CControlSystemDlg::OnInitDialog()
 	}
 	
 	//初始化相机
-	if (NULL == m_UIProcThread)
-	{
-		RECT rect;
-		m_staticPicture.GetClientRect( &rect );
-		m_UIProcThread->PostThreadMessage(WM_MOTOR_CONNECT, (WPARAM)&rect, (LPARAM)m_staticPicture.m_hWnd);
-	}
+	CameraInit();
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
@@ -471,69 +475,56 @@ void CControlSystemDlg::OnBnClickedSaveAs()
 
 void CControlSystemDlg::OnBnClickedCameraParam()
 {
-	// TODO: Add your control notification handler code here
-
-	if(NULL != m_UIProcThread)
+	if(m_pCameraDevice != NULL)
 	{
-		m_UIProcThread->PostThreadMessage(WM_CAMERA_SET_PARAM, 0, 0);
+		if(m_pCameraSetupDlg == NULL) 
+		{
+			m_pCameraSetupDlg = new CSetupDlg(m_pCameraDevice, this);
+		}
+		if(m_pCameraSetupDlg->GetSafeHwnd() == NULL)
+		{
+			m_pCameraSetupDlg->Create(IDD_SETUP, NULL);
+			m_pCameraSetupDlg->Invalidate();
+		}
+		m_pCameraSetupDlg->ShowWindow(TRUE);
 	}
 }
 
 void CControlSystemDlg::OpenHalconWind()
 {
-	//if(m_HalconWndOpened)
-	//{
-	//	return;
-	//}
-
 	//CRect rtWindow;
-
 	//HWND hImgWnd = GetDlgItem(IDC_STATIC_VIDEO1)->m_hWnd;
 
 	//GetDlgItem( IDC_STATIC_VIDEO1)->GetClientRect(&rtWindow);
 
-	//Halcon::set_window_attr("background_color","black");
+	//static IMAGE_WND_PARAM imageWndParam;
+	////imageWndParam.hParentWnd = hImgWnd;
+	//imageWndParam.hParentWnd = m_hWnd;
+	//imageWndParam.rect.top = rtWindow.top;
+	//imageWndParam.rect.bottom = rtWindow.bottom;
+	//imageWndParam.rect.left = rtWindow.left;
+	//imageWndParam.rect.right = rtWindow.right;
 
-	//Halcon::open_window(rtWindow.left,rtWindow.top, rtWindow.Width(),rtWindow.Height(),(Hlong)hImgWnd,"","",&hv_WindowID);
-
-	//Halcon::set_part(hv_WindowID, 0, 0, rtWindow.Height() -1, rtWindow.Width() - 1);
-
-	//HDevWindowStack::Push(hv_WindowID);
-
-	//m_HalconWndOpened = true;
-
-	CRect rtWindow;
-	HWND hImgWnd = GetDlgItem(IDC_STATIC_VIDEO1)->m_hWnd;
-
-	GetDlgItem( IDC_STATIC_VIDEO1)->GetClientRect(&rtWindow);
-
-	static IMAGE_WND_PARAM imageWndParam;
-	imageWndParam.hParentWnd = hImgWnd;
-	imageWndParam.rect.top = rtWindow.top;
-	imageWndParam.rect.bottom = rtWindow.bottom;
-	imageWndParam.rect.left = rtWindow.left;
-	imageWndParam.rect.right = rtWindow.right;
-
-	if(NULL != m_UIProcThread)
-	{
-		m_UIProcThread->PostThreadMessage(WM_OPEN_HALCON_WINDOW, (WPARAM)&imageWndParam, 0);
-	}
+	//if(NULL != m_UIProcThread)
+	//{
+	//	m_UIProcThread->PostThreadMessage(WM_OPEN_HALCON_WINDOW, (WPARAM)&imageWndParam, 0);
+	//}
 }
 
 void CControlSystemDlg::OnBnClickedButtonImageProc()
 {
-	OpenHalconWind();
+	//OpenHalconWind();
 
-	if(HDevWindowStack::IsOpen())
-	{
-		clear_window(HDevWindowStack::GetActive());
+	//if(HDevWindowStack::IsOpen())
+	//{
+	//	clear_window(HDevWindowStack::GetActive());
 
-	}
+	//}
 
-	if(NULL != m_UIProcThread)
-	{
-		m_UIProcThread->PostThreadMessage(WM_IMAGE_PROC, 0, 0);
-	}
+	//if(NULL != m_UIProcThread)
+	//{
+	//	//m_UIProcThread->PostThreadMessage(WM_IMAGE_PROC, 0, 0);
+	//}
 }
 
 void CControlSystemDlg::OnBnClickedStart()
@@ -585,31 +576,28 @@ void CControlSystemDlg::EnableOtherControls()
 
 void CControlSystemDlg::OnBnClickedButtonCapture()
 {
-	// TODO: Add your control notification handler code here
-	if(NULL != m_UIProcThread)
-	{
-		m_UIProcThread->PostThreadMessage(WM_CAMERA_DO_CAPTURE, 0, 0);
-		//等待拍照完成，有没有同步消息，使用SendMessage()是否可以？
-		Sleep(500);
-	}
+	CameraCapture();
+	//等待拍照完成，有没有同步消息，使用SendMessage()是否可以？
+	Sleep(500);
 
-	OpenHalconWind();
+	//OpenHalconWind();
 
-	Hobject m_hvImage;
-	if(HDevWindowStack::IsOpen())
-	{
-		clear_window(HDevWindowStack::GetActive());
-	}
+	//Hobject m_hvImage;
+	//if(HDevWindowStack::IsOpen())
+	//{
+	//	clear_window(HDevWindowStack::GetActive());
+	//}
 
-	if(NULL != m_UIProcThread)
-	{
-		m_UIProcThread->PostThreadMessage(WM_IMAGE_LOAD, 0, 0);
-	}
+	//if(NULL != m_UIProcThread)
+	//{
+	//	m_UIProcThread->PostThreadMessage(WM_IMAGE_LOAD, 0, 0);
+	//}
 }
 
 BOOL CControlSystemDlg::DestroyWindow()
 {
 	// TODO: Add your specialized code here and/or call the base class
+	CameraDestroy();
 
 	return CDialogEx::DestroyWindow();
 }
@@ -961,12 +949,6 @@ void CControlSystemDlg::OnBnClickedStop()
 
 void CControlSystemDlg::OnBnClickedManualMear()
 {
-	//if(NULL != m_UIProcThread)
-	//{
-	//	UpdateData(true);
-	//	m_UIProcThread->PostThreadMessage(WM_MOTOR_MOVE_TO, AXIS_Z, (LPARAM)m_CustomZ);
-	//}
-
 	UpdateData(TRUE);
 	float pos[3] = {m_CustomX, m_CustomY, m_CustomZ};
 
@@ -984,23 +966,23 @@ void CControlSystemDlg::OnSize(UINT nType, int cx, int cy)
 	//ReSize();
 	m_itemSize.ResizeItem();
 
-	CRect rtWindow;
+	//CRect rtWindow;
 
-	HWND hImgWnd = GetDlgItem(IDC_STATIC_VIDEO1)->m_hWnd;
+	//HWND hImgWnd = GetDlgItem(IDC_STATIC_VIDEO1)->m_hWnd;
 
-	GetDlgItem( IDC_STATIC_VIDEO1)->GetClientRect(&rtWindow);
+	//GetDlgItem( IDC_STATIC_VIDEO1)->GetClientRect(&rtWindow);
 
-	static IMAGE_WND_PARAM imageWndResizeParam;
-	imageWndResizeParam.hParentWnd = hImgWnd;
-	imageWndResizeParam.rect.top = rtWindow.top;
-	imageWndResizeParam.rect.bottom = rtWindow.bottom;
-	imageWndResizeParam.rect.left = rtWindow.left;
-	imageWndResizeParam.rect.right = rtWindow.right;
+	//static IMAGE_WND_PARAM imageWndResizeParam;
+	//imageWndResizeParam.hParentWnd = hImgWnd;
+	//imageWndResizeParam.rect.top = rtWindow.top;
+	//imageWndResizeParam.rect.bottom = rtWindow.bottom;
+	//imageWndResizeParam.rect.left = rtWindow.left;
+	//imageWndResizeParam.rect.right = rtWindow.right;
 
-	if(NULL != m_UIProcThread)
-	{
-		m_UIProcThread->PostThreadMessage(WM_RESIZE_HALCON_WINDOW, (WPARAM)&imageWndResizeParam, 0);
-	}
+	//if(NULL != m_UIProcThread)
+	//{
+	//	m_UIProcThread->PostThreadMessage(WM_RESIZE_HALCON_WINDOW, (WPARAM)&imageWndResizeParam, 0);
+	//}
 
 	Invalidate();
 }
@@ -1113,4 +1095,202 @@ void CControlSystemDlg::OnOpButtonUp(UINT nID)
 	}
 }
 
+void CControlSystemDlg::CameraDestroy(void)
+{
+	if(m_pCameraDevice != NULL)
+	{
+		m_pCameraDevice->Stop();
+		m_pCameraDevice->CloseDevice();
+		m_pCameraDevice->DeviceUnInit();
+		m_pCameraDevice->Release();
+		m_pCameraDevice = NULL;
+	}
+	IDevice::DeviceUnInitialSDK();
+	if(m_pImageData != NULL)
+	{
+		delete []m_pImageData;
+	}
+	if(m_pCameraSetupDlg != NULL)
+	{
+		delete m_pCameraSetupDlg;
+	}
+}
 
+void CControlSystemDlg::CameraInit(void)
+{
+	IDevice::DeviceInitialSDK(NULL, FALSE);
+
+	if(m_pCameraSetupDlg != NULL)
+	{
+		m_pCameraSetupDlg->UpdateDevice(NULL);
+	}
+
+	if(m_pCameraDevice != NULL)
+	{
+		m_pCameraDevice->Stop();
+		m_pCameraDevice->Release();
+		m_pCameraDevice = NULL;
+	}
+
+	if(m_pCameraDevice == NULL)
+	{
+		UionOpenDeviceParam param;
+		param.devIndex = 0;
+		DeviceStatus devStatus = IDevice::OpenDevice(param, &m_pCameraDevice);
+		if(SUCCEEDED(devStatus))
+		{
+			devStatus = m_pCameraDevice->DeviceInitEx(CameraInitReceiveDataProc, this, NULL, TRUE);
+			if(m_pCameraSetupDlg != NULL) 
+			{
+				m_pCameraSetupDlg->UpdateDevice(m_pCameraDevice);
+			}
+		}
+		if(FAILED(devStatus))
+		{
+			CString strText;
+			strText.Format(_T("Error Code: %d"), devStatus);
+			::AfxMessageBox(strText, MB_ICONERROR|MB_OK);
+		}
+		else
+		{
+			CameraPlay();
+		}
+	}
+}
+
+void CControlSystemDlg::CameraPlay(void)
+{
+	if(m_pCameraDevice != NULL && !m_pCameraDevice->IsReceivingData())
+	{
+		DeviceStatus devStatus = m_pCameraDevice->Start();
+		if(FAILED(devStatus))
+		{
+			CString strText;
+			strText.Format(_T("Error Code: %d"), devStatus);
+			::AfxMessageBox(strText, MB_ICONERROR|MB_OK);
+		}
+	}
+}
+
+void CControlSystemDlg::CameraStop(void)
+{
+	if(m_pCameraDevice != NULL && m_pCameraDevice->IsReceivingData())
+	{
+		m_pCameraDevice->Stop();
+		Invalidate(TRUE);
+	}
+}
+
+void CControlSystemDlg::CameraCapture(void)
+{
+	if(m_pCameraDevice != NULL )
+	{
+		emDSFileType type = FILE_BMP;
+		CString strPath = (m_pCameraSetupDlg != NULL ? m_pCameraSetupDlg->GetPicPath(type) : _T(""));
+		if(strPath.IsEmpty())
+		{
+			GetModuleFileName(NULL, strPath.GetBuffer(256), 256);
+			strPath.ReleaseBuffer();
+			int nPos = strPath.ReverseFind(_T('\\'));
+			strPath = strPath.Left(nPos + 1);
+			strPath += _T("Image\\");
+		}
+		if (!PathIsDirectory(strPath))
+		{
+			CreateDirectory(strPath, NULL);
+		}
+		m_sImagefilename.Format(_T("%sImage"), strPath);
+		if(SUCCEEDED(m_pCameraDevice->CaptureFile(m_sImagefilename, type)))
+		{
+			//AfxMessageBox(_T("拍照成功!"));
+		}
+		else
+		{
+			//AfxMessageBox(_T("拍照失败!"));
+		}
+	}
+}
+
+void CControlSystemDlg::OnBnClickedBtnOutputImage(UINT nID)
+{
+	m_bImageAspectRatio = (IDC_RAD_ASPECTRATIO == nID);
+}
+
+void CControlSystemDlg::CameraReceiveDataProc(BYTE *pImgData, int nWidth, int nHeight)
+{
+	int nDataSize = (((nWidth * 24 + 31) & ~31) >> 3) * nHeight;
+	if(m_pImageData != NULL && nDataSize != m_nImageDataSize)
+	{
+		delete []m_pImageData;
+		m_pImageData = NULL;
+	}
+	if(m_pImageData == NULL)
+	{
+		m_nImageDataSize = nDataSize;
+		m_pImageData = new BYTE[m_nImageDataSize];
+		m_nImageWidth = nWidth;
+		m_nImageHeight = nHeight;
+	}
+	m_csImageData.Lock();
+	memcpy(m_pImageData, pImgData, nDataSize);
+	m_csImageData.Unlock();
+
+	CameraUpdatePictureDisp();
+}
+
+void CALLBACK CControlSystemDlg::CameraInitReceiveDataProc(LPVOID pDevice, BYTE *pImageBuffer, DeviceFrameInfo *pFrInfo, LPVOID lParam)
+{
+	BYTE *pRGB24Buff = NULL;
+	if((pRGB24Buff = ((IDevice *)pDevice)->DeviceISP(pImageBuffer, pFrInfo)) != NULL)
+	{
+		((CControlSystemDlg *)lParam)->CameraReceiveDataProc(pRGB24Buff, pFrInfo->uiWidth, pFrInfo->uiHeight);
+	}
+}
+
+void CControlSystemDlg::CameraUpdatePictureDisp(void)
+{
+	CWnd *pWnd = GetDlgItem(IDC_STATIC_VIDEO1);
+	if(pWnd != NULL)
+	{
+		CRect rcClient;
+		pWnd->GetClientRect(&rcClient);
+		int x = 0, y = 0, width = rcClient.right, height = rcClient.bottom;
+		//m_bImageAspectRatio；虽然该选项在相机设置对话框内可以设置，但该项不能保存，为了显示更加友好，强制设为铺满整个部品
+		m_bImageAspectRatio = 0;
+		if(m_bImageAspectRatio)
+		{
+			if(width < m_nImageWidth || height < m_nImageHeight)
+			{
+				float fXScale = (float)width/(float)m_nImageWidth, fYScale = (float)height/(float)m_nImageHeight;
+				if(fXScale > fYScale) fXScale = fYScale;
+				width = (int)(fXScale * (float)m_nImageWidth);
+				height = (int)(fXScale * (float)m_nImageHeight);
+				if(width == 0) width = 1;
+				if(height == 0) height = 1;
+				if(width < rcClient.right) x = (rcClient.right - width)/2;
+				if(height < rcClient.bottom) y = (rcClient.bottom - height)/2;
+			}
+			else
+			{
+				x = (width - m_nImageWidth)/2; width = m_nImageWidth;
+				y = (height - m_nImageHeight)/2; height = m_nImageHeight;
+			}
+		}
+		CDC *pDC = pWnd->GetDC();
+		if(x > 0 || y > 0)
+		{
+			CRgn rgn;
+			rgn.CreateRectRgn(x, y, x + width, y + height);
+			pDC->SelectClipRgn(&rgn, RGN_DIFF);
+			pDC->FillSolidRect(0, 0, rcClient.right,rcClient.bottom, 0x808080);
+			pDC->SelectClipRgn(NULL, RGN_COPY);
+		}
+		pDC->SetStretchBltMode(COLORONCOLOR);
+		BITMAPINFO bmpInfo = {{sizeof(BITMAPINFOHEADER), m_nImageWidth, -m_nImageHeight, 1, 24, BI_RGB, 0, 0, 0, 0, 0}};
+		m_csImageData.Lock();
+		::StretchDIBits( pDC->GetSafeHdc(), x, y, width, height, 0, 0, m_nImageWidth, m_nImageHeight,
+				m_pImageData, &bmpInfo, DIB_RGB_COLORS, SRCCOPY );
+		m_csImageData.Unlock();
+		pWnd->ReleaseDC(pDC);
+	}
+}
