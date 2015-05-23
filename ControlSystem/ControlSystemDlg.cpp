@@ -170,14 +170,8 @@ BEGIN_MESSAGE_MAP(CControlSystemDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_IMPORT, &CControlSystemDlg::OnBnClickedImport)
 	ON_BN_CLICKED(IDC_SAVE_AS, &CControlSystemDlg::OnBnClickedSaveAs)
 	ON_WM_CTLCOLOR()
-	ON_BN_CLICKED(IDC_CAMERA_PARAM, &CControlSystemDlg::OnBnClickedCameraParam)
-	ON_BN_CLICKED(IDC_BUTTON_IMAGE_PROC, &CControlSystemDlg::OnBnClickedButtonImageProc)
-	
 	ON_BN_CLICKED(IDC_START, &CControlSystemDlg::OnBnClickedStart)
-	ON_BN_CLICKED(IDC_BUTTON_CAPTURE, &CControlSystemDlg::OnBnClickedButtonCapture)
-	ON_BN_CLICKED(IDC_IMAGE_PROC_SETTING_BTN, &CControlSystemDlg::OnBnClickedImageProcSettingBtn)
 	ON_NOTIFY(NM_DBLCLK, IDC_LIST1, &CControlSystemDlg::OnDblclkList1)
-	ON_BN_CLICKED(IDC_MT_CONNECT, &CControlSystemDlg::OnBnClickedMtConnect)
 	ON_WM_CLOSE()
 	ON_WM_TIMER()
 	ON_BN_CLICKED(IDC_STOP, &CControlSystemDlg::OnBnClickedStop)
@@ -187,6 +181,12 @@ BEGIN_MESSAGE_MAP(CControlSystemDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_CLEAR_ZERO_Z, &CControlSystemDlg::OnBnClickedClearZeroZ)
 	ON_MESSAGE(WM_MOTOR_UPDATE_STATUS,&CControlSystemDlg::OnUpdateMotorStatus)
 	ON_CONTROL_RANGE(BN_CLICKED, IDC_RAD_ASPECTRATIO, IDC_RAD_FIXWINDOW, OnBnClickedBtnOutputImage)
+	ON_COMMAND(ID_MENU_CAMERA_CONNECT, OnCameraConnect)
+	ON_COMMAND(ID_MENU_CAMERA_CAPTURE, OnCameraCapture)
+	ON_COMMAND(ID_MENU_CAMERA_SET, OnCameraParamSet)
+	ON_COMMAND(ID_MENU_MOTOR_CONNECT, OnMotorConnect)
+	ON_COMMAND(ID_IMAGE_PROC, OnImageProc)
+	ON_COMMAND(ID_IMAGE_PARAM_SET, OnImageParamSet)
 END_MESSAGE_MAP()
 
 
@@ -233,6 +233,9 @@ BOOL CControlSystemDlg::OnInitDialog()
 	SetWindowLong (m_ListData.m_hWnd, GWL_STYLE, lStyle); // set style 
 	m_ListData.SetExtendedStyle(LVS_EX_GRIDLINES|LVS_EX_FULLROWSELECT);
 
+	m_Menu.LoadMenu(IDR_SYS_MENU);
+	SetMenu(&m_Menu);
+
 	//对话框Resize
 	UINT itemId;
 	HWND  hwndChild=::GetWindow(m_hWnd,GW_CHILD); //列出所有控件
@@ -248,9 +251,6 @@ BOOL CControlSystemDlg::OnInitDialog()
 	{
 		AfxMessageBox("用户界面线程启动失败!",MB_OK|MB_ICONERROR);
 	}
-	
-	//初始化相机
-	CameraInit();
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
@@ -455,23 +455,6 @@ void CControlSystemDlg::OnBnClickedSaveAs()
 	excelApp.ReleaseExcel();
 }
 
-void CControlSystemDlg::OnBnClickedCameraParam()
-{
-	if(m_pCameraDevice != NULL)
-	{
-		if(m_pCameraSetupDlg == NULL) 
-		{
-			m_pCameraSetupDlg = new CSetupDlg(m_pCameraDevice, this);
-		}
-		if(m_pCameraSetupDlg->GetSafeHwnd() == NULL)
-		{
-			m_pCameraSetupDlg->Create(IDD_SETUP, NULL);
-			m_pCameraSetupDlg->Invalidate();
-		}
-		m_pCameraSetupDlg->ShowWindow(TRUE);
-	}
-}
-
 void CControlSystemDlg::OpenHalconWind()
 {
 	//CRect rtWindow;
@@ -490,22 +473,6 @@ void CControlSystemDlg::OpenHalconWind()
 	//if(NULL != m_UIProcThread)
 	//{
 	//	m_UIProcThread->PostThreadMessage(WM_OPEN_HALCON_WINDOW, (WPARAM)&imageWndParam, 0);
-	//}
-}
-
-void CControlSystemDlg::OnBnClickedButtonImageProc()
-{
-	//OpenHalconWind();
-
-	//if(HDevWindowStack::IsOpen())
-	//{
-	//	clear_window(HDevWindowStack::GetActive());
-
-	//}
-
-	//if(NULL != m_UIProcThread)
-	//{
-	//	//m_UIProcThread->PostThreadMessage(WM_IMAGE_PROC, 0, 0);
 	//}
 }
 
@@ -554,26 +521,6 @@ void CControlSystemDlg::EnableOtherControls()
 	GetDlgItem( IDC_RADIO1)->EnableWindow(!m_IsMeasuring);
 	GetDlgItem( IDC_RADIO2)->EnableWindow(!m_IsMeasuring);
 	GetDlgItem( IDC_RADIO3)->EnableWindow(!m_IsMeasuring);
-}
-
-void CControlSystemDlg::OnBnClickedButtonCapture()
-{
-	CameraCapture();
-	//等待拍照完成，有没有同步消息，使用SendMessage()是否可以？
-	Sleep(500);
-
-	//OpenHalconWind();
-
-	//Hobject m_hvImage;
-	//if(HDevWindowStack::IsOpen())
-	//{
-	//	clear_window(HDevWindowStack::GetActive());
-	//}
-
-	//if(NULL != m_UIProcThread)
-	//{
-	//	m_UIProcThread->PostThreadMessage(WM_IMAGE_LOAD, 0, 0);
-	//}
 }
 
 BOOL CControlSystemDlg::DestroyWindow()
@@ -784,20 +731,6 @@ void CControlSystemDlg::OnBnClickedCustomMear()
 	}
 }
 
-void CControlSystemDlg::OnBnClickedImageProcSettingBtn()
-{
-	OpenHalconWind();
-	if(HDevWindowStack::IsOpen())
-	{
-		clear_window(HDevWindowStack::GetActive());
-	}
-
-	if(NULL != m_UIProcThread)
-	{
-		m_UIProcThread->PostThreadMessage(WM_IMAGE_PROC_SETTING, 0, 0);
-	}
-}
-
 void CControlSystemDlg::OnDblclkList1(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
@@ -820,18 +753,6 @@ void CControlSystemDlg::OnDblclkList1(NMHDR *pNMHDR, LRESULT *pResult)
 
 	}
 }
-
-
-void CControlSystemDlg::OnBnClickedMtConnect()
-{
-	if(NULL != m_UIProcThread)
-	{
-		m_UIProcThread->PostThreadMessage(WM_MOTOR_CONNECT, 0, 0);
-		//启动定时器读取电机状态
-		SetTimer(DETECT_MOTOR_STATUS_TIMER,1000,NULL);
-	}
-}
-
 
 void CControlSystemDlg::OnClose()
 {
@@ -1264,5 +1185,88 @@ void CControlSystemDlg::CameraUpdatePictureDisp(void)
 				m_pImageData, &bmpInfo, DIB_RGB_COLORS, SRCCOPY );
 		m_csImageData.Unlock();
 		pWnd->ReleaseDC(pDC);
+	}
+}
+
+void CControlSystemDlg::OnCameraConnect()
+{
+	//初始化相机
+	CameraInit();
+}
+
+void CControlSystemDlg::OnCameraCapture()
+{
+	CameraCapture();
+	//等待拍照完成，有没有同步消息，使用SendMessage()是否可以？
+	Sleep(500);
+
+	//OpenHalconWind();
+
+	//Hobject m_hvImage;
+	//if(HDevWindowStack::IsOpen())
+	//{
+	//	clear_window(HDevWindowStack::GetActive());
+	//}
+
+	//if(NULL != m_UIProcThread)
+	//{
+	//	m_UIProcThread->PostThreadMessage(WM_IMAGE_LOAD, 0, 0);
+	//}
+}
+
+void CControlSystemDlg::OnCameraParamSet()
+{
+	if(m_pCameraDevice != NULL)
+	{
+		if(m_pCameraSetupDlg == NULL) 
+		{
+			m_pCameraSetupDlg = new CSetupDlg(m_pCameraDevice, this);
+		}
+		if(m_pCameraSetupDlg->GetSafeHwnd() == NULL)
+		{
+			m_pCameraSetupDlg->Create(IDD_SETUP, NULL);
+			m_pCameraSetupDlg->Invalidate();
+		}
+		m_pCameraSetupDlg->ShowWindow(TRUE);
+	}
+}
+
+void CControlSystemDlg::OnMotorConnect()
+{
+	if(NULL != m_UIProcThread)
+	{
+		m_UIProcThread->PostThreadMessage(WM_MOTOR_CONNECT, 0, 0);
+		//启动定时器读取电机状态
+		SetTimer(DETECT_MOTOR_STATUS_TIMER,1000,NULL);
+	}
+}
+
+void CControlSystemDlg::OnImageProc()
+{
+	//OpenHalconWind();
+
+	//if(HDevWindowStack::IsOpen())
+	//{
+	//	clear_window(HDevWindowStack::GetActive());
+
+	//}
+
+	//if(NULL != m_UIProcThread)
+	//{
+	//	//m_UIProcThread->PostThreadMessage(WM_IMAGE_PROC, 0, 0);
+	//}
+}
+
+void CControlSystemDlg::OnImageParamSet()
+{
+	OpenHalconWind();
+	if(HDevWindowStack::IsOpen())
+	{
+		clear_window(HDevWindowStack::GetActive());
+	}
+
+	if(NULL != m_UIProcThread)
+	{
+		m_UIProcThread->PostThreadMessage(WM_IMAGE_PROC_SETTING, 0, 0);
 	}
 }

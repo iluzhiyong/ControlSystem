@@ -45,14 +45,9 @@ public:
 	afx_msg HCURSOR OnQueryDragIcon();
 	afx_msg void OnBnClickedImport();
 	afx_msg void OnBnClickedSaveAs();
-	afx_msg void OnBnClickedCameraParam();
-	afx_msg void OnBnClickedButtonImageProc();	
 	afx_msg void OnBnClickedStart();
-	afx_msg void OnBnClickedButtonCapture();
 	afx_msg void OnBnClickedAutoMear();
-	afx_msg void OnBnClickedImageProcSettingBtn();
 	afx_msg void OnDblclkList1(NMHDR *pNMHDR, LRESULT *pResult);
-	afx_msg void OnBnClickedMtConnect();
 	afx_msg void OnClose();
 	afx_msg void OnBnClickedCustomMear();
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
@@ -65,6 +60,12 @@ public:
 	afx_msg void OnBnClickedLimitX();
 	afx_msg LRESULT OnUpdateMotorStatus(WPARAM wParam,LPARAM lParam);
 	afx_msg void OnBnClickedBtnOutputImage(UINT nID);
+	afx_msg void OnCameraConnect();
+	afx_msg void OnCameraCapture();
+	afx_msg void OnCameraParamSet();
+	afx_msg void OnMotorConnect();
+	afx_msg void OnImageProc();
+	afx_msg void OnImageParamSet();
 
 private:
 	CStatic m_staticPicture;
@@ -168,4 +169,7 @@ public:
 	bool m_bCameraRunStatus;
 	CStatic m_MotorRunStatus;
 	CStatic m_CameraRunStatus;
+
+private:
+	CMenu m_Menu;
 };
