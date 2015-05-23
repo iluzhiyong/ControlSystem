@@ -129,23 +129,13 @@ private:
 	CItemResize m_itemSize;
 
 public:
-	void OnAxisLimtiTimer();
-	void UpdateXAlarmOn();
-	void UpdateYAlarmOn();
-	void UpdateZAlarmOn();
+	void UpdateCameraRunStatus();
+	void UpDateMotorRunStatus();
 
 private:
 	HICON m_hIconRed;
 	HICON m_hIconGray;
 	HICON m_hIconGreen;
-
-	CStatic m_LimitErrX;
-	CStatic m_LimitErrY;
-	CStatic m_LimitErrZ;
-
-	bool m_XAxisLimit;
-	bool m_YAxisLimit;
-	bool m_ZAxisLimit;
 
 private:
 	CWinThread* m_UIProcThread;
@@ -173,4 +163,9 @@ private:
 	void CameraStop(void);
 	void CameraCapture(void);
 	//相机相关方法结束
+public:
+	bool m_bMotorRunStatus;
+	bool m_bCameraRunStatus;
+	CStatic m_MotorRunStatus;
+	CStatic m_CameraRunStatus;
 };

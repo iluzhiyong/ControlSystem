@@ -79,6 +79,8 @@ CControlSystemDlg::CControlSystemDlg(CWnd* pParent /*=NULL*/)
 	, m_bImageAspectRatio(TRUE)
 	, m_pCameraSetupDlg(NULL)
 	, m_sImagefilename(_T( "Image.png" ))
+	, m_bMotorRunStatus(false)
+	, m_bCameraRunStatus(false)
 {
 	m_IsMeasuring = false;
 	m_IsMotroCtrlConnected = false;
@@ -100,44 +102,31 @@ CControlSystemDlg::CControlSystemDlg(CWnd* pParent /*=NULL*/)
 	
 }
 
-bool flagx = true;
-bool flagy = true;
-bool flagz = true;
-void CControlSystemDlg::UpdateXAlarmOn()
+void CControlSystemDlg::UpdateCameraRunStatus()
 {
-	if(m_XAxisLimit)
+	static bool CameraFlag = true;
+	if(m_bCameraRunStatus == false)
 	{
-		m_LimitErrX.SetIcon(flagx ? m_hIconRed : m_hIconGray);
-		flagx = !flagx;
+		m_CameraRunStatus.SetIcon(CameraFlag ? m_hIconRed : m_hIconGray);
+		CameraFlag = !CameraFlag;
 	}
 	else
 	{
-		m_LimitErrX.SetIcon(m_hIconGreen);
+		m_CameraRunStatus.SetIcon(m_hIconGreen);
 	}
 }
 
-void CControlSystemDlg::UpdateYAlarmOn()
+void CControlSystemDlg::UpDateMotorRunStatus()
 {
-	if(m_YAxisLimit)
+	static bool MotorFlag;
+	if(m_bMotorRunStatus == false)
 	{
-		m_LimitErrY.SetIcon(flagy ? m_hIconRed : m_hIconGray);
-		flagy = !flagy;
+		m_MotorRunStatus.SetIcon(MotorFlag ? m_hIconRed : m_hIconGray);
+		MotorFlag = !MotorFlag;
 	}
 	else
 	{
-		m_LimitErrY.SetIcon(m_hIconGreen);
-	}
-}
-void CControlSystemDlg::UpdateZAlarmOn()
-{
-	if(m_ZAxisLimit)
-	{
-		m_LimitErrZ.SetIcon(flagz ? m_hIconRed : m_hIconGray);
-		flagz = !flagz;
-	}
-	else
-	{
-		m_LimitErrZ.SetIcon(m_hIconGreen);
+		m_MotorRunStatus.SetIcon(m_hIconGreen);
 	}
 }
 
@@ -170,9 +159,8 @@ void CControlSystemDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_MANUAL_RIGHT_X, m_RightXBtn);
 	DDX_Control(pDX, IDC_MANUAL_RIGHT_Y, m_RightYBtn);
 	DDX_Control(pDX, IDC_MANUAL_RIGHT_Z, m_RightZBtn);
-	DDX_Control(pDX, IDC_LIMIT_X_ERROR, m_LimitErrX);
-	DDX_Control(pDX, IDC_LIMIT_Y_ERROR, m_LimitErrY);
-	DDX_Control(pDX, IDC_LIMIT_Z_ERROR, m_LimitErrZ);
+	DDX_Control(pDX, IDC_STATIC_MOTOR_STATUS, m_MotorRunStatus);
+	DDX_Control(pDX, IDC_STATIC_CAMERA_STATUS, m_CameraRunStatus);
 }
 
 BEGIN_MESSAGE_MAP(CControlSystemDlg, CDialogEx)
@@ -236,14 +224,8 @@ BOOL CControlSystemDlg::OnInitDialog()
 	SetTimer(DETECTLIMIT_TIMER, 1000, NULL);
 
 	GetDlgItem( IDC_SAVE_AS)->EnableWindow(false);
-	
 
 	// TODO: Add extra initialization here
-	CFont font;
-	//font.CreatePointFont(480, "隶书");
-	font.CreateFont(20,20,0,0,FW_BLACK,FALSE,FALSE, FALSE,GB2312_CHARSET,OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,DEFAULT_QUALITY, FIXED_PITCH|FF_MODERN, _T("华文楷体"));
-	GetDlgItem(IDC_STATIC)->SetFont(&font);
-
 	LONG lStyle;
 	lStyle = GetWindowLong (m_ListData.m_hWnd, GWL_STYLE); // Get the current window style 
 	lStyle &= ~ LVS_TYPEMASK; // Clear display 
@@ -892,7 +874,8 @@ void CControlSystemDlg::OnTimer(UINT_PTR nIDEvent)
 	}
 	else if(nIDEvent == (DETECTLIMIT_TIMER))
 	{
-		OnAxisLimtiTimer();
+		UpdateCameraRunStatus();
+		UpDateMotorRunStatus();
 	}
 	CDialogEx::OnTimer(nIDEvent);
 }
@@ -924,17 +907,6 @@ LRESULT CControlSystemDlg::OnUpdateMotorStatus(WPARAM wParam,LPARAM lParam)
 	}
 
 	return 0;
-}
-void CControlSystemDlg::OnAxisLimtiTimer()
-{
-	// Get Axis Limit State
-	m_XAxisLimit = true;
-	m_YAxisLimit = false;
-	m_ZAxisLimit = true;
-
-	UpdateXAlarmOn();
-	UpdateYAlarmOn();
-	UpdateZAlarmOn();
 }
 
 void CControlSystemDlg::OnBnClickedStop()
