@@ -18,8 +18,9 @@ enum UserProcMsg
 	WM_IMAGE_LOAD,
 	WM_IMAGE_PROC_SETTING,
 
-	WM_DO_MEAR,
-	WM_DO_CAPTURE,
+	WM_DO_MANUAL_MEAR,
+	WM_DO_AUTO_MEAR,
+	WM_MAIN_THREAD_DO_CAPTURE,
 
 	WM_OPEN_HALCON_WINDOW,
 };
@@ -58,7 +59,8 @@ public:
 	afx_msg void OnMotorGetStatus(WPARAM wParam,LPARAM lParam);
 	afx_msg void OnMotorStop(WPARAM wParam,LPARAM lParam);
 	afx_msg void OnMotorMoveTo(WPARAM wParam,LPARAM lParam);
-	afx_msg void OnDoMear(WPARAM wParam,LPARAM lParam);
+	afx_msg void OnDoManualMear(WPARAM wParam,LPARAM lParam);
+	afx_msg void OnDoAutoMear(WPARAM wParam,LPARAM lParam);
 	afx_msg void OnDoImageProc(WPARAM wParam,LPARAM lParam);
 	afx_msg void OnDoImageLoad(WPARAM wParam,LPARAM lParam);
 	afx_msg void OnImageProcSetting(WPARAM wParam,LPARAM lParam);
@@ -78,6 +80,15 @@ private:
 
 protected:
 	DECLARE_MESSAGE_MAP()
+
+private:
+	CListCtrl* m_pListData;
+	bool GetMeasureTargetValue(int row, float &x, float &y, float &z);
+	bool SetMeasureResultValue(int row, float resultX, float resultY, float resultZ);
+	bool GetFloatItem(int row, int column, float &value);
+	bool SetFloatItem(int row, int column, float value);
+	bool ConvertStringToFloat(CString buffer, float &value);
+	int CalculatePoint(float x, float y, float z, float &retx, float &rety, float &retz);
 };
 
 

@@ -187,6 +187,7 @@ BEGIN_MESSAGE_MAP(CControlSystemDlg, CDialogEx)
 	ON_COMMAND(ID_MENU_MOTOR_CONNECT, OnMotorConnect)
 	ON_COMMAND(ID_IMAGE_PROC, OnImageProc)
 	ON_COMMAND(ID_IMAGE_PARAM_SET, OnImageParamSet)
+	ON_MESSAGE(WM_MAIN_THREAD_DO_CAPTURE,&CControlSystemDlg::OnMainThreadDoCapture)
 END_MESSAGE_MAP()
 
 
@@ -517,29 +518,9 @@ void CControlSystemDlg::OnBnClickedAutoMear()
 		return;
 	}
 
-	CDetectCircularhole* detecter = m_IImageProcess->GetCircleDetecter();
-	if(detecter != NULL)
+	if(NULL != m_UIProcThread)
 	{
-		detecter->LoadConfig();
-	}
-
-	float x, y, z;
-	float retX, retY, retZ;
-	CString testNum;
-	for(int i = StartRow; i < m_rowNum; i++)
-	{
-		if(GetMeasureTargetValue(i, x, y, z))
-		{
-			Sleep(200);
-			testNum = m_ListData.GetItemText(i, 0);
-			if(CalculatePoint(x, y, z, retX, retY, retZ))
-			{
-				CString log;
-				log.Format(_T("Num %s, X=%f, Y=%f, Z=%f"),testNum, retX,  retY,  retZ);
-				CLog::Instance()->Log(log);
-				SetMeasureResultValue(i, retX, retY, retZ);
-			}
-		}
+		m_UIProcThread->PostThreadMessage(WM_DO_AUTO_MEAR, (WPARAM)&m_ListData, (LPARAM)m_rowNum);
 	}
 }
 
@@ -585,22 +566,6 @@ bool CControlSystemDlg::GetFloatItem(int row, int column, float &value)
 	return false;
 }
 
-
-bool CControlSystemDlg::SetFloatItem(int row, int column, float value)
-{
-	try
-	{
-		CString buffer=""; 
-		buffer.Format("%f", value);
-		m_ListData.SetItemText(row,column, buffer);
-		return true;
-	}
-	catch(...)
-	{
-	}
-	return false;
-}
-
 bool CControlSystemDlg :: GetMeasureTargetValue(int row, float &x, float &y, float &z)
 {
 	const int XColumn = 2;
@@ -621,78 +586,6 @@ bool CControlSystemDlg :: GetMeasureTargetValue(int row, float &x, float &y, flo
 	return false;
 }
 
-bool CControlSystemDlg :: SetMeasureResultValue(int row, float resultX, float resultY, float resultZ)
-{
-	const int XResultColumn = 5;
-	const int YResultColumn = 6;
-	const int ZResultColumn = 7;
-
-	SetFloatItem(row, XResultColumn, resultX);
-	SetFloatItem(row, YResultColumn, resultY);
-	SetFloatItem(row, ZResultColumn, resultZ);
-
-	return true;
-}
-
-
-bool CControlSystemDlg ::CalculatePoint(float x, float y, float z, float &retx, float &rety, float &retz)
-{
-	//if(/*(NULL == m_pCamera) || */(NULL == m_IImageProcess) /*|| (NULL == m_IHeightDectector)*/)
-	//{
-	//	return false;
-	//}
-
-	//bool ret = MotoMoveToXY(x, y);
-	//if(ret)
-	//{
-	//	ret = (1 == m_pCamera->DoCapture());
-	//}
-	bool ret = true;
-	if(ret)
-	{
-		m_IImageProcess->GetCircleDetecter()->ShowErrorMessage(false);
-		ret = m_IImageProcess->Process(x, y, retx, rety);
-		
-	}
-	//if(ret)
-	//{
-	//	ret = MotoMoveToXY(retx, rety);
-	//}
-	////找到圆孔远心正上方。
-	//if(ret)
-	//{
-	//	m_IMotoCtrl->MoveTo(AXIS_Z, z);
-	//}
-	//if(ret)
-	//{
-	//	while(m_IMotoCtrl->IsOnMoving(AXIS_Z)){ }
-	//}
-	if(ret)
-	{
-		//ret = m_IHeightDectector->Dectect(z, retz);
-		retz = z;
-	}
-	return ret;
-}
-
-bool CControlSystemDlg::MotoMoveToXY(float x, float y)
-{
-	bool ret = (0 == m_IMotoCtrl->MoveTo(AXIS_X, x));
-	if(ret)
-	{
-		while(m_IMotoCtrl->IsOnMoving(AXIS_X)){ }
-	}
-	if(ret)
-	{
-		ret = (0 == m_IMotoCtrl->MoveTo(AXIS_Y, y));
-	}
-	if(ret)
-	{
-		while(m_IMotoCtrl->IsOnMoving(AXIS_Y)){ }
-	}
-	return ret;
-}
-
 void CControlSystemDlg::OnBnClickedCustomMear()
 {
 	UpdateData(TRUE);
@@ -700,7 +593,7 @@ void CControlSystemDlg::OnBnClickedCustomMear()
 
 	if(NULL != m_UIProcThread)
 	{
-		m_UIProcThread->PostThreadMessage(WM_DO_MEAR, WPARAM(pos), 0);
+		m_UIProcThread->PostThreadMessage(WM_DO_MANUAL_MEAR, WPARAM(pos), 0);
 	}
 }
 
@@ -823,7 +716,7 @@ void CControlSystemDlg::OnBnClickedManualMear()
 
 	if(NULL != m_UIProcThread)
 	{
-		m_UIProcThread->PostThreadMessage(WM_DO_MEAR, WPARAM(pos), 0);
+		m_UIProcThread->PostThreadMessage(WM_DO_MANUAL_MEAR, WPARAM(pos), 0);
 	}
 }
 
@@ -1197,5 +1090,18 @@ void CControlSystemDlg::OnImageParamSet()
 	if(NULL != m_UIProcThread)
 	{
 		m_UIProcThread->PostThreadMessage(WM_IMAGE_PROC_SETTING, 0, 0);
+	}
+}
+
+LRESULT CControlSystemDlg::OnMainThreadDoCapture(WPARAM wParam,LPARAM lParam)
+{
+	if(m_pCameraDevice != NULL && m_pCameraDevice->IsReceivingData())
+	{
+		CameraCapture();
+		return 0;
+	}
+	else
+	{
+		return -1;
 	}
 }

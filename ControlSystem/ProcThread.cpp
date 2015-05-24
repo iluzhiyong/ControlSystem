@@ -17,7 +17,8 @@ CProcThread::CProcThread()
 , m_IsMotroCtrlConnected(FALSE)
 , m_IImageProcess(NULL)
 , m_ImageProcSetDlg(NULL)
-,m_HalconWndOpened(false)
+, m_HalconWndOpened(false)
+, m_pListData(NULL)
 {
 }
 
@@ -78,7 +79,8 @@ BEGIN_MESSAGE_MAP(CProcThread, CWinThread)
 	ON_THREAD_MESSAGE(WM_MOTOR_GET_STATUS,&CProcThread::OnMotorGetStatus)
 	ON_THREAD_MESSAGE(WM_MOTOR_STOP,&CProcThread::OnMotorStop)
 	ON_THREAD_MESSAGE(WM_MOTOR_MOVE_TO,&CProcThread::OnMotorMoveTo)
-	ON_THREAD_MESSAGE(WM_DO_MEAR,&CProcThread::OnDoMear)
+	ON_THREAD_MESSAGE(WM_DO_MANUAL_MEAR,&CProcThread::OnDoManualMear)
+	ON_THREAD_MESSAGE(WM_DO_AUTO_MEAR,&CProcThread::OnDoAutoMear)
 	ON_THREAD_MESSAGE(WM_IMAGE_PROC,&CProcThread::OnDoImageProc)
 	ON_THREAD_MESSAGE(WM_IMAGE_LOAD,&CProcThread::OnDoImageLoad)
 	ON_THREAD_MESSAGE(WM_IMAGE_PROC_SETTING,&CProcThread::OnImageProcSetting)
@@ -215,7 +217,175 @@ void CProcThread::OnMotorMoveTo(WPARAM wParam,LPARAM lParam)
 	}
 }
 
-void CProcThread::OnDoMear(WPARAM wParam,LPARAM lParam)
+bool CProcThread::ConvertStringToFloat(CString buffer, float &value)
+{
+	if(buffer != "")
+	{
+		char *endptr;
+		endptr = NULL;
+		double d;
+		d = strtod(buffer, &endptr);
+		if (errno != 0 || (endptr != NULL && *endptr != '\0'))
+		{
+			return false;
+		}
+		else
+		{
+			value = (float)d;
+			return true;
+		}
+	}
+}
+
+bool CProcThread::GetFloatItem(int row, int column, float &value)
+{
+	CString buffer=""; 
+	if(NULL != m_pListData) buffer += m_pListData->GetItemText(row,column);
+	return ConvertStringToFloat(buffer, value);
+}
+
+bool CProcThread::SetFloatItem(int row, int column, float value)
+{
+	CString buffer=""; 
+	buffer.Format("%f", value);
+	if(NULL != m_pListData)
+	{
+		m_pListData->SetItemText(row,column, buffer);
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+bool CProcThread::GetMeasureTargetValue(int row, float &x, float &y, float &z)
+{
+	const int XColumn = 2;
+	const int YColumn = 3;
+	const int ZColumn = 4;
+
+	if(GetFloatItem(row, XColumn, x))
+	{
+		if(GetFloatItem(row, YColumn, y))
+		{
+			if(GetFloatItem(row, ZColumn, z))
+			{
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
+bool CProcThread :: SetMeasureResultValue(int row, float resultX, float resultY, float resultZ)
+{
+	const int XResultColumn = 5;
+	const int YResultColumn = 6;
+	const int ZResultColumn = 7;
+
+	SetFloatItem(row, XResultColumn, resultX);
+	SetFloatItem(row, YResultColumn, resultY);
+	SetFloatItem(row, ZResultColumn, resultZ);
+
+	return true;
+}
+
+void CProcThread::OnDoAutoMear(WPARAM wParam,LPARAM lParam)
+{
+	const int StartRow = 4;
+	m_pListData = (CListCtrl*)wParam;
+	int usedRowNum = (int)lParam;
+
+	CDetectCircularhole* detecter = m_IImageProcess->GetCircleDetecter();
+	if(detecter != NULL)
+	{
+		detecter->LoadConfig();
+	}
+
+	float x = 0.0, y = 0.0, z = 0.0;
+	float retX = 0.0, retY = 0.0, retZ = 0.0;
+	CString testNum;
+	for(int i = StartRow; i < usedRowNum; i++)
+	{
+		if(GetMeasureTargetValue(i, x, y, z))
+		{
+		//	testNum = m_ListData.GetItemText(i, 0);
+			if(0 == CalculatePoint(x, y, z, retX, retY, retZ))
+			{
+		//		CString log;
+		//		log.Format(_T("Num %s, X=%f, Y=%f, Z=%f"),testNum, retX,  retY,  retZ);
+		//		CLog::Instance()->Log(log);
+				SetMeasureResultValue(i, retX, retY, retZ);
+			}
+		}
+	}
+}
+
+int CProcThread::CalculatePoint(float x, float y, float z, float &retx, float &rety, float &retz)
+{
+	int ret = -1;
+
+	ret = m_IMotoCtrl->MoveTo(AXIS_X, x);
+	ret = m_IMotoCtrl->MoveTo(AXIS_Y, y);
+	while(ret == 0)
+	{
+		if((m_IMotoCtrl->IsOnMoving(AXIS_X) == false) && (m_IMotoCtrl->IsOnMoving(AXIS_Y) == false))
+		{
+			break;
+		}
+		else
+		{
+			Sleep(100);
+		}
+	}
+
+	//同步消息，等待主线程拍照结果
+	ret = ::SendMessage((HWND)(GetMainWnd()->GetSafeHwnd()),WM_MAIN_THREAD_DO_CAPTURE, 0, 0);
+
+	if(ret == 0)
+	{
+		m_IImageProcess->GetCircleDetecter()->ShowErrorMessage(false);
+		ret = m_IImageProcess->Process(x, y, retx, rety);
+	}
+	//retx = x + 10;
+	//rety = y + 10;
+
+	ret = m_IMotoCtrl->MoveTo(AXIS_X, retx);
+	ret = m_IMotoCtrl->MoveTo(AXIS_Y, rety);
+	while(ret == 0)
+	{
+		if((m_IMotoCtrl->IsOnMoving(AXIS_X) ==  false) && (m_IMotoCtrl->IsOnMoving(AXIS_Y) == false))
+		{
+			break;
+		}
+		else
+		{
+			Sleep(100);
+		}
+	}
+
+	//移动Z轴
+	ret = m_IMotoCtrl->MoveTo(AXIS_Z, z);
+	while(ret == 0)
+	{
+		if(m_IMotoCtrl->IsOnMoving(AXIS_Z) == false)
+		{
+			break;
+		}
+		else
+		{
+			Sleep(100);
+		}
+	}
+
+	//Z轴向下移动，直到接触限位开关停止
+	//retz = z + 10;
+
+	return ret;
+}
+void CProcThread::OnDoManualMear(WPARAM wParam,LPARAM lParam)
 {
 	float* pPos = (float*)wParam;
 	float PosX = pPos[0];
@@ -225,57 +395,13 @@ void CProcThread::OnDoMear(WPARAM wParam,LPARAM lParam)
 	float resPosY = 0.0;
 	float resPosZ = 0.0;
 
-	bool ret = (0 == m_IMotoCtrl->MoveTo(AXIS_X, PosX));
-	if(ret)
+	if(0 == CalculatePoint(PosX, PosY, PosZ, resPosX, resPosY, resPosZ))
 	{
-		while(m_IMotoCtrl->IsOnMoving(AXIS_X)){ }
+		//success
 	}
-	if(ret)
+	else
 	{
-		ret = (0 == m_IMotoCtrl->MoveTo(AXIS_Y, PosY));
-	}
-	if(ret)
-	{
-		while(m_IMotoCtrl->IsOnMoving(AXIS_Y)){ }
-	}
-
-	//::PostMessage((HWND)(GetMainWnd()->GetSafeHwnd()),WM_DO_CAPTURE, wParam, 0);
-	//Sleep(5000);
-	//if(ret)
-	//{
-	//	ret = (1 == m_pCamera->DoCapture());
-	//}
-
-	//::PostMessage((HWND)(GetMainWnd()->GetSafeHwnd()),WM_DO_IMAGE_PROC, 0, 0);
-	//Sleep(500);
-	if(ret)
-	{
-		m_IImageProcess->GetCircleDetecter()->ShowErrorMessage(false);
-		ret = m_IImageProcess->Process(PosX, PosY, resPosX, resPosY);
-	}
-
-	ret = (0 == m_IMotoCtrl->MoveTo(AXIS_X, resPosX));
-	if(ret)
-	{
-		while(m_IMotoCtrl->IsOnMoving(AXIS_X)){ }
-	}
-	if(ret)
-	{
-		ret = (0 == m_IMotoCtrl->MoveTo(AXIS_Y, resPosY));
-	}
-	if(ret)
-	{
-		while(m_IMotoCtrl->IsOnMoving(AXIS_Y)){ }
-	}
-
-	//移动Z轴
-	if(ret)
-	{
-		ret = (0 == m_IMotoCtrl->MoveTo(AXIS_Z, PosZ));
-	}
-	if(ret)
-	{
-		while(m_IMotoCtrl->IsOnMoving(AXIS_Z)){ }
+		//failed
 	}
 }
 

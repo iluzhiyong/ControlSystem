@@ -66,12 +66,10 @@ public:
 	afx_msg void OnMotorConnect();
 	afx_msg void OnImageProc();
 	afx_msg void OnImageParamSet();
+	afx_msg LRESULT OnMainThreadDoCapture(WPARAM wParam,LPARAM lParam);
 
 private:
 	CStatic m_staticPicture;
-
-public:
-	bool CalculatePoint(float x, float y, float z, float &retx, float &rety, float &retz);
 
 private:
 	HTuple  hv_WindowID;
@@ -82,17 +80,15 @@ private:
 public:
 	bool ConvertStringToFloat(CString buffer, float &value);
 	bool GetFloatItem(int row, int column, float &value);
-	bool SetFloatItem(int row, int column, float value);
 	bool GetMeasureTargetValue(int row, float &x, float &y, float &z);
-	bool SetMeasureResultValue(int row, float resultX, float resultY, float resultZ);
+
 private:
-	CListCtrl   m_ListData;
+	CListCtrl	m_ListData;
 	bool		m_excelLoaded;
 	int			m_columnNum;
 	int			m_rowNum;
 
 public:
-	bool MotoMoveToXY(float x, float y);
 	void OnOpButtonUp(UINT nID);
 	void OnOpButtonDown(UINT nID);
 private:
