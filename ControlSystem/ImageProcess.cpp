@@ -3,6 +3,11 @@
 #include "DetectCircularhole.h"
 #include "DataUtility.h"
 
+static void MyHalconExceptionHandler(const HException& except)
+{
+	throw except;
+}
+
 CImageProcess::CImageProcess(void)
 {
 	m_paramPoseLoaded = LoadCamParamPoseFile();
@@ -10,6 +15,8 @@ CImageProcess::CImageProcess(void)
 	m_CirleDetecter = new CDetectCircularhole();
 	m_CirleDetecter->SetConfigPath(GetProcessConfigPath());
 	m_CirleDetecter->LoadConfig();
+
+	HException::InstallHHandler(&MyHalconExceptionHandler);
 }
 
 
@@ -81,7 +88,6 @@ CString CImageProcess::GetCameraPoseFIlePath()
 
 bool CImageProcess::LoadProcessImage()
 {
-	HTuple hv_Exception;
 	try
 	{
 		Halcon::read_image(&m_hvImage, (char*)LPCTSTR(GetProcessImagePath()));

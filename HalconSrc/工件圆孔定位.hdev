@@ -4,7 +4,8 @@
 <interface/>
 <body>
 <l>dev_close_window ()</l>
-<l>read_image (Capture1, 'E:/Work/Test_Image.PNG')</l>
+<l>*read_image (Capture1, 'E:/Work/Test_Image.PNG')</l>
+<l>read_image(Capture1,'G:/Project/ControlSystem/Debug/Image/Image.bmp')</l>
 <l>get_image_size (Capture1, Width, Height)</l>
 <l>dev_open_window (0, 0, Width, Height, 'black', WindowID)</l>
 <l>dev_display (Capture1)</l>
@@ -22,14 +23,13 @@
 <l>reduce_domain(GrayImage, RegionFillUp,ImageReduced)</l>
 <l>edges_sub_pix(ImageReduced, Edges, 'canny', 1, 20, 40)</l>
 <c></c>
+<l>* dev_set_check ('give_error')</l>
+<l>try</l>
 <l>length_xld(Edges, Length)</l>
 <l>tuple_max(Length, Max)</l>
 <l>select_shape_xld(Edges, SelectedXLD, 'contlength', 'and', Max, Max)</l>
-<c></c>
 <l>fit_circle_contour_xld(SelectedXLD, 'algebraic', -1, 0, 0, 3, 2, Row, Column, Radius, StartPhi, EndPhi, PointOrder)</l>
 <l>*disp_circle(3600, Row, Column, Radius)</l>
-<c></c>
-<l>dev_set_color ('red')</l>
 <c></c>
 <l>disp_cross (WindowID, Row, Column, 5, 0)</l>
 <l>disp_cross (WindowID, (Height/2), (Width/2), 5, 0)</l>
@@ -37,6 +37,10 @@
 <l>disp_message (WindowID,'Circle' + 'X:' + Row$'.3f' + ' Y:' + Column$'.3f', 'image', 150, 0, 'black', 'true')</l>
 <l>disp_message (WindowID, 'Image' + 'X: ' + (Width/2)$'.3f' + ' Y:' + (Height/2)$'.3f', 'image', 180, 0,  'black', 'true')</l>
 <c></c>
+<l>catch(Exception)</l>
+<l>    ErrorCode := Exception[0]</l>
+<l>endtry  </l>
+<l>dev_set_color ('red')</l>
 <l>stop()</l>
 </body>
 <docu id="main">
