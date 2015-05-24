@@ -452,7 +452,11 @@ void CControlSystemDlg::OnBnClickedSaveAs()
 
 void CControlSystemDlg::OnBnClickedStart()
 {
-	UpdateData(TRUE);
+	if(m_bMotorRunStatus == false)
+	{
+		AfxMessageBox("电机未连接，请连接电机.");
+		return;
+	}
 
 	if(m_Process == 0)
 	{
@@ -701,6 +705,12 @@ LRESULT CControlSystemDlg::OnUpdateMotorStatus(WPARAM wParam,LPARAM lParam)
 
 void CControlSystemDlg::OnBnClickedStop()
 {
+	if(m_bMotorRunStatus == false)
+	{
+		AfxMessageBox("电机未连接，请连接电机.");
+		return;
+	}
+
 	if(NULL != m_UIProcThread)
 	{
 		m_UIProcThread->PostThreadMessage(WM_MOTOR_STOP, AXIS_X, 0);
