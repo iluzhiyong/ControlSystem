@@ -25,12 +25,6 @@ enum UserProcMsg
 	WM_OPEN_HALCON_WINDOW,
 };
 
-typedef struct IMAGE_WND_PARAM
-{
-	HWND hParentWnd;
-	CRect rect;
-} image_wnd_param;
-
 class IMotorCtrl;
 class CCameraParaDlg;
 class CImageProcess;

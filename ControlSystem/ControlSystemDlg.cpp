@@ -458,6 +458,7 @@ void CControlSystemDlg::OnBnClickedStart()
 		return;
 	}
 
+	UpdateData(TRUE);
 	if(m_Process == 0)
 	{
 		OnBnClickedAutoMear();
@@ -677,12 +678,12 @@ LRESULT CControlSystemDlg::OnUpdateMotorStatus(WPARAM wParam,LPARAM lParam)
 	m_bMotorRunStatus = true;
 
 	//读取当前位置
-	int axis = int(wParam);
-	float iTempPos = float(lParam);
-	CString sTempPos;
+	MotorStatus CurPos = *(MotorStatus*)wParam;
 
-	sTempPos.Format("%.2f", iTempPos);
-	switch(axis)
+	CString sTempPos;
+	sTempPos.Format(_T("%.2f"), CurPos.curPos);
+
+	switch(CurPos.axis)
 	{
 	case AXIS_X:
 		m_XCurPosAbs.SetWindowText(sTempPos);

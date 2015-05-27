@@ -237,6 +237,7 @@ INT32 IMotorCtrl::MoveTo(WORD AObj, float AValue)
 	MT_Set_Axis_Acc(AObj, acc);
 	MT_Set_Axis_Dec(AObj, dec);
 	MT_Set_Axis_Position_V_Max(AObj, maxV);
+	MT_Set_Encoder_Dir_Polarity(AObj, m_DirPolarity[AObj]);
 	
 	iResult = MT_Set_Axis_Position_P_Target_Abs(AObj, steps);
 	//CString buffer = "";
@@ -288,6 +289,7 @@ INT32 IMotorCtrl::SetAxisVelocityStart(WORD AObj, INT32 nDir)
 	dec = MT_Help_Step_Line_Real_To_Steps((double)m_StepAngle[AObj], m_Div[AObj], (double)m_Pitch[AObj], (double)m_LineRatio[AObj], (double)m_VModeDec[AObj]);
 	maxV = MT_Help_Step_Line_Real_To_Steps((double)m_StepAngle[AObj], m_Div[AObj], (double)m_Pitch[AObj], (double)m_LineRatio[AObj], (double)m_VModeMaxV[AObj]);
 
+	MT_Set_Encoder_Dir_Polarity(AObj, m_DirPolarity[AObj]);
 	iResult = MT_Set_Axis_Mode_Velocity(AObj);
 	MT_Set_Axis_Velocity_Acc(AObj, acc);
 	MT_Set_Axis_Velocity_Dec(AObj, dec);

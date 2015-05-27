@@ -13,6 +13,12 @@ enum MotoStatus
 	CURR_POS				= 0,
 };
 
+typedef struct MotorStatus
+{
+	int axis;
+	float curPos;
+}MOTOR_STATUS;
+
 class IMotorCtrl
 {
 public:

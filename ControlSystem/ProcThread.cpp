@@ -184,11 +184,14 @@ void CProcThread::OnMotorGetStatus(WPARAM wParam,LPARAM lParam)
 	int axis = int(wParam);
 	int status = int(lParam);
 
+	static MotorStatus CurPos[AXIS_NUM];
+	CurPos[axis].axis = (int)wParam;
+	CurPos[axis].curPos = 0.0f;
+
 	if(status == CURR_POS)
 	{
-		float iTempPos = 0.0;
-		m_IMotoCtrl->GetAxisCurrPos(axis, &iTempPos);
-		::PostMessage((HWND)(GetMainWnd()->GetSafeHwnd()), WM_MOTOR_UPDATE_STATUS, wParam, (LPARAM)iTempPos);
+		m_IMotoCtrl->GetAxisCurrPos(axis, &CurPos[axis].curPos);
+		::PostMessage((HWND)(GetMainWnd()->GetSafeHwnd()), WM_MOTOR_UPDATE_STATUS, WPARAM(&CurPos[axis]), 0);
 	}
 }
 
@@ -235,6 +238,7 @@ bool CProcThread::ConvertStringToFloat(CString buffer, float &value)
 			return true;
 		}
 	}
+	return false;
 }
 
 bool CProcThread::GetFloatItem(int row, int column, float &value)
@@ -328,10 +332,23 @@ int CProcThread::CalculatePoint(float x, float y, float z, float &retx, float &r
 	int ret = -1;
 
 	ret = m_IMotoCtrl->MoveTo(AXIS_X, x);
+	
+	while(ret == 0)
+	{
+		if(m_IMotoCtrl->IsOnMoving(AXIS_X) == false)
+		{
+			break;
+		}
+		else
+		{
+			Sleep(100);
+		}
+	}
+
 	ret = m_IMotoCtrl->MoveTo(AXIS_Y, y);
 	while(ret == 0)
 	{
-		if((m_IMotoCtrl->IsOnMoving(AXIS_X) == false) && (m_IMotoCtrl->IsOnMoving(AXIS_Y) == false))
+		if(m_IMotoCtrl->IsOnMoving(AXIS_Y) == false)
 		{
 			break;
 		}
@@ -342,31 +359,32 @@ int CProcThread::CalculatePoint(float x, float y, float z, float &retx, float &r
 	}
 
 	//同步消息，等待主线程拍照结果
-	ret = ::SendMessage((HWND)(GetMainWnd()->GetSafeHwnd()),WM_MAIN_THREAD_DO_CAPTURE, 0, 0);
+	//ret = ::SendMessage((HWND)(GetMainWnd()->GetSafeHwnd()),WM_MAIN_THREAD_DO_CAPTURE, 0, 0);
 
-	if(ret == 0)
-	{
-		m_IImageProcess->GetCircleDetecter()->ShowErrorMessage(false);
-		ret = m_IImageProcess->Process(x, y, retx, rety);
-	}
-	//retx = x + 10;
-	//rety = y + 10;
+	//if(ret == 0)
+	//{
+	//	m_IImageProcess->GetCircleDetecter()->ShowErrorMessage(false);
+	//	ret = m_IImageProcess->Process(x, y, retx, rety);
+	//}
+	//Sleep(500);
+	retx = x;
+	rety = y;
 
-	ret = m_IMotoCtrl->MoveTo(AXIS_X, retx);
-	ret = m_IMotoCtrl->MoveTo(AXIS_Y, rety);
-	while(ret == 0)
-	{
-		if((m_IMotoCtrl->IsOnMoving(AXIS_X) ==  false) && (m_IMotoCtrl->IsOnMoving(AXIS_Y) == false))
-		{
-			break;
-		}
-		else
-		{
-			Sleep(100);
-		}
-	}
+	//ret = m_IMotoCtrl->MoveTo(AXIS_X, retx);
+	//ret = m_IMotoCtrl->MoveTo(AXIS_Y, rety);
+	//while(ret == 0)
+	//{
+	//	if((m_IMotoCtrl->IsOnMoving(AXIS_X) ==  false) && (m_IMotoCtrl->IsOnMoving(AXIS_Y) == false))
+	//	{
+	//		break;
+	//	}
+	//	else
+	//	{
+	//		Sleep(100);
+	//	}
+	//}
 
-	//移动Z轴
+	////移动Z轴
 	ret = m_IMotoCtrl->MoveTo(AXIS_Z, z);
 	while(ret == 0)
 	{
@@ -380,8 +398,21 @@ int CProcThread::CalculatePoint(float x, float y, float z, float &retx, float &r
 		}
 	}
 
-	//Z轴向下移动，直到接触限位开关停止
-	//retz = z + 10;
+	////Z轴向下移动，直到接触限位开关停止
+	retz = z;
+
+	//ret = m_IMotoCtrl->MoveTo(AXIS_Z, -z);
+	//while(ret == 0)
+	//{
+	//	if(m_IMotoCtrl->IsOnMoving(AXIS_Z) == false)
+	//	{
+	//		break;
+	//	}
+	//	else
+	//	{
+	//		Sleep(100);
+	//	}
+	//}
 
 	return ret;
 }
