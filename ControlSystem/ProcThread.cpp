@@ -394,6 +394,7 @@ int CProcThread::CalculatePoint(float x, float y, float z, float &retx, float &r
 		{
 			float ZCurPos = 0.0f;
 			m_IMotoCtrl->GetAxisCurrPos(AXIS_Z, &ZCurPos);
+			m_IMotoCtrl->SetAxisPositionStop(AXIS_Z);
 			retz = ZCurPos;
 			break;
 		}
