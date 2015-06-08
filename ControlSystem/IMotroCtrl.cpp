@@ -317,3 +317,8 @@ INT32 IMotorCtrl::SetAxisVelocityStop(WORD AObj)
 {
 	return MT_Set_Axis_Velocity_Stop(AObj);
 }
+
+INT32 IMotorCtrl::GetOpticInSingle(WORD AObj,INT32* pValue)
+{
+	return MT_Get_Optic_In_Single(AObj, pValue);
+}

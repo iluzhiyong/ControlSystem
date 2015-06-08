@@ -40,6 +40,7 @@ public:
 	INT32 SetAxisCurrPos(WORD AObj,float Value);
 	INT32 SetAxisVelocityStart(WORD AObj, INT32 nDir);
 	INT32 SetAxisVelocityStop(WORD AObj);
+	INT32 GetOpticInSingle(WORD AObj,INT32* pValue);
 
 	INT32 MoveTo(WORD AObj, float AValue);
 	bool IsOnMoving(WORD AObj);

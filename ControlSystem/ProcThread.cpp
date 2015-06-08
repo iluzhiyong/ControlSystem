@@ -384,8 +384,27 @@ int CProcThread::CalculatePoint(float x, float y, float z, float &retx, float &r
 	//	}
 	//}
 
-	////移动Z轴
-	ret = m_IMotoCtrl->MoveTo(AXIS_Z, z);
+	////Z轴向下移动，直到接触限位开关停止
+	ret = m_IMotoCtrl->SetAxisVelocityStart(AXIS_Z, 1);
+	while(ret == 0)
+	{
+		INT32 OcInValue = 0;
+		m_IMotoCtrl->GetOpticInSingle(0, &OcInValue);
+		if (OcInValue == 1)
+		{
+			float ZCurPos = 0.0f;
+			m_IMotoCtrl->GetAxisCurrPos(AXIS_Z, &ZCurPos);
+			retz = ZCurPos;
+			break;
+		}
+		else
+		{
+			Sleep(100);
+		}
+	}
+
+	////Z轴回到零点位置
+	ret = m_IMotoCtrl->MoveTo(AXIS_Z, 0);
 	while(ret == 0)
 	{
 		if(m_IMotoCtrl->IsOnMoving(AXIS_Z) == false)
@@ -397,22 +416,6 @@ int CProcThread::CalculatePoint(float x, float y, float z, float &retx, float &r
 			Sleep(100);
 		}
 	}
-
-	////Z轴向下移动，直到接触限位开关停止
-	retz = z;
-
-	//ret = m_IMotoCtrl->MoveTo(AXIS_Z, -z);
-	//while(ret == 0)
-	//{
-	//	if(m_IMotoCtrl->IsOnMoving(AXIS_Z) == false)
-	//	{
-	//		break;
-	//	}
-	//	else
-	//	{
-	//		Sleep(100);
-	//	}
-	//}
 
 	return ret;
 }
