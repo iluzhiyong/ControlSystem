@@ -332,7 +332,6 @@ int CProcThread::CalculatePoint(float x, float y, float z, float &retx, float &r
 	int ret = -1;
 
 	ret = m_IMotoCtrl->MoveTo(AXIS_X, x);
-	
 	while(ret == 0)
 	{
 		if(m_IMotoCtrl->IsOnMoving(AXIS_X) == false)
@@ -358,6 +357,20 @@ int CProcThread::CalculatePoint(float x, float y, float z, float &retx, float &r
 		}
 	}
 
+	//为保证与工件固定100mm位置拍摄，需要先移动Z轴，使其与工件距离固定100mm
+	ret = m_IMotoCtrl->MoveTo(AXIS_Z, z + 100);
+	while(ret == 0)
+	{
+		if(m_IMotoCtrl->IsOnMoving(AXIS_Z) == false)
+		{
+			break;
+		}
+		else
+		{
+			Sleep(100);
+		}
+	}
+
 	//同步消息，等待主线程拍照结果
 	//ret = ::SendMessage((HWND)(GetMainWnd()->GetSafeHwnd()),WM_MAIN_THREAD_DO_CAPTURE, 0, 0);
 
@@ -370,22 +383,34 @@ int CProcThread::CalculatePoint(float x, float y, float z, float &retx, float &r
 	retx = x;
 	rety = y;
 
-	//ret = m_IMotoCtrl->MoveTo(AXIS_X, retx);
-	//ret = m_IMotoCtrl->MoveTo(AXIS_Y, rety);
-	//while(ret == 0)
-	//{
-	//	if((m_IMotoCtrl->IsOnMoving(AXIS_X) ==  false) && (m_IMotoCtrl->IsOnMoving(AXIS_Y) == false))
-	//	{
-	//		break;
-	//	}
-	//	else
-	//	{
-	//		Sleep(100);
-	//	}
-	//}
+	ret = m_IMotoCtrl->MoveTo(AXIS_X, retx);
+	while(ret == 0)
+	{
+		if(m_IMotoCtrl->IsOnMoving(AXIS_X) == false)
+		{
+			break;
+		}
+		else
+		{
+			Sleep(100);
+		}
+	}
 
-	////Z轴向下移动，直到接触限位开关停止
-	ret = m_IMotoCtrl->SetAxisVelocityStart(AXIS_Z, 1);
+	ret = m_IMotoCtrl->MoveTo(AXIS_Y, rety);
+	while(ret == 0)
+	{
+		if(m_IMotoCtrl->IsOnMoving(AXIS_Y) == false)
+		{
+			break;
+		}
+		else
+		{
+			Sleep(100);
+		}
+	}
+
+	////Z轴向下移动，直到接触工件停止，读取Z轴移动行程
+	ret = m_IMotoCtrl->SetAxisVelocityStart(AXIS_Z, 0);
 	while(ret == 0)
 	{
 		INT32 OcInValue = 0;
@@ -404,8 +429,8 @@ int CProcThread::CalculatePoint(float x, float y, float z, float &retx, float &r
 		}
 	}
 
-	////Z轴回到零点位置
-	ret = m_IMotoCtrl->MoveTo(AXIS_Z, 0);
+	////Z轴回到上限位开关处
+	ret = m_IMotoCtrl->SetAxisVelocityStart(AXIS_Z, 1);
 	while(ret == 0)
 	{
 		if(m_IMotoCtrl->IsOnMoving(AXIS_Z) == false)
