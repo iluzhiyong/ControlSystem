@@ -329,7 +329,18 @@ void CProcThread::OnDoAutoMear(WPARAM wParam,LPARAM lParam)
 
 int CProcThread::CalculatePoint(float x, float y, float z, float &retx, float &rety, float &retz)
 {
-	int ret = -1;
+	int ret = 0;
+
+#if 0
+	ret = ::SendMessage((HWND)(GetMainWnd()->GetSafeHwnd()),WM_MAIN_THREAD_DO_CAPTURE, 0, 0);
+	if(ret == 0)
+	{
+		OpenHalconWindow();
+		m_IImageProcess->GetCircleDetecter()->ShowErrorMessage(false);
+		m_IImageProcess->Process(x, y, retx, rety);
+	}
+	retz = z;
+#else
 
 	ret = m_IMotoCtrl->MoveTo(AXIS_X, x);
 	while(ret == 0)
@@ -372,16 +383,13 @@ int CProcThread::CalculatePoint(float x, float y, float z, float &retx, float &r
 	}
 
 	//同步消息，等待主线程拍照结果
-	//ret = ::SendMessage((HWND)(GetMainWnd()->GetSafeHwnd()),WM_MAIN_THREAD_DO_CAPTURE, 0, 0);
-
-	//if(ret == 0)
-	//{
-	//	m_IImageProcess->GetCircleDetecter()->ShowErrorMessage(false);
-	//	ret = m_IImageProcess->Process(x, y, retx, rety);
-	//}
-	//Sleep(500);
-	retx = x;
-	rety = y;
+	ret = ::SendMessage((HWND)(GetMainWnd()->GetSafeHwnd()),WM_MAIN_THREAD_DO_CAPTURE, 0, 0);
+	if(ret == 0)
+	{
+		OpenHalconWindow();
+		m_IImageProcess->GetCircleDetecter()->ShowErrorMessage(false);
+		m_IImageProcess->Process(x, y, retx, rety);
+	}
 
 	ret = m_IMotoCtrl->MoveTo(AXIS_X, retx);
 	while(ret == 0)
@@ -409,7 +417,7 @@ int CProcThread::CalculatePoint(float x, float y, float z, float &retx, float &r
 		}
 	}
 
-	////Z轴向下移动，直到接触工件停止，读取Z轴移动行程
+	//Z轴向下移动，直到接触工件停止，读取Z轴移动行程
 	ret = m_IMotoCtrl->SetAxisVelocityStart(AXIS_Z, 0);
 	while(ret == 0)
 	{
@@ -429,7 +437,7 @@ int CProcThread::CalculatePoint(float x, float y, float z, float &retx, float &r
 		}
 	}
 
-	////Z轴回到上限位开关处
+	//Z轴回到上限位开关处
 	ret = m_IMotoCtrl->SetAxisVelocityStart(AXIS_Z, 1);
 	while(ret == 0)
 	{
@@ -442,6 +450,7 @@ int CProcThread::CalculatePoint(float x, float y, float z, float &retx, float &r
 			Sleep(100);
 		}
 	}
+#endif
 
 	return ret;
 }
@@ -458,6 +467,9 @@ void CProcThread::OnDoManualMear(WPARAM wParam,LPARAM lParam)
 	if(0 == CalculatePoint(PosX, PosY, PosZ, resPosX, resPosY, resPosZ))
 	{
 		//success
+		CString msg;
+		msg.Format("测量结果: x = %.2f mm,  y = %.2f mm,  z = %.2f mm.", resPosX, resPosY, resPosZ);
+		AfxMessageBox(msg, MB_ICONINFORMATION );
 	}
 	else
 	{
@@ -487,8 +499,8 @@ void CProcThread::OnDoImageProc(WPARAM wParam,LPARAM lParam)
 		else
 		{
 			CString msg;
-			msg.Format("测量结果为x=%f, y=%f.", x, y);
-			AfxMessageBox(msg);
+			msg.Format("测量结果: x = %.2f mm,  y = %.2f mm.", x, y);
+			AfxMessageBox(msg, MB_ICONINFORMATION );
 		}
 	}
 }

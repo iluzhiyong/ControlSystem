@@ -110,7 +110,7 @@ bool CImageProcess::LoadProcessImage()
 
 CString CImageProcess::GetProcessImagePath()
 {
-	return DataUtility::GetExePath() + _T("Image\\process.png");
+	return DataUtility::GetExePath() + _T("Image\\Image.bmp");
 }
 
 bool CImageProcess::Process(float x, float y, float &cenertX, float &centerY)
