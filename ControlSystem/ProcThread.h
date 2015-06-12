@@ -78,11 +78,14 @@ protected:
 private:
 	CListCtrl* m_pListData;
 	bool GetMeasureTargetValue(int row, float &x, float &y, float &z);
-	bool SetMeasureResultValue(int row, float resultX, float resultY, float resultZ);
+	bool SetMeasureResultValue(int row, float resultX, float resultY, float resultZ, bool isPassed);
 	bool GetFloatItem(int row, int column, float &value);
 	bool SetFloatItem(int row, int column, float value);
 	bool ConvertStringToFloat(CString buffer, float &value);
 	int CalculatePoint(float x, float y, float z, float &retx, float &rety, float &retz);
+
+private:
+	float m_MearTolerance;
 };
 
 

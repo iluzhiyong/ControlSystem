@@ -7,6 +7,7 @@
 #include "IMotorCtrl.h"
 #include "ImageProcess.h"
 #include "ImageProcSettingDlg.h"
+#include "DataUtility.h"
 
 // CProcThread
 
@@ -19,6 +20,7 @@ CProcThread::CProcThread()
 , m_ImageProcSetDlg(NULL)
 , m_HalconWndOpened(false)
 , m_pListData(NULL)
+, m_MearTolerance(0.5)
 {
 }
 
@@ -41,6 +43,20 @@ BOOL CProcThread::InitInstance()
 	}
 
 	m_IImageProcess = new CImageProcess();
+
+	CString ret = _T("");
+	char buf[256];
+	int len = GetPrivateProfileString(_T("Car Frame"), _T("MearTolerance"), "",buf, 256, (DataUtility::GetExePath() + _T("\\ProcessConfig\\SysConfig.ini")));
+	if(len > 0)
+	{
+		for(int i=0;i<len;i++)
+		{
+			CString str;
+			str.Format("%c",buf[i]);
+			ret+=str;
+		}
+	}
+	DataUtility::ConvertStringToFloat(buf, this->m_MearTolerance, 0.5);
 
 	return TRUE;
 }
@@ -286,15 +302,25 @@ bool CProcThread::GetMeasureTargetValue(int row, float &x, float &y, float &z)
 	return false;
 }
 
-bool CProcThread :: SetMeasureResultValue(int row, float resultX, float resultY, float resultZ)
+bool CProcThread :: SetMeasureResultValue(int row, float resultX, float resultY, float resultZ, bool isPassed)
 {
 	const int XResultColumn = 5;
 	const int YResultColumn = 6;
 	const int ZResultColumn = 7;
+	const int passedColumn = 8;
 
 	SetFloatItem(row, XResultColumn, resultX);
 	SetFloatItem(row, YResultColumn, resultY);
 	SetFloatItem(row, ZResultColumn, resultZ);
+
+	if(isPassed == true)
+	{
+		m_pListData->SetItemText(row,passedColumn, "合格");
+	}
+	else
+	{
+		m_pListData->SetItemText(row,passedColumn, "不合格");
+	}
 
 	return true;
 }
@@ -324,7 +350,14 @@ void CProcThread::OnDoAutoMear(WPARAM wParam,LPARAM lParam)
 		//		CString log;
 		//		log.Format(_T("Num %s, X=%f, Y=%f, Z=%f"),testNum, retX,  retY,  retZ);
 		//		CLog::Instance()->Log(log);
-				SetMeasureResultValue(i, retX, retY, retZ);
+				if((abs(retX - x) > m_MearTolerance) || (abs(retY - y) > m_MearTolerance) || (abs(retZ - z) > m_MearTolerance))
+				{
+					SetMeasureResultValue(i, retX, retY, retZ, false);
+				}
+				else
+				{
+					SetMeasureResultValue(i, retX, retY, retZ, true);
+				}
 			}
 		}
 	}
@@ -471,8 +504,16 @@ void CProcThread::OnDoManualMear(WPARAM wParam,LPARAM lParam)
 	{
 		//success
 		CString msg;
-		msg.Format("测量结果: x = %.2f mm,  y = %.2f mm,  z = %.2f mm.", resPosX, resPosY, resPosZ);
-		AfxMessageBox(msg, MB_ICONINFORMATION );
+		if((abs(resPosX - PosX) > m_MearTolerance) || (abs(resPosY - PosY) > m_MearTolerance) || (abs(resPosZ - PosZ) > m_MearTolerance))
+		{
+			msg.Format("测量结果: 不合格！\nx = %.2f mm,  y = %.2f mm,  z = %.2f mm.", resPosX, resPosY, resPosZ);
+			AfxMessageBox(msg, MB_ICONERROR);
+		}
+		else
+		{
+			msg.Format("测量结果: 合格。\nx = %.2f mm,  y = %.2f mm,  z = %.2f mm.", resPosX, resPosY, resPosZ);
+			AfxMessageBox(msg, MB_ICONINFORMATION );
+		}
 	}
 	else
 	{
