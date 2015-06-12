@@ -54,9 +54,9 @@ public:
 	afx_msg void OnBnClickedStop();
 	afx_msg void OnBnClickedManualMear();
 	afx_msg void OnSize(UINT nType, int cx, int cy);
-	afx_msg void OnBnClickedClearZeroX();
-	afx_msg void OnBnClickedClearZeroY();
-	afx_msg void OnBnClickedClearZeroZ();
+	afx_msg void OnBnClickedSetPosX();
+	afx_msg void OnBnClickedSetPosY();
+	afx_msg void OnBnClickedSetPosZ();
 	afx_msg void OnBnClickedLimitX();
 	afx_msg LRESULT OnUpdateMotorStatus(WPARAM wParam,LPARAM lParam);
 	afx_msg void OnBnClickedBtnOutputImage(UINT nID);

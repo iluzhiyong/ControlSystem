@@ -118,7 +118,8 @@ void CProcThread::OnMotorClearZeroX(WPARAM wParam,LPARAM lParam)
 {
 	if(NULL != m_IMotoCtrl && true == m_IsMotroCtrlConnected)
 	{
-		m_IMotoCtrl->SetAxisCurrPos(AXIS_X, 0.0);
+		float pos = *(float*)wParam;
+		m_IMotoCtrl->SetAxisCurrPos(AXIS_X, pos);
 	}
 	else
 	{
@@ -130,7 +131,8 @@ void CProcThread::OnMotorClearZeroY(WPARAM wParam,LPARAM lParam)
 {
 	if(NULL != m_IMotoCtrl && true == m_IsMotroCtrlConnected)
 	{
-		m_IMotoCtrl->SetAxisCurrPos(AXIS_Y, 0.0);
+		float pos = *(float*)wParam;
+		m_IMotoCtrl->SetAxisCurrPos(AXIS_Y, pos);
 	}
 	else
 	{
@@ -142,7 +144,8 @@ void CProcThread::OnMotorClearZeroZ(WPARAM wParam,LPARAM lParam)
 {
 	if(NULL != m_IMotoCtrl && true == m_IsMotroCtrlConnected)
 	{
-		m_IMotoCtrl->SetAxisCurrPos(AXIS_Z, 0.0);
+		float pos = *(float*)wParam;
+		m_IMotoCtrl->SetAxisCurrPos(AXIS_Z, pos);
 	}
 	else
 	{
@@ -331,7 +334,7 @@ int CProcThread::CalculatePoint(float x, float y, float z, float &retx, float &r
 {
 	int ret = 0;
 
-#if 0
+#if 1
 	ret = ::SendMessage((HWND)(GetMainWnd()->GetSafeHwnd()),WM_MAIN_THREAD_DO_CAPTURE, 0, 0);
 	if(ret == 0)
 	{

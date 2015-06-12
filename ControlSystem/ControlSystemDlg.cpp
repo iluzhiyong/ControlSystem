@@ -176,9 +176,9 @@ BEGIN_MESSAGE_MAP(CControlSystemDlg, CDialogEx)
 	ON_WM_TIMER()
 	ON_BN_CLICKED(IDC_STOP, &CControlSystemDlg::OnBnClickedStop)
 	ON_WM_SIZE()
-	ON_BN_CLICKED(IDC_CLEAR_ZERO_X, &CControlSystemDlg::OnBnClickedClearZeroX)
-	ON_BN_CLICKED(IDC_CLEAR_ZERO_Y, &CControlSystemDlg::OnBnClickedClearZeroY)
-	ON_BN_CLICKED(IDC_CLEAR_ZERO_Z, &CControlSystemDlg::OnBnClickedClearZeroZ)
+	ON_BN_CLICKED(IDC_SET_POS_X, &CControlSystemDlg::OnBnClickedSetPosX)
+	ON_BN_CLICKED(IDC_SET_POS_Y, &CControlSystemDlg::OnBnClickedSetPosY)
+	ON_BN_CLICKED(IDC_SET_POS_Z, &CControlSystemDlg::OnBnClickedSetPosZ)
 	ON_MESSAGE(WM_MOTOR_UPDATE_STATUS,&CControlSystemDlg::OnUpdateMotorStatus)
 	ON_CONTROL_RANGE(BN_CLICKED, IDC_RAD_ASPECTRATIO, IDC_RAD_FIXWINDOW, OnBnClickedBtnOutputImage)
 	ON_COMMAND(ID_MENU_CAMERA_CONNECT, OnCameraConnect)
@@ -742,29 +742,44 @@ void CControlSystemDlg::OnSize(UINT nType, int cx, int cy)
 
 
 
-void CControlSystemDlg::OnBnClickedClearZeroX()
+void CControlSystemDlg::OnBnClickedSetPosX()
 {
 	if(NULL != m_UIProcThread)
 	{
-		m_UIProcThread->PostThreadMessage(WM_MOTOR_CLEAR_ZERO_X, 0, 0);
+		UpdateData(TRUE);
+		static float pos = 0.0;
+		CString sTempPos;
+		m_XCurPosAbs.GetWindowText(sTempPos);
+		pos = (float)atof(sTempPos);
+		m_UIProcThread->PostThreadMessage(WM_MOTOR_CLEAR_ZERO_X, WPARAM(&pos), 0);
 	}
 }
 
 
-void CControlSystemDlg::OnBnClickedClearZeroY()
+void CControlSystemDlg::OnBnClickedSetPosY()
 {
 	if(NULL != m_UIProcThread)
 	{
-		m_UIProcThread->PostThreadMessage(WM_MOTOR_CLEAR_ZERO_Y, 0, 0);
+		UpdateData(TRUE);
+		static float pos = 0.0;
+		CString sTempPos;
+		m_YCurPosAbs.GetWindowText(sTempPos);
+		pos = (float)atof(sTempPos);
+		m_UIProcThread->PostThreadMessage(WM_MOTOR_CLEAR_ZERO_Y, WPARAM(&pos), 0);
 	}
 }
 
 
-void CControlSystemDlg::OnBnClickedClearZeroZ()
+void CControlSystemDlg::OnBnClickedSetPosZ()
 {
 	if(NULL != m_UIProcThread)
 	{
-		m_UIProcThread->PostThreadMessage(WM_MOTOR_CLEAR_ZERO_Z, 0, 0);
+		UpdateData(TRUE);
+		static float pos = 0.0;
+		CString sTempPos;
+		m_ZCurPosAbs.GetWindowText(sTempPos);
+		pos = (float)atof(sTempPos);
+		m_UIProcThread->PostThreadMessage(WM_MOTOR_CLEAR_ZERO_Z, WPARAM(&pos), 0);
 	}
 }
 
