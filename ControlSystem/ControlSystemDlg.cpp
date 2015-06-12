@@ -452,11 +452,11 @@ void CControlSystemDlg::OnBnClickedSaveAs()
 
 void CControlSystemDlg::OnBnClickedStart()
 {
-	if(m_bMotorRunStatus == false)
-	{
-		AfxMessageBox("电机未连接，请连接电机.");
-		return;
-	}
+	//if(m_bMotorRunStatus == false)
+	//{
+	//	AfxMessageBox("电机未连接，请连接电机.");
+	//	return;
+	//}
 
 	UpdateData(TRUE);
 	if(m_Process == 0)

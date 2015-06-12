@@ -361,6 +361,8 @@ void CProcThread::OnDoAutoMear(WPARAM wParam,LPARAM lParam)
 			}
 		}
 	}
+
+	AfxMessageBox("自动测量完成！");
 }
 
 int CProcThread::CalculatePoint(float x, float y, float z, float &retx, float &rety, float &retz)
@@ -506,12 +508,12 @@ void CProcThread::OnDoManualMear(WPARAM wParam,LPARAM lParam)
 		CString msg;
 		if((abs(resPosX - PosX) > m_MearTolerance) || (abs(resPosY - PosY) > m_MearTolerance) || (abs(resPosZ - PosZ) > m_MearTolerance))
 		{
-			msg.Format("测量结果: 不合格！\nx = %.2f mm,  y = %.2f mm,  z = %.2f mm.", resPosX, resPosY, resPosZ);
+			msg.Format("测量结果: 不合格！\n图纸尺寸: x = %.2f mm,  y = %.2f mm,  z = %.2f mm.\n实测尺寸: x = %.2f mm,  y = %.2f mm,  z = %.2f mm.", PosX, PosY, PosZ, resPosX, resPosY, resPosZ);
 			AfxMessageBox(msg, MB_ICONERROR);
 		}
 		else
 		{
-			msg.Format("测量结果: 合格。\nx = %.2f mm,  y = %.2f mm,  z = %.2f mm.", resPosX, resPosY, resPosZ);
+			msg.Format("测量结果: 合格。\n图纸尺寸: x = %.2f mm,  y = %.2f mm,  z = %.2f mm.\n实测尺寸: x = %.2f mm,  y = %.2f mm,  z = %.2f mm.", PosX, PosY, PosZ, resPosX, resPosY, resPosZ);
 			AfxMessageBox(msg, MB_ICONINFORMATION );
 		}
 	}
