@@ -525,6 +525,7 @@ void CControlSystemDlg::OnBnClickedAutoMear()
 
 	if(NULL != m_UIProcThread)
 	{
+		m_UIProcThread->ResumeThread();
 		m_UIProcThread->PostThreadMessage(WM_DO_AUTO_MEAR, (WPARAM)&m_ListData, (LPARAM)m_rowNum);
 	}
 }
@@ -714,9 +715,7 @@ void CControlSystemDlg::OnBnClickedStop()
 
 	if(NULL != m_UIProcThread)
 	{
-		m_UIProcThread->PostThreadMessage(WM_MOTOR_STOP, AXIS_X, 0);
-		m_UIProcThread->PostThreadMessage(WM_MOTOR_STOP, AXIS_Y, 0);
-		m_UIProcThread->PostThreadMessage(WM_MOTOR_STOP, AXIS_Z, 0);
+		m_UIProcThread->SuspendThread();
 	}
 }
 
