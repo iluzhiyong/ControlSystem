@@ -345,7 +345,7 @@ void CProcThread::OnDoAutoMear(WPARAM wParam,LPARAM lParam)
 		if(GetMeasureTargetValue(i, x, y, z))
 		{
 		//	testNum = m_ListData.GetItemText(i, 0);
-			if(0 == CalculatePoint(x, y, z, retX, retY, retZ))
+			if(0 == MoveToTargetPosXYZ(x, y, z, retX, retY, retZ))
 			{
 		//		CString log;
 		//		log.Format(_T("Num %s, X=%f, Y=%f, Z=%f"),testNum, retX,  retY,  retZ);
@@ -365,20 +365,9 @@ void CProcThread::OnDoAutoMear(WPARAM wParam,LPARAM lParam)
 	AfxMessageBox("自动测量完成！");
 }
 
-int CProcThread::CalculatePoint(float x, float y, float z, float &retx, float &rety, float &retz)
+int CProcThread::MoveToTargetPosXY(float x, float y, float &retx, float &rety)
 {
 	int ret = 0;
-
-#if 1
-	ret = ::SendMessage((HWND)(GetMainWnd()->GetSafeHwnd()),WM_MAIN_THREAD_DO_CAPTURE, 0, 0);
-	if(ret == 0)
-	{
-		OpenHalconWindow();
-		m_IImageProcess->GetCircleDetecter()->ShowErrorMessage(false);
-		m_IImageProcess->Process(x, y, retx, rety);
-	}
-	retz = z;
-#else
 
 	ret = m_IMotoCtrl->MoveTo(AXIS_X, x);
 	while(ret == 0)
@@ -397,20 +386,6 @@ int CProcThread::CalculatePoint(float x, float y, float z, float &retx, float &r
 	while(ret == 0)
 	{
 		if(m_IMotoCtrl->IsOnMoving(AXIS_Y) == false)
-		{
-			break;
-		}
-		else
-		{
-			Sleep(100);
-		}
-	}
-
-	//为保证与工件固定100mm位置拍摄，需要先移动Z轴，使其与工件距离固定100mm
-	ret = m_IMotoCtrl->MoveTo(AXIS_Z, z + 100);
-	while(ret == 0)
-	{
-		if(m_IMotoCtrl->IsOnMoving(AXIS_Z) == false)
 		{
 			break;
 		}
@@ -452,6 +427,52 @@ int CProcThread::CalculatePoint(float x, float y, float z, float &retx, float &r
 		else
 		{
 			Sleep(100);
+		}
+	}
+
+	return ret;
+}
+
+int CProcThread::MoveToTargetPosXYZ(float x, float y, float z, float &retx, float &rety, float &retz)
+{
+	int ret = 0;
+
+#if 0	//for test
+	ret = ::SendMessage((HWND)(GetMainWnd()->GetSafeHwnd()),WM_MAIN_THREAD_DO_CAPTURE, 0, 0);
+	if(ret == 0)
+	{
+		OpenHalconWindow();
+		m_IImageProcess->GetCircleDetecter()->ShowErrorMessage(false);
+		m_IImageProcess->Process(x, y, retx, rety);
+	}
+	retz = z;
+#else
+
+	//为保证与工件固定100mm位置拍摄，需要先移动Z轴，使其与工件距离固定100mm
+	ret = m_IMotoCtrl->MoveTo(AXIS_Z, z + 100);
+	while(ret == 0)
+	{
+		if(m_IMotoCtrl->IsOnMoving(AXIS_Z) == false)
+		{
+			break;
+		}
+		else
+		{
+			Sleep(100);
+		}
+	}
+
+	int MaxCalCount = 5;
+	while(MaxCalCount > 0)
+	{
+		if((abs(x - retx) > m_MearTolerance) || (abs(y - rety) > m_MearTolerance))
+		{
+			MoveToTargetPosXY(x, y, retx, rety);
+			MaxCalCount--;
+		}
+		else
+		{
+			break;
 		}
 	}
 
@@ -502,7 +523,7 @@ void CProcThread::OnDoManualMear(WPARAM wParam,LPARAM lParam)
 	float resPosY = 0.0;
 	float resPosZ = 0.0;
 
-	if(0 == CalculatePoint(PosX, PosY, PosZ, resPosX, resPosY, resPosZ))
+	if(0 == MoveToTargetPosXYZ(PosX, PosY, PosZ, resPosX, resPosY, resPosZ))
 	{
 		//success
 		CString msg;
