@@ -8,6 +8,7 @@
 #include "ImageProcess.h"
 #include "ImageProcSettingDlg.h"
 #include "DataUtility.h"
+#include "AxialDeviationAngle.h"
 
 // CProcThread
 
@@ -21,6 +22,7 @@ CProcThread::CProcThread()
 , m_HalconWndOpened(false)
 , m_pListData(NULL)
 , m_MearTolerance(0.5)
+, m_AxialDeviationAngleDlg(NULL)
 {
 }
 
@@ -69,6 +71,13 @@ int CProcThread::ExitInstance()
 		m_ImageProcSetDlg = NULL;
 	}
 
+	if(m_AxialDeviationAngleDlg != NULL)
+	{
+		m_AxialDeviationAngleDlg->DestroyWindow();
+		delete m_AxialDeviationAngleDlg;
+		m_AxialDeviationAngleDlg = NULL;
+	}
+
 	if(m_IImageProcess != NULL)
 	{
 		delete m_IImageProcess;
@@ -100,6 +109,7 @@ BEGIN_MESSAGE_MAP(CProcThread, CWinThread)
 	ON_THREAD_MESSAGE(WM_IMAGE_PROC,&CProcThread::OnDoImageProc)
 	ON_THREAD_MESSAGE(WM_IMAGE_LOAD,&CProcThread::OnDoImageLoad)
 	ON_THREAD_MESSAGE(WM_IMAGE_PROC_SETTING,&CProcThread::OnImageProcSetting)
+	ON_THREAD_MESSAGE(WM_OPEN_AXIAL_DEVIATION_ANGLE_WND,&CProcThread::OnOpenCacAngleWnd)
 END_MESSAGE_MAP()
 
 void CProcThread::OnMotorConnect(WPARAM wParam,LPARAM lParam)
@@ -398,9 +408,9 @@ int CProcThread::MoveToTargetPosXYZ(float x, float y, float z, float &retx, floa
 	//	m_IImageProcess->GetCircleDetecter()->ShowErrorMessage(false);
 	//	m_IImageProcess->Process(x, y, retx, rety);
 	//}
-	retx = x + 1;
-	rety = y + 1;
-	retz = z + 1;
+	retx = x;
+	rety = y;
+	retz = z;
 #else
 
 	//为保证与工件固定100mm位置拍摄，需要先移动Z轴，使其与工件距离固定100mm
@@ -553,6 +563,22 @@ void CProcThread::OnImageProcSetting(WPARAM wParam,LPARAM lParam)
 			m_ImageProcSetDlg->ShowWindow(SW_SHOW);
 		}
 	}
+}
+
+void CProcThread::OnOpenCacAngleWnd(WPARAM wParam,LPARAM lParam)
+{
+	if(m_AxialDeviationAngleDlg == NULL)
+	{
+		m_AxialDeviationAngleDlg = new CAxialDeviationAngle();
+	}
+		
+	if(m_AxialDeviationAngleDlg->GetSafeHwnd() == NULL)
+	{
+		m_AxialDeviationAngleDlg->Create(IDD_AXIAL_DEVIATION_ANGLE, NULL);
+		m_AxialDeviationAngleDlg->Invalidate();
+		m_AxialDeviationAngleDlg->SetParent(this);
+	}
+	m_AxialDeviationAngleDlg->ShowWindow(TRUE);
 }
 
 void CProcThread::OpenHalconWindow()

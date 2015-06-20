@@ -23,6 +23,7 @@ enum UserProcMsg
 	WM_MAIN_THREAD_DO_CAPTURE,
 
 	WM_OPEN_HALCON_WINDOW,
+	WM_OPEN_AXIAL_DEVIATION_ANGLE_WND,
 };
 
 //从0开始计数
@@ -32,11 +33,11 @@ enum ExcelInfo
 	COLUMN_POS_Y = 4,
 	COLUMN_POS_Z = 5,
 
-	COLUMN_COMPENSATION_X = 8,
-	COLUMN_COMPENSATION_Y = 9,
-	COLUMN_COMPENSATION_Z = 10,
+	COLUMN_COMPENSATION_X = 6,
+	COLUMN_COMPENSATION_Y = 7,
+	COLUMN_COMPENSATION_Z = 8,
 
-	COLUMN_MEAR_TYPE = 11,
+	COLUMN_MEAR_TYPE = 9,
 
 	ROW_START = 5,
 };
@@ -45,6 +46,7 @@ class IMotorCtrl;
 class CCameraParaDlg;
 class CImageProcess;
 class CImageProcSettingDlg;
+class CAxialDeviationAngle;
 // CProcThread
 
 class CProcThread : public CWinThread
@@ -74,6 +76,7 @@ public:
 	afx_msg void OnDoImageProc(WPARAM wParam,LPARAM lParam);
 	afx_msg void OnDoImageLoad(WPARAM wParam,LPARAM lParam);
 	afx_msg void OnImageProcSetting(WPARAM wParam,LPARAM lParam);
+	afx_msg void OnOpenCacAngleWnd(WPARAM wParam,LPARAM lParam);
 
 	void OpenHalconWindow();
 private:
@@ -83,6 +86,7 @@ private:
 private:
 	CImageProcess* m_IImageProcess;
 	CImageProcSettingDlg* m_ImageProcSetDlg;
+	CAxialDeviationAngle* m_AxialDeviationAngleDlg;
 
 private:
 	bool m_HalconWndOpened;
@@ -91,7 +95,7 @@ private:
 protected:
 	DECLARE_MESSAGE_MAP()
 
-private:
+public:
 	CListCtrl* m_pListData;
 	bool GetMeasureTargetValue(int row, float &x, float &y, float &z);
 	bool GetFloatItem(int row, int column, float &value);

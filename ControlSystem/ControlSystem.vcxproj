@@ -197,6 +197,7 @@
     <None Include="res\icon2.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AxialDeviationAngle.h" />
     <ClInclude Include="CGCamera.h" />
     <ClInclude Include="DLCCamera.h" />
     <ClInclude Include="CameraDlg.h" />
@@ -234,6 +235,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AxialDeviationAngle.cpp" />
     <ClCompile Include="CGCamera.cpp" />
     <ClCompile Include="DLCCamera.cpp" />
     <ClCompile Include="CameraDlg.cpp" />

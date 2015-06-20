@@ -16,6 +16,7 @@
 class IMotorCtrl;
 class CImageProcess;
 class IHeightDectector;
+
 class CControlSystemDlg : public CDialogEx
 {
 // Construction
@@ -65,6 +66,7 @@ public:
 	afx_msg void OnMotorConnect();
 	afx_msg void OnImageProc();
 	afx_msg void OnImageParamSet();
+	afx_msg void OnCaculateAxialDeviationAngle();
 	afx_msg LRESULT OnMainThreadDoCapture(WPARAM wParam,LPARAM lParam);
 	void ReCaculateResultByCompensation();
 

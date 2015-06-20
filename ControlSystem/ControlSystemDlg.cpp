@@ -193,6 +193,7 @@ BEGIN_MESSAGE_MAP(CControlSystemDlg, CDialogEx)
 	ON_COMMAND(ID_MENU_MOTOR_CONNECT, OnMotorConnect)
 	ON_COMMAND(ID_IMAGE_PROC, OnImageProc)
 	ON_COMMAND(ID_IMAGE_PARAM_SET, OnImageParamSet)
+	ON_COMMAND(ID_CAL_AXIAL_DEVIATION_ANGLE, OnCaculateAxialDeviationAngle)
 	ON_MESSAGE(WM_MAIN_THREAD_DO_CAPTURE,&CControlSystemDlg::OnMainThreadDoCapture)
 END_MESSAGE_MAP()
 
@@ -1117,5 +1118,13 @@ LRESULT CControlSystemDlg::OnMainThreadDoCapture(WPARAM wParam,LPARAM lParam)
 	else
 	{
 		return -1;
+	}
+}
+
+void CControlSystemDlg::OnCaculateAxialDeviationAngle()
+{
+	if(NULL != m_UIProcThread)
+	{
+		m_UIProcThread->PostThreadMessage(WM_OPEN_AXIAL_DEVIATION_ANGLE_WND, 0, 0);
 	}
 }
