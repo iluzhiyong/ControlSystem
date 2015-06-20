@@ -88,7 +88,7 @@ CControlSystemDlg::CControlSystemDlg(CWnd* pParent /*=NULL*/)
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 	m_IHeightDectector = NULL;
 
-    m_excelLoaded = false;
+	m_excelLoaded = false;
 	m_columnNum = 0;
 	m_rowNum = 0;
 
@@ -99,7 +99,10 @@ CControlSystemDlg::CControlSystemDlg(CWnd* pParent /*=NULL*/)
 	m_hIconRed = AfxGetApp()->LoadIcon(IDI_ICON_RED); 
 	m_hIconGray = AfxGetApp()->LoadIcon(IDI_ICON_GRAY); 
 	m_hIconGreen = AfxGetApp()->LoadIcon(IDI_ICON_GREEN);
-	
+
+	m_compensationX = 0.0f;
+	m_compensationY = 0.0f;
+	m_compensationZ = 0.0f;
 }
 
 void CControlSystemDlg::UpdateCameraRunStatus()
@@ -161,6 +164,9 @@ void CControlSystemDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_MANUAL_RIGHT_Z, m_RightZBtn);
 	DDX_Control(pDX, IDC_PIC_MOTOR_STATUS, m_MotorRunStatus);
 	DDX_Control(pDX, IDC_PIC_CAMERA_STATUS, m_CameraRunStatus);
+	DDX_Text(pDX, IDC_EDIT_CAL_X, m_compensationX);
+	DDX_Text(pDX, IDC_EDIT_CAL_Y, m_compensationY);
+	DDX_Text(pDX, IDC_EDIT_CAL_Z, m_compensationZ);
 }
 
 BEGIN_MESSAGE_MAP(CControlSystemDlg, CDialogEx)
@@ -452,11 +458,11 @@ void CControlSystemDlg::OnBnClickedSaveAs()
 
 void CControlSystemDlg::OnBnClickedStart()
 {
-	//if(m_bMotorRunStatus == false)
-	//{
-	//	AfxMessageBox("电机未连接，请连接电机.");
-	//	return;
-	//}
+	if(m_bMotorRunStatus == false)
+	{
+		AfxMessageBox("电机未连接，请连接电机.");
+		return;
+	}
 
 	UpdateData(TRUE);
 	if(m_Process == 0)
@@ -469,7 +475,7 @@ void CControlSystemDlg::OnBnClickedStart()
 	}
 	else if(m_Process == 2)
 	{
-		OnBnClickedManualMear();
+		ReCaculateResultByCompensation();
 	}
 }
 
@@ -510,11 +516,6 @@ BOOL CControlSystemDlg::DestroyWindow()
 	return CDialogEx::DestroyWindow();
 }
 
-const int StartRow = 4;
-const int XColumn = 2; const int XResultColumn = 5;
-const int YColumn = 3; const int YResultColumn = 6;
-const int ZColumn = 4; const int ZResultColumn = 7;
-
 void CControlSystemDlg::OnBnClickedAutoMear()
 {
 	if(!m_excelLoaded)
@@ -530,68 +531,6 @@ void CControlSystemDlg::OnBnClickedAutoMear()
 	}
 }
 
-bool CControlSystemDlg::ConvertStringToFloat(CString buffer, float &value)
-{
-	try
-	{
-	    if(buffer != "")
-		{
-			char *endptr;
-			endptr = NULL;
-			double d;
-			d = strtod(buffer, &endptr);
-			if (errno != 0 || (endptr != NULL && *endptr != '\0'))
-			{
-				return false;
-			}
-			else
-			{
-				value = (float)d;
-				return true;
-			}
-		}
-	}
-	catch(...)
-	{
-	}
-	return false;
-}
-
-
-bool CControlSystemDlg::GetFloatItem(int row, int column, float &value)
-{
-	try
-	{
-		CString buffer=""; 
-		buffer+=m_ListData.GetItemText(row,column);
-		return ConvertStringToFloat(buffer, value);
-	}
-	catch(...)
-	{
-	}
-	return false;
-}
-
-bool CControlSystemDlg :: GetMeasureTargetValue(int row, float &x, float &y, float &z)
-{
-	const int XColumn = 2;
-	const int YColumn = 3;
-	const int ZColumn = 4;
-
-	if(GetFloatItem(row, XColumn, x))
-	{
-		if(GetFloatItem(row, YColumn, y))
-		{
-			if(GetFloatItem(row, ZColumn, z))
-			{
-				return true;
-			}
-		}
-	}
-
-	return false;
-}
-
 void CControlSystemDlg::OnBnClickedCustomMear()
 {
 	UpdateData(TRUE);
@@ -599,7 +538,61 @@ void CControlSystemDlg::OnBnClickedCustomMear()
 
 	if(NULL != m_UIProcThread)
 	{
-		m_UIProcThread->PostThreadMessage(WM_DO_MANUAL_MEAR, WPARAM(pos), 0);
+		m_UIProcThread->PostThreadMessage(WM_DO_CUSTOM_MEAR, WPARAM(pos), 0);
+	}
+}
+
+void CControlSystemDlg::ReCaculateResultByCompensation()
+{
+	CString buffer="";
+	float measuredX = 0.0f, measuredY = 0.0f, measuredZ = 0.0f;
+	float stdX = 0.0f, stdY = 0.0, stdZ = 0.0;
+
+	UpdateData(TRUE);
+
+	for(int i = ROW_START; i < m_rowNum; i = i + 3)
+	{
+		buffer = m_ListData.GetItemText(i + 1,COLUMN_POS_X);
+		if(DataUtility::ConvertStringToFloat(buffer, measuredX) == false) break;
+
+		buffer = m_ListData.GetItemText(i + 1,COLUMN_POS_Y);
+		if(DataUtility::ConvertStringToFloat(buffer, measuredY) == false) break;
+
+		buffer = m_ListData.GetItemText(i + 1,COLUMN_POS_Z);
+		if(DataUtility::ConvertStringToFloat(buffer, measuredZ) == false) break;
+
+		//recaculate the measured value
+		measuredX = measuredX + m_compensationX;
+		measuredY = measuredY + m_compensationY;
+		measuredZ = measuredZ + m_compensationZ;
+
+		buffer.Format("%f", measuredX);
+		m_ListData.SetItemText(i + 1,COLUMN_POS_X, buffer);
+
+		buffer.Format("%f", measuredY);
+		m_ListData.SetItemText(i + 1,COLUMN_POS_Y, buffer);
+
+		buffer.Format("%f", measuredZ);
+		m_ListData.SetItemText(i + 1,COLUMN_POS_Z, buffer);
+
+		//Update the error value
+		buffer = m_ListData.GetItemText(i, COLUMN_POS_X);
+		if(DataUtility::ConvertStringToFloat(buffer, stdX) == false) break;
+
+		buffer = m_ListData.GetItemText(i, COLUMN_POS_Y);
+		if(DataUtility::ConvertStringToFloat(buffer, stdY) == false) break;
+
+		buffer = m_ListData.GetItemText(i, COLUMN_POS_Z);
+		if(DataUtility::ConvertStringToFloat(buffer, stdZ) == false) break;
+
+		buffer.Format("%f", measuredX - stdX);
+		m_ListData.SetItemText(i + 2,COLUMN_POS_X, buffer);
+
+		buffer.Format("%f", measuredY - stdY);
+		m_ListData.SetItemText(i + 2,COLUMN_POS_Y, buffer);
+
+		buffer.Format("%f", measuredZ - stdZ);
+		m_ListData.SetItemText(i + 2,COLUMN_POS_Z, buffer);
 	}
 }
 
@@ -611,14 +604,22 @@ void CControlSystemDlg::OnDblclkList1(NMHDR *pNMHDR, LRESULT *pResult)
 
 	 try
 	{
-		float x, y, z;
-		if(GetMeasureTargetValue(pNMItemActivate->iItem, x, y, z))
-		{
-			this->m_CustomX = x;
-			this->m_CustomY = y;
-			this->m_CustomZ = z;
-			UpdateData(false);
-		}
+		float x = 0.0, y = 0.0, z = 0.0;
+		CString buffer=""; 
+		buffer=m_ListData.GetItemText(pNMItemActivate->iItem,COLUMN_POS_X);
+		DataUtility::ConvertStringToFloat(buffer, x);
+
+		buffer=m_ListData.GetItemText(pNMItemActivate->iItem,COLUMN_POS_Y);
+		DataUtility::ConvertStringToFloat(buffer, y);
+
+		buffer=m_ListData.GetItemText(pNMItemActivate->iItem,COLUMN_POS_Z);
+		DataUtility::ConvertStringToFloat(buffer, z);
+
+		this->m_CustomX = x;
+		this->m_CustomY = y;
+		this->m_CustomZ = z;
+		UpdateData(false);
+
 	}
 	catch(...)
 	{
@@ -719,17 +720,6 @@ void CControlSystemDlg::OnBnClickedStop()
 	}
 }
 
-void CControlSystemDlg::OnBnClickedManualMear()
-{
-	UpdateData(TRUE);
-	float pos[3] = {m_CustomX, m_CustomY, m_CustomZ};
-
-	if(NULL != m_UIProcThread)
-	{
-		m_UIProcThread->PostThreadMessage(WM_DO_MANUAL_MEAR, WPARAM(pos), 0);
-	}
-}
-
 
 void CControlSystemDlg::OnSize(UINT nType, int cx, int cy)
 {
@@ -738,7 +728,6 @@ void CControlSystemDlg::OnSize(UINT nType, int cx, int cy)
 	m_itemSize.ResizeItem();
 	Invalidate();
 }
-
 
 
 void CControlSystemDlg::OnBnClickedSetPosX()

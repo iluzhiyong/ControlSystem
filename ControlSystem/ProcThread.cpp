@@ -95,7 +95,7 @@ BEGIN_MESSAGE_MAP(CProcThread, CWinThread)
 	ON_THREAD_MESSAGE(WM_MOTOR_GET_STATUS,&CProcThread::OnMotorGetStatus)
 	ON_THREAD_MESSAGE(WM_MOTOR_STOP,&CProcThread::OnMotorStop)
 	ON_THREAD_MESSAGE(WM_MOTOR_MOVE_TO,&CProcThread::OnMotorMoveTo)
-	ON_THREAD_MESSAGE(WM_DO_MANUAL_MEAR,&CProcThread::OnDoManualMear)
+	ON_THREAD_MESSAGE(WM_DO_CUSTOM_MEAR,&CProcThread::OnDoCustomMear)
 	ON_THREAD_MESSAGE(WM_DO_AUTO_MEAR,&CProcThread::OnDoAutoMear)
 	ON_THREAD_MESSAGE(WM_IMAGE_PROC,&CProcThread::OnDoImageProc)
 	ON_THREAD_MESSAGE(WM_IMAGE_LOAD,&CProcThread::OnDoImageLoad)
@@ -239,32 +239,11 @@ void CProcThread::OnMotorMoveTo(WPARAM wParam,LPARAM lParam)
 	}
 }
 
-bool CProcThread::ConvertStringToFloat(CString buffer, float &value)
-{
-	if(buffer != "")
-	{
-		char *endptr;
-		endptr = NULL;
-		double d;
-		d = strtod(buffer, &endptr);
-		if (errno != 0 || (endptr != NULL && *endptr != '\0'))
-		{
-			return false;
-		}
-		else
-		{
-			value = (float)d;
-			return true;
-		}
-	}
-	return false;
-}
-
 bool CProcThread::GetFloatItem(int row, int column, float &value)
 {
 	CString buffer=""; 
 	if(NULL != m_pListData) buffer += m_pListData->GetItemText(row,column);
-	return ConvertStringToFloat(buffer, value);
+	return DataUtility::ConvertStringToFloat(buffer, value);
 }
 
 bool CProcThread::SetFloatItem(int row, int column, float value)
@@ -284,15 +263,11 @@ bool CProcThread::SetFloatItem(int row, int column, float value)
 
 bool CProcThread::GetMeasureTargetValue(int row, float &x, float &y, float &z)
 {
-	const int XColumn = 2;
-	const int YColumn = 3;
-	const int ZColumn = 4;
-
-	if(GetFloatItem(row, XColumn, x))
+	if(GetFloatItem(row, COLUMN_POS_X, x))
 	{
-		if(GetFloatItem(row, YColumn, y))
+		if(GetFloatItem(row, COLUMN_POS_Y, y))
 		{
-			if(GetFloatItem(row, ZColumn, z))
+			if(GetFloatItem(row, COLUMN_POS_Z, z))
 			{
 				return true;
 			}
@@ -302,32 +277,8 @@ bool CProcThread::GetMeasureTargetValue(int row, float &x, float &y, float &z)
 	return false;
 }
 
-bool CProcThread :: SetMeasureResultValue(int row, float resultX, float resultY, float resultZ, bool isPassed)
-{
-	const int XResultColumn = 5;
-	const int YResultColumn = 6;
-	const int ZResultColumn = 7;
-	const int passedColumn = 8;
-
-	SetFloatItem(row, XResultColumn, resultX);
-	SetFloatItem(row, YResultColumn, resultY);
-	SetFloatItem(row, ZResultColumn, resultZ);
-
-	if(isPassed == true)
-	{
-		m_pListData->SetItemText(row,passedColumn, "合格");
-	}
-	else
-	{
-		m_pListData->SetItemText(row,passedColumn, "不合格");
-	}
-
-	return true;
-}
-
 void CProcThread::OnDoAutoMear(WPARAM wParam,LPARAM lParam)
 {
-	const int StartRow = 4;
 	m_pListData = (CListCtrl*)wParam;
 	int usedRowNum = (int)lParam;
 
@@ -339,25 +290,27 @@ void CProcThread::OnDoAutoMear(WPARAM wParam,LPARAM lParam)
 
 	float x = 0.0, y = 0.0, z = 0.0;
 	float retX = 0.0, retY = 0.0, retZ = 0.0;
-	CString testNum;
-	for(int i = StartRow; i < usedRowNum; i++)
+	for(int i = ROW_START; i < usedRowNum; i = i + 3)
 	{
 		if(GetMeasureTargetValue(i, x, y, z))
 		{
-		//	testNum = m_ListData.GetItemText(i, 0);
 			if(0 == MoveToTargetPosXYZ(x, y, z, retX, retY, retZ))
 			{
-		//		CString log;
-		//		log.Format(_T("Num %s, X=%f, Y=%f, Z=%f"),testNum, retX,  retY,  retZ);
-		//		CLog::Instance()->Log(log);
-				if((abs(retX - x) > m_MearTolerance) || (abs(retY - y) > m_MearTolerance) || (abs(retZ - z) > m_MearTolerance))
-				{
-					SetMeasureResultValue(i, retX, retY, retZ, false);
-				}
-				else
-				{
-					SetMeasureResultValue(i, retX, retY, retZ, true);
-				}
+				//get compensation value
+				float compensationX = 0.0f, compensationY = 0.0f, compensationZ = 0.0f;
+				GetFloatItem(i, COLUMN_COMPENSATION_X, compensationX);
+				GetFloatItem(i, COLUMN_COMPENSATION_Y, compensationY);
+				GetFloatItem(i, COLUMN_COMPENSATION_Z, compensationZ);
+
+				//Measured Value
+				SetFloatItem(i + 1, COLUMN_POS_X, retX + compensationX);
+				SetFloatItem(i + 1, COLUMN_POS_Y, retY + compensationY);
+				SetFloatItem(i + 1, COLUMN_POS_Z, retZ + compensationZ);
+				
+				//Error Value
+				SetFloatItem(i + 2, COLUMN_POS_X, retX - x);
+				SetFloatItem(i + 2, COLUMN_POS_Y, retY - y);
+				SetFloatItem(i + 2, COLUMN_POS_Z, retZ - z);
 			}
 		}
 	}
@@ -438,14 +391,16 @@ int CProcThread::MoveToTargetPosXYZ(float x, float y, float z, float &retx, floa
 	int ret = 0;
 
 #if 0	//for test
-	ret = ::SendMessage((HWND)(GetMainWnd()->GetSafeHwnd()),WM_MAIN_THREAD_DO_CAPTURE, 0, 0);
-	if(ret == 0)
-	{
-		OpenHalconWindow();
-		m_IImageProcess->GetCircleDetecter()->ShowErrorMessage(false);
-		m_IImageProcess->Process(x, y, retx, rety);
-	}
-	retz = z;
+	//ret = ::SendMessage((HWND)(GetMainWnd()->GetSafeHwnd()),WM_MAIN_THREAD_DO_CAPTURE, 0, 0);
+	//if(ret == 0)
+	//{
+	//	OpenHalconWindow();
+	//	m_IImageProcess->GetCircleDetecter()->ShowErrorMessage(false);
+	//	m_IImageProcess->Process(x, y, retx, rety);
+	//}
+	retx = x + 1;
+	rety = y + 1;
+	retz = z + 1;
 #else
 
 	//为保证与工件固定100mm位置拍摄，需要先移动Z轴，使其与工件距离固定100mm
@@ -513,7 +468,7 @@ int CProcThread::MoveToTargetPosXYZ(float x, float y, float z, float &retx, floa
 
 	return ret;
 }
-void CProcThread::OnDoManualMear(WPARAM wParam,LPARAM lParam)
+void CProcThread::OnDoCustomMear(WPARAM wParam,LPARAM lParam)
 {
 	float* pPos = (float*)wParam;
 	float PosX = pPos[0];

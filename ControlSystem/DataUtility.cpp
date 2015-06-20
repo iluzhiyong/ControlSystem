@@ -16,11 +16,11 @@ bool DataUtility::ConvertStringToFloat(CString buffer, float &value, float defau
 {
 	try
 	{
-	    if(buffer != "")
+		if(buffer != "")
 		{
 			char *endptr;
 			endptr = NULL;
-			double d;
+			double d = 0.0;
 			d = strtod(buffer, &endptr);
 			if (errno != 0 || (endptr != NULL && *endptr != '\0'))
 			{

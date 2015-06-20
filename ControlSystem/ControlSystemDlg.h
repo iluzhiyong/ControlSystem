@@ -52,7 +52,6 @@ public:
 	afx_msg void OnBnClickedCustomMear();
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	afx_msg void OnBnClickedStop();
-	afx_msg void OnBnClickedManualMear();
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg void OnBnClickedSetPosX();
 	afx_msg void OnBnClickedSetPosY();
@@ -67,6 +66,7 @@ public:
 	afx_msg void OnImageProc();
 	afx_msg void OnImageParamSet();
 	afx_msg LRESULT OnMainThreadDoCapture(WPARAM wParam,LPARAM lParam);
+	void ReCaculateResultByCompensation();
 
 private:
 	CStatic m_staticPicture;
@@ -76,11 +76,6 @@ private:
 	bool m_HalconWndOpened;
 	CImageProcess* m_IImageProcess;
 	CImageProcSettingDlg* m_ImageProcSetDlg;
-
-public:
-	bool ConvertStringToFloat(CString buffer, float &value);
-	bool GetFloatItem(int row, int column, float &value);
-	bool GetMeasureTargetValue(int row, float &x, float &y, float &z);
 
 private:
 	CListCtrl	m_ListData;
@@ -107,6 +102,10 @@ public:
 	float m_CustomX;
 	float m_CustomY;
 	float m_CustomZ;
+
+	float m_compensationX;
+	float m_compensationY;
+	float m_compensationZ;
 
 	CEdit m_ZCurPosAbs;
 	CEdit m_XCurPosAbs;
