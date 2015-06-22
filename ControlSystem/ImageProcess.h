@@ -33,6 +33,7 @@ private:
 	HTuple m_hvCamPose;
 
 	Hobject m_hvImage;
+	HTuple hv_width,hv_height;
 	float m_TargetRow;
 	float m_TargetColumn;
 

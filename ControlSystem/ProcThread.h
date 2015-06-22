@@ -101,7 +101,7 @@ public:
 	bool GetFloatItem(int row, int column, float &value);
 	bool SetFloatItem(int row, int column, float value);
 	int MoveToTargetPosXYZ(float x, float y, float z, float &retx, float &rety, float &retz);
-	int MoveToTargetPosXY(float x, float y, float &retx, float &rety);
+	int MoveToTargetPosXY(float x, float y, float z, float &retx, float &rety);
 
 private:
 	float m_MearTolerance;

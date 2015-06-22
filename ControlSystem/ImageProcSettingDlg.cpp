@@ -78,9 +78,9 @@ void CImageProcSettingDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_EDIT5, m_MaxGray);
 	DDV_MinMaxInt(pDX, m_MaxGray, 0, 255);
 	DDX_Text(pDX, IDC_EDIT2, m_MinCirleArea);
-	DDV_MinMaxFloat(pDX, m_MinCirleArea, 0, 99999.0);
+	DDV_MinMaxFloat(pDX, m_MinCirleArea, 0, 99999999.0);
 	DDX_Text(pDX, IDC_EDIT3, m_MaxCirleArea);
-	DDV_MinMaxFloat(pDX, m_MaxCirleArea, 0, 99999.0);
+	DDV_MinMaxFloat(pDX, m_MaxCirleArea, 0, 99999999.0);
 	DDX_Text(pDX, IDC_EDIT4, m_MinRoundness);
 	DDV_MinMaxFloat(pDX, m_MinRoundness, 0, 1.0);
 	DDX_Text(pDX, IDC_EDIT6, m_MaxRoundness);

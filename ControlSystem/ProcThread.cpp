@@ -85,7 +85,7 @@ int CProcThread::ExitInstance()
 	
 	if(m_IMotoCtrl != NULL)
 	{
-		m_IMotoCtrl->CloseUSB();
+		m_IMotoCtrl->CloseComPort();
 		m_IMotoCtrl->DeInit();
 
 		delete m_IMotoCtrl;
@@ -117,12 +117,12 @@ void CProcThread::OnMotorConnect(WPARAM wParam,LPARAM lParam)
 	m_IsMotroCtrlConnected = false;
 	if(NULL != m_IMotoCtrl)
 	{
-		m_IMotoCtrl->CloseUSB();
+		m_IMotoCtrl->CloseComPort();
 
-		INT32 iResult = m_IMotoCtrl->OpenUSB();
+		INT32 iResult = m_IMotoCtrl->OpenComPort();
 		if(0 != iResult)
 		{
-			AfxMessageBox("打开控制卡USB失败!");
+			AfxMessageBox("连接控制卡失败!");
 			return;
 		}
 
@@ -144,8 +144,8 @@ void CProcThread::OnMotorClearZeroX(WPARAM wParam,LPARAM lParam)
 {
 	if(NULL != m_IMotoCtrl && true == m_IsMotroCtrlConnected)
 	{
-		float pos = *(float*)wParam;
-		m_IMotoCtrl->SetAxisCurrPos(AXIS_X, pos);
+		//float pos = *(float*)wParam;
+		m_IMotoCtrl->SetAxisCurrPos(AXIS_X, 0);
 	}
 	else
 	{
@@ -157,8 +157,8 @@ void CProcThread::OnMotorClearZeroY(WPARAM wParam,LPARAM lParam)
 {
 	if(NULL != m_IMotoCtrl && true == m_IsMotroCtrlConnected)
 	{
-		float pos = *(float*)wParam;
-		m_IMotoCtrl->SetAxisCurrPos(AXIS_Y, pos);
+		//float pos = *(float*)wParam;
+		m_IMotoCtrl->SetAxisCurrPos(AXIS_Y, 0);
 	}
 	else
 	{
@@ -170,8 +170,8 @@ void CProcThread::OnMotorClearZeroZ(WPARAM wParam,LPARAM lParam)
 {
 	if(NULL != m_IMotoCtrl && true == m_IsMotroCtrlConnected)
 	{
-		float pos = *(float*)wParam;
-		m_IMotoCtrl->SetAxisCurrPos(AXIS_Z, pos);
+		//float pos = *(float*)wParam;
+		m_IMotoCtrl->SetAxisCurrPos(AXIS_Z, 0);
 	}
 	else
 	{
@@ -328,7 +328,7 @@ void CProcThread::OnDoAutoMear(WPARAM wParam,LPARAM lParam)
 	AfxMessageBox("自动测量完成！");
 }
 
-int CProcThread::MoveToTargetPosXY(float x, float y, float &retx, float &rety)
+int CProcThread::MoveToTargetPosXY(float x, float y, float z, float &retx, float &rety)
 {
 	int ret = 0;
 
@@ -358,8 +358,24 @@ int CProcThread::MoveToTargetPosXY(float x, float y, float &retx, float &rety)
 		}
 	}
 
+	//为保证与工件固定100mm位置拍摄，需要先移动Z轴，使其与工件距离固定100mm
+	ret = m_IMotoCtrl->MoveTo(AXIS_Z, z-100);
+	Sleep(100);
+	while(ret == 0)
+	{
+		if(m_IMotoCtrl->IsOnMoving(AXIS_Z) == false)
+		{
+			break;
+		}
+		else
+		{
+			Sleep(100);
+		}
+	}
+
 	//同步消息，等待主线程拍照结果
 	ret = ::SendMessage((HWND)(GetMainWnd()->GetSafeHwnd()),WM_MAIN_THREAD_DO_CAPTURE, 0, 0);
+	Sleep(500);
 	if(ret == 0)
 	{
 		OpenHalconWindow();
@@ -408,13 +424,13 @@ int CProcThread::MoveToTargetPosXYZ(float x, float y, float z, float &retx, floa
 	//	m_IImageProcess->GetCircleDetecter()->ShowErrorMessage(false);
 	//	m_IImageProcess->Process(x, y, retx, rety);
 	//}
-	retx = x;
-	rety = y;
-	retz = z;
+	//retx = x;
+	//rety = y;
+	//retz = z;
 #else
 
-	//为保证与工件固定100mm位置拍摄，需要先移动Z轴，使其与工件距离固定100mm
-	ret = m_IMotoCtrl->MoveTo(AXIS_Z, z + 100);
+	//Z轴回到上限位开关处
+	ret = m_IMotoCtrl->SetAxisVelocityStart(AXIS_Z, 0);
 	while(ret == 0)
 	{
 		if(m_IMotoCtrl->IsOnMoving(AXIS_Z) == false)
@@ -427,41 +443,29 @@ int CProcThread::MoveToTargetPosXYZ(float x, float y, float z, float &retx, floa
 		}
 	}
 
-	int MaxCalCount = 5;
-	while(MaxCalCount > 0)
+	int MaxCalCount = 1;
+	retx = 0.0;
+	rety = 0.0;
+	//CString msg;
+	//msg.Format("测量结果: x = %.2f, y = %.2f, retx = %.2f, rety = %.2f, m_MearTolerance = %.2f, MaxCalCount = %d", x, y, retx, rety, m_MearTolerance,MaxCalCount);
+	//AfxMessageBox(msg);
+	while(MaxCalCount > 5)
 	{
+		MoveToTargetPosXY(x, y, z, retx, rety);
 		if((abs(x - retx) > m_MearTolerance) || (abs(y - rety) > m_MearTolerance))
 		{
-			MoveToTargetPosXY(x, y, retx, rety);
-			MaxCalCount--;
+			Sleep(100);
+			MaxCalCount++;
 		}
 		else
 		{
 			break;
 		}
 	}
+	m_IMotoCtrl->GetAxisCurrPos(AXIS_X, &retx);
+	m_IMotoCtrl->GetAxisCurrPos(AXIS_Y, &rety);
 
 	//Z轴向下移动，直到接触工件停止，读取Z轴移动行程
-	ret = m_IMotoCtrl->SetAxisVelocityStart(AXIS_Z, 0);
-	while(ret == 0)
-	{
-		INT32 OcInValue = 0;
-		m_IMotoCtrl->GetOpticInSingle(0, &OcInValue);
-		if (OcInValue == 1)
-		{
-			float ZCurPos = 0.0f;
-			m_IMotoCtrl->GetAxisCurrPos(AXIS_Z, &ZCurPos);
-			m_IMotoCtrl->SetAxisPositionStop(AXIS_Z);
-			retz = ZCurPos;
-			break;
-		}
-		else
-		{
-			Sleep(100);
-		}
-	}
-
-	//Z轴回到上限位开关处
 	ret = m_IMotoCtrl->SetAxisVelocityStart(AXIS_Z, 1);
 	while(ret == 0)
 	{
@@ -474,6 +478,23 @@ int CProcThread::MoveToTargetPosXYZ(float x, float y, float z, float &retx, floa
 			Sleep(100);
 		}
 	}
+
+	m_IMotoCtrl->GetAxisCurrPos(AXIS_Z, &retz);
+
+	//Z轴回到上限位开关处
+	ret = m_IMotoCtrl->SetAxisVelocityStart(AXIS_Z, 0);
+	while(ret == 0)
+	{
+		if(m_IMotoCtrl->IsOnMoving(AXIS_Z) == false)
+		{
+			break;
+		}
+		else
+		{
+			Sleep(100);
+		}
+	}
+
 #endif
 
 	return ret;
@@ -521,9 +542,9 @@ void CProcThread::OnDoImageProc(WPARAM wParam,LPARAM lParam)
 			detecter->LoadConfig();
 		}
 		
-		float x = 0.0;
+		float x = 0.0, retx = 0.0, rety = 0.0;
 		float y = 0.0;
-		bool ret = m_IImageProcess->FindTargetPoint(x, y);
+		bool ret = m_IImageProcess->Process(x, y, retx, rety);
 		if(!ret)
 		{
 			AfxMessageBox("Can not find target!");
@@ -531,7 +552,7 @@ void CProcThread::OnDoImageProc(WPARAM wParam,LPARAM lParam)
 		else
 		{
 			CString msg;
-			msg.Format("测量结果: x = %.2f mm,  y = %.2f mm.", x, y);
+			msg.Format("远心到图像中心位置: Dif X = %.2f mm,  Dif Y = %.2f mm.", retx, rety);
 			AfxMessageBox(msg, MB_ICONINFORMATION );
 		}
 	}

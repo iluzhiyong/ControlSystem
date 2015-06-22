@@ -24,7 +24,7 @@ CDetectCircularhole::CDetectCircularhole(void)
 	: m_MinGray(128)
 	, m_MaxGray(255)
 	, m_MinCirleArea(0)
-	, m_MaxCirleArea(99999.0)
+	, m_MaxCirleArea(999999.0)
 	, m_MinRoundness(0.5)
 	, m_MaxRoundness(1.0)
 	, m_DilationRadius(3.5)
@@ -47,6 +47,7 @@ CDetectCircularhole::~CDetectCircularhole(void)
 void CDetectCircularhole::SetImageObject(Hobject image)
 {
 	ho_Capture1 = image;
+	Halcon::get_image_size(ho_Capture1, &hv_Width, &hv_Height);
 }
 
 bool CDetectCircularhole::DetectCirleCenter(float &row, float &column)
@@ -185,10 +186,13 @@ bool CDetectCircularhole::RunFitCirle()
 			if (m_ShowProcessingImage && HDevWindowStack::IsOpen())
 			{
 				clear_window(HDevWindowStack::GetActive());
-				set_color(HDevWindowStack::GetActive(),"yellow");
+				set_color(HDevWindowStack::GetActive(),"red");
 				disp_obj(ho_Capture1, HDevWindowStack::GetActive());
 				disp_obj(ho_Edges, HDevWindowStack::GetActive());
 				disp_cross(HDevWindowStack::GetActive(), hv_Row, hv_Column, 20, 0);
+
+				set_color(HDevWindowStack::GetActive(),"green");
+				disp_cross(HDevWindowStack::GetActive(), hv_Height/2, hv_Width/2, 20, 0);
 			}
 
 			return true;
@@ -209,7 +213,7 @@ void CDetectCircularhole::LoadConfig()
 		this->m_MaxGray = GetPrivateProfileInt(_T("Threshold"),  MAXGRAY, 255, m_ConfigPath);
 
 		DataUtility::ConvertStringToFloat(GetFloatConfigString(_T("Circle Area"), MINCIRLEAREA), this->m_MinCirleArea, 0.0);
-		DataUtility::ConvertStringToFloat(GetFloatConfigString(_T("Circle Area"), MAXCIRLEAREA), this->m_MaxCirleArea, 99999.0);
+		DataUtility::ConvertStringToFloat(GetFloatConfigString(_T("Circle Area"), MAXCIRLEAREA), this->m_MaxCirleArea, 999999.0);
 
 		DataUtility::ConvertStringToFloat(GetFloatConfigString(_T("Circle Roundness"), MINROUNDNESS), this->m_MinRoundness, 0.5);
 		DataUtility::ConvertStringToFloat(GetFloatConfigString(_T("Circle Roundness"), MAXROUNDNESS), this->m_MaxRoundness, 1.0);

@@ -123,12 +123,7 @@ bool CImageProcess::Process(float x, float y, float &cenertX, float &centerY)
 	{
 		
 		bool ret = true;
-
-		//Image Center X,Y
-		HTuple hv_width,hv_height;
 		Halcon::get_image_size(m_hvImage, &hv_width, &hv_height);
-
-		//DispCross(HDevWindowStack::GetActive(), hv_height / 2, hv_width / 2, 10, 0);
 
 		float cx = 0.0, cy = 0.0;
 		float targetX = 0.0, targetY = 0.0;
@@ -140,8 +135,8 @@ bool CImageProcess::Process(float x, float y, float &cenertX, float &centerY)
 		}
 		if(ret)
 		{
-			cenertX = x + (targetX - cx);
-			centerY = y + (targetY - cy);
+			cenertX = x + (cx - targetX)/5;
+			centerY = y + (targetY - cy)/5;
 		}
 		return ret;
 	}

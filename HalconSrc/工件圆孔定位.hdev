@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.1" halcon_version="12.0">
+<hdevelop file_version="1.0" halcon_version="10.0" cs="67472694">
 <procedure name="main">
 <interface/>
 <body>
@@ -12,9 +12,9 @@
 <l>set_display_font (WindowID, 14, 'mono', 'false', 'false')</l>
 <c></c>
 <c></c>
-<l>threshold(Capture1, Region, 0, 46)</l>
+<l>threshold(Capture1, Region, 100, 255)</l>
 <l>connection(Region, ConnectedRegions)</l>
-<l>select_shape (ConnectedRegions, SelectedRegions, ['area','roundness'], 'and', [4380.86,0.64634], [6369.61,0.92589])</l>
+<l>select_shape (ConnectedRegions, SelectedRegions, ['area','roundness'], 'and', [150000,0.64634], [200000,1])</l>
 <c></c>
 <l>dilation_circle(SelectedRegions, RegionDilation, 3.5)</l>
 <l>fill_up(RegionDilation, RegionFillUp)</l>
@@ -31,11 +31,13 @@
 <l>fit_circle_contour_xld(SelectedXLD, 'algebraic', -1, 0, 0, 3, 2, Row, Column, Radius, StartPhi, EndPhi, PointOrder)</l>
 <l>*disp_circle(3600, Row, Column, Radius)</l>
 <c></c>
-<l>disp_cross (WindowID, Row, Column, 5, 0)</l>
-<l>disp_cross (WindowID, (Height/2), (Width/2), 5, 0)</l>
+<l>disp_cross (WindowID, Row, Column, 20, 0)</l>
+<l>disp_cross (WindowID, Row, Column+10, 20, 0)</l>
+<l>dev_set_color ('green')</l>
+<l>disp_cross (WindowID, (Height/2), (Width/2), 20, 0)</l>
 <c></c>
-<l>disp_message (WindowID,'Circle' + 'X:' + Row$'.3f' + ' Y:' + Column$'.3f', 'image', 150, 0, 'black', 'true')</l>
-<l>disp_message (WindowID, 'Image' + 'X: ' + (Width/2)$'.3f' + ' Y:' + (Height/2)$'.3f', 'image', 180, 0,  'black', 'true')</l>
+<l>disp_message (WindowID,'Circle' + 'Rom:' + Row$'.3f' + ' Column:' + Column$'.3f', 'image', 150, 0, 'black', 'true')</l>
+<l>disp_message (WindowID, 'Image' + 'Rom: ' + (Width/2)$'.3f' + ' Column:' + (Height/2)$'.3f', 'image', 180, 0,  'black', 'true')</l>
 <c></c>
 <l>catch(Exception)</l>
 <l>    ErrorCode := Exception[0]</l>

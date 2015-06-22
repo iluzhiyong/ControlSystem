@@ -31,8 +31,8 @@ public:
 	INT32 DeInit(void);
 	INT32 SetAxisHomeStop(WORD AObj);
 	INT32 SetAxisPositionPTargetRel(WORD AObj,INT32 Value);
-	INT32 CloseUSB(void);
-	INT32 OpenUSB(void);
+	INT32 CloseComPort(void);
+	INT32 OpenComPort(void);
 	INT32 Check(void);
 	INT32 GetAxisCurrPos(WORD AObj,float* pValue);
 	INT32 SetAxisPositionPTargetAbs(WORD AObj,INT32 Value);

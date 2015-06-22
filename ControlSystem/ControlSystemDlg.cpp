@@ -697,6 +697,7 @@ LRESULT CControlSystemDlg::OnUpdateMotorStatus(WPARAM wParam,LPARAM lParam)
 		break;
 
 	case AXIS_Z:
+		sTempPos.Format(_T("%.2f"), -CurPos.curPos);
 		m_ZCurPosAbs.SetWindowText(sTempPos);
 		break;
 
@@ -735,12 +736,13 @@ void CControlSystemDlg::OnBnClickedSetPosX()
 {
 	if(NULL != m_UIProcThread)
 	{
-		UpdateData(TRUE);
-		static float pos = 0.0;
-		CString sTempPos;
-		m_XCurPosAbs.GetWindowText(sTempPos);
-		pos = (float)atof(sTempPos);
-		m_UIProcThread->PostThreadMessage(WM_MOTOR_CLEAR_ZERO_X, WPARAM(&pos), 0);
+		//UpdateData(TRUE);
+		//static float pos = 0.0;
+		//CString sTempPos;
+		//m_XCurPosAbs.GetWindowText(sTempPos);
+		//pos = (float)atof(sTempPos);
+		//m_UIProcThread->PostThreadMessage(WM_MOTOR_CLEAR_ZERO_X, WPARAM(&pos), 0);
+		m_UIProcThread->PostThreadMessage(WM_MOTOR_CLEAR_ZERO_X, 0, 0);
 	}
 }
 
@@ -749,12 +751,12 @@ void CControlSystemDlg::OnBnClickedSetPosY()
 {
 	if(NULL != m_UIProcThread)
 	{
-		UpdateData(TRUE);
-		static float pos = 0.0;
-		CString sTempPos;
-		m_YCurPosAbs.GetWindowText(sTempPos);
-		pos = (float)atof(sTempPos);
-		m_UIProcThread->PostThreadMessage(WM_MOTOR_CLEAR_ZERO_Y, WPARAM(&pos), 0);
+		//UpdateData(TRUE);
+		//static float pos = 0.0;
+		//CString sTempPos;
+		//m_YCurPosAbs.GetWindowText(sTempPos);
+		//pos = (float)atof(sTempPos);
+		m_UIProcThread->PostThreadMessage(WM_MOTOR_CLEAR_ZERO_Y, 0, 0);
 	}
 }
 
@@ -763,12 +765,12 @@ void CControlSystemDlg::OnBnClickedSetPosZ()
 {
 	if(NULL != m_UIProcThread)
 	{
-		UpdateData(TRUE);
-		static float pos = 0.0;
-		CString sTempPos;
-		m_ZCurPosAbs.GetWindowText(sTempPos);
-		pos = (float)atof(sTempPos);
-		m_UIProcThread->PostThreadMessage(WM_MOTOR_CLEAR_ZERO_Z, WPARAM(&pos), 0);
+		//UpdateData(TRUE);
+		//static float pos = 0.0;
+		//CString sTempPos;
+		//m_ZCurPosAbs.GetWindowText(sTempPos);
+		//pos = (float)atof(sTempPos);
+		m_UIProcThread->PostThreadMessage(WM_MOTOR_CLEAR_ZERO_Z, 0, 0);
 	}
 }
 

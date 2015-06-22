@@ -138,14 +138,23 @@ INT32 IMotorCtrl::SetAxisPositionPTargetRel(WORD AObj,INT32 Value)
 	return MT_Set_Axis_Position_P_Target_Rel(AObj, Value);
 }
 
-INT32 IMotorCtrl::CloseUSB(void)
+INT32 IMotorCtrl::CloseComPort(void)
 {
-	return MT_Close_USB();
+	return MT_Close_UART();
+	//return MT_Close_USB();
 }
 
-INT32 IMotorCtrl::OpenUSB(void)
+INT32 IMotorCtrl::OpenComPort(void)
 {
-	return MT_Open_USB();
+	CString sCOM = _T("COM1");
+	INT32 iResult;
+	MT_Close_UART();
+	char *p = (LPSTR)(LPCTSTR)sCOM;
+
+	iResult=MT_Open_UART(p);
+	return iResult;
+
+	/*return MT_Open_USB();*/
 }
 
 INT32 IMotorCtrl::Check(void)
@@ -241,7 +250,7 @@ INT32 IMotorCtrl::MoveTo(WORD AObj, float AValue)
 	
 	iResult = MT_Set_Axis_Position_P_Target_Abs(AObj, steps);
 	//CString buffer = "";
-	//buffer.Format("目标位置=%f mm, 脉冲数=%d, 加速度mm=%f, 最大速度mm=%f, 结果=%d, 加速度脉冲=%d, 最大速度脉冲=%d", AValue, steps, m_Acc, m_MaxV, iResult, acc, maxV);
+	//buffer.Format("目标位置=%f mm, 脉冲数=%d, 加速度mm=%f, 最大速度mm=%f, 结果=%d, 加速度脉冲=%d, 最大速度脉冲=%d, m_CloseEnable[AObj] = %d", AValue, steps, m_Acc, m_MaxV, iResult, acc, maxV,m_CloseEnable[AObj]);
 	//AfxMessageBox(buffer);
 
 	return iResult;
