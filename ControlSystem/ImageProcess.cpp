@@ -135,8 +135,8 @@ bool CImageProcess::Process(float x, float y, float &cenertX, float &centerY)
 		}
 		if(ret)
 		{
-			cenertX = x + (cx - targetX)/5;
-			centerY = y + (targetY - cy)/5;
+			cenertX = x + (cx - targetX);
+			centerY = y + (targetY - cy);
 		}
 		return ret;
 	}

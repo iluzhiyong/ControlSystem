@@ -105,6 +105,7 @@ public:
 
 private:
 	float m_MearTolerance;
+	float m_DistenceCameraAndTarget;
 };
 
 

@@ -94,7 +94,7 @@ CControlSystemDlg::CControlSystemDlg(CWnd* pParent /*=NULL*/)
 
 	m_HalconWndOpened = false;
 
-	CLog::Instance()->CreateLog(DataUtility::GetExePath() + _T("log.txt"), true);
+	//CLog::Instance()->CreateLog(DataUtility::GetExePath() + _T("log.txt"), true);
 
 	m_hIconRed = AfxGetApp()->LoadIcon(IDI_ICON_RED); 
 	m_hIconGray = AfxGetApp()->LoadIcon(IDI_ICON_GRAY); 
@@ -135,7 +135,7 @@ void CControlSystemDlg::UpDateMotorRunStatus()
 
 CControlSystemDlg::~CControlSystemDlg()
 {
-	CLog::Instance()->CloseLog();
+	/*CLog::Instance()->CloseLog();*/
 
 	
 	if(m_IHeightDectector != NULL)

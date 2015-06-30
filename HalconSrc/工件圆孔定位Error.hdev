@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.0" halcon_version="10.0" cs="575952169">
+<procedure name="main">
+<interface/>
+<body>
+<l>dev_close_window ()</l>
+<l>*read_image (Capture1, 'E:/Work/Test_Image.PNG')</l>
+<l>read_image(Capture1,'G:/Project/ControlSystem/Debug/Image/Image.bmp')</l>
+<l>get_image_size (Capture1, Width, Height)</l>
+<l>dev_open_window (0, 0, Width, Height, 'black', WindowID)</l>
+<l>dev_display (Capture1)</l>
+<l>set_display_font (WindowID, 14, 'mono', 'false', 'false')</l>
+<c></c>
+<c></c>
+<l>threshold(Capture1, Region, 0, 100)</l>
+<l>connection(Region, ConnectedRegions)</l>
+<l>select_shape (ConnectedRegions, SelectedRegions, ['area','roundness'], 'and', [100000,0.64634], [160000,1])</l>
+<c></c>
+<l>dilation_circle(SelectedRegions, RegionDilation, 3.5)</l>
+<l>fill_up(RegionDilation, RegionFillUp)</l>
+<c></c>
+<l>rgb1_to_gray(Capture1, GrayImage)</l>
+<l>reduce_domain(GrayImage, RegionFillUp,ImageReduced)</l>
+<l>edges_sub_pix(ImageReduced, Edges, 'canny', 1, 20, 40)</l>
+<c></c>
+<l>length_xld(Edges, Length)</l>
+<l>tuple_max(Length, Max)</l>
+<l>select_shape_xld(Edges, SelectedXLD, 'contlength', 'and', Max, Max)</l>
+<l>fit_circle_contour_xld(SelectedXLD, 'algebraic', -1, 0, 0, 3, 2, Row, Column, Radius, StartPhi, EndPhi, PointOrder)</l>
+<l>*disp_circle(3600, Row, Column, Radius)</l>
+<c></c>
+<l>disp_cross (WindowID, Row, Column, 20, 0)</l>
+<l>dev_set_color ('green')</l>
+<l>disp_cross (WindowID, (Height/2), (Width/2), 20, 0)</l>
+<c></c>
+<c></c>
+<l>* CameraParameters := [0.00684727,3187.91,5.20259e-006,5.2e-006,348.266,209.295,640,480]</l>
+<l>* CameraPose := [-0.00480636,0.00553524,0.166517,0.875071,356.219,92.139,0]</l>
+<c></c>
+<l>read_cam_par ('G:/Project/ControlSystem/Debug/CameraConfigs/camera_parameters.dat', CameraParameters)</l>
+<l>read_pose ('G:/Project/ControlSystem/Debug/CameraConfigs/camera_pose.dat',CameraPose)</l>
+<c></c>
+<l>image_points_to_world_plane (CameraParameters, CameraPose, Row, Column, 'mm', CircleRealRow, CircleRealColumn)</l>
+<l>image_points_to_world_plane (CameraParameters, CameraPose, (Height/2), (Width/2), 'mm', ImageRealRow, ImageRealColumn)</l>
+<l>image_points_to_world_plane (CameraParameters, CameraPose, (Row-(Height/2)), (Column-(Width/2)), 'mm', realRow, RealColumn)</l>
+<c></c>
+<l>disp_message (WindowID,'Circle(pixcel)' + 'Rom:' + Row$'.3f' + ' Column:' + Column$'.3f', 'image', 20, 0, 'black', 'true')</l>
+<l>disp_message (WindowID,'Circle(mm)' + 'Real Rom:' + CircleRealRow$'.3f' + ' Real Column:' + CircleRealColumn$'.3f', 'image', 50, 0, 'black', 'true')</l>
+<c></c>
+<l>disp_message (WindowID, 'Image(pixcel)' + 'Rom: ' + (Height/2)$'.3f' + ' Column:' + (Width/2)$'.3f', 'image', 90, 0,  'black', 'true')</l>
+<l>disp_message (WindowID, 'Image(mm)' + 'Real Rom: ' + ImageRealRow$'.3f' + ' Real Column:' + ImageRealColumn$'.3f', 'image', 120, 0,  'black', 'true')</l>
+<c></c>
+<l>disp_message (WindowID,'Diff(pixcel):' + 'Rom=' + (Row-(Height/2)) + ' Column=' + (Column-(Width/2)), 'image', 160, 0,  'black', 'true')</l>
+<l>disp_message (WindowID,'Diff(mm):'+'Real Rom=' + realRow$'.3f' + ' mm'+ ' Real Column=' + RealColumn$'.3f' + ' mm', 'image', 190, 0, 'black', 'true')</l>
+<c></c>
+<l>stop()</l>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>

@@ -9,6 +9,7 @@
 #include "ImageProcSettingDlg.h"
 #include "DataUtility.h"
 #include "AxialDeviationAngle.h"
+#include "Log.h"
 
 // CProcThread
 
@@ -22,12 +23,15 @@ CProcThread::CProcThread()
 , m_HalconWndOpened(false)
 , m_pListData(NULL)
 , m_MearTolerance(0.5)
+, m_DistenceCameraAndTarget(80.0)
 , m_AxialDeviationAngleDlg(NULL)
 {
+	CLog::Instance()->CreateLog(DataUtility::GetExePath() + _T("log.txt"), true);
 }
 
 CProcThread::~CProcThread()
 {
+	CLog::Instance()->CloseLog();
 }
 
 BOOL CProcThread::InitInstance()
@@ -59,6 +63,18 @@ BOOL CProcThread::InitInstance()
 		}
 	}
 	DataUtility::ConvertStringToFloat(buf, this->m_MearTolerance, 0.5);
+
+	len = GetPrivateProfileString(_T("Distance Camera and Target"), _T("CTDistance"), "",buf, 256, (DataUtility::GetExePath() + _T("\\ProcessConfig\\SysConfig.ini")));
+	if(len > 0)
+	{
+		for(int i=0;i<len;i++)
+		{
+			CString str;
+			str.Format("%c",buf[i]);
+			ret+=str;
+		}
+	}
+	DataUtility::ConvertStringToFloat(buf, this->m_DistenceCameraAndTarget, 80.0);
 
 	return TRUE;
 }
@@ -358,8 +374,9 @@ int CProcThread::MoveToTargetPosXY(float x, float y, float z, float &retx, float
 		}
 	}
 
-	//为保证与工件固定100mm位置拍摄，需要先移动Z轴，使其与工件距离固定100mm
-	ret = m_IMotoCtrl->MoveTo(AXIS_Z, z-100);
+	//为保证与工件固定m_DistenceCameraAndTarget位置拍摄，需要先移动Z轴，使其与工件距离固定m_DistenceCameraAndTarget
+	ret = m_IMotoCtrl->MoveTo(AXIS_Z, z - m_DistenceCameraAndTarget);
+	
 	Sleep(100);
 	while(ret == 0)
 	{
@@ -373,6 +390,10 @@ int CProcThread::MoveToTargetPosXY(float x, float y, float z, float &retx, float
 		}
 	}
 
+	CString msg;
+	msg.Format("Move to Target: %.2f", z - m_DistenceCameraAndTarget);
+	CLog::Instance()->Log(msg);
+
 	//同步消息，等待主线程拍照结果
 	ret = ::SendMessage((HWND)(GetMainWnd()->GetSafeHwnd()),WM_MAIN_THREAD_DO_CAPTURE, 0, 0);
 	Sleep(500);
@@ -382,8 +403,9 @@ int CProcThread::MoveToTargetPosXY(float x, float y, float z, float &retx, float
 		m_IImageProcess->GetCircleDetecter()->ShowErrorMessage(false);
 		m_IImageProcess->Process(x, y, retx, rety);
 	}
+	//CLog::Instance()->Log("Snap");
 
-	ret = m_IMotoCtrl->MoveTo(AXIS_X, retx);
+	ret = m_IMotoCtrl->MoveTo(AXIS_X, x-retx);
 	while(ret == 0)
 	{
 		if(m_IMotoCtrl->IsOnMoving(AXIS_X) == false)
@@ -396,7 +418,7 @@ int CProcThread::MoveToTargetPosXY(float x, float y, float z, float &retx, float
 		}
 	}
 
-	ret = m_IMotoCtrl->MoveTo(AXIS_Y, rety);
+	ret = m_IMotoCtrl->MoveTo(AXIS_Y, y-rety);
 	while(ret == 0)
 	{
 		if(m_IMotoCtrl->IsOnMoving(AXIS_Y) == false)
@@ -449,7 +471,7 @@ int CProcThread::MoveToTargetPosXYZ(float x, float y, float z, float &retx, floa
 	//CString msg;
 	//msg.Format("测量结果: x = %.2f, y = %.2f, retx = %.2f, rety = %.2f, m_MearTolerance = %.2f, MaxCalCount = %d", x, y, retx, rety, m_MearTolerance,MaxCalCount);
 	//AfxMessageBox(msg);
-	while(MaxCalCount > 5)
+	while(MaxCalCount<3)
 	{
 		MoveToTargetPosXY(x, y, z, retx, rety);
 		if((abs(x - retx) > m_MearTolerance) || (abs(y - rety) > m_MearTolerance))
@@ -552,7 +574,7 @@ void CProcThread::OnDoImageProc(WPARAM wParam,LPARAM lParam)
 		else
 		{
 			CString msg;
-			msg.Format("远心到图像中心位置: Dif X = %.2f mm,  Dif Y = %.2f mm.", retx, rety);
+			msg.Format("圆心到图像中心位置: Dif X = %.2f mm,  Dif Y = %.2f mm.", retx, rety);
 			AfxMessageBox(msg, MB_ICONINFORMATION );
 		}
 	}

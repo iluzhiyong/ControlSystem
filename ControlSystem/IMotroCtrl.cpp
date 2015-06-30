@@ -218,7 +218,7 @@ CString IMotorCtrl::GetFloatConfigString(CString section, CString key, CString d
 	return ret;
 }
 
-INT32 IMotorCtrl::MoveTo(WORD AObj, float AValue)
+INT32 IMotorCtrl::MoveTo(WORD AObj, float AValue, float fmaxV/* = 0.0f*/)
 {
 	INT32 iResult = 0;
 	INT32 steps, acc, dec, maxV;
@@ -230,7 +230,14 @@ INT32 IMotorCtrl::MoveTo(WORD AObj, float AValue)
 
 		acc = MT_Help_Encoder_Line_Real_To_Steps((double)m_Pitch[AObj], (double)m_LineRatio[AObj], m_CoderLineCount[AObj], m_Acc[AObj]);
 		dec = MT_Help_Encoder_Line_Real_To_Steps((double)m_Pitch[AObj], (double)m_LineRatio[AObj], m_CoderLineCount[AObj], m_Dec[AObj]);
-		maxV = MT_Help_Encoder_Line_Real_To_Steps((double)m_Pitch[AObj], (double)m_LineRatio[AObj], m_CoderLineCount[AObj], m_MaxV[AObj]);
+		if(fmaxV > 0.0f)
+		{
+			maxV = MT_Help_Encoder_Line_Real_To_Steps((double)m_Pitch[AObj], (double)m_LineRatio[AObj], m_CoderLineCount[AObj], fmaxV);
+		}
+		else
+		{
+			maxV = MT_Help_Encoder_Line_Real_To_Steps((double)m_Pitch[AObj], (double)m_LineRatio[AObj], m_CoderLineCount[AObj], m_MaxV[AObj]);
+		}
 	}
 	else
 	{
@@ -240,7 +247,14 @@ INT32 IMotorCtrl::MoveTo(WORD AObj, float AValue)
 
 		acc = MT_Help_Step_Line_Real_To_Steps((double)m_StepAngle[AObj], m_Div[AObj], (double)m_Pitch[AObj], (double)m_LineRatio[AObj], (double)m_Acc[AObj]);
 		dec = MT_Help_Step_Line_Real_To_Steps((double)m_StepAngle[AObj], m_Div[AObj], (double)m_Pitch[AObj], (double)m_LineRatio[AObj], (double)m_Dec[AObj]);
-		maxV = MT_Help_Step_Line_Real_To_Steps((double)m_StepAngle[AObj], m_Div[AObj], (double)m_Pitch[AObj], (double)m_LineRatio[AObj], (double)m_MaxV[AObj]);
+		if(fmaxV > 0.0f)
+		{
+			maxV = MT_Help_Step_Line_Real_To_Steps((double)m_StepAngle[AObj], m_Div[AObj], (double)m_Pitch[AObj], (double)m_LineRatio[AObj], (double)fmaxV);
+		}
+		else
+		{
+			maxV = MT_Help_Step_Line_Real_To_Steps((double)m_StepAngle[AObj], m_Div[AObj], (double)m_Pitch[AObj], (double)m_LineRatio[AObj], (double)m_MaxV[AObj]);
+		}
 	}
 
 	MT_Set_Axis_Acc(AObj, acc);
@@ -288,7 +302,7 @@ INT32 IMotorCtrl::SetAxisCurrPos(WORD AObj,float Value)
 }
 
 //1:正方向，其他:反方向
-INT32 IMotorCtrl::SetAxisVelocityStart(WORD AObj, INT32 nDir)
+INT32 IMotorCtrl::SetAxisVelocityStart(WORD AObj, INT32 nDir, float fmaxV/* = 0.0f*/)
 {
 	INT32 iResult = R_OK;
 
@@ -296,8 +310,15 @@ INT32 IMotorCtrl::SetAxisVelocityStart(WORD AObj, INT32 nDir)
 
 	acc = MT_Help_Step_Line_Real_To_Steps((double)m_StepAngle[AObj], m_Div[AObj], (double)m_Pitch[AObj], (double)m_LineRatio[AObj], (double)m_VModeAcc[AObj]);
 	dec = MT_Help_Step_Line_Real_To_Steps((double)m_StepAngle[AObj], m_Div[AObj], (double)m_Pitch[AObj], (double)m_LineRatio[AObj], (double)m_VModeDec[AObj]);
-	maxV = MT_Help_Step_Line_Real_To_Steps((double)m_StepAngle[AObj], m_Div[AObj], (double)m_Pitch[AObj], (double)m_LineRatio[AObj], (double)m_VModeMaxV[AObj]);
-
+	
+	if(fmaxV > 0.0f)
+	{
+		maxV = MT_Help_Step_Line_Real_To_Steps((double)m_StepAngle[AObj], m_Div[AObj], (double)m_Pitch[AObj], (double)m_LineRatio[AObj], (double)fmaxV);
+	}
+	else
+	{
+		maxV = MT_Help_Step_Line_Real_To_Steps((double)m_StepAngle[AObj], m_Div[AObj], (double)m_Pitch[AObj], (double)m_LineRatio[AObj], (double)m_VModeMaxV[AObj]);
+	}
 	MT_Set_Encoder_Dir_Polarity(AObj, m_DirPolarity[AObj]);
 	iResult = MT_Set_Axis_Mode_Velocity(AObj);
 	MT_Set_Axis_Velocity_Acc(AObj, acc);
