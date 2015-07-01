@@ -466,6 +466,11 @@ void CControlSystemDlg::OnBnClickedStart()
 	}
 
 	UpdateData(TRUE);
+	if(NULL != m_UIProcThread)
+	{
+		m_UIProcThread->ResumeThread();
+	}
+
 	if(m_Process == 0)
 	{
 		OnBnClickedAutoMear();
@@ -527,7 +532,6 @@ void CControlSystemDlg::OnBnClickedAutoMear()
 
 	if(NULL != m_UIProcThread)
 	{
-		m_UIProcThread->ResumeThread();
 		m_UIProcThread->PostThreadMessage(WM_DO_AUTO_MEAR, (WPARAM)&m_ListData, (LPARAM)m_rowNum);
 	}
 }
