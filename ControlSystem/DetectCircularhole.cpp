@@ -84,6 +84,20 @@ bool CDetectCircularhole::RunThreshold()
 			clear_window(HDevWindowStack::GetActive());
 			set_color(HDevWindowStack::GetActive(),"red");
 			disp_obj(ho_Region, HDevWindowStack::GetActive());
+			connection(ho_Region, &ho_ConnectedRegions);
+
+			//为了设定参数方便，显示面积在1000~2000000（Pixel）的区域面积值
+			Hobject selectRegions;
+			HTuple RegionCount, Area, Row, Column;
+			select_shape(ho_ConnectedRegions, &selectRegions, "area", "and", 1000, 2000000);
+			count_obj(selectRegions, &RegionCount);
+			area_center(selectRegions, &Area, &Row, &Column);
+			set_color(HDevWindowStack::GetActive(),"blue");
+			for (int i=1; i<=RegionCount; i+=1)
+			{
+				set_tposition(HDevWindowStack::GetActive(), HTuple(Row[i-1]), HTuple(Column[i-1]));
+				write_string(HDevWindowStack::GetActive(), Area[i-1].D());
+			}
 		}
 	}
 	catch(...)
@@ -100,7 +114,6 @@ bool CDetectCircularhole::RunSelectCirles()
 	{
 		try
 		{
-			connection(ho_Region, &ho_ConnectedRegions);
 			select_shape(ho_ConnectedRegions, &ho_SelectedRegions, (HTuple("area").Append("roundness")), "and", (HTuple(m_MinCirleArea).Append(m_MinRoundness)), (HTuple(m_MaxCirleArea).Append(m_MaxRoundness)));
 			if (m_ShowProcessingImage && HDevWindowStack::IsOpen())
 			{
