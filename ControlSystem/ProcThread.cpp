@@ -26,12 +26,12 @@ CProcThread::CProcThread()
 , m_DistenceCameraAndTarget(80.0)
 , m_AxialDeviationAngleDlg(NULL)
 {
-	CLog::Instance()->CreateLog(DataUtility::GetExePath() + _T("log.txt"), true);
+	
 }
 
 CProcThread::~CProcThread()
 {
-	CLog::Instance()->CloseLog();
+	
 }
 
 BOOL CProcThread::InitInstance()
@@ -390,9 +390,9 @@ int CProcThread::MoveToTargetPosXY(float x, float y, float z, float &retx, float
 		}
 	}
 
-	CString msg;
-	msg.Format("Move to Target: %.2f", z - m_DistenceCameraAndTarget);
-	CLog::Instance()->Log(msg);
+	//CString msg;
+	//msg.Format("Move to Target: %.2f", z - m_DistenceCameraAndTarget);
+	//CLog::Instance()->Log(msg);
 
 	//同步消息，等待主线程拍照结果
 	ret = ::SendMessage((HWND)(GetMainWnd()->GetSafeHwnd()),WM_MAIN_THREAD_DO_CAPTURE, 0, 0);
