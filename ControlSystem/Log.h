@@ -34,6 +34,8 @@ public:
 	static CLog * Instance();
 	void CreateLog(CString sFilename, bool bEnableTimestamp);
 	void Log(CString sText);
+	void Log(int value);
+	void Log(float value);
 	void EnableTimestamp(bool bEnable = true);
 	void CloseLog();
 

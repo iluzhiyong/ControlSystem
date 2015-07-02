@@ -93,6 +93,19 @@ void CLog::Log(CString sText)
 	m_pLogFile->Write(sText, sText.GetLength() * sizeof(TCHAR));
 }
 
+void CLog::Log(int value)
+{
+	CString msg;
+	msg.Format("%d", value);
+	Log(msg);
+}
+
+void CLog::Log(float value)
+{
+	CString msg;
+	msg.Format("%f", value);
+	Log(msg);
+}
 //=====================================================================
 
 void CLog::CloseLog()
