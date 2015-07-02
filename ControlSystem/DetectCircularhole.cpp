@@ -89,7 +89,7 @@ bool CDetectCircularhole::RunThreshold()
 			//为了设定参数方便，显示面积在1000~2000000（Pixel）的区域面积值
 			Hobject selectRegions;
 			HTuple RegionCount, Area, Row, Column;
-			select_shape(ho_ConnectedRegions, &selectRegions, "area", "and", 1000, 2000000);
+			select_shape(ho_ConnectedRegions, &selectRegions, "area", "and", m_MinCirleArea/10, m_MaxCirleArea*10);
 			count_obj(selectRegions, &RegionCount);
 			area_center(selectRegions, &Area, &Row, &Column);
 			set_color(HDevWindowStack::GetActive(),"blue");
