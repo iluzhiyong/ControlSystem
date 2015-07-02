@@ -21,6 +21,8 @@
 #include <memory>				// Needed for singleton class
 using namespace std;
 
+#define LOG CLog::Instance()->Log
+
 //*********************************************************************
 // CLog
 //*********************************************************************
