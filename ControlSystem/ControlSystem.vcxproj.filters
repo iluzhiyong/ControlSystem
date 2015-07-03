@@ -93,9 +93,6 @@
     <ClInclude Include="ExcelFileApp.h">
       <Filter>Header Files\Excel</Filter>
     </ClInclude>
-    <ClInclude Include="MotorCtrl.h">
-      <Filter>Header Files\MotorCtrl</Filter>
-    </ClInclude>
     <ClInclude Include="HalconAction.h">
       <Filter>Header Files\Camera</Filter>
     </ClInclude>
@@ -178,9 +175,6 @@
     </ClCompile>
     <ClCompile Include="ExcelFileApp.cpp">
       <Filter>Source Files\Excel</Filter>
-    </ClCompile>
-    <ClCompile Include="MotorCtrl.cpp">
-      <Filter>Source Files\MotorCtrl</Filter>
     </ClCompile>
     <ClCompile Include="CameraDlg.cpp">
       <Filter>Source Files\Camera</Filter>

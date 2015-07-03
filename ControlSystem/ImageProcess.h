@@ -11,7 +11,7 @@ public:
 	~CImageProcess(void);
 
 public:
-	bool Process(float x, float y, float &cenertX, float &centerY);
+	bool Process(float x, float y, float &diffX, float &diffY);
 
 public:
 	bool LoadCamParamPoseFile();

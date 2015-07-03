@@ -113,7 +113,7 @@ CString CImageProcess::GetProcessImagePath()
 	return DataUtility::GetExePath() + _T("Image\\Image.bmp");
 }
 
-bool CImageProcess::Process(float x, float y, float &cenertX, float &centerY)
+bool CImageProcess::Process(float x, float y, float &diffX, float &diffY)
 {
 	if(!m_paramPoseLoaded)
 	{
@@ -135,8 +135,8 @@ bool CImageProcess::Process(float x, float y, float &cenertX, float &centerY)
 		}
 		if(ret)
 		{
-			cenertX = x + (cx - targetX);
-			centerY = y + (targetY - cy);
+			diffX = targetX - cx;
+			diffY = targetY - cy;
 		}
 		return ret;
 	}
@@ -178,29 +178,6 @@ bool CImageProcess::ConvertImagePoint(float imgRow, float imgCol, float &wX, flo
 
 bool CImageProcess::Action()
 {
-	//// Local iconic variables
-	//Hobject  ho_Edges, ho_Holes, ho_Hole;
-	//HTuple  hv_Row, hv_Column, hv_Radius, hv_Number;
-
-	//EdgesSubPix(m_hvImage, &ho_Edges, "canny", 4, 20, 40);
-	//SelectShapeXld(ho_Edges, &ho_Holes, "circularity", "and", 0.7, 1.0);
-	//SortContoursXld(ho_Holes, &ho_Holes, "upper_left", "true", "row");
-
-	////Determine the midpoints
-	//SmallestCircleXld(ho_Holes, &hv_Row, &hv_Column, &hv_Radius);
-	//CountObj(ho_Holes, &hv_Number);
-
-	//if(hv_Number > 1)
-	//{
-	//	if (HDevWindowStack::IsOpen())
-	//	{
-	//		disp_obj(ho_Hole, HDevWindowStack::GetActive());
-	//		DispCross(HDevWindowStack::GetActive(), hv_Row[0], hv_Column[0], 10, 0);
-	//	}
-	//	m_TargetRow = hv_Row[0];
-	//	m_TargetColumn = hv_Row[0];
-	//	return true;
-	//}
 	return m_CirleDetecter->DetectCirleCenter(m_TargetRow, m_TargetColumn);
 }
 

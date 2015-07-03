@@ -9,7 +9,6 @@
 #include "ImageProcSettingDlg.h"
 #include "DataUtility.h"
 #include "AxialDeviationAngle.h"
-#include "Log.h"
 
 // CProcThread
 
@@ -25,6 +24,9 @@ CProcThread::CProcThread()
 , m_MearTolerance(0.5)
 , m_DistenceCameraAndTarget(80.0)
 , m_AxialDeviationAngleDlg(NULL)
+, m_ZMoveTopV(50.0f)
+, m_XCalV(10.0f)
+, m_YCalV(10.0f)
 {
 	
 }
@@ -50,9 +52,12 @@ BOOL CProcThread::InitInstance()
 
 	m_IImageProcess = new CImageProcess();
 
-	this->m_MearTolerance = DataUtility::GetProfileFloat(_T("Car Frame"), _T("MearTolerance"), (DataUtility::GetExePath() + _T("\\ProcessConfig\\SysConfig.ini")), 0.5f);
-
-	this->m_DistenceCameraAndTarget = DataUtility::GetProfileFloat(_T("Distance Camera and Target"), _T("CTDistance"), (DataUtility::GetExePath() + _T("\\ProcessConfig\\SysConfig.ini")), 80.0f);
+	m_MearTolerance = DataUtility::GetProfileFloat(_T("Car Frame"), _T("MearTolerance"), (DataUtility::GetExePath() + _T("\\ProcessConfig\\SysConfig.ini")), 0.5f);
+	m_DistenceCameraAndTarget = DataUtility::GetProfileFloat(_T("Distance Camera and Target"), _T("CTDistance"), (DataUtility::GetExePath() + _T("\\ProcessConfig\\SysConfig.ini")), 80.0f);
+	
+	m_ZMoveTopV = DataUtility::GetProfileFloat(_T("Processing Motor V"), _T("ZMoveTopV"), (DataUtility::GetExePath() + _T("\\ProcessConfig\\MTConfig.ini")), 50.0f);
+	m_XCalV = DataUtility::GetProfileFloat(_T("Processing Motor V"), _T("XCalV"), (DataUtility::GetExePath() + _T("\\ProcessConfig\\MTConfig.ini")), 10.0f);
+	m_YCalV = DataUtility::GetProfileFloat(_T("Processing Motor V"), _T("YCalV"), (DataUtility::GetExePath() + _T("\\ProcessConfig\\MTConfig.ini")), 10.0f);
 
 	return TRUE;
 }
@@ -322,11 +327,18 @@ void CProcThread::OnDoAutoMear(WPARAM wParam,LPARAM lParam)
 	AfxMessageBox("自动测量完成！");
 }
 
-int CProcThread::MoveToTargetPosXY(float x, float y, float z, float &retx, float &rety)
+int CProcThread::MoveToTargetPosXY(float x, float y, float z, float &retx, float &rety, bool calX/* = false*/, bool calY/* = false*/)
 {
 	int ret = 0;
 
-	ret = m_IMotoCtrl->MoveTo(AXIS_X, x);
+	if(calX == true)
+	{
+		ret = m_IMotoCtrl->MoveTo(AXIS_X, x, m_XCalV);
+	}
+	else
+	{
+		ret = m_IMotoCtrl->MoveTo(AXIS_X, x);
+	}
 	while(ret == 0)
 	{
 		if(m_IMotoCtrl->IsOnMoving(AXIS_X) == false)
@@ -339,7 +351,14 @@ int CProcThread::MoveToTargetPosXY(float x, float y, float z, float &retx, float
 		}
 	}
 
-	ret = m_IMotoCtrl->MoveTo(AXIS_Y, y);
+	if(calY == true)
+	{
+		ret = m_IMotoCtrl->MoveTo(AXIS_Y, y, m_YCalV);
+	}
+	else
+	{
+		ret = m_IMotoCtrl->MoveTo(AXIS_Y, y);
+	}
 	while(ret == 0)
 	{
 		if(m_IMotoCtrl->IsOnMoving(AXIS_Y) == false)
@@ -373,33 +392,7 @@ int CProcThread::MoveToTargetPosXY(float x, float y, float z, float &retx, float
 	{
 		OpenHalconWindow();
 		m_IImageProcess->GetCircleDetecter()->ShowErrorMessage(false);
-		m_IImageProcess->Process(x, y, retx, rety);
-	}
-
-	ret = m_IMotoCtrl->MoveTo(AXIS_X, x - retx);
-	while(ret == 0)
-	{
-		if(m_IMotoCtrl->IsOnMoving(AXIS_X) == false)
-		{
-			break;
-		}
-		else
-		{
-			Sleep(100);
-		}
-	}
-
-	ret = m_IMotoCtrl->MoveTo(AXIS_Y, y - rety);
-	while(ret == 0)
-	{
-		if(m_IMotoCtrl->IsOnMoving(AXIS_Y) == false)
-		{
-			break;
-		}
-		else
-		{
-			Sleep(100);
-		}
+		if(m_IImageProcess->Process(x, y, retx, rety) == false) return -1;
 	}
 
 	return ret;
@@ -423,7 +416,7 @@ int CProcThread::MoveToTargetPosXYZ(float x, float y, float z, float &retx, floa
 #else
 
 	//Z轴回到上限位开关处
-	ret = m_IMotoCtrl->SetAxisVelocityStart(AXIS_Z, 0, 50.0f);
+	ret = m_IMotoCtrl->SetAxisVelocityStart(AXIS_Z, 0, m_ZMoveTopV);
 	while(ret == 0)
 	{
 		if(m_IMotoCtrl->IsOnMoving(AXIS_Z) == false)
@@ -436,24 +429,43 @@ int CProcThread::MoveToTargetPosXYZ(float x, float y, float z, float &retx, floa
 		}
 	}
 
-	int MaxCalCount = 1;
-	retx = 0.0;
-	rety = 0.0;
-	while(MaxCalCount < 2)
+	float difretx = 0.0, difrety = 0.0;
+	ret = MoveToTargetPosXY(x, y, z, difretx, difrety);
+
+	int procCount = 1;
+	while(procCount < 2 && ret == 0)
 	{
-		MoveToTargetPosXY(x, y, z, retx, rety);
-		if((abs(x - retx) > m_MearTolerance) || (abs(y - rety) > m_MearTolerance))
+		m_IMotoCtrl->GetAxisCurrPos(AXIS_X, &retx);
+		m_IMotoCtrl->GetAxisCurrPos(AXIS_Y, &rety);
+
+		if(abs(difretx) > m_MearTolerance)
 		{
-			Sleep(100);
-			MaxCalCount++;
+			ret = MoveToTargetPosXY(retx - difretx, rety, z, difretx, difrety, true, false);
 		}
 		else
 		{
-			break;
+			if(abs(difrety) > m_MearTolerance)
+			{
+				ret = MoveToTargetPosXY(retx, rety + difrety, z, difretx, difrety, false, true);
+			}
+			else
+			{
+				break;
+			}
 		}
+		procCount++;
 	}
-	m_IMotoCtrl->GetAxisCurrPos(AXIS_X, &retx);
-	m_IMotoCtrl->GetAxisCurrPos(AXIS_Y, &rety);
+
+	//X,Y轴测量结束，读取当前的坐标值
+	if(ret == 0)
+	{
+		m_IMotoCtrl->GetAxisCurrPos(AXIS_X, &retx);
+		m_IMotoCtrl->GetAxisCurrPos(AXIS_Y, &rety);
+	}
+	else
+	{
+		return -1;
+	}
 
 	//Z轴向下移动，直到接触工件停止，读取Z轴移动行程
 	ret = m_IMotoCtrl->SetAxisVelocityStart(AXIS_Z, 1);
@@ -472,7 +484,7 @@ int CProcThread::MoveToTargetPosXYZ(float x, float y, float z, float &retx, floa
 	m_IMotoCtrl->GetAxisCurrPos(AXIS_Z, &retz);
 
 	//Z轴回到上限位开关处
-	ret = m_IMotoCtrl->SetAxisVelocityStart(AXIS_Z, 0, 200.0f);
+	ret = m_IMotoCtrl->SetAxisVelocityStart(AXIS_Z, 0, m_ZMoveTopV);
 	while(ret == 0)
 	{
 		if(m_IMotoCtrl->IsOnMoving(AXIS_Z) == false)
@@ -498,11 +510,11 @@ void CProcThread::OnDoCustomMear(WPARAM wParam,LPARAM lParam)
 	float resPosX = 0.0;
 	float resPosY = 0.0;
 	float resPosZ = 0.0;
+	CString msg;
 
 	if(0 == MoveToTargetPosXYZ(PosX, PosY, PosZ, resPosX, resPosY, resPosZ))
 	{
 		//success
-		CString msg;
 		if((abs(resPosX - PosX) > m_MearTolerance) || (abs(resPosY - PosY) > m_MearTolerance) || (abs(resPosZ - PosZ) > m_MearTolerance))
 		{
 			msg.Format("测量结果: 不合格！\n图纸尺寸: x = %.2f mm,  y = %.2f mm,  z = %.2f mm.\n实测尺寸: x = %.2f mm,  y = %.2f mm,  z = %.2f mm.", PosX, PosY, PosZ, resPosX, resPosY, resPosZ);
@@ -516,7 +528,8 @@ void CProcThread::OnDoCustomMear(WPARAM wParam,LPARAM lParam)
 	}
 	else
 	{
-		//failed
+		msg.Format("测量结果: 不合格！\n图纸尺寸: x = %.2f mm,  y = %.2f mm,  z = %.2f mm.\n实测尺寸: x = %.2f mm,  y = %.2f mm,  z = %.2f mm.", PosX, PosY, PosZ, resPosX, resPosY, resPosZ);
+		AfxMessageBox(msg, MB_ICONERROR);
 	}
 }
 
@@ -532,9 +545,9 @@ void CProcThread::OnDoImageProc(WPARAM wParam,LPARAM lParam)
 			detecter->LoadConfig();
 		}
 		
-		float x = 0.0, retx = 0.0, rety = 0.0;
+		float x = 0.0, diffretx = 0.0, diffrety = 0.0;
 		float y = 0.0;
-		bool ret = m_IImageProcess->Process(x, y, retx, rety);
+		bool ret = m_IImageProcess->Process(x, y, diffretx, diffrety);
 		if(!ret)
 		{
 			AfxMessageBox("Can not find target!");
@@ -542,7 +555,7 @@ void CProcThread::OnDoImageProc(WPARAM wParam,LPARAM lParam)
 		else
 		{
 			CString msg;
-			msg.Format("圆心到图像中心位置: Dif X = %.2f mm,  Dif Y = %.2f mm.", retx, rety);
+			msg.Format("圆心到图像中心位置: Dif X = %.2f mm,  Dif Y = %.2f mm.", diffretx, diffrety);
 			AfxMessageBox(msg, MB_ICONINFORMATION );
 		}
 	}
