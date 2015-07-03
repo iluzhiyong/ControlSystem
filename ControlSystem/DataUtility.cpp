@@ -50,3 +50,48 @@ CString DataUtility::GetExePath()
 	(_tcsrchr(exeFullPath, _T('\\')))[1] = 0;
 	return exeFullPath;
 }
+
+float DataUtility::GetProfileFloat(CString appName, CString keyName, CString fileName, float defaultValue)
+{
+	CString ret = _T("");
+	char buf[256] = {0};
+	float result = 0.0f;
+
+	int len = GetPrivateProfileString(appName, keyName, "", buf, 256, fileName);
+	if(len > 0)
+	{
+		for(int i=0;i<len;i++)
+		{
+			CString str;
+			str.Format("%c",buf[i]);
+			ret+=str;
+		}
+	}
+	DataUtility::ConvertStringToFloat(buf, result, defaultValue);
+	
+	return result;
+}
+
+UINT DataUtility::GetProfileInt(CString appName, CString keyName, CString fileName, UINT defaultValue)
+{
+	return GetPrivateProfileInt(appName, keyName, defaultValue, fileName);
+}
+
+CString GetProfileString(CString appName, CString keyName, CString fileName, CString defaultValue)
+{
+	CString ret = _T("");
+	char buf[256] = {0};
+
+	int len = GetPrivateProfileString(appName, keyName, "", buf, 256, fileName);
+	if(len > 0)
+	{
+		for(int i=0;i<len;i++)
+		{
+			CString str;
+			str.Format("%c",buf[i]);
+			ret+=str;
+		}
+	}
+
+	return ret;
+}

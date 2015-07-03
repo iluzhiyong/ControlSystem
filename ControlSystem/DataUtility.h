@@ -8,5 +8,8 @@ public:
 public:
 	static bool ConvertStringToFloat(CString buffer, float &value, float defaultValue = 0.0);
 	static CString GetExePath();
+	static float GetProfileFloat(CString appName, CString keyName, CString fileName, float defaultValue);
+	static UINT GetProfileInt(CString appName, CString keyName, CString fileName, UINT defaultValue);
+	static CString GetProfileString(CString appName, CString keyName, CString fileName, CString defaultValue);
 };
 

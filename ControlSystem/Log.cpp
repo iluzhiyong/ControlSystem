@@ -83,7 +83,7 @@ void CLog::Log(CString sText)
 	// Should we add time to beginning of string?
 	if (m_bEnableTimestamp)
 	{
-		sText.Insert(0, GetTime() + _T(" => "));
+		sText.Insert(0, _T("[") + GetTime() + _T("]: "));
 	}
 
 	// Add \n\r to end of text
