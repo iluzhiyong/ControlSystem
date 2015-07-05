@@ -258,7 +258,7 @@ bool CProcThread::GetFloatItem(int row, int column, float &value)
 bool CProcThread::SetFloatItem(int row, int column, float value)
 {
 	CString buffer=""; 
-	buffer.Format("%f", value);
+	buffer.Format("%.2f", value);
 	if(NULL != m_pListData)
 	{
 		m_pListData->SetItemText(row,column, buffer);
@@ -386,13 +386,16 @@ int CProcThread::MoveToTargetPosXY(float x, float y, float z, float &retx, float
 	}
 
 	//同步消息，等待主线程拍照结果
-	ret = ::SendMessage((HWND)(GetMainWnd()->GetSafeHwnd()),WM_MAIN_THREAD_DO_CAPTURE, 0, 0);
 	Sleep(500);
+	ret = ::SendMessage((HWND)(GetMainWnd()->GetSafeHwnd()),WM_MAIN_THREAD_DO_CAPTURE, 0, 0);
 	if(ret == 0)
 	{
 		OpenHalconWindow();
 		m_IImageProcess->GetCircleDetecter()->ShowErrorMessage(false);
-		if(m_IImageProcess->Process(x, y, retx, rety) == false) return -1;
+		if(m_IImageProcess->Process(x, y, retx, rety) == false)
+		{
+			return -1;
+		}
 	}
 
 	return ret;
@@ -432,27 +435,32 @@ int CProcThread::MoveToTargetPosXYZ(float x, float y, float z, float &retx, floa
 	float difretx = 0.0, difrety = 0.0;
 	ret = MoveToTargetPosXY(x, y, z, difretx, difrety);
 
-	int procCount = 1;
+	int procCount = 0;
 	while(procCount < 2 && ret == 0)
 	{
 		m_IMotoCtrl->GetAxisCurrPos(AXIS_X, &retx);
 		m_IMotoCtrl->GetAxisCurrPos(AXIS_Y, &rety);
 
-		if(abs(difretx) > m_MearTolerance)
+		if((abs(difretx) > m_MearTolerance) || (abs(difrety) > m_MearTolerance))
 		{
-			ret = MoveToTargetPosXY(retx - difretx, rety, z, difretx, difrety, true, false);
-		}
-		else
-		{
-			if(abs(difrety) > m_MearTolerance)
+			if((abs(difretx) > m_MearTolerance) && (abs(difrety) > m_MearTolerance))
+			{
+				ret = MoveToTargetPosXY(retx - difretx, rety + difrety, z, difretx, difrety, true, true);
+			}
+			else if((abs(difretx) > m_MearTolerance) && (abs(difrety) <= m_MearTolerance))
+			{
+				ret = MoveToTargetPosXY(retx - difretx, rety, z, difretx, difrety, true, false);
+			}
+			else if((abs(difretx) <= m_MearTolerance) && (abs(difrety) > m_MearTolerance))
 			{
 				ret = MoveToTargetPosXY(retx, rety + difrety, z, difretx, difrety, false, true);
 			}
-			else
-			{
-				break;
-			}
 		}
+		else
+		{
+			break;
+		}
+
 		procCount++;
 	}
 

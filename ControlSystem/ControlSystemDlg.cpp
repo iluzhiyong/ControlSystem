@@ -701,7 +701,6 @@ LRESULT CControlSystemDlg::OnUpdateMotorStatus(WPARAM wParam,LPARAM lParam)
 		break;
 
 	case AXIS_Z:
-		sTempPos.Format(_T("%.2f"), -CurPos.curPos);
 		m_ZCurPosAbs.SetWindowText(sTempPos);
 		break;
 
