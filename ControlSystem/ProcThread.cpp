@@ -303,23 +303,26 @@ void CProcThread::OnDoAutoMear(WPARAM wParam,LPARAM lParam)
 	{
 		if(GetMeasureTargetValue(i, x, y, z))
 		{
-			if(0 == MoveToTargetPosXYZ(x, y, z, retX, retY, retZ))
-			{
-				//get compensation value
-				float compensationX = 0.0f, compensationY = 0.0f, compensationZ = 0.0f;
-				GetFloatItem(i, COLUMN_COMPENSATION_X, compensationX);
-				GetFloatItem(i, COLUMN_COMPENSATION_Y, compensationY);
-				GetFloatItem(i, COLUMN_COMPENSATION_Z, compensationZ);
+			//补偿值：	工装的尺寸，对于难于检测的孔位，需要增加工装
+			//			测量时，孔位尺寸 + 补偿值 = 工装尺寸
+			//			测量结束后，测量结果 - 补偿值 = 孔位尺寸
+			//get compensation value
+			float compensationX = 0.0f, compensationY = 0.0f, compensationZ = 0.0f;
+			GetFloatItem(i, COLUMN_COMPENSATION_X, compensationX);
+			GetFloatItem(i, COLUMN_COMPENSATION_Y, compensationY);
+			GetFloatItem(i, COLUMN_COMPENSATION_Z, compensationZ);
 
+			if(0 == MoveToTargetPosXYZ(x + compensationX, y + compensationY + compensationZ, z, retX, retY, retZ))
+			{
 				//Measured Value
-				SetFloatItem(i + 1, COLUMN_POS_X, retX + compensationX);
-				SetFloatItem(i + 1, COLUMN_POS_Y, retY + compensationY);
-				SetFloatItem(i + 1, COLUMN_POS_Z, retZ + compensationZ);
+				SetFloatItem(i + 1, COLUMN_POS_X, retX - compensationX);
+				SetFloatItem(i + 1, COLUMN_POS_Y, retY - compensationY);
+				SetFloatItem(i + 1, COLUMN_POS_Z, retZ - compensationZ);
 				
 				//Error Value
-				SetFloatItem(i + 2, COLUMN_POS_X, retX - x);
-				SetFloatItem(i + 2, COLUMN_POS_Y, retY - y);
-				SetFloatItem(i + 2, COLUMN_POS_Z, retZ - z);
+				SetFloatItem(i + 2, COLUMN_POS_X, retX - compensationX - x);
+				SetFloatItem(i + 2, COLUMN_POS_Y, retY - compensationY - y);
+				SetFloatItem(i + 2, COLUMN_POS_Z, retZ - compensationZ - z);
 			}
 		}
 	}
