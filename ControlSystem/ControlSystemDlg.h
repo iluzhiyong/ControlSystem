@@ -167,4 +167,7 @@ public:
 
 private:
 	CMenu m_Menu;
+
+private:
+	CString m_ExcelTemplateFilePathName;
 };

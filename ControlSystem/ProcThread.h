@@ -40,6 +40,10 @@ enum ExcelInfo
 	COLUMN_MEAR_TYPE = 9,
 
 	ROW_START = 5,
+
+	ROW_RESULT_START = 6,
+	COLUMN_RESULT_START = 3,
+	COLUMN_RESULT_END = 5,
 };
 
 class IMotorCtrl;

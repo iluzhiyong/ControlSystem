@@ -314,15 +314,10 @@ void CProcThread::OnDoAutoMear(WPARAM wParam,LPARAM lParam)
 
 			if(0 == MoveToTargetPosXYZ(x + compensationX, y + compensationY + compensationZ, z, retX, retY, retZ))
 			{
-				//Measured Value
+				//Measured Result Value
 				SetFloatItem(i + 1, COLUMN_POS_X, retX - compensationX);
 				SetFloatItem(i + 1, COLUMN_POS_Y, retY - compensationY);
 				SetFloatItem(i + 1, COLUMN_POS_Z, retZ - compensationZ);
-				
-				//Error Value
-				SetFloatItem(i + 2, COLUMN_POS_X, retX - compensationX - x);
-				SetFloatItem(i + 2, COLUMN_POS_Y, retY - compensationY - y);
-				SetFloatItem(i + 2, COLUMN_POS_Z, retZ - compensationZ - z);
 			}
 		}
 	}
@@ -416,9 +411,9 @@ int CProcThread::MoveToTargetPosXYZ(float x, float y, float z, float &retx, floa
 	//	m_IImageProcess->GetCircleDetecter()->ShowErrorMessage(false);
 	//	m_IImageProcess->Process(x, y, retx, rety);
 	//}
-	//retx = x;
-	//rety = y;
-	//retz = z;
+	retx = x + 1;
+	rety = y;
+	retz = z;
 #else
 
 	//Z轴回到上限位开关处

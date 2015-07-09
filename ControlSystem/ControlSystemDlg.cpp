@@ -81,6 +81,7 @@ CControlSystemDlg::CControlSystemDlg(CWnd* pParent /*=NULL*/)
 	, m_sImagefilename(_T( "Image.png" ))
 	, m_bMotorRunStatus(false)
 	, m_bCameraRunStatus(false)
+	, m_ExcelTemplateFilePathName(_T("测量结果.xlsx"))
 {
 	m_IsMeasuring = false;
 	m_IsMotroCtrlConnected = false;
@@ -315,17 +316,16 @@ void CControlSystemDlg::OnBnClickedImport()
 	}
 	excelApp.ShowInExcel(FALSE);
 
-	CString FilePathName;
-	char szFilters[]= "Excel 工作薄(*.xls)|*.xls|Excel 工作薄(*.xlsx)|*.xlsx|所有文件(*.*)|*.*||";
+	char szFilters[]= "Excel 工作薄(*.xlsx)|*.xlsx|Excel 工作薄(*.xls)|*.xls|所有文件(*.*)|*.*||";
 	CFileDialog dlg (	true, 
-							_T( "xls" ), 
+							_T( "xlsx" ), 
 							"", 
 							OFN_CREATEPROMPT | OFN_HIDEREADONLY | OFN_CREATEPROMPT, 
 							szFilters, 
 							this); //TRUE为OPEN对话框，FALSE为SAVE AS对话框
 	if(dlg.DoModal() == IDOK)
 	{
-		FilePathName = dlg.GetPathName();
+		m_ExcelTemplateFilePathName = dlg.GetPathName();
 		/*
 		(1)GetPathName();取文件名全称，包括完整路径。取回C:\\WINDOWS\\TEST.EXE
 		(2)GetFileTitle();取回TEST
@@ -341,7 +341,7 @@ void CControlSystemDlg::OnBnClickedImport()
 		return;
 	}
 
-	if(FALSE == excelApp.OpenExcelFile(FilePathName))
+	if(FALSE == excelApp.OpenExcelFile(m_ExcelTemplateFilePathName))
 	{
 		AfxMessageBox("打开文件失败！");
 		excelApp.CloseExcelFile();
@@ -409,11 +409,11 @@ void CControlSystemDlg::OnBnClickedSaveAs()
 	CString curTimeStr;
 	CTime tm; 
 	tm=CTime::GetCurrentTime();
-	curTimeStr.Format("%d%d%d%d%d", tm.GetYear(),tm.GetMonth(),tm.GetDay(), tm.GetHour(), tm.GetMinute());
+	curTimeStr.Format("%4d%02d%02d%02d%02d", tm.GetYear(),tm.GetMonth(),tm.GetDay(), tm.GetHour(), tm.GetMinute());
 
 	char szFilters[]= "Excel 工作薄(*.xlsx)|*.xlsx|Excel 工作薄(*.xls)|*.xls|所有文件(*.*)|*.*||";
 	CFileDialog fileDlg (	FALSE, 
-							_T( "xls" ), 
+							_T( "xlsx" ), 
 							curTimeStr, 
 							OFN_CREATEPROMPT | OFN_HIDEREADONLY | OFN_CREATEPROMPT, 
 							szFilters, 
@@ -422,7 +422,7 @@ void CControlSystemDlg::OnBnClickedSaveAs()
 	{
 		FilePathName = fileDlg.GetPathName();
 
-		if(TRUE == excelApp.AddExcelFile(FilePathName))
+		if(TRUE == excelApp.OpenExcelFile(m_ExcelTemplateFilePathName))
 		{
 			if(TRUE == excelApp.LoadSheet(1))
 			{
@@ -433,11 +433,11 @@ void CControlSystemDlg::OnBnClickedSaveAs()
 				int ColCount = pHeader->GetItemCount();
 				int RowCount = m_ListData.GetItemCount();
 
-				for (int i = 0; i < RowCount; i++)
+				for (int i = ROW_RESULT_START; i < RowCount; i = i + 3)
 				{
-					for (int j = 0; j< ColCount; j++)
+					for (int j = COLUMN_RESULT_START; j <= COLUMN_RESULT_END; j++)
 					{
-						strItemName = m_ListData.GetItemText(i,j);
+						strItemName = m_ListData.GetItemText(i, j);
 						excelApp.SetCellString(i + 1,j + 1, strItemName);
 					}
 				}
