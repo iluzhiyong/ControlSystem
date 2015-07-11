@@ -31,6 +31,12 @@
     <Filter Include="Source Files\MotorCtrl">
       <UniqueIdentifier>{8189c1da-1aad-45bf-bf8e-d7465f555b54}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\ImageProc">
+      <UniqueIdentifier>{9d33b39f-22a5-4f13-a8a1-568daabf93f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ImageProc">
+      <UniqueIdentifier>{ee4aee44-676f-4cc3-86a1-af5781cdb992}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -96,25 +102,13 @@
     <ClInclude Include="HalconAction.h">
       <Filter>Header Files\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="CameraDlg.h">
-      <Filter>Header Files\Camera</Filter>
-    </ClInclude>
     <ClInclude Include="IMotorCtrl.h">
       <Filter>Header Files\MotorCtrl</Filter>
     </ClInclude>
     <ClInclude Include="IHeightDectector.h">
       <Filter>Header Files\MotorCtrl</Filter>
     </ClInclude>
-    <ClInclude Include="ImageProcess.h">
-      <Filter>Header Files\Camera</Filter>
-    </ClInclude>
     <ClInclude Include="ImageProcSetting.h">
-      <Filter>Header Files\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="DetectCircularhole.h">
-      <Filter>Header Files\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="ImageProcSettingDlg.h">
       <Filter>Header Files\Camera</Filter>
     </ClInclude>
     <ClInclude Include="DataUtility.h">
@@ -162,6 +156,30 @@
     <ClInclude Include="AxialDeviationAngle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DetectRectangle.h">
+      <Filter>Header Files\ImageProc</Filter>
+    </ClInclude>
+    <ClInclude Include="DetectOblong.h">
+      <Filter>Header Files\ImageProc</Filter>
+    </ClInclude>
+    <ClInclude Include="DetectCircularhole.h">
+      <Filter>Header Files\ImageProc</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageProcess.h">
+      <Filter>Header Files\ImageProc</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageProcSetAllDlg.h">
+      <Filter>Header Files\ImageProc</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageProcSetOblongDlg.h">
+      <Filter>Header Files\ImageProc</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageProcSetRectangleDlg.h">
+      <Filter>Header Files\ImageProc</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageProcSettingDlg.h">
+      <Filter>Header Files\ImageProc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ControlSystem.cpp">
@@ -175,18 +193,6 @@
     </ClCompile>
     <ClCompile Include="ExcelFileApp.cpp">
       <Filter>Source Files\Excel</Filter>
-    </ClCompile>
-    <ClCompile Include="CameraDlg.cpp">
-      <Filter>Source Files\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="ImageProcess.cpp">
-      <Filter>Source Files\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="DetectCircularhole.cpp">
-      <Filter>Source Files\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="ImageProcSettingDlg.cpp">
-      <Filter>Source Files\Camera</Filter>
     </ClCompile>
     <ClCompile Include="DataUtility.cpp">
       <Filter>Source Files</Filter>
@@ -232,6 +238,30 @@
     </ClCompile>
     <ClCompile Include="AxialDeviationAngle.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DetectOblong.cpp">
+      <Filter>Source Files\ImageProc</Filter>
+    </ClCompile>
+    <ClCompile Include="DetectRectangle.cpp">
+      <Filter>Source Files\ImageProc</Filter>
+    </ClCompile>
+    <ClCompile Include="DetectCircularhole.cpp">
+      <Filter>Source Files\ImageProc</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageProcess.cpp">
+      <Filter>Source Files\ImageProc</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageProcSetAllDlg.cpp">
+      <Filter>Source Files\ImageProc</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageProcSetOblongDlg.cpp">
+      <Filter>Source Files\ImageProc</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageProcSetRectangleDlg.cpp">
+      <Filter>Source Files\ImageProc</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageProcSettingDlg.cpp">
+      <Filter>Source Files\ImageProc</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

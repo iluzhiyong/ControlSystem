@@ -199,8 +199,9 @@
   <ItemGroup>
     <ClInclude Include="AxialDeviationAngle.h" />
     <ClInclude Include="CGCamera.h" />
+    <ClInclude Include="DetectRectangle.h" />
+    <ClInclude Include="DetectOblong.h" />
     <ClInclude Include="DLCCamera.h" />
-    <ClInclude Include="CameraDlg.h" />
     <ClInclude Include="CApplication.h" />
     <ClInclude Include="ControlSystem.h" />
     <ClInclude Include="ControlSystemDlg.h" />
@@ -218,6 +219,9 @@
     <ClInclude Include="IHeightDectector.h" />
     <ClInclude Include="ImageProcess.h" />
     <ClInclude Include="ImageProcessDlg.h" />
+    <ClInclude Include="ImageProcSetAllDlg.h" />
+    <ClInclude Include="ImageProcSetOblongDlg.h" />
+    <ClInclude Include="ImageProcSetRectangleDlg.h" />
     <ClInclude Include="ImageProcSetting.h" />
     <ClInclude Include="ImageProcSettingDlg.h" />
     <ClInclude Include="IMotorCtrl.h" />
@@ -236,8 +240,9 @@
   <ItemGroup>
     <ClCompile Include="AxialDeviationAngle.cpp" />
     <ClCompile Include="CGCamera.cpp" />
+    <ClCompile Include="DetectRectangle.cpp" />
+    <ClCompile Include="DetectOblong.cpp" />
     <ClCompile Include="DLCCamera.cpp" />
-    <ClCompile Include="CameraDlg.cpp" />
     <ClCompile Include="ControlSystem.cpp" />
     <ClCompile Include="ControlSystemDlg.cpp" />
     <ClCompile Include="DataUtility.cpp" />
@@ -247,6 +252,9 @@
     <ClCompile Include="ExposeDlg.cpp" />
     <ClCompile Include="ImageProcess.cpp" />
     <ClCompile Include="ImageProcessDlg.cpp" />
+    <ClCompile Include="ImageProcSetAllDlg.cpp" />
+    <ClCompile Include="ImageProcSetOblongDlg.cpp" />
+    <ClCompile Include="ImageProcSetRectangleDlg.cpp" />
     <ClCompile Include="ImageProcSettingDlg.cpp" />
     <ClCompile Include="IMotroCtrl.cpp" />
     <ClCompile Include="ItemResize.cpp" />

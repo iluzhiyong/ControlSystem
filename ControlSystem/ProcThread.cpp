@@ -7,8 +7,12 @@
 #include "IMotorCtrl.h"
 #include "ImageProcess.h"
 #include "ImageProcSettingDlg.h"
+#include "ImageProcSetOblongDlg.h"
+#include "ImageProcSetRectangleDlg.h"
 #include "DataUtility.h"
 #include "AxialDeviationAngle.h"
+#include "ImageProcSetAllDlg.h"
+#include "DetectOblong.h"
 
 // CProcThread
 
@@ -18,7 +22,7 @@ CProcThread::CProcThread()
 : m_IMotoCtrl(NULL)
 , m_IsMotroCtrlConnected(FALSE)
 , m_IImageProcess(NULL)
-, m_ImageProcSetDlg(NULL)
+, m_imageProcSetAllDlg(NULL)
 , m_HalconWndOpened(false)
 , m_pListData(NULL)
 , m_MearTolerance(0.5)
@@ -27,6 +31,7 @@ CProcThread::CProcThread()
 , m_ZMoveTopV(50.0f)
 , m_XCalV(10.0f)
 , m_YCalV(10.0f)
+, m_workpieceType(DETECT_CIRCLE)
 {
 	
 }
@@ -64,10 +69,10 @@ BOOL CProcThread::InitInstance()
 
 int CProcThread::ExitInstance()
 {
-	if(m_ImageProcSetDlg != NULL)
+	if(m_imageProcSetAllDlg != NULL)
 	{
-		delete m_ImageProcSetDlg;
-		m_ImageProcSetDlg = NULL;
+		delete m_imageProcSetAllDlg;
+		m_imageProcSetAllDlg = NULL;
 	}
 
 	if(m_AxialDeviationAngleDlg != NULL)
@@ -301,6 +306,21 @@ void CProcThread::OnDoAutoMear(WPARAM wParam,LPARAM lParam)
 	float retX = 0.0, retY = 0.0, retZ = 0.0;
 	for(int i = ROW_START; i < usedRowNum; i = i + 3)
 	{
+		//获取测量类型
+		CString SType = m_pListData->GetItemText(i, COLUMN_MEAR_TYPE);
+		if(SType == _T("圆孔"))
+		{
+			m_workpieceType = DETECT_CIRCLE;
+		}
+		else if(SType == _T("长圆孔"))
+		{
+			m_workpieceType = DETECT_OBLONG;
+		}
+		else if(SType == _T("长方形"))
+		{
+			m_workpieceType = DETECT_RECTANGLE;
+		}
+
 		if(GetMeasureTargetValue(i, x, y, z))
 		{
 			//补偿值：	工装的尺寸，对于难于检测的孔位，需要增加工装
@@ -390,6 +410,7 @@ int CProcThread::MoveToTargetPosXY(float x, float y, float z, float &retx, float
 	{
 		OpenHalconWindow();
 		m_IImageProcess->GetCircleDetecter()->ShowErrorMessage(false);
+		m_IImageProcess->SetDetectType(m_workpieceType);
 		if(m_IImageProcess->Process(x, y, retx, rety) == false)
 		{
 			return -1;
@@ -510,6 +531,7 @@ int CProcThread::MoveToTargetPosXYZ(float x, float y, float z, float &retx, floa
 void CProcThread::OnDoCustomMear(WPARAM wParam,LPARAM lParam)
 {
 	float* pPos = (float*)wParam;
+	m_workpieceType = (int)lParam;
 	float PosX = pPos[0];
 	float PosY = pPos[1];
 	float PosZ = pPos[2];
@@ -553,6 +575,7 @@ void CProcThread::OnDoImageProc(WPARAM wParam,LPARAM lParam)
 		
 		float x = 0.0, diffretx = 0.0, diffrety = 0.0;
 		float y = 0.0;
+		m_IImageProcess->SetDetectType(m_workpieceType);
 		bool ret = m_IImageProcess->Process(x, y, diffretx, diffrety);
 		if(!ret)
 		{
@@ -581,17 +604,22 @@ void CProcThread::OnImageProcSetting(WPARAM wParam,LPARAM lParam)
 	
 	if(NULL != m_IImageProcess && m_IImageProcess->LoadProcessImage())
 	{
-		if(m_ImageProcSetDlg == NULL)
+		if(m_imageProcSetAllDlg == NULL)
 		{
-			m_ImageProcSetDlg = new CImageProcSettingDlg();
-			m_ImageProcSetDlg->Create(CImageProcSettingDlg::IDD, GetMainWnd());
+			m_imageProcSetAllDlg = new CImageProcSetAllDlg();
+			m_imageProcSetAllDlg->Create(CImageProcSetAllDlg::IDD, GetMainWnd());
 		}
-		CDetectCircularhole* detecter = m_IImageProcess->GetCircleDetecter();
-		if(detecter != NULL)
-		{
-			m_ImageProcSetDlg->SetCircleDetecter(detecter);
-			m_ImageProcSetDlg->ShowWindow(SW_SHOW);
-		}
+
+		CDetectCircularhole* circleDetecter = m_IImageProcess->GetCircleDetecter();
+		if(circleDetecter != NULL) m_imageProcSetAllDlg->m_ImageProcSetDlg->SetCircleDetecter(circleDetecter);
+
+		CDetectOblong* oblongDetecter = m_IImageProcess->GetOblongDetecter();
+		if(oblongDetecter != NULL) m_imageProcSetAllDlg->m_imageProcSetOblongDlg->SetDetecter(oblongDetecter);
+
+		CDetectRectangle* rectangleDetecter = m_IImageProcess->GetRectangleDetecter();
+		if(rectangleDetecter != NULL) m_imageProcSetAllDlg->m_imageProcSetRectangleDlg->SetDetecter(rectangleDetecter);
+
+		m_imageProcSetAllDlg->ShowWindow(SW_SHOW);
 	}
 }
 

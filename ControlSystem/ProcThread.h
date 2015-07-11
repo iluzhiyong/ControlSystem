@@ -51,6 +51,7 @@ class CCameraParaDlg;
 class CImageProcess;
 class CImageProcSettingDlg;
 class CAxialDeviationAngle;
+class CImageProcSetAllDlg;
 // CProcThread
 
 class CProcThread : public CWinThread
@@ -89,7 +90,7 @@ private:
 
 private:
 	CImageProcess* m_IImageProcess;
-	CImageProcSettingDlg* m_ImageProcSetDlg;
+	CImageProcSetAllDlg* m_imageProcSetAllDlg;
 	CAxialDeviationAngle* m_AxialDeviationAngleDlg;
 
 private:
@@ -113,6 +114,8 @@ private:
 	float m_ZMoveTopV;
 	float m_XCalV;
 	float m_YCalV;
+
+	int m_workpieceType;
 };
 
 

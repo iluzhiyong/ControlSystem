@@ -1,8 +1,16 @@
 #pragma once
 #include "iimageprocess.h"
 #include "DetectCircularhole.h"
-
+#include "DetectOblong.h"
+#include "DetectRectangle.h"
 #include "HalconAction.h"
+
+enum
+{
+	DETECT_CIRCLE = 0,
+	DETECT_OBLONG = 1,
+	DETECT_RECTANGLE = 2,
+};
 
 class CImageProcess
 {
@@ -22,10 +30,12 @@ public:
 	CString GetProcessConfigPath();
 	bool ConvertImagePoint(float imgX, float imgY, float &wX, float &wY);
 	bool FindTargetPoint(float &x, float &y);
-	bool Action();
 
 	CDetectCircularhole* GetCircleDetecter();
+	CDetectOblong* GetOblongDetecter() { return m_OblongDetecter; }
+	CDetectRectangle* GetRectangleDetecter() { return m_RectangleDetecter; };
 	Hobject GetProcessImage(){ return m_hvImage; }
+	void SetDetectType(int type) { m_detecterType = type;}
 	
 private:
 	bool m_paramPoseLoaded;
@@ -37,7 +47,11 @@ private:
 	float m_TargetRow;
 	float m_TargetColumn;
 
-	CDetectCircularhole* m_CirleDetecter;
+	CDetectCircularhole*	m_CirleDetecter;
+	CDetectOblong*			m_OblongDetecter;
+	CDetectRectangle*		m_RectangleDetecter;
 
+private:
+	int m_detecterType;
 };
 

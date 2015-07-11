@@ -46,7 +46,7 @@ void CImageProcSettingDlg::SetCircleDetecter(CDetectCircularhole* detecter)
 	UpdateData(false);
 }
 
-void CImageProcSettingDlg::ConvertSettingToDetecter()
+void CImageProcSettingDlg::UpdateDetecterSetting()
 {
 	UpdateData(true);
 	if(NULL != m_CirleDetecter)
@@ -78,9 +78,9 @@ void CImageProcSettingDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_EDIT5, m_MaxGray);
 	DDV_MinMaxInt(pDX, m_MaxGray, 0, 255);
 	DDX_Text(pDX, IDC_EDIT2, m_MinCirleArea);
-	DDV_MinMaxFloat(pDX, m_MinCirleArea, 0, 99999999.0);
+	DDV_MinMaxFloat(pDX, m_MinCirleArea, 0, 99999999.0f);
 	DDX_Text(pDX, IDC_EDIT3, m_MaxCirleArea);
-	DDV_MinMaxFloat(pDX, m_MaxCirleArea, 0, 99999999.0);
+	DDV_MinMaxFloat(pDX, m_MaxCirleArea, 0, 99999999.0f);
 	DDX_Text(pDX, IDC_EDIT4, m_MinRoundness);
 	DDV_MinMaxFloat(pDX, m_MinRoundness, 0, 1.0);
 	DDX_Text(pDX, IDC_EDIT6, m_MaxRoundness);
@@ -118,7 +118,7 @@ void CImageProcSettingDlg::OnBnClickedThresholdBtn()
 {
 	if(NULL != m_CirleDetecter)
 	{
-		ConvertSettingToDetecter();
+		UpdateDetecterSetting();
 		m_CirleDetecter->ShowErrorMessage(true);
 		m_CirleDetecter->RunThreshold();
 		m_CirleDetecter->ShowErrorMessage(false);
@@ -223,7 +223,7 @@ void CImageProcSettingDlg::OnBnClickedSelectCircleBtn()
 {
 	if(NULL != m_CirleDetecter)
 	{
-		ConvertSettingToDetecter();
+		UpdateDetecterSetting();
 		m_CirleDetecter->ShowErrorMessage(true);
 		m_CirleDetecter->RunSelectCirles();
 		m_CirleDetecter->ShowErrorMessage(false);
@@ -235,7 +235,7 @@ void CImageProcSettingDlg::OnBnClickedDialCircleBtn()
 {
 	if(NULL != m_CirleDetecter)
 	{
-		ConvertSettingToDetecter();
+		UpdateDetecterSetting();
 		m_CirleDetecter->ShowErrorMessage(true);
 		m_CirleDetecter->RunDilationCircle();
 		m_CirleDetecter->ShowErrorMessage(false);
@@ -247,7 +247,7 @@ void CImageProcSettingDlg::OnBnClickedDetEdgesBtn()
 {
 	if(NULL != m_CirleDetecter)
 	{
-		ConvertSettingToDetecter();
+		UpdateDetecterSetting();
 		m_CirleDetecter->ShowErrorMessage(true);
 		m_CirleDetecter->RunDetectEdges();
 		m_CirleDetecter->ShowErrorMessage(false);
@@ -260,14 +260,14 @@ void CImageProcSettingDlg::OnBnClickedDetectBtn()
 	float row, column;
 	if(NULL != m_CirleDetecter)
 	{
-		ConvertSettingToDetecter();
+		UpdateDetecterSetting();
 		m_CirleDetecter->ShowErrorMessage(true);
 		bool ret = m_CirleDetecter->DetectCirleCenter(row, column);
 		m_CirleDetecter->ShowErrorMessage(false);
 		if(ret)
 		{
 			CString msg;
-			msg.Format("The circle center is row=%f, column=%f.", row, column);
+			msg.Format("中心坐标：行 = %.2f, 列 = %.2f.", row, column);
 			AfxMessageBox(msg);
 		}
 	}
@@ -276,7 +276,7 @@ void CImageProcSettingDlg::OnBnClickedDetectBtn()
 
 void CImageProcSettingDlg::OnBnClickedApplyButton()
 {
-	ConvertSettingToDetecter();
+	UpdateDetecterSetting();
 
 	if(NULL != m_CirleDetecter)
 	{

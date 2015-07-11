@@ -26,7 +26,7 @@ public:
 
 public:
 	void SetCircleDetecter(CDetectCircularhole* detecter);
-	void ConvertSettingToDetecter();
+	void UpdateDetecterSetting();
 
 private:
 	CDetectCircularhole* m_CirleDetecter;

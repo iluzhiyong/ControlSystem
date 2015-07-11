@@ -9,12 +9,20 @@ static void MyHalconExceptionHandler(const HException& except)
 }
 
 CImageProcess::CImageProcess(void)
+	: m_CirleDetecter(NULL)
+	, m_OblongDetecter(NULL)
+	, m_RectangleDetecter(NULL)
+	, m_detecterType(DETECT_CIRCLE)
 {
 	m_paramPoseLoaded = LoadCamParamPoseFile();
-	m_CirleDetecter = NULL;
+
 	m_CirleDetecter = new CDetectCircularhole();
 	m_CirleDetecter->SetConfigPath(GetProcessConfigPath());
 	m_CirleDetecter->LoadConfig();
+
+	m_OblongDetecter = new CDetectOblong();
+
+	m_RectangleDetecter = new CDetectRectangle();
 
 	HException::InstallHHandler(&MyHalconExceptionHandler);
 }
@@ -26,6 +34,18 @@ CImageProcess::~CImageProcess(void)
 	{
 		delete m_CirleDetecter;
 		m_CirleDetecter = NULL;
+	}
+
+	if(NULL != m_OblongDetecter)
+	{
+		delete m_OblongDetecter;
+		m_OblongDetecter = NULL;
+	}
+
+	if(NULL != m_RectangleDetecter)
+	{
+		delete m_RectangleDetecter;
+		m_RectangleDetecter = NULL;
 	}
 }
 
@@ -98,7 +118,11 @@ bool CImageProcess::LoadProcessImage()
 			Halcon::set_part(HDevWindowStack::GetActive(), 0, 0, hv_height -1, hv_width - 1);	
 			Halcon::disp_obj(m_hvImage, HDevWindowStack::GetActive());
 		}
+
 		m_CirleDetecter->SetImageObject(m_hvImage);
+		m_OblongDetecter->SetImageObject(m_hvImage);
+		m_RectangleDetecter->SetImageObject(m_hvImage);
+
 		return true;
 	}
 	catch (...)
@@ -148,9 +172,30 @@ bool CImageProcess::Process(float x, float y, float &diffX, float &diffY)
 
 bool CImageProcess::FindTargetPoint(float &x, float &y)
 {
+	bool ret = true;
+
 	try
 	{
-		if(Action())
+		switch(m_detecterType)
+		{
+		case DETECT_CIRCLE:
+			ret = m_CirleDetecter->DetectCirleCenter(m_TargetRow, m_TargetColumn);
+			break;
+
+		case DETECT_OBLONG:
+			ret = m_OblongDetecter->DetectTargetCenter(m_TargetRow, m_TargetColumn);
+			break;
+
+		case DETECT_RECTANGLE:
+			ret = m_RectangleDetecter->DetectTargetCenter(m_TargetRow, m_TargetColumn);
+			break;
+
+		default:
+			ret = m_OblongDetecter->DetectTargetCenter(m_TargetRow, m_TargetColumn);
+			break;
+		}
+
+		if(ret == true)
 		{
 			return ConvertImagePoint(m_TargetRow, m_TargetColumn, x, y);
 		}
@@ -175,9 +220,3 @@ bool CImageProcess::ConvertImagePoint(float imgRow, float imgCol, float &wX, flo
 	wY = (float)(hv_centY[0].D());
 	return true;
 }
-
-bool CImageProcess::Action()
-{
-	return m_CirleDetecter->DetectCirleCenter(m_TargetRow, m_TargetColumn);
-}
-

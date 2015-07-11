@@ -76,8 +76,6 @@ private:
 private:
 	HTuple  hv_WindowID;
 	bool m_HalconWndOpened;
-	CImageProcess* m_IImageProcess;
-	CImageProcSettingDlg* m_ImageProcSetDlg;
 
 private:
 	CListCtrl	m_ListData;
@@ -170,4 +168,6 @@ private:
 
 private:
 	CString m_ExcelTemplateFilePathName;
+public:
+	CComboBox m_workPieceType;
 };

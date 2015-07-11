@@ -77,7 +77,7 @@ UINT DataUtility::GetProfileInt(CString appName, CString keyName, CString fileNa
 	return GetPrivateProfileInt(appName, keyName, defaultValue, fileName);
 }
 
-CString GetProfileString(CString appName, CString keyName, CString fileName, CString defaultValue)
+CString DataUtility::GetProfileString(CString appName, CString keyName, CString fileName, CString defaultValue)
 {
 	CString ret = _T("");
 	char buf[256] = {0};
@@ -94,4 +94,18 @@ CString GetProfileString(CString appName, CString keyName, CString fileName, CSt
 	}
 
 	return ret;
+}
+
+void DataUtility::SetProfileFloat(CString appName, CString keyName, CString fileName, float Value)
+{
+	CString setValve;
+	setValve.Format(_T("%f"), Value);
+	WritePrivateProfileString(appName, keyName, setValve, fileName);
+}
+
+void DataUtility::SetProfileInt(CString appName, CString keyName, CString fileName, UINT Value)
+{
+	CString setValve;
+	setValve.Format(_T("%d"), Value);
+	WritePrivateProfileString(appName, keyName, setValve, fileName);
 }

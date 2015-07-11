@@ -168,6 +168,7 @@ void CControlSystemDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_EDIT_CAL_X, m_compensationX);
 	DDX_Text(pDX, IDC_EDIT_CAL_Y, m_compensationY);
 	DDX_Text(pDX, IDC_EDIT_CAL_Z, m_compensationZ);
+	DDX_Control(pDX, IDC_COMBO_WORKPIECE_TYPE, m_workPieceType);
 }
 
 BEGIN_MESSAGE_MAP(CControlSystemDlg, CDialogEx)
@@ -244,6 +245,8 @@ BOOL CControlSystemDlg::OnInitDialog()
 
 	m_Menu.LoadMenu(IDR_SYS_MENU);
 	SetMenu(&m_Menu);
+
+	m_workPieceType.SetCurSel(0);
 
 	//对话框Resize
 	UINT itemId;
@@ -459,11 +462,11 @@ void CControlSystemDlg::OnBnClickedSaveAs()
 
 void CControlSystemDlg::OnBnClickedStart()
 {
-	if(m_bMotorRunStatus == false)
-	{
-		AfxMessageBox("电机未连接，请连接电机.");
-		return;
-	}
+	//if(m_bMotorRunStatus == false)
+	//{
+	//	AfxMessageBox("电机未连接，请连接电机.");
+	//	return;
+	//}
 
 	UpdateData(TRUE);
 	if(NULL != m_UIProcThread)
@@ -540,10 +543,11 @@ void CControlSystemDlg::OnBnClickedCustomMear()
 {
 	UpdateData(TRUE);
 	float pos[3] = {m_CustomX, m_CustomY, m_CustomZ};
+	int iPos=((CComboBox*)GetDlgItem(IDC_COMBO_WORKPIECE_TYPE))->GetCurSel();
 
 	if(NULL != m_UIProcThread)
 	{
-		m_UIProcThread->PostThreadMessage(WM_DO_CUSTOM_MEAR, WPARAM(pos), 0);
+		m_UIProcThread->PostThreadMessage(WM_DO_CUSTOM_MEAR, WPARAM(pos), iPos);
 	}
 }
 
