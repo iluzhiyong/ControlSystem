@@ -13,6 +13,7 @@
 #include "AxialDeviationAngle.h"
 #include "ImageProcSetAllDlg.h"
 #include "DetectOblong.h"
+#include <math.h>
 
 // CProcThread
 
@@ -33,7 +34,8 @@ CProcThread::CProcThread()
 , m_YCalV(10.0f)
 , m_workpieceType(DETECT_CIRCLE)
 {
-	
+	//弧度制
+	m_DeviationAngle = (DataUtility::GetProfileFloat(_T("Axial Deviation Angle"), _T("Angle"), (DataUtility::GetExePath() + _T("\\ProcessConfig\\SysConfig.ini")), 0.0f)) * 3.1415f / 180;
 }
 
 CProcThread::~CProcThread()
@@ -332,11 +334,13 @@ void CProcThread::OnDoAutoMear(WPARAM wParam,LPARAM lParam)
 			GetFloatItem(i, COLUMN_COMPENSATION_Y, compensationY);
 			GetFloatItem(i, COLUMN_COMPENSATION_Z, compensationZ);
 
-			if(0 == MoveToTargetPosXYZ(x + compensationX, y + compensationY + compensationZ, z, retX, retY, retZ))
+			//利用轴向偏离角计算实际行走尺寸
+			if(0 == MoveToTargetPosXYZ((x + compensationX)*cos(m_DeviationAngle), (y + compensationY)*cos(m_DeviationAngle), z + compensationZ, retX, retY, retZ))
 			{
-				//Measured Result Value
-				SetFloatItem(i + 1, COLUMN_POS_X, retX - compensationX);
-				SetFloatItem(i + 1, COLUMN_POS_Y, retY - compensationY);
+				
+				//利用轴向偏离角计算实测量结果
+				SetFloatItem(i + 1, COLUMN_POS_X, (retX - compensationX) / cos(m_DeviationAngle));
+				SetFloatItem(i + 1, COLUMN_POS_Y, (retY - compensationY) / cos(m_DeviationAngle));
 				SetFloatItem(i + 1, COLUMN_POS_Z, retZ - compensationZ);
 			}
 		}
@@ -540,6 +544,9 @@ void CProcThread::OnDoCustomMear(WPARAM wParam,LPARAM lParam)
 	float resPosZ = 0.0;
 	CString msg;
 
+	//利用轴向偏离角计算实际行走尺寸
+	PosX = PosX * cos(m_DeviationAngle);
+	PosY = PosY * cos(m_DeviationAngle);
 	if(0 == MoveToTargetPosXYZ(PosX, PosY, PosZ, resPosX, resPosY, resPosZ))
 	{
 		//success
@@ -553,6 +560,10 @@ void CProcThread::OnDoCustomMear(WPARAM wParam,LPARAM lParam)
 			msg.Format("测量结果: 合格。\n图纸尺寸: x = %.2f mm,  y = %.2f mm,  z = %.2f mm.\n实测尺寸: x = %.2f mm,  y = %.2f mm,  z = %.2f mm.", PosX, PosY, PosZ, resPosX, resPosY, resPosZ);
 			AfxMessageBox(msg, MB_ICONINFORMATION );
 		}
+
+		//利用轴向偏离角计算测量结果
+		resPosX = resPosX / cos(m_DeviationAngle);
+		resPosY = resPosY / cos(m_DeviationAngle);
 	}
 	else
 	{

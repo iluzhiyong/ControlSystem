@@ -116,6 +116,9 @@ private:
 	float m_YCalV;
 
 	int m_workpieceType;
+	//轴向偏离角，图纸尺寸为车架的尺寸，车架放到平台上后，并不能保证车架与平台保持横平竖直。
+	//因此，增加车架与平台的角度。
+	float m_DeviationAngle;
 };
 
 

@@ -88,16 +88,15 @@ void CAxialDeviationAngle::OnBnClickedBtnAxialAngleCac()
 {
 	if(m_rstPos2X != m_rstPos1X)
 	{
-		m_axialAngle = (float)(atan((m_rstPos2Y - m_rstPos1Y)/(m_rstPos2X - m_rstPos1X)) * 180 / 3.1415);
+		m_axialAngle = (float)(atan((m_rstPos2Y - m_rstPos1Y) / (m_rstPos2X - m_rstPos1X)));
 	}
 	else
 	{
 		m_axialAngle = 0.0f;
 	}
 
-	CString text;
-	text.Format(_T("%f"), this->m_axialAngle);
-	WritePrivateProfileString(_T("Axial Deviation Angle"), _T("Angle"), text, (DataUtility::GetExePath() + _T("\\ProcessConfig\\SysConfig.ini")));
+	//Ω«∂»÷∆±£¥Ê
+	DataUtility::SetProfileFloat(_T("Axial Deviation Angle"), _T("Angle"), (DataUtility::GetExePath() + _T("\\ProcessConfig\\SysConfig.ini")), m_axialAngle * 180 / 3.1415f);
 
 	UpdateData(FALSE);
 }
