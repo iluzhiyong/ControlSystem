@@ -17,8 +17,6 @@ CImageProcess::CImageProcess(void)
 	m_paramPoseLoaded = LoadCamParamPoseFile();
 
 	m_CirleDetecter = new CDetectCircularhole();
-	m_CirleDetecter->SetConfigPath(GetProcessConfigPath());
-	m_CirleDetecter->LoadConfig();
 
 	m_OblongDetecter = new CDetectOblong();
 

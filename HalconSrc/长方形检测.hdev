@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.0" halcon_version="10.0" cs="-164077429">
+<procedure name="main">
+<interface/>
+<body>
+<l>dev_close_window ()</l>
+<l>*read_image (Capture1, 'E:/Work/Test_Image.PNG')</l>
+<l>read_image(Capture1,'G:/Project/ControlSystem/HalconSrc/长方形.bmp')</l>
+<l>get_image_size (Capture1, Width, Height)</l>
+<l>dev_open_window (0, 0, Width, Height, 'black', WindowID)</l>
+<l>dev_display (Capture1)</l>
+<l>set_display_font (WindowID, 14, 'mono', 'false', 'false')</l>
+<c></c>
+<l>threshold(Capture1, Region, 100, 255)</l>
+<l>connection(Region, ConnectedRegions)</l>
+<l>select_shape (ConnectedRegions, SelectedRegions, ['area','rectangularity'], 'and', [150000,0.2], [400000,1])</l>
+<l>fill_up(SelectedRegions, FillupRegions)</l>
+<l>gen_contour_region_xld(FillupRegions, Contours, 'border')</l>
+<l>area_center(FillupRegions, area, Row, Column)</l>
+<c></c>
+<l>dev_set_color ('blue')</l>
+<l>disp_cross (WindowID, Row, Column, 20, 0)</l>
+<l>dev_set_color ('green')</l>
+<l>disp_cross (WindowID, (Height/2), (Width/2), 20, 0)</l>
+<c></c>
+<l>disp_message (WindowID,'Circle' + 'Rom:' + Row$'.3f' + ' Column:' + Column$'.3f', 'image', 150, 0, 'black', 'true')</l>
+<l>disp_message (WindowID, 'Image' + 'Rom: ' + (Width/2)$'.3f' + ' Column:' + (Height/2)$'.3f', 'image', 180, 0,  'black', 'true')</l>
+<c></c>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>
