@@ -542,7 +542,7 @@ void CControlSystemDlg::OnBnClickedAutoMear()
 void CControlSystemDlg::OnBnClickedCustomMear()
 {
 	UpdateData(TRUE);
-	float pos[3] = {m_CustomX, m_CustomY, m_CustomZ};
+	float pos[3] = {m_CustomX, m_CustomY, -m_CustomZ};
 	int iPos=((CComboBox*)GetDlgItem(IDC_COMBO_WORKPIECE_TYPE))->GetCurSel();
 
 	if(NULL != m_UIProcThread)
@@ -690,6 +690,10 @@ LRESULT CControlSystemDlg::OnUpdateMotorStatus(WPARAM wParam,LPARAM lParam)
 
 	//读取当前位置
 	MotorStatus CurPos = *(MotorStatus*)wParam;
+	if(CurPos.axis==AXIS_Z)
+	{
+		CurPos.curPos = -CurPos.curPos;
+	}
 
 	CString sTempPos;
 	sTempPos.Format(_T("%.2f"), CurPos.curPos);

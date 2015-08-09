@@ -335,13 +335,13 @@ void CProcThread::OnDoAutoMear(WPARAM wParam,LPARAM lParam)
 			GetFloatItem(i, COLUMN_COMPENSATION_Z, compensationZ);
 
 			//利用轴向偏离角计算实际行走尺寸
-			if(0 == MoveToTargetPosXYZ((x + compensationX)*cos(m_DeviationAngle), (y + compensationY)*cos(m_DeviationAngle), z + compensationZ, retX, retY, retZ))
+			if(0 == MoveToTargetPosXYZ((x + compensationX)*cos(m_DeviationAngle), (y + compensationY)*cos(m_DeviationAngle), -z - compensationZ, retX, retY, retZ))
 			{
 				
 				//利用轴向偏离角计算实测量结果
 				SetFloatItem(i + 1, COLUMN_POS_X, (retX - compensationX) / cos(m_DeviationAngle));
 				SetFloatItem(i + 1, COLUMN_POS_Y, (retY - compensationY) / cos(m_DeviationAngle));
-				SetFloatItem(i + 1, COLUMN_POS_Z, retZ - compensationZ);
+				SetFloatItem(i + 1, COLUMN_POS_Z, -retZ + compensationZ);
 			}
 		}
 	}
