@@ -1,10 +1,15 @@
 #pragma once
 #include "HalconAction.h"
 
+enum
+{
+	CIRCLE_DETECT_TYPE_NORMAL = 0,
+	CIRCLE_DETECT_TYPE_SPECIAL,
+};
 class CDetectCircularhole
 {
 public:
-	CDetectCircularhole(void);
+	CDetectCircularhole(int type);
 	~CDetectCircularhole(void);
 
 public:
@@ -44,5 +49,6 @@ private:
 
 	bool m_ShowErrorMeg;
 	bool m_ShowProcessingImage;
+	int m_detectType;
 };
 

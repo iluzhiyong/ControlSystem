@@ -17,8 +17,6 @@ CImageProcSettingDlg::CImageProcSettingDlg(CWnd* pParent /*=NULL*/)
 	, m_MaxCirleArea(99999.0)
 	, m_MinRoundness(0.5)
 	, m_MaxRoundness(1.0)
-	, m_EdgeMinThreld(20)
-	, m_EdgeMaxThreld(40)
 {
 	m_CirleDetecter = NULL;
 }

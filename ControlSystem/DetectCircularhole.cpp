@@ -5,28 +5,28 @@
 
 
 #define MINGRAY			_T("MinGray")
-#define	MAXGRAY		     _T("MaxGray")
+#define	MAXGRAY			_T("MaxGray")
+#define	MINCIRLEAREA	_T("MinCirleArea")
+#define	MAXCIRLEAREA	_T("MaxCirleArea")
+#define	MINROUNDNESS	_T("MinRoundness")
+#define	MAXROUNDNESS	_T("MaxRoundness")
 
-#define	MINCIRLEAREA    _T("MinCirleArea")
-#define	MAXCIRLEAREA    _T("MaxCirleArea")
+#define SPECIALMINGRAY			_T("SpecialMinGray")
+#define	SPECIALMAXGRAY			_T("SpecialMaxGray")
+#define	SPECIALMINCIRLEAREA		_T("SpecialMinCirleArea")
+#define	SPECIALMAXCIRLEAREA		_T("SpecialMaxCirleArea")
+#define	SPECIALMINROUNDNESS		_T("SpecialMinRoundness")
+#define	SPECIALMAXROUNDNESS		_T("SpecialMaxRoundness")
 
-#define	MINROUNDNESS     _T("MinRoundness")
-#define	MAXROUNDNESS     _T("MaxRoundness")
 
-#define	DILATIONRADIUS  _T("DilationRadius")
-
-#define	EDGEFILTER      _T("EdgeFilter")
-#define	EDGEALPHA       _T("EdgeAlpha")
-#define	EDGEMINTHRELD   _T("EdgeMinThreld")
-#define	EDGEMAXTHRELD   _T("EdgeMaxThreld")
-
-CDetectCircularhole::CDetectCircularhole(void)
+CDetectCircularhole::CDetectCircularhole(int type)
 	: m_MinGray(128)
 	, m_MaxGray(255)
 	, m_MinCirleArea(0)
 	, m_MaxCirleArea(999999.0)
 	, m_MinRoundness(0.5)
 	, m_MaxRoundness(1.0)
+	, m_detectType(type)
 {
 	
 	m_ShowErrorMeg = true;
@@ -145,20 +145,44 @@ bool CDetectCircularhole::RunSelectTarget()
 
 void CDetectCircularhole::LoadConfig()
 {
-	m_MinGray = DataUtility::GetProfileInt(_T("Threshold"), _T("MinGray"), m_ConfigPath, 0);
-	m_MaxGray = DataUtility::GetProfileInt(_T("Threshold"), _T("MaxGray"), m_ConfigPath, 100);
-	m_MinCirleArea = DataUtility::GetProfileFloat(_T("Circle Area"), MINCIRLEAREA, m_ConfigPath, 150000.0);
-	m_MaxCirleArea = DataUtility::GetProfileFloat(_T("Circle Area"), MAXCIRLEAREA, m_ConfigPath, 300000.0);
-	m_MinRoundness = DataUtility::GetProfileFloat(_T("Circle Roundness"), MINROUNDNESS, m_ConfigPath, 0.5);
-	m_MaxRoundness = DataUtility::GetProfileFloat(_T("Circle Roundness"), MAXROUNDNESS, m_ConfigPath, 1.0);
+	if(CIRCLE_DETECT_TYPE_SPECIAL == m_detectType)
+	{
+		m_MinGray = DataUtility::GetProfileInt(_T("Special Circle Threshold"), SPECIALMINGRAY, m_ConfigPath, 0);
+		m_MaxGray = DataUtility::GetProfileInt(_T("Special Circle Threshold"), SPECIALMAXGRAY, m_ConfigPath, 100);
+		m_MinCirleArea = DataUtility::GetProfileFloat(_T("Special Circle Area"), SPECIALMINCIRLEAREA, m_ConfigPath, 150000.0);
+		m_MaxCirleArea = DataUtility::GetProfileFloat(_T("Special Circle Area"), SPECIALMAXCIRLEAREA, m_ConfigPath, 300000.0);
+		m_MinRoundness = DataUtility::GetProfileFloat(_T("Special Circle Roundness"), SPECIALMINROUNDNESS, m_ConfigPath, 0.5);
+		m_MaxRoundness = DataUtility::GetProfileFloat(_T("Special Circle Roundness"), SPECIALMAXROUNDNESS, m_ConfigPath, 1.0);
+	}
+	else
+	{
+		m_MinGray = DataUtility::GetProfileInt(_T("Circle Threshold"), MINGRAY, m_ConfigPath, 0);
+		m_MaxGray = DataUtility::GetProfileInt(_T("Circle Threshold"), MAXGRAY, m_ConfigPath, 100);
+		m_MinCirleArea = DataUtility::GetProfileFloat(_T("Circle Area"), MINCIRLEAREA, m_ConfigPath, 150000.0);
+		m_MaxCirleArea = DataUtility::GetProfileFloat(_T("Circle Area"), MAXCIRLEAREA, m_ConfigPath, 300000.0);
+		m_MinRoundness = DataUtility::GetProfileFloat(_T("Circle Roundness"), MINROUNDNESS, m_ConfigPath, 0.5);
+		m_MaxRoundness = DataUtility::GetProfileFloat(_T("Circle Roundness"), MAXROUNDNESS, m_ConfigPath, 1.0);
+	}
 }
 
 void CDetectCircularhole::SaveConfig()
 {
-	DataUtility::SetProfileInt(_T("Threshold"), MINGRAY, m_ConfigPath, m_MinGray);
-	DataUtility::SetProfileInt(_T("Threshold"), MAXGRAY, m_ConfigPath, m_MaxGray);
-	DataUtility::SetProfileFloat(_T("Circle Area"), MINCIRLEAREA, m_ConfigPath, m_MinCirleArea);
-	DataUtility::SetProfileFloat(_T("Circle Area"), MAXCIRLEAREA, m_ConfigPath, m_MaxCirleArea);
-	DataUtility::SetProfileFloat(_T("Circle Roundness"), MINROUNDNESS, m_ConfigPath, m_MinRoundness);
-	DataUtility::SetProfileFloat(_T("Circle Roundness"), MAXROUNDNESS, m_ConfigPath, m_MaxRoundness);
+	if(CIRCLE_DETECT_TYPE_SPECIAL == m_detectType)
+	{
+		DataUtility::SetProfileInt(_T("Special Threshold"), SPECIALMINGRAY, m_ConfigPath, m_MinGray);
+		DataUtility::SetProfileInt(_T("Special Threshold"), SPECIALMAXGRAY, m_ConfigPath, m_MaxGray);
+		DataUtility::SetProfileFloat(_T("Special Circle Area"), SPECIALMINCIRLEAREA, m_ConfigPath, m_MinCirleArea);
+		DataUtility::SetProfileFloat(_T("Special Circle Area"), SPECIALMAXCIRLEAREA, m_ConfigPath, m_MaxCirleArea);
+		DataUtility::SetProfileFloat(_T("Special Circle Roundness"), SPECIALMINROUNDNESS, m_ConfigPath, m_MinRoundness);
+		DataUtility::SetProfileFloat(_T("Special Circle Roundness"), SPECIALMAXROUNDNESS, m_ConfigPath, m_MaxRoundness);
+	}
+	else
+	{
+		DataUtility::SetProfileInt(_T("Threshold"), MINGRAY, m_ConfigPath, m_MinGray);
+		DataUtility::SetProfileInt(_T("Threshold"), MAXGRAY, m_ConfigPath, m_MaxGray);
+		DataUtility::SetProfileFloat(_T("Circle Area"), MINCIRLEAREA, m_ConfigPath, m_MinCirleArea);
+		DataUtility::SetProfileFloat(_T("Circle Area"), MAXCIRLEAREA, m_ConfigPath, m_MaxCirleArea);
+		DataUtility::SetProfileFloat(_T("Circle Roundness"), MINROUNDNESS, m_ConfigPath, m_MinRoundness);
+		DataUtility::SetProfileFloat(_T("Circle Roundness"), MAXROUNDNESS, m_ConfigPath, m_MaxRoundness);
+	}
 }

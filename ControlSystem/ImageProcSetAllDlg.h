@@ -30,7 +30,8 @@ public:
 	CImageProcSettingDlg*		m_ImageProcSetDlg;
 	CImageProcSetOblongDlg*		m_imageProcSetOblongDlg;
 	CImageProcSetRectangleDlg*	m_imageProcSetRectangleDlg;
-	CImageProcSetLineDlg*		m_imageProcSetLineDlg;
+	//CImageProcSetLineDlg*		m_imageProcSetLineDlg;
+	CImageProcSettingDlg*		m_ImageProcSetSmallCircleDlg;
 public:
 	virtual BOOL OnInitDialog();
 	CTabCtrl m_tabCtrl;

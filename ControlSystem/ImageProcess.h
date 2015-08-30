@@ -13,6 +13,7 @@ enum
 	DETECT_RECTANGLE = 2,
 	DETECT_HORIZONTAL_LINE = 3,
 	DETECT_VERTICAL_LINE = 4,
+	DETECT_SPECIAL_CIRCLE = 5,
 };
 
 class CImageProcess
@@ -37,7 +38,8 @@ public:
 	CDetectCircularhole* GetCircleDetecter();
 	CDetectOblong* GetOblongDetecter() { return m_OblongDetecter; }
 	CDetectRectangle* GetRectangleDetecter() { return m_RectangleDetecter; };
-	CDetectLine* GetLineDetecter() { return m_LineDetecter; };
+	/*CDetectLine* GetLineDetecter() { return m_LineDetecter; };*/
+	CDetectCircularhole* GetSpecialCircleDetecter() { return m_SpecailCirleDetecter; };
 	Hobject GetProcessImage(){ return m_hvImage; }
 	void SetDetectType(int type) { m_detecterType = type;}
 	
@@ -54,7 +56,8 @@ private:
 	CDetectCircularhole*	m_CirleDetecter;
 	CDetectOblong*			m_OblongDetecter;
 	CDetectRectangle*		m_RectangleDetecter;
-	CDetectLine*			m_LineDetecter;
+	//CDetectLine*			m_LineDetecter;
+	CDetectCircularhole*	m_SpecailCirleDetecter;
 
 private:
 	int m_detecterType;

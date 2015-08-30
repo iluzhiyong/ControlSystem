@@ -33,8 +33,6 @@ public:
 	float m_MaxCirleArea;
 	float m_MinRoundness;
 	float m_MaxRoundness;
-	int m_EdgeMinThreld;
-	int m_EdgeMaxThreld;
 
 	afx_msg void OnBnClickedThresholdBtn();
 	afx_msg void OnBnClickedSelectCircleBtn();

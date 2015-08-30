@@ -323,13 +323,13 @@ void CProcThread::OnDoAutoMear(WPARAM wParam,LPARAM lParam)
 		{
 			m_workpieceType = DETECT_RECTANGLE;
 		}
-		else if(SType == _T("水平线"))
+		else if(SType == _T("特殊圆孔"))
 		{
-			m_workpieceType = DETECT_HORIZONTAL_LINE;
+			m_workpieceType = DETECT_SPECIAL_CIRCLE;
 		}
-		else if(SType == _T("垂直线"))
+		else
 		{
-			m_workpieceType = DETECT_VERTICAL_LINE;
+			m_workpieceType = DETECT_CIRCLE;
 		}
 
 		if(GetMeasureTargetValue(i, x, y, z))
@@ -639,8 +639,10 @@ void CProcThread::OnImageProcSetting(WPARAM wParam,LPARAM lParam)
 		CDetectRectangle* rectangleDetecter = m_IImageProcess->GetRectangleDetecter();
 		if(rectangleDetecter != NULL) m_imageProcSetAllDlg->m_imageProcSetRectangleDlg->SetDetecter(rectangleDetecter);
 
-		CDetectLine* lineDetecter = m_IImageProcess->GetLineDetecter();
-		if(lineDetecter != NULL) m_imageProcSetAllDlg->m_imageProcSetLineDlg->SetDetecter(lineDetecter);
+		/*CDetectLine* lineDetecter = m_IImageProcess->GetLineDetecter();
+		if(lineDetecter != NULL) m_imageProcSetAllDlg->m_imageProcSetLineDlg->SetDetecter(lineDetecter);*/
+		CDetectCircularhole* specialCircleDetecter = m_IImageProcess->GetSpecialCircleDetecter();
+		if(specialCircleDetecter != NULL) m_imageProcSetAllDlg->m_ImageProcSetSmallCircleDlg->SetCircleDetecter(specialCircleDetecter);
 
 		m_imageProcSetAllDlg->ShowWindow(SW_SHOW);
 	}

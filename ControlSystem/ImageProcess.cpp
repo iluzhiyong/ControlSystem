@@ -18,13 +18,13 @@ CImageProcess::CImageProcess(void)
 {
 	m_paramPoseLoaded = LoadCamParamPoseFile();
 
-	m_CirleDetecter = new CDetectCircularhole();
+	m_CirleDetecter = new CDetectCircularhole(CIRCLE_DETECT_TYPE_NORMAL);
 
 	m_OblongDetecter = new CDetectOblong();
 
 	m_RectangleDetecter = new CDetectRectangle();
 
-	m_LineDetecter = new CDetectLine();
+	m_SpecailCirleDetecter = new CDetectCircularhole(CIRCLE_DETECT_TYPE_SPECIAL);
 
 	HException::InstallHHandler(&MyHalconExceptionHandler);
 }
@@ -48,6 +48,12 @@ CImageProcess::~CImageProcess(void)
 	{
 		delete m_RectangleDetecter;
 		m_RectangleDetecter = NULL;
+	}
+
+	if(NULL != m_SpecailCirleDetecter)
+	{
+		delete m_SpecailCirleDetecter;
+		m_SpecailCirleDetecter = NULL;
 	}
 }
 
@@ -124,7 +130,8 @@ bool CImageProcess::LoadProcessImage()
 		m_CirleDetecter->SetImageObject(m_hvImage);
 		m_OblongDetecter->SetImageObject(m_hvImage);
 		m_RectangleDetecter->SetImageObject(m_hvImage);
-		m_LineDetecter->SetImageObject(m_hvImage);
+		//m_LineDetecter->SetImageObject(m_hvImage);
+		m_SpecailCirleDetecter->SetImageObject(m_hvImage);
 
 		return true;
 	}
@@ -201,14 +208,18 @@ bool CImageProcess::FindTargetPoint(float &x, float &y)
 			ret = m_RectangleDetecter->DetectTargetCenter(m_TargetRow, m_TargetColumn);
 			break;
 
-		case DETECT_HORIZONTAL_LINE:
-			ret = m_LineDetecter->DetectDistancePC(m_TargetColumn);
-			m_TargetRow = (float)(hv_height[0].D() / 2.0);
-			break;
+		//case DETECT_HORIZONTAL_LINE:
+		//	ret = m_LineDetecter->DetectDistancePC(m_TargetColumn);
+		//	m_TargetRow = (float)(hv_height[0].D() / 2.0);
+		//	break;
 
-		case DETECT_VERTICAL_LINE:
-			ret = m_LineDetecter->DetectDistancePC(m_TargetRow);
-			m_TargetColumn = (float)(hv_width[0].D() / 2.0);
+		//case DETECT_VERTICAL_LINE:
+		//	ret = m_LineDetecter->DetectDistancePC(m_TargetRow);
+		//	m_TargetColumn = (float)(hv_width[0].D() / 2.0);
+		//	break;
+
+		case DETECT_SPECIAL_CIRCLE:
+			ret = m_SpecailCirleDetecter->DetectCirleCenter(m_TargetRow, m_TargetColumn);
 			break;
 
 		default:
