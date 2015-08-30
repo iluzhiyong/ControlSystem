@@ -180,6 +180,12 @@
     <ClInclude Include="ImageProcSettingDlg.h">
       <Filter>Header Files\ImageProc</Filter>
     </ClInclude>
+    <ClInclude Include="DetectLine.h">
+      <Filter>Header Files\ImageProc</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageProcSetLineDlg.h">
+      <Filter>Header Files\ImageProc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ControlSystem.cpp">
@@ -261,6 +267,12 @@
       <Filter>Source Files\ImageProc</Filter>
     </ClCompile>
     <ClCompile Include="ImageProcSettingDlg.cpp">
+      <Filter>Source Files\ImageProc</Filter>
+    </ClCompile>
+    <ClCompile Include="DetectLine.cpp">
+      <Filter>Source Files\ImageProc</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageProcSetLineDlg.cpp">
       <Filter>Source Files\ImageProc</Filter>
     </ClCompile>
   </ItemGroup>

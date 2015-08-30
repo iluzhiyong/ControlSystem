@@ -13,6 +13,8 @@ CImageProcess::CImageProcess(void)
 	, m_OblongDetecter(NULL)
 	, m_RectangleDetecter(NULL)
 	, m_detecterType(DETECT_CIRCLE)
+	, m_TargetRow(0.0f)
+	, m_TargetColumn(0.0f)
 {
 	m_paramPoseLoaded = LoadCamParamPoseFile();
 
@@ -21,6 +23,8 @@ CImageProcess::CImageProcess(void)
 	m_OblongDetecter = new CDetectOblong();
 
 	m_RectangleDetecter = new CDetectRectangle();
+
+	m_LineDetecter = new CDetectLine();
 
 	HException::InstallHHandler(&MyHalconExceptionHandler);
 }
@@ -120,6 +124,7 @@ bool CImageProcess::LoadProcessImage()
 		m_CirleDetecter->SetImageObject(m_hvImage);
 		m_OblongDetecter->SetImageObject(m_hvImage);
 		m_RectangleDetecter->SetImageObject(m_hvImage);
+		m_LineDetecter->SetImageObject(m_hvImage);
 
 		return true;
 	}
@@ -157,8 +162,16 @@ bool CImageProcess::Process(float x, float y, float &diffX, float &diffY)
 		}
 		if(ret)
 		{
-			diffX = targetX - cx;
-			diffY = targetY - cy;
+			if(m_detecterType == DETECT_HORIZONTAL_LINE || m_detecterType == DETECT_VERTICAL_LINE)
+			{
+				diffX = cx - targetX;
+				diffY = cy - targetY;
+			}
+			else
+			{
+				diffX = targetX - cx;
+				diffY = targetY - cy;
+			}
 		}
 		return ret;
 	}
@@ -186,6 +199,16 @@ bool CImageProcess::FindTargetPoint(float &x, float &y)
 
 		case DETECT_RECTANGLE:
 			ret = m_RectangleDetecter->DetectTargetCenter(m_TargetRow, m_TargetColumn);
+			break;
+
+		case DETECT_HORIZONTAL_LINE:
+			ret = m_LineDetecter->DetectDistancePC(m_TargetColumn);
+			m_TargetRow = (float)(hv_height[0].D() / 2.0);
+			break;
+
+		case DETECT_VERTICAL_LINE:
+			ret = m_LineDetecter->DetectDistancePC(m_TargetRow);
+			m_TargetColumn = (float)(hv_width[0].D() / 2.0);
 			break;
 
 		default:

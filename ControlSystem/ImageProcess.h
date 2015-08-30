@@ -3,6 +3,7 @@
 #include "DetectCircularhole.h"
 #include "DetectOblong.h"
 #include "DetectRectangle.h"
+#include "DetectLine.h"
 #include "HalconAction.h"
 
 enum
@@ -10,6 +11,8 @@ enum
 	DETECT_CIRCLE = 0,
 	DETECT_OBLONG = 1,
 	DETECT_RECTANGLE = 2,
+	DETECT_HORIZONTAL_LINE = 3,
+	DETECT_VERTICAL_LINE = 4,
 };
 
 class CImageProcess
@@ -34,6 +37,7 @@ public:
 	CDetectCircularhole* GetCircleDetecter();
 	CDetectOblong* GetOblongDetecter() { return m_OblongDetecter; }
 	CDetectRectangle* GetRectangleDetecter() { return m_RectangleDetecter; };
+	CDetectLine* GetLineDetecter() { return m_LineDetecter; };
 	Hobject GetProcessImage(){ return m_hvImage; }
 	void SetDetectType(int type) { m_detecterType = type;}
 	
@@ -50,6 +54,7 @@ private:
 	CDetectCircularhole*	m_CirleDetecter;
 	CDetectOblong*			m_OblongDetecter;
 	CDetectRectangle*		m_RectangleDetecter;
+	CDetectLine*			m_LineDetecter;
 
 private:
 	int m_detecterType;

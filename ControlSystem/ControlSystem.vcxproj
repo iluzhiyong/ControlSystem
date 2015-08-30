@@ -199,6 +199,7 @@
   <ItemGroup>
     <ClInclude Include="AxialDeviationAngle.h" />
     <ClInclude Include="CGCamera.h" />
+    <ClInclude Include="DetectLine.h" />
     <ClInclude Include="DetectRectangle.h" />
     <ClInclude Include="DetectOblong.h" />
     <ClInclude Include="DLCCamera.h" />
@@ -220,6 +221,7 @@
     <ClInclude Include="ImageProcess.h" />
     <ClInclude Include="ImageProcessDlg.h" />
     <ClInclude Include="ImageProcSetAllDlg.h" />
+    <ClInclude Include="ImageProcSetLineDlg.h" />
     <ClInclude Include="ImageProcSetOblongDlg.h" />
     <ClInclude Include="ImageProcSetRectangleDlg.h" />
     <ClInclude Include="ImageProcSetting.h" />
@@ -240,6 +242,7 @@
   <ItemGroup>
     <ClCompile Include="AxialDeviationAngle.cpp" />
     <ClCompile Include="CGCamera.cpp" />
+    <ClCompile Include="DetectLine.cpp" />
     <ClCompile Include="DetectRectangle.cpp" />
     <ClCompile Include="DetectOblong.cpp" />
     <ClCompile Include="DLCCamera.cpp" />
@@ -253,6 +256,7 @@
     <ClCompile Include="ImageProcess.cpp" />
     <ClCompile Include="ImageProcessDlg.cpp" />
     <ClCompile Include="ImageProcSetAllDlg.cpp" />
+    <ClCompile Include="ImageProcSetLineDlg.cpp" />
     <ClCompile Include="ImageProcSetOblongDlg.cpp" />
     <ClCompile Include="ImageProcSetRectangleDlg.cpp" />
     <ClCompile Include="ImageProcSettingDlg.cpp" />

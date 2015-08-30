@@ -3,6 +3,7 @@
 class CImageProcSettingDlg;
 class CImageProcSetOblongDlg;
 class CImageProcSetRectangleDlg;
+class CImageProcSetLineDlg;
 
 // CImageProcSetAllDlg dialog
 
@@ -29,6 +30,7 @@ public:
 	CImageProcSettingDlg*		m_ImageProcSetDlg;
 	CImageProcSetOblongDlg*		m_imageProcSetOblongDlg;
 	CImageProcSetRectangleDlg*	m_imageProcSetRectangleDlg;
+	CImageProcSetLineDlg*		m_imageProcSetLineDlg;
 public:
 	virtual BOOL OnInitDialog();
 	CTabCtrl m_tabCtrl;

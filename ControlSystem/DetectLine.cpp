@@ -1,8 +1,8 @@
 #include "StdAfx.h"
-#include "DetectRectangle.h"
+#include "DetectLine.h"
 #include "DataUtility.h"
 
-CDetectRectangle::CDetectRectangle(void)
+CDetectLine::CDetectLine(void)
 	: m_minGray(100)
 	, m_maxGray(255)
 	, m_minArea(150000.0f)
@@ -15,37 +15,37 @@ CDetectRectangle::CDetectRectangle(void)
 }
 
 
-CDetectRectangle::~CDetectRectangle(void)
+CDetectLine::~CDetectLine(void)
 {
 }
 
-void CDetectRectangle::LoadConfig()
+void CDetectLine::LoadConfig()
 {
-	m_minGray = DataUtility::GetProfileInt(_T("Rectangle Threshold"), _T("MinGray"), m_ConfigPath, 100);
-	m_maxGray = DataUtility::GetProfileInt(_T("Rectangle Threshold"), _T("MaxGray"), m_ConfigPath, 255);
-	m_minArea = DataUtility::GetProfileFloat(_T("Rectangle Area"), _T("MinArea"), m_ConfigPath, 150000.0f);
-	m_maxArea = DataUtility::GetProfileFloat(_T("Rectangle Area"), _T("MaxArea"), m_ConfigPath, 300000.0f);
-	m_minRectangularity = DataUtility::GetProfileFloat(_T("Rectangle Rectangularity"), _T("MinRectangularity"), m_ConfigPath, 0.2f);
-	m_maxRectangularity = DataUtility::GetProfileFloat(_T("Rectangle Rectangularity"), _T("MaxRectangularity"), m_ConfigPath, 1.0f);
+	m_minGray = DataUtility::GetProfileInt(_T("Line Threshold"), _T("MinGray"), m_ConfigPath, 100);
+	m_maxGray = DataUtility::GetProfileInt(_T("Line Threshold"), _T("MaxGray"), m_ConfigPath, 255);
+	m_minArea = DataUtility::GetProfileFloat(_T("Line Area"), _T("MinArea"), m_ConfigPath, 150000.0f);
+	m_maxArea = DataUtility::GetProfileFloat(_T("Line Area"), _T("MaxArea"), m_ConfigPath, 300000.0f);
+	m_minRectangularity = DataUtility::GetProfileFloat(_T("Line Rectangularity"), _T("MinRectangularity"), m_ConfigPath, 0.2f);
+	m_maxRectangularity = DataUtility::GetProfileFloat(_T("Line Rectangularity"), _T("MaxRectangularity"), m_ConfigPath, 1.0f);
 }
 
-void CDetectRectangle::SaveConfig()
+void CDetectLine::SaveConfig()
 {
-	DataUtility::SetProfileInt(_T("Rectangle Threshold"), _T("MinGray"), m_ConfigPath, m_minGray);
-	DataUtility::SetProfileInt(_T("Rectangle Threshold"), _T("MaxGray"), m_ConfigPath, m_maxGray);
-	DataUtility::SetProfileFloat(_T("Rectangle Area"), _T("MinArea"), m_ConfigPath, m_minArea);
-	DataUtility::SetProfileFloat(_T("Rectangle Area"), _T("MaxArea"), m_ConfigPath, m_maxArea);
-	DataUtility::SetProfileFloat(_T("Rectangle Rectangularity"), _T("MinRectangularity"), m_ConfigPath, m_minRectangularity);
-	DataUtility::SetProfileFloat(_T("Rectangle Rectangularity"), _T("MaxRectangularity"), m_ConfigPath, m_maxRectangularity);
+	DataUtility::SetProfileInt(_T("Line Threshold"), _T("MinGray"), m_ConfigPath, m_minGray);
+	DataUtility::SetProfileInt(_T("Line Threshold"), _T("MaxGray"), m_ConfigPath, m_maxGray);
+	DataUtility::SetProfileFloat(_T("Line Area"), _T("MinArea"), m_ConfigPath, m_minArea);
+	DataUtility::SetProfileFloat(_T("Line Area"), _T("MaxArea"), m_ConfigPath, m_maxArea);
+	DataUtility::SetProfileFloat(_T("Line Rectangularity"), _T("MinRectangularity"), m_ConfigPath, m_minRectangularity);
+	DataUtility::SetProfileFloat(_T("Line Rectangularity"), _T("MaxRectangularity"), m_ConfigPath, m_maxRectangularity);
 }
 
-void CDetectRectangle::SetImageObject(Hobject image)
+void CDetectLine::SetImageObject(Hobject image)
 {
 	m_Image = image;
 	Halcon::get_image_size(m_Image, &m_ImageWidth, &m_ImageHeight);
 }
 
-bool CDetectRectangle::RunThreshold()
+bool CDetectLine::RunThreshold()
 {
 	try
 	{
@@ -81,7 +81,7 @@ bool CDetectRectangle::RunThreshold()
 	return true;
 }
 
-bool CDetectRectangle::RunSelectTarget()
+bool CDetectLine::RunSelectTarget()
 {
 	if(RunThreshold())
 	{
@@ -91,7 +91,7 @@ bool CDetectRectangle::RunSelectTarget()
 			
 			fill_up(m_SelectedRegions, &m_RegionFillUp);
 			gen_contour_region_xld(m_RegionFillUp, &m_RectangleContours, "border");
-			area_center(m_RegionFillUp, &m_RectangleArea, &m_RectangleRow, &m_RectangleColumn);
+			distance_pc(m_RectangleContours, m_ImageHeight/2, m_ImageWidth/2, &m_DistanceMin, &m_DistanceMax);
 
 			if (HDevWindowStack::IsOpen())
 			{
@@ -99,28 +99,26 @@ bool CDetectRectangle::RunSelectTarget()
 				set_color(HDevWindowStack::GetActive(),"red");
 				disp_obj(m_RectangleContours, HDevWindowStack::GetActive());
 
-				set_color(HDevWindowStack::GetActive(),"red");
-				disp_cross(HDevWindowStack::GetActive(), m_RectangleRow, m_RectangleColumn, 20, 0);
 				set_color(HDevWindowStack::GetActive(),"green");
 				disp_cross(HDevWindowStack::GetActive(), m_ImageHeight/2, m_ImageWidth/2, 20, 0);
+				//disp_cross(HDevWindowStack::GetActive(), m_ImageHeight/2 + m_DistanceMin, m_ImageWidth/2, 20, 0);
 			}
 			return true;
 		}
 		catch(...)
 		{
-			AfxMessageBox("检测长方形区域失败！");
+			AfxMessageBox("检测直线失败！");
 		}
 	}
 
 	return false;
 }
 
-bool CDetectRectangle::DetectTargetCenter(float &row, float &column)
+bool CDetectLine::DetectDistancePC(float &distance)
 {
 	if(RunSelectTarget())
 	{
-		row = (float)(m_RectangleRow[0].D());
-		column = (float)(m_RectangleColumn[0].D());
+		distance = (float)(m_DistanceMin[0].D());
 		return true;
 	}
 	return false;

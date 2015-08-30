@@ -1,6 +1,6 @@
 #include "StdAfx.h"
 #include "ItemResize.h"
-
+#include "resource.h"
 
 CItemResize::CItemResize(void)
 {
@@ -27,6 +27,12 @@ void CItemResize::AddItemRect(UINT nID, CWnd* pParent)
 	rf.fRight = (float)(rect.right) / (float)m_rectDlg.Width();
 	rf.fTop = (float)(rect.top) / (float)m_rectDlg.Height();
 	rf.fBottom = (float)(rect.bottom) / (float)m_rectDlg.Height();
+
+	//IDC_COMBO_WORKPIECE_TYPE最大化后无法正常显示，特殊处理
+	if(nID == IDC_COMBO_WORKPIECE_TYPE)
+	{
+		rf.fBottom += 200;
+	}
 
 	m_vResizeID.push_back(rf);
 

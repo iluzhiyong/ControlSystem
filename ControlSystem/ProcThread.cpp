@@ -9,6 +9,7 @@
 #include "ImageProcSettingDlg.h"
 #include "ImageProcSetOblongDlg.h"
 #include "ImageProcSetRectangleDlg.h"
+#include "ImageProcSetLineDlg.h"
 #include "DataUtility.h"
 #include "AxialDeviationAngle.h"
 #include "ImageProcSetAllDlg.h"
@@ -322,6 +323,14 @@ void CProcThread::OnDoAutoMear(WPARAM wParam,LPARAM lParam)
 		{
 			m_workpieceType = DETECT_RECTANGLE;
 		}
+		else if(SType == _T("水平线"))
+		{
+			m_workpieceType = DETECT_HORIZONTAL_LINE;
+		}
+		else if(SType == _T("垂直线"))
+		{
+			m_workpieceType = DETECT_VERTICAL_LINE;
+		}
 
 		if(GetMeasureTargetValue(i, x, y, z))
 		{
@@ -629,6 +638,9 @@ void CProcThread::OnImageProcSetting(WPARAM wParam,LPARAM lParam)
 
 		CDetectRectangle* rectangleDetecter = m_IImageProcess->GetRectangleDetecter();
 		if(rectangleDetecter != NULL) m_imageProcSetAllDlg->m_imageProcSetRectangleDlg->SetDetecter(rectangleDetecter);
+
+		CDetectLine* lineDetecter = m_IImageProcess->GetLineDetecter();
+		if(lineDetecter != NULL) m_imageProcSetAllDlg->m_imageProcSetLineDlg->SetDetecter(lineDetecter);
 
 		m_imageProcSetAllDlg->ShowWindow(SW_SHOW);
 	}
