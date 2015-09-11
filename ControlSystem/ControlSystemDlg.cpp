@@ -562,45 +562,45 @@ void CControlSystemDlg::ReCaculateResultByCompensation()
 	for(int i = ROW_START; i < m_rowNum; i = i + 3)
 	{
 		buffer = m_ListData.GetItemText(i + 1,COLUMN_POS_X);
-		if(DataUtility::ConvertStringToFloat(buffer, measuredX) == false) break;
+		if(DataUtility::ConvertStringToFloat(buffer, measuredX) == false) continue;
 
 		buffer = m_ListData.GetItemText(i + 1,COLUMN_POS_Y);
-		if(DataUtility::ConvertStringToFloat(buffer, measuredY) == false) break;
+		if(DataUtility::ConvertStringToFloat(buffer, measuredY) == false) continue;
 
 		buffer = m_ListData.GetItemText(i + 1,COLUMN_POS_Z);
-		if(DataUtility::ConvertStringToFloat(buffer, measuredZ) == false) break;
+		if(DataUtility::ConvertStringToFloat(buffer, measuredZ) == false) continue;
 
 		//recaculate the measured value
 		measuredX = measuredX + m_compensationX;
 		measuredY = measuredY + m_compensationY;
 		measuredZ = measuredZ + m_compensationZ;
 
-		buffer.Format("%f", measuredX);
+		buffer.Format("%.2f", measuredX);
 		m_ListData.SetItemText(i + 1,COLUMN_POS_X, buffer);
 
-		buffer.Format("%f", measuredY);
+		buffer.Format("%.2f", measuredY);
 		m_ListData.SetItemText(i + 1,COLUMN_POS_Y, buffer);
 
-		buffer.Format("%f", measuredZ);
+		buffer.Format("%.2f", measuredZ);
 		m_ListData.SetItemText(i + 1,COLUMN_POS_Z, buffer);
 
 		//Update the error value
 		buffer = m_ListData.GetItemText(i, COLUMN_POS_X);
-		if(DataUtility::ConvertStringToFloat(buffer, stdX) == false) break;
+		if(DataUtility::ConvertStringToFloat(buffer, stdX) == false) continue;
 
 		buffer = m_ListData.GetItemText(i, COLUMN_POS_Y);
-		if(DataUtility::ConvertStringToFloat(buffer, stdY) == false) break;
+		if(DataUtility::ConvertStringToFloat(buffer, stdY) == false) continue;
 
 		buffer = m_ListData.GetItemText(i, COLUMN_POS_Z);
-		if(DataUtility::ConvertStringToFloat(buffer, stdZ) == false) break;
+		if(DataUtility::ConvertStringToFloat(buffer, stdZ) == false) continue;
 
-		buffer.Format("%f", measuredX - stdX);
+		buffer.Format("%.2f", measuredX - stdX);
 		m_ListData.SetItemText(i + 2,COLUMN_POS_X, buffer);
 
-		buffer.Format("%f", measuredY - stdY);
+		buffer.Format("%.2f", measuredY - stdY);
 		m_ListData.SetItemText(i + 2,COLUMN_POS_Y, buffer);
 
-		buffer.Format("%f", measuredZ - stdZ);
+		buffer.Format("%.2f", measuredZ - stdZ);
 		m_ListData.SetItemText(i + 2,COLUMN_POS_Z, buffer);
 	}
 }
