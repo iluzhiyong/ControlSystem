@@ -33,10 +33,13 @@ CProcThread::CProcThread()
 , m_ZMoveTopV(50.0f)
 , m_XCalV(10.0f)
 , m_YCalV(10.0f)
+, m_DeviationAngle(0.0f)
+, m_CalCount(2)
 , m_workpieceType(DETECT_CIRCLE)
 {
-	//弧度制
-	m_DeviationAngle = (DataUtility::GetProfileFloat(_T("Axial Deviation Angle"), _T("Angle"), (DataUtility::GetExePath() + _T("\\ProcessConfig\\SysConfig.ini")), 0.0f)) * 3.1415f / 180;
+	m_CalCount = DataUtility::GetProfileInt(_T("Cal Count"), _T("CalCount"), (DataUtility::GetExePath() + _T("\\ProcessConfig\\SysConfig.ini")), 2);
+	
+	m_DeviationAngle = (DataUtility::GetProfileFloat(_T("Axial Deviation Angle"), _T("Angle"), (DataUtility::GetExePath() + _T("\\ProcessConfig\\SysConfig.ini")), 0.0f)) * 3.14f / 180;
 }
 
 CProcThread::~CProcThread()
@@ -305,6 +308,7 @@ void CProcThread::OnDoAutoMear(WPARAM wParam,LPARAM lParam)
 		detecter->LoadConfig();
 	}
 
+	float deviationAngle = 0.0f;
 	float x = 0.0, y = 0.0, z = 0.0;
 	float retX = 0.0, retY = 0.0, retZ = 0.0;
 	for(int i = ROW_START; i < usedRowNum; i = i + 3)
@@ -344,12 +348,20 @@ void CProcThread::OnDoAutoMear(WPARAM wParam,LPARAM lParam)
 			GetFloatItem(i, COLUMN_COMPENSATION_Z, compensationZ);
 
 			//利用轴向偏离角计算实际行走尺寸
-			if(0 == MoveToTargetPosXYZ((x + compensationX)*cos(m_DeviationAngle), (y + compensationY)*cos(m_DeviationAngle), -z - compensationZ, retX, retY, retZ))
+			if(0 == MoveToTargetPosXYZ((x + compensationX), (y + compensationY), -z - compensationZ, retX, retY, retZ))
 			{
-				
+				if(i == ROW_START)
+				{
+					//第一项用于测量偏离角
+					m_DeviationAngle = (float)(atan(retY / retX) - atan((y + compensationY) / (x + compensationX)));
+					DataUtility::SetProfileFloat(_T("Axial Deviation Angle"), _T("Angle"), (DataUtility::GetExePath() + _T("\\ProcessConfig\\SysConfig.ini")), m_DeviationAngle * 180 / 3.14);
+				}
+
 				//利用轴向偏离角计算实测量结果
-				SetFloatItem(i + 1, COLUMN_POS_X, (retX - compensationX) / cos(m_DeviationAngle));
-				SetFloatItem(i + 1, COLUMN_POS_Y, (retY - compensationY) / cos(m_DeviationAngle));
+				DataUtility::ConvertPosByDeviationAngle(x + compensationX, y + compensationY, retX, retY, m_DeviationAngle, &retX, &retY);
+				
+				SetFloatItem(i + 1, COLUMN_POS_X, retX);
+				SetFloatItem(i + 1, COLUMN_POS_Y, retY);
 				SetFloatItem(i + 1, COLUMN_POS_Z, -retZ + compensationZ);
 			}
 		}
@@ -468,7 +480,7 @@ int CProcThread::MoveToTargetPosXYZ(float x, float y, float z, float &retx, floa
 	ret = MoveToTargetPosXY(x, y, z, difretx, difrety);
 
 	int procCount = 0;
-	while(procCount < 2 && ret == 0)
+	while(procCount < m_CalCount && ret == 0)
 	{
 		m_IMotoCtrl->GetAxisCurrPos(AXIS_X, &retx);
 		m_IMotoCtrl->GetAxisCurrPos(AXIS_Y, &rety);
@@ -553,11 +565,11 @@ void CProcThread::OnDoCustomMear(WPARAM wParam,LPARAM lParam)
 	float resPosZ = 0.0;
 	CString msg;
 
-	//利用轴向偏离角计算实际行走尺寸
-	PosX = PosX * cos(m_DeviationAngle);
-	PosY = PosY * cos(m_DeviationAngle);
 	if(0 == MoveToTargetPosXYZ(PosX, PosY, PosZ, resPosX, resPosY, resPosZ))
 	{
+		//利用轴向偏离角计算测量结果
+		DataUtility::ConvertPosByDeviationAngle(PosX, PosY, resPosX, resPosY, m_DeviationAngle, &resPosX, &resPosY);
+		
 		//success
 		if((abs(resPosX - PosX) > m_MearTolerance) || (abs(resPosY - PosY) > m_MearTolerance) || (abs(resPosZ - PosZ) > m_MearTolerance))
 		{
@@ -569,10 +581,6 @@ void CProcThread::OnDoCustomMear(WPARAM wParam,LPARAM lParam)
 			msg.Format("测量结果: 合格。\n图纸尺寸: x = %.2f mm,  y = %.2f mm,  z = %.2f mm.\n实测尺寸: x = %.2f mm,  y = %.2f mm,  z = %.2f mm.", PosX, PosY, PosZ, resPosX, resPosY, resPosZ);
 			AfxMessageBox(msg, MB_ICONINFORMATION );
 		}
-
-		//利用轴向偏离角计算测量结果
-		resPosX = resPosX / cos(m_DeviationAngle);
-		resPosY = resPosY / cos(m_DeviationAngle);
 	}
 	else
 	{

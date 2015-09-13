@@ -170,4 +170,5 @@ private:
 	CString m_ExcelTemplateFilePathName;
 public:
 	CComboBox m_workPieceType;
+	float m_calAngle;
 };

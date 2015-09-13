@@ -109,3 +109,9 @@ void DataUtility::SetProfileInt(CString appName, CString keyName, CString fileNa
 	setValve.Format(_T("%d"), Value);
 	WritePrivateProfileString(appName, keyName, setValve, fileName);
 }
+
+void DataUtility::ConvertPosByDeviationAngle(float x, float y, float retX, float retY, float angle, float* pX, float* pY)
+{
+	*pX = retX;
+	*pY = retY - retX * tan(angle);
+}

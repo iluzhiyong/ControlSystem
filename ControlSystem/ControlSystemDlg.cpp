@@ -104,6 +104,7 @@ CControlSystemDlg::CControlSystemDlg(CWnd* pParent /*=NULL*/)
 	m_compensationX = 0.0f;
 	m_compensationY = 0.0f;
 	m_compensationZ = 0.0f;
+	m_calAngle = 0.0f;
 }
 
 void CControlSystemDlg::UpdateCameraRunStatus()
@@ -169,6 +170,7 @@ void CControlSystemDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_EDIT_CAL_Y, m_compensationY);
 	DDX_Text(pDX, IDC_EDIT_CAL_Z, m_compensationZ);
 	DDX_Control(pDX, IDC_COMBO_WORKPIECE_TYPE, m_workPieceType);
+	DDX_Text(pDX, IDC_EDIT_CAL_ANGLE, m_calAngle);
 }
 
 BEGIN_MESSAGE_MAP(CControlSystemDlg, CDialogEx)
@@ -570,7 +572,10 @@ void CControlSystemDlg::ReCaculateResultByCompensation()
 		buffer = m_ListData.GetItemText(i + 1,COLUMN_POS_Z);
 		if(DataUtility::ConvertStringToFloat(buffer, measuredZ) == false) continue;
 
-		//recaculate the measured value
+		//recaculate the measured value by angle
+		DataUtility::ConvertPosByDeviationAngle(0.0f, 0.0f, measuredX, measuredY, m_calAngle * 3.14f / 180.0f, &measuredX, &measuredY);
+		
+		//recaculate the measured value by position
 		measuredX = measuredX + m_compensationX;
 		measuredY = measuredY + m_compensationY;
 		measuredZ = measuredZ + m_compensationZ;
@@ -583,25 +588,6 @@ void CControlSystemDlg::ReCaculateResultByCompensation()
 
 		buffer.Format("%.2f", measuredZ);
 		m_ListData.SetItemText(i + 1,COLUMN_POS_Z, buffer);
-
-		//Update the error value
-		buffer = m_ListData.GetItemText(i, COLUMN_POS_X);
-		if(DataUtility::ConvertStringToFloat(buffer, stdX) == false) continue;
-
-		buffer = m_ListData.GetItemText(i, COLUMN_POS_Y);
-		if(DataUtility::ConvertStringToFloat(buffer, stdY) == false) continue;
-
-		buffer = m_ListData.GetItemText(i, COLUMN_POS_Z);
-		if(DataUtility::ConvertStringToFloat(buffer, stdZ) == false) continue;
-
-		buffer.Format("%.2f", measuredX - stdX);
-		m_ListData.SetItemText(i + 2,COLUMN_POS_X, buffer);
-
-		buffer.Format("%.2f", measuredY - stdY);
-		m_ListData.SetItemText(i + 2,COLUMN_POS_Y, buffer);
-
-		buffer.Format("%.2f", measuredZ - stdZ);
-		m_ListData.SetItemText(i + 2,COLUMN_POS_Z, buffer);
 	}
 }
 
@@ -1136,8 +1122,8 @@ LRESULT CControlSystemDlg::OnMainThreadDoCapture(WPARAM wParam,LPARAM lParam)
 
 void CControlSystemDlg::OnCaculateAxialDeviationAngle()
 {
-	if(NULL != m_UIProcThread)
-	{
-		m_UIProcThread->PostThreadMessage(WM_OPEN_AXIAL_DEVIATION_ANGLE_WND, 0, 0);
-	}
+	//if(NULL != m_UIProcThread)
+	//{
+	//	m_UIProcThread->PostThreadMessage(WM_OPEN_AXIAL_DEVIATION_ANGLE_WND, 0, 0);
+	//}
 }
