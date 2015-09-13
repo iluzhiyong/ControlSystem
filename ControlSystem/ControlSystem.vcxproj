@@ -193,8 +193,11 @@
     <None Include="res\ControlSystem.ico" />
     <None Include="res\ControlSystem.rc2" />
     <None Include="res\ico00001.ico" />
+    <None Include="res\ico00002.ico" />
+    <None Include="res\ico00003.ico" />
     <None Include="res\icon1.ico" />
     <None Include="res\icon2.ico" />
+    <None Include="res\icon3.ico" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AxialDeviationAngle.h" />
