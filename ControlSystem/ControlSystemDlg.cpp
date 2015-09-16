@@ -1014,7 +1014,7 @@ void CControlSystemDlg::CameraUpdatePictureDisp(void)
 		pWnd->GetClientRect(&rcClient);
 		int x = 0, y = 0, width = rcClient.right, height = rcClient.bottom;
 		//m_bImageAspectRatio；虽然该选项在相机设置对话框内可以设置，但该项不能保存，为了显示更加友好，强制设为铺满整个部品
-		m_bImageAspectRatio = 0;
+		m_bImageAspectRatio = 1;
 		if(m_bImageAspectRatio)
 		{
 			if(width < m_nImageWidth || height < m_nImageHeight)
@@ -1049,6 +1049,21 @@ void CControlSystemDlg::CameraUpdatePictureDisp(void)
 		::StretchDIBits( pDC->GetSafeHdc(), x, y, width, height, 0, 0, m_nImageWidth, m_nImageHeight,
 				m_pImageData, &bmpInfo, DIB_RGB_COLORS, SRCCOPY );
 		m_csImageData.Unlock();
+		
+		//观察窗口中心十字线
+		CPen pen(PS_SOLID, 1, RGB(0, 255, 0));
+		pDC->SelectObject(&pen);
+		CBrush *pBrush = CBrush::FromHandle((HBRUSH)GetStockObject(NULL_BRUSH));
+		pDC->SelectObject(pBrush);
+		
+		pDC->MoveTo((x + width)/2-25,(y + height)/2);
+		pDC->LineTo((x + width)/2+25,(y + height)/2);
+
+		pDC->MoveTo((x + width)/2,(y + height)/2-25);
+		pDC->LineTo((x + width)/2,(y + height)/2+25);
+
+		//pDC->Ellipse(rcClient);
+		
 		pWnd->ReleaseDC(pDC);
 	}
 }
