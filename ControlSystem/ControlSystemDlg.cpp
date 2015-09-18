@@ -1056,13 +1056,16 @@ void CControlSystemDlg::CameraUpdatePictureDisp(void)
 		CBrush *pBrush = CBrush::FromHandle((HBRUSH)GetStockObject(NULL_BRUSH));
 		pDC->SelectObject(pBrush);
 		
-		pDC->MoveTo((x + width)/2-25,(y + height)/2);
-		pDC->LineTo((x + width)/2+25,(y + height)/2);
+		pDC->MoveTo(rcClient.left + rcClient.Width()/2-60, rcClient.top + rcClient.Height()/2);
+		pDC->LineTo(rcClient.left + rcClient.Width()/2+60, rcClient.top + rcClient.Height()/2);
 
-		pDC->MoveTo((x + width)/2,(y + height)/2-25);
-		pDC->LineTo((x + width)/2,(y + height)/2+25);
+		pDC->MoveTo(rcClient.left + rcClient.Width()/2, rcClient.top + rcClient.Height()/2-60);
+		pDC->LineTo(rcClient.left + rcClient.Width()/2, rcClient.top + rcClient.Height()/2+60);
 
-		//pDC->Ellipse(rcClient);
+		pDC->Ellipse(rcClient.left + rcClient.Width()/2 - 40,
+						rcClient.top + rcClient.Height()/2 - 40,
+						rcClient.left + rcClient.Width()/2 + 40,
+						rcClient.top + rcClient.Height()/2 + 40);
 		
 		pWnd->ReleaseDC(pDC);
 	}

@@ -370,7 +370,7 @@ void CProcThread::OnDoAutoMear(WPARAM wParam,LPARAM lParam)
 				
 				SetFloatItem(i + 1, COLUMN_POS_X, retX - compensationX);
 				SetFloatItem(i + 1, COLUMN_POS_Y, retY - compensationY);
-				SetFloatItem(i + 1, COLUMN_POS_Z, -retZ + compensationZ);
+				SetFloatItem(i + 1, COLUMN_POS_Z, -retZ - compensationZ);
 			}
 		}
 	}
