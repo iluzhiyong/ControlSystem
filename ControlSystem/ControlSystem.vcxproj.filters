@@ -180,9 +180,6 @@
     <ClInclude Include="ImageProcSetAllDlg.h">
       <Filter>Header Files\ImageProc</Filter>
     </ClInclude>
-    <ClInclude Include="ImageProcSetOblongDlg.h">
-      <Filter>Header Files\ImageProc</Filter>
-    </ClInclude>
     <ClInclude Include="ImageProcSetRectangleDlg.h">
       <Filter>Header Files\ImageProc</Filter>
     </ClInclude>
@@ -193,6 +190,9 @@
       <Filter>Header Files\ImageProc</Filter>
     </ClInclude>
     <ClInclude Include="ImageProcSetLineDlg.h">
+      <Filter>Header Files\ImageProc</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageProcSetCircleDlg.h">
       <Filter>Header Files\ImageProc</Filter>
     </ClInclude>
   </ItemGroup>
@@ -269,9 +269,6 @@
     <ClCompile Include="ImageProcSetAllDlg.cpp">
       <Filter>Source Files\ImageProc</Filter>
     </ClCompile>
-    <ClCompile Include="ImageProcSetOblongDlg.cpp">
-      <Filter>Source Files\ImageProc</Filter>
-    </ClCompile>
     <ClCompile Include="ImageProcSetRectangleDlg.cpp">
       <Filter>Source Files\ImageProc</Filter>
     </ClCompile>
@@ -282,6 +279,9 @@
       <Filter>Source Files\ImageProc</Filter>
     </ClCompile>
     <ClCompile Include="ImageProcSetLineDlg.cpp">
+      <Filter>Source Files\ImageProc</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageProcSetCircleDlg.cpp">
       <Filter>Source Files\ImageProc</Filter>
     </ClCompile>
   </ItemGroup>

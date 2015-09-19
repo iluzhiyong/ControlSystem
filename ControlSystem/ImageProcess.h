@@ -14,6 +14,7 @@ enum
 	DETECT_SPECIAL_CIRCLE = 3,
 	DETECT_HORIZONTAL_LINE = 4,
 	DETECT_VERTICAL_LINE = 5,
+	DETECT_FIXTURE = 6,
 };
 
 class CImageProcess
@@ -36,10 +37,8 @@ public:
 	bool FindTargetPoint(float &x, float &y);
 
 	CDetectCircularhole* GetCircleDetecter();
-	CDetectOblong* GetOblongDetecter() { return m_OblongDetecter; }
 	CDetectRectangle* GetRectangleDetecter() { return m_RectangleDetecter; };
 	CDetectLine* GetLineDetecter() { return m_LineDetecter; };
-	CDetectCircularhole* GetSpecialCircleDetecter() { return m_SpecailCirleDetecter; };
 	Hobject GetProcessImage(){ return m_hvImage; }
 	void SetDetectType(int type) { m_detecterType = type;}
 	
@@ -54,10 +53,8 @@ private:
 	float m_TargetColumn;
 
 	CDetectCircularhole*	m_CirleDetecter;
-	CDetectOblong*			m_OblongDetecter;
 	CDetectRectangle*		m_RectangleDetecter;
 	CDetectLine*			m_LineDetecter;
-	CDetectCircularhole*	m_SpecailCirleDetecter;
 
 private:
 	int m_detecterType;

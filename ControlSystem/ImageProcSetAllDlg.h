@@ -1,7 +1,7 @@
 #pragma once
 
 class CImageProcSettingDlg;
-class CImageProcSetOblongDlg;
+class CImageProcSetCircleDlg;
 class CImageProcSetRectangleDlg;
 class CImageProcSetLineDlg;
 
@@ -27,11 +27,9 @@ public:
 	DECLARE_MESSAGE_MAP()
 
 public:
-	CImageProcSettingDlg*		m_ImageProcSetDlg;
-	CImageProcSetOblongDlg*		m_imageProcSetOblongDlg;
+	CImageProcSetCircleDlg*		m_imageProcSetCircleDlg;
 	CImageProcSetRectangleDlg*	m_imageProcSetRectangleDlg;
 	CImageProcSetLineDlg*		m_imageProcSetLineDlg;
-	CImageProcSettingDlg*		m_ImageProcSetSmallCircleDlg;
 public:
 	virtual BOOL OnInitDialog();
 	CTabCtrl m_tabCtrl;

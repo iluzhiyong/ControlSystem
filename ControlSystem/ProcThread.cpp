@@ -7,7 +7,7 @@
 #include "IMotorCtrl.h"
 #include "ImageProcess.h"
 #include "ImageProcSettingDlg.h"
-#include "ImageProcSetOblongDlg.h"
+#include "ImageProcSetCircleDlg.h"
 #include "ImageProcSetRectangleDlg.h"
 #include "ImageProcSetLineDlg.h"
 #include "DataUtility.h"
@@ -339,6 +339,10 @@ void CProcThread::OnDoAutoMear(WPARAM wParam,LPARAM lParam)
 		{
 			m_workpieceType = DETECT_VERTICAL_LINE;
 		}
+		else if(SType == _T("工装孔"))
+		{
+			m_workpieceType = DETECT_FIXTURE;
+		}
 		else
 		{
 			m_workpieceType = DETECT_CIRCLE;
@@ -362,7 +366,7 @@ void CProcThread::OnDoAutoMear(WPARAM wParam,LPARAM lParam)
 				{
 					//第一项用于测量偏离角
 					m_DeviationAngle = (float)(atan(retY / retX) - atan((y + compensationY) / (x + compensationX)));
-					DataUtility::SetProfileFloat(_T("Axial Deviation Angle"), _T("Angle"), (DataUtility::GetExePath() + _T("\\ProcessConfig\\SysConfig.ini")), m_DeviationAngle * 180 / 3.14);
+					DataUtility::SetProfileFloat(_T("Axial Deviation Angle"), _T("Angle"), (DataUtility::GetExePath() + _T("\\ProcessConfig\\SysConfig.ini")), float(m_DeviationAngle * 180 / 3.14));
 				}
 
 				//利用轴向偏离角计算实测量结果
@@ -647,18 +651,13 @@ void CProcThread::OnImageProcSetting(WPARAM wParam,LPARAM lParam)
 		}
 
 		CDetectCircularhole* circleDetecter = m_IImageProcess->GetCircleDetecter();
-		if(circleDetecter != NULL) m_imageProcSetAllDlg->m_ImageProcSetDlg->SetCircleDetecter(circleDetecter);
-
-		CDetectOblong* oblongDetecter = m_IImageProcess->GetOblongDetecter();
-		if(oblongDetecter != NULL) m_imageProcSetAllDlg->m_imageProcSetOblongDlg->SetDetecter(oblongDetecter);
+		if(circleDetecter != NULL) m_imageProcSetAllDlg->m_imageProcSetCircleDlg->SetDetecter(circleDetecter);
 
 		CDetectRectangle* rectangleDetecter = m_IImageProcess->GetRectangleDetecter();
 		if(rectangleDetecter != NULL) m_imageProcSetAllDlg->m_imageProcSetRectangleDlg->SetDetecter(rectangleDetecter);
 
 		CDetectLine* lineDetecter = m_IImageProcess->GetLineDetecter();
 		if(lineDetecter != NULL) m_imageProcSetAllDlg->m_imageProcSetLineDlg->SetDetecter(lineDetecter);
-		CDetectCircularhole* specialCircleDetecter = m_IImageProcess->GetSpecialCircleDetecter();
-		if(specialCircleDetecter != NULL) m_imageProcSetAllDlg->m_ImageProcSetSmallCircleDlg->SetCircleDetecter(specialCircleDetecter);
 
 		m_imageProcSetAllDlg->ShowWindow(SW_SHOW);
 	}

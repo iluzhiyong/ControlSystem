@@ -4,12 +4,14 @@
 enum
 {
 	CIRCLE_DETECT_TYPE_NORMAL = 0,
+	CIRCLE_DETECT_TYPE_OBLONG,
+	CIRCLE_DETECT_TYPE_FIXTURE,
 	CIRCLE_DETECT_TYPE_SPECIAL,
 };
 class CDetectCircularhole
 {
 public:
-	CDetectCircularhole(int type);
+	CDetectCircularhole();
 	~CDetectCircularhole(void);
 
 public:
@@ -25,6 +27,11 @@ public:
 
 	void ShowErrorMessage(bool show);
 	void ShowMessage(CString msg);
+	void SetType(int type)
+	{
+		m_detectType = type;
+		LoadConfig();
+	};
 
 public:
 	int m_MinGray;

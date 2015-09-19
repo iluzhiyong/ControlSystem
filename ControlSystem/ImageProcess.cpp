@@ -10,7 +10,6 @@ static void MyHalconExceptionHandler(const HException& except)
 
 CImageProcess::CImageProcess(void)
 	: m_CirleDetecter(NULL)
-	, m_OblongDetecter(NULL)
 	, m_RectangleDetecter(NULL)
 	, m_detecterType(DETECT_CIRCLE)
 	, m_TargetRow(0.0f)
@@ -18,13 +17,9 @@ CImageProcess::CImageProcess(void)
 {
 	m_paramPoseLoaded = LoadCamParamPoseFile();
 
-	m_CirleDetecter = new CDetectCircularhole(CIRCLE_DETECT_TYPE_NORMAL);
-
-	m_OblongDetecter = new CDetectOblong();
+	m_CirleDetecter = new CDetectCircularhole();
 
 	m_RectangleDetecter = new CDetectRectangle();
-
-	m_SpecailCirleDetecter = new CDetectCircularhole(CIRCLE_DETECT_TYPE_SPECIAL);
 
 	m_LineDetecter = new CDetectLine();
 
@@ -40,22 +35,10 @@ CImageProcess::~CImageProcess(void)
 		m_CirleDetecter = NULL;
 	}
 
-	if(NULL != m_OblongDetecter)
-	{
-		delete m_OblongDetecter;
-		m_OblongDetecter = NULL;
-	}
-
 	if(NULL != m_RectangleDetecter)
 	{
 		delete m_RectangleDetecter;
 		m_RectangleDetecter = NULL;
-	}
-
-	if(NULL != m_SpecailCirleDetecter)
-	{
-		delete m_SpecailCirleDetecter;
-		m_SpecailCirleDetecter = NULL;
 	}
 
 	if(NULL != m_LineDetecter)
@@ -136,10 +119,8 @@ bool CImageProcess::LoadProcessImage()
 		}
 
 		m_CirleDetecter->SetImageObject(m_hvImage);
-		m_OblongDetecter->SetImageObject(m_hvImage);
 		m_RectangleDetecter->SetImageObject(m_hvImage);
 		m_LineDetecter->SetImageObject(m_hvImage);
-		m_SpecailCirleDetecter->SetImageObject(m_hvImage);
 
 		return true;
 	}
@@ -205,11 +186,13 @@ bool CImageProcess::FindTargetPoint(float &x, float &y)
 		switch(m_detecterType)
 		{
 		case DETECT_CIRCLE:
+			m_CirleDetecter->SetType(CIRCLE_DETECT_TYPE_NORMAL);
 			ret = m_CirleDetecter->DetectCirleCenter(m_TargetRow, m_TargetColumn);
 			break;
 
 		case DETECT_OBLONG:
-			ret = m_OblongDetecter->DetectTargetCenter(m_TargetRow, m_TargetColumn);
+			m_CirleDetecter->SetType(CIRCLE_DETECT_TYPE_OBLONG);
+			ret = m_CirleDetecter->DetectCirleCenter(m_TargetRow, m_TargetColumn);
 			break;
 
 		case DETECT_RECTANGLE:
@@ -227,11 +210,18 @@ bool CImageProcess::FindTargetPoint(float &x, float &y)
 			break;
 
 		case DETECT_SPECIAL_CIRCLE:
-			ret = m_SpecailCirleDetecter->DetectCirleCenter(m_TargetRow, m_TargetColumn);
+			m_CirleDetecter->SetType(CIRCLE_DETECT_TYPE_SPECIAL);
+			ret = m_CirleDetecter->DetectCirleCenter(m_TargetRow, m_TargetColumn);
+			break;
+
+		case DETECT_FIXTURE:
+			m_CirleDetecter->SetType(CIRCLE_DETECT_TYPE_FIXTURE);
+			ret = m_CirleDetecter->DetectCirleCenter(m_TargetRow, m_TargetColumn);
 			break;
 
 		default:
-			ret = m_OblongDetecter->DetectTargetCenter(m_TargetRow, m_TargetColumn);
+			m_CirleDetecter->SetType(CIRCLE_DETECT_TYPE_NORMAL);
+			ret = m_CirleDetecter->DetectCirleCenter(m_TargetRow, m_TargetColumn);
 			break;
 		}
 

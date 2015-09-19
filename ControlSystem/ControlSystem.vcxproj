@@ -225,7 +225,7 @@
     <ClInclude Include="ImageProcessDlg.h" />
     <ClInclude Include="ImageProcSetAllDlg.h" />
     <ClInclude Include="ImageProcSetLineDlg.h" />
-    <ClInclude Include="ImageProcSetOblongDlg.h" />
+    <ClInclude Include="ImageProcSetCircleDlg.h" />
     <ClInclude Include="ImageProcSetRectangleDlg.h" />
     <ClInclude Include="ImageProcSetting.h" />
     <ClInclude Include="ImageProcSettingDlg.h" />
@@ -260,7 +260,7 @@
     <ClCompile Include="ImageProcessDlg.cpp" />
     <ClCompile Include="ImageProcSetAllDlg.cpp" />
     <ClCompile Include="ImageProcSetLineDlg.cpp" />
-    <ClCompile Include="ImageProcSetOblongDlg.cpp" />
+    <ClCompile Include="ImageProcSetCircleDlg.cpp" />
     <ClCompile Include="ImageProcSetRectangleDlg.cpp" />
     <ClCompile Include="ImageProcSettingDlg.cpp" />
     <ClCompile Include="IMotroCtrl.cpp" />
