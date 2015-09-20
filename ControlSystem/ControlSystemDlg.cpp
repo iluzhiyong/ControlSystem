@@ -199,6 +199,8 @@ BEGIN_MESSAGE_MAP(CControlSystemDlg, CDialogEx)
 	ON_COMMAND(ID_IMAGE_PARAM_SET, OnImageParamSet)
 	ON_COMMAND(ID_CAL_AXIAL_DEVIATION_ANGLE, OnCaculateAxialDeviationAngle)
 	ON_MESSAGE(WM_MAIN_THREAD_DO_CAPTURE,&CControlSystemDlg::OnMainThreadDoCapture)
+	ON_WM_ERASEBKGND()
+	ON_WM_CTLCOLOR()
 END_MESSAGE_MAP()
 
 
@@ -1144,4 +1146,36 @@ void CControlSystemDlg::OnCaculateAxialDeviationAngle()
 	//{
 	//	m_UIProcThread->PostThreadMessage(WM_OPEN_AXIAL_DEVIATION_ANGLE_WND, 0, 0);
 	//}
+}
+
+BOOL CControlSystemDlg::OnEraseBkgnd(CDC* pDC)
+{
+	//CBrush myBrush;
+	//myBrush.CreateSolidBrush(RGB(0, 0, 255));
+	//CBrush* pOldBrush = pDC->SelectObject(&myBrush);
+	//CRect rect;
+	//GetClientRect(&rect);
+	//pDC->Rectangle(&rect);
+	//pDC->SelectObject(pOldBrush);
+
+	//return true;
+	return CDialogEx::OnEraseBkgnd(pDC);
+}
+
+
+HBRUSH CControlSystemDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
+{
+	HBRUSH hbr = CDialogEx::OnCtlColor(pDC, pWnd, nCtlColor);
+
+	//pDC->SetBkMode(TRANSPARENT);
+	//pDC->SetTextColor(RGB(255, 0, 0));
+	//if(nCtlColor == CTLCOLOR_BTN)
+	//{
+	//	pDC->SetTextColor(RGB(0,0,255));
+ //       pDC->SetBkColor(RGB(255,0,0));//设置文本背景色
+ //       pDC->SetBkMode(TRANSPARENT);//设置背景透明
+ //       hbr = ::CreateSolidBrush(RGB(255,0,0));
+	//}
+	
+	return hbr;
 }
