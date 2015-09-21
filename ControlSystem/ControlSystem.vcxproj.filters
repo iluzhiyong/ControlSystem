@@ -70,6 +70,12 @@
     <None Include="res\icon3.ico">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="res\bitmap1.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\background.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ControlSystem.h">

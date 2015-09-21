@@ -190,6 +190,8 @@
     <None Include="ReadMe.txt" />
     <None Include="res\Alram0.bmp" />
     <None Include="res\Alram1.bmp" />
+    <None Include="res\background.bmp" />
+    <None Include="res\bitmap1.bmp" />
     <None Include="res\ControlSystem.ico" />
     <None Include="res\ControlSystem.rc2" />
     <None Include="res\ico00001.ico" />
