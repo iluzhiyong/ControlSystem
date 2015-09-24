@@ -305,18 +305,18 @@ void CControlSystemDlg::OnPaint()
 	}
 	else
 	{
-		//CPaintDC dc(this);
-		//CRect rc;
-		//GetClientRect(&rc);
-		//CDC dcMem;
-		//dcMem.CreateCompatibleDC(&dc);
-		//CBitmap bmpBackground;
-		//bmpBackground.LoadBitmap(IDB_DIALOG_BACKGROUND);
+		CPaintDC dc(this);
+		CRect rc;
+		GetClientRect(&rc);
+		CDC dcMem;
+		dcMem.CreateCompatibleDC(&dc);
+		CBitmap bmpBackground;
+		bmpBackground.LoadBitmap(IDB_DIALOG_BACKGROUND);
 
-		//BITMAP bitmap;
-		//bmpBackground.GetBitmap(&bitmap);
-		//CBitmap* pbmpPri = dcMem.SelectObject(&bmpBackground);
-		//dc.StretchBlt(0,0,rc.Width(), rc.Height(), &dcMem,0,0,bitmap.bmWidth, bitmap.bmHeight, SRCCOPY);
+		BITMAP bitmap;
+		bmpBackground.GetBitmap(&bitmap);
+		CBitmap* pbmpPri = dcMem.SelectObject(&bmpBackground);
+		dc.StretchBlt(0,0,rc.Width(), rc.Height(), &dcMem,0,0,bitmap.bmWidth, bitmap.bmHeight, SRCCOPY);
 		
 		CDialogEx::OnPaint();
 	}
@@ -1180,16 +1180,18 @@ HBRUSH CControlSystemDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 {
 	HBRUSH hbr = CDialogEx::OnCtlColor(pDC, pWnd, nCtlColor);
 
-	//pDC->SetBkMode(TRANSPARENT);
-	//pDC->SetBkColor(RGB(255,0,0));
-	//pDC->SetTextColor(RGB(255, 0, 0));
-	//if(nCtlColor == CTLCOLOR_BTN)
-	//{
-	//	pDC->SetTextColor(RGB(0,0,255));
-	//	pDC->SetBkColor(RGB(255,0,0));//设置文本背景色
-	//	pDC->SetBkMode(TRANSPARENT);//设置背景透明
-	//	hbr = ::CreateSolidBrush(RGB(255,0,0));
-	//}
+	CFont m_font;
+	m_font.CreatePointFont(150,"华文行楷");
+
+	if(nCtlColor == CTLCOLOR_STATIC)
+	{
+		//pDC->SetTextColor(RGB(0,0,0));
+		//pDC->SetBkColor(RGB(229,227,209));
+		pDC->SetBkColor(RGB(234,235,221));
+		pDC->SetBkMode(TRANSPARENT);
+		//pDC->SelectObject(&m_font);
+		hbr = ::CreateSolidBrush(RGB(234,235,221));
+	}
 	
 	return hbr;
 }
