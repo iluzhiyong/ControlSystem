@@ -313,6 +313,10 @@ void CProcThread::OnDoAutoMear(WPARAM wParam,LPARAM lParam)
 	float retX = 0.0, retY = 0.0, retZ = 0.0;
 	for(int i = ROW_START; i < usedRowNum; i = i + 3)
 	{
+		if(m_pListData->GetItemText(i, COLUMN_TERMINATOR) == _T("结束"))
+		{
+			break;
+		}
 		//获取测量类型
 		CString SType = m_pListData->GetItemText(i, COLUMN_MEAR_TYPE);
 		if(SType == _T("圆孔"))

@@ -578,6 +578,11 @@ void CControlSystemDlg::ReCaculateResultByCompensation()
 
 	for(int i = ROW_START; i < m_rowNum; i = i + 3)
 	{
+		if(m_ListData.GetItemText(i, COLUMN_TERMINATOR) == _T("½áÊø"))
+		{
+			break;
+		}
+
 		buffer = m_ListData.GetItemText(i + 1,COLUMN_POS_X);
 		if(DataUtility::ConvertStringToFloat(buffer, measuredX) == false) continue;
 
