@@ -128,9 +128,12 @@ bool CDetectCircularhole::RunSelectTarget()
 			gen_contour_region_xld(ho_RegionFillUp, &ho_Contour, "border");
 
 			HTuple row1, column1, row2, column2, length;
+			//算法1：通过计算两条最远线的交点，计算区域中心，适用于不标准图形
 			diameter_region(ho_RegionFillUp, &row1, &column1, &row2, &column2, &length);
 			hv_targetRow = (row1 + row2) / 2;
 			hv_targetColumn = (column1 + column2) / 2;
+			//算法2：直接利用算子求区域的中心，适用于比较标准的图形
+			//area_center(ho_RegionFillUp, &hv_Area, &hv_targetRow, &hv_targetColumn);
 
 			if (m_ShowProcessingImage && HDevWindowStack::IsOpen())
 			{

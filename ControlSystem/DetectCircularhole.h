@@ -52,7 +52,7 @@ private:
 	Hobject  ho_Contour;
 
 	HTuple  hv_imageWidth, hv_imageHeight, hv_WindowID;
-	HTuple  hv_targetRow, hv_targetColumn;
+	HTuple  hv_targetRow, hv_targetColumn, hv_Area;
 
 	bool m_ShowErrorMeg;
 	bool m_ShowProcessingImage;
