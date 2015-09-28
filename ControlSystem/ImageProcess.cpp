@@ -158,9 +158,14 @@ bool CImageProcess::Process(float x, float y, float &diffX, float &diffY)
 		}
 		if(ret)
 		{
-			if(m_detecterType == DETECT_HORIZONTAL_LINE || m_detecterType == DETECT_VERTICAL_LINE)
+			if(m_detecterType == DETECT_HORIZONTAL_LINE)
 			{
 				diffX = cx - targetX;
+				diffY = 0;
+			}
+			else if(m_detecterType == DETECT_VERTICAL_LINE)
+			{
+				diffX = 0;
 				diffY = cy - targetY;
 			}
 			else
@@ -200,13 +205,17 @@ bool CImageProcess::FindTargetPoint(float &x, float &y)
 			break;
 
 		case DETECT_HORIZONTAL_LINE:
+			ret = m_LineDetecter->DetectDistancePC(m_TargetRow);
 			ret = m_LineDetecter->DetectDistancePC(m_TargetColumn);
-			m_TargetRow = (float)(hv_height[0].D() / 2.0);
+			m_TargetColumn = m_TargetColumn + (float)(hv_width[0].D() / 2.0);
+			m_TargetRow = m_TargetRow + (float)(hv_height[0].D() / 2.0);
 			break;
 
 		case DETECT_VERTICAL_LINE:
 			ret = m_LineDetecter->DetectDistancePC(m_TargetRow);
-			m_TargetColumn = (float)(hv_width[0].D() / 2.0);
+			ret = m_LineDetecter->DetectDistancePC(m_TargetColumn);
+			m_TargetColumn = m_TargetColumn + (float)(hv_width[0].D() / 2.0);
+			m_TargetRow = m_TargetRow + (float)(hv_height[0].D() / 2.0);
 			break;
 
 		case DETECT_SPECIAL_CIRCLE:
