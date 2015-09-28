@@ -936,6 +936,8 @@ void CControlSystemDlg::CameraPlay(void)
 	if(m_pCameraDevice != NULL && !m_pCameraDevice->IsReceivingData())
 	{
 		DeviceStatus devStatus = m_pCameraDevice->Start();
+		int contrast = DataUtility::GetProfileInt(_T("Camera"), _T("Contrast"), DataUtility::GetExePath() + _T("\\ProcessConfig\\CameraConfig.ini"), 80);
+		m_pCameraDevice->SetContrast(contrast);
 		if(FAILED(devStatus))
 		{
 			CString strText;

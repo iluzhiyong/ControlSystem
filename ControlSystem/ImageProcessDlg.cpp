@@ -6,6 +6,7 @@
 #include "ImageProcessDlg.h"
 #include "afxdialogex.h"
 #include <cmath>
+#include "DataUtility.h"
 
 // CImageProcessDlg dialog
 
@@ -14,7 +15,7 @@ IMPLEMENT_DYNAMIC(CImageProcessDlg, CDialog)
 CImageProcessDlg::CImageProcessDlg(IDevice *pDevice, CWnd* pParent /*=NULL*/)
 : CDialog(CImageProcessDlg::IDD, pParent), m_pDevice(pDevice)
 {
-
+	m_ConfigPath = DataUtility::GetExePath() + _T("\\ProcessConfig\\CameraConfig.ini");
 }
 
 CImageProcessDlg::~CImageProcessDlg()
@@ -227,6 +228,7 @@ void CImageProcessDlg::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar
 				SetContrastCtrl(shContrast);
 				m_pDevice->SetContrast(shContrast);
 				m_pDevice->SetContrastState(shContrast != 0);
+				DataUtility::SetProfileInt(_T("Camera"), _T("Contrast"), m_ConfigPath, shContrast);
 			}break;
 		case IDC_SATURATION_BAR:
 			{

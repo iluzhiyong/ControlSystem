@@ -49,4 +49,5 @@ public:
 	afx_msg void OnBnClickedMono();
 	afx_msg void OnBnClickedInverse();
 	afx_msg void OnBnClickedOnewb2();
+	CString m_ConfigPath;
 };
