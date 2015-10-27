@@ -228,6 +228,31 @@ bool CImageProcess::FindTargetPoint(float &x, float &y)
 			ret = m_CirleDetecter->DetectCirleCenter(m_TargetRow, m_TargetColumn);
 			break;
 
+		case DETECT_CUSTOM1:
+			m_CirleDetecter->SetType(CIRCLE_DETECT_TYPE_CUSTOM1);
+			ret = m_CirleDetecter->DetectCirleCenter(m_TargetRow, m_TargetColumn);
+			break;
+
+		case DETECT_CUSTOM2:
+			m_CirleDetecter->SetType(CIRCLE_DETECT_TYPE_CUSTOM2);
+			ret = m_CirleDetecter->DetectCirleCenter(m_TargetRow, m_TargetColumn);
+			break;
+
+		case DETECT_CUSTOM3:
+			m_CirleDetecter->SetType(CIRCLE_DETECT_TYPE_CUSTOM3);
+			ret = m_CirleDetecter->DetectCirleCenter(m_TargetRow, m_TargetColumn);
+			break;
+
+		case DETECT_CUSTOM4:
+			m_CirleDetecter->SetType(CIRCLE_DETECT_TYPE_CUSTOM4);
+			ret = m_CirleDetecter->DetectCirleCenter(m_TargetRow, m_TargetColumn);
+			break;
+
+		case DETECT_CUSTOM5:
+			m_CirleDetecter->SetType(CIRCLE_DETECT_TYPE_CUSTOM5);
+			ret = m_CirleDetecter->DetectCirleCenter(m_TargetRow, m_TargetColumn);
+			break;
+
 		default:
 			m_CirleDetecter->SetType(CIRCLE_DETECT_TYPE_NORMAL);
 			ret = m_CirleDetecter->DetectCirleCenter(m_TargetRow, m_TargetColumn);

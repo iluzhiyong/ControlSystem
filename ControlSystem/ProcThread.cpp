@@ -347,6 +347,26 @@ void CProcThread::OnDoAutoMear(WPARAM wParam,LPARAM lParam)
 		{
 			m_workpieceType = DETECT_FIXTURE;
 		}
+		else if(SType == _T("自定义1"))
+		{
+			m_workpieceType = DETECT_CUSTOM1;
+		}
+		else if(SType == _T("自定义2"))
+		{
+			m_workpieceType = DETECT_CUSTOM2;
+		}
+		else if(SType == _T("自定义3"))
+		{
+			m_workpieceType = DETECT_CUSTOM3;
+		}
+		else if(SType == _T("自定义4"))
+		{
+			m_workpieceType = DETECT_CUSTOM4;
+		}
+		else if(SType == _T("自定义5"))
+		{
+			m_workpieceType = DETECT_CUSTOM5;
+		}
 		else
 		{
 			m_workpieceType = DETECT_CIRCLE;
