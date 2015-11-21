@@ -367,6 +367,46 @@ void CProcThread::OnDoAutoMear(WPARAM wParam,LPARAM lParam)
 		{
 			m_workpieceType = DETECT_CUSTOM5;
 		}
+		else if(SType == _T("自定义6"))
+		{
+			m_workpieceType = DETECT_CUSTOM6;
+		}
+		else if(SType == _T("自定义7"))
+		{
+			m_workpieceType = DETECT_CUSTOM7;
+		}
+		else if(SType == _T("自定义8"))
+		{
+			m_workpieceType = DETECT_CUSTOM8;
+		}
+		else if(SType == _T("自定义9"))
+		{
+			m_workpieceType = DETECT_CUSTOM9;
+		}
+		else if(SType == _T("自定义10"))
+		{
+			m_workpieceType = DETECT_CUSTOM10;
+		}
+		else if(SType == _T("自定义11"))
+		{
+			m_workpieceType = DETECT_CUSTOM11;
+		}
+		else if(SType == _T("自定义12"))
+		{
+			m_workpieceType = DETECT_CUSTOM12;
+		}
+		else if(SType == _T("自定义13"))
+		{
+			m_workpieceType = DETECT_CUSTOM13;
+		}
+		else if(SType == _T("自定义14"))
+		{
+			m_workpieceType = DETECT_CUSTOM14;
+		}
+		else if(SType == _T("自定义15"))
+		{
+			m_workpieceType = DETECT_CUSTOM15;
+		}
 		else
 		{
 			m_workpieceType = DETECT_CIRCLE;

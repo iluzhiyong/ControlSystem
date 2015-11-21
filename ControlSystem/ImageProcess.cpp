@@ -253,6 +253,56 @@ bool CImageProcess::FindTargetPoint(float &x, float &y)
 			ret = m_CirleDetecter->DetectCirleCenter(m_TargetRow, m_TargetColumn);
 			break;
 
+		case DETECT_CUSTOM6:
+			m_CirleDetecter->SetType(CIRCLE_DETECT_TYPE_CUSTOM6);
+			ret = m_CirleDetecter->DetectCirleCenter(m_TargetRow, m_TargetColumn);
+			break;
+
+		case DETECT_CUSTOM7:
+			m_CirleDetecter->SetType(CIRCLE_DETECT_TYPE_CUSTOM7);
+			ret = m_CirleDetecter->DetectCirleCenter(m_TargetRow, m_TargetColumn);
+			break;
+
+		case DETECT_CUSTOM8:
+			m_CirleDetecter->SetType(CIRCLE_DETECT_TYPE_CUSTOM8);
+			ret = m_CirleDetecter->DetectCirleCenter(m_TargetRow, m_TargetColumn);
+			break;
+
+		case DETECT_CUSTOM9:
+			m_CirleDetecter->SetType(CIRCLE_DETECT_TYPE_CUSTOM9);
+			ret = m_CirleDetecter->DetectCirleCenter(m_TargetRow, m_TargetColumn);
+			break;
+
+		case DETECT_CUSTOM10:
+			m_CirleDetecter->SetType(CIRCLE_DETECT_TYPE_CUSTOM10);
+			ret = m_CirleDetecter->DetectCirleCenter(m_TargetRow, m_TargetColumn);
+			break;
+
+		case DETECT_CUSTOM11:
+			m_CirleDetecter->SetType(CIRCLE_DETECT_TYPE_CUSTOM11);
+			ret = m_CirleDetecter->DetectCirleCenter(m_TargetRow, m_TargetColumn);
+			break;
+
+		case DETECT_CUSTOM12:
+			m_CirleDetecter->SetType(CIRCLE_DETECT_TYPE_CUSTOM12);
+			ret = m_CirleDetecter->DetectCirleCenter(m_TargetRow, m_TargetColumn);
+			break;
+
+		case DETECT_CUSTOM13:
+			m_CirleDetecter->SetType(CIRCLE_DETECT_TYPE_CUSTOM13);
+			ret = m_CirleDetecter->DetectCirleCenter(m_TargetRow, m_TargetColumn);
+			break;
+
+		case DETECT_CUSTOM14:
+			m_CirleDetecter->SetType(CIRCLE_DETECT_TYPE_CUSTOM14);
+			ret = m_CirleDetecter->DetectCirleCenter(m_TargetRow, m_TargetColumn);
+			break;
+
+		case DETECT_CUSTOM15:
+			m_CirleDetecter->SetType(CIRCLE_DETECT_TYPE_CUSTOM15);
+			ret = m_CirleDetecter->DetectCirleCenter(m_TargetRow, m_TargetColumn);
+			break;
+
 		default:
 			m_CirleDetecter->SetType(CIRCLE_DETECT_TYPE_NORMAL);
 			ret = m_CirleDetecter->DetectCirleCenter(m_TargetRow, m_TargetColumn);

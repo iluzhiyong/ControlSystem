@@ -47,6 +47,45 @@
 #define CUSTOM5AREA					_T("Custom5 Area")
 #define CUSTOM5ROUNDNESS			_T("Custom5 Roundness")
 
+#define CUSTOM6GRAY					_T("Custom6 Gray")
+#define CUSTOM6AREA					_T("Custom6 Area")
+#define CUSTOM6ROUNDNESS			_T("Custom6 Roundness")
+
+#define CUSTOM7GRAY					_T("Custom7 Gray")
+#define CUSTOM7AREA					_T("Custom7 Area")
+#define CUSTOM7ROUNDNESS			_T("Custom7 Roundness")
+
+#define CUSTOM8GRAY					_T("Custom8 Gray")
+#define CUSTOM8AREA					_T("Custom8 Area")
+#define CUSTOM8ROUNDNESS			_T("Custom8 Roundness")
+
+#define CUSTOM9GRAY					_T("Custom9 Gray")
+#define CUSTOM9AREA					_T("Custom9 Area")
+#define CUSTOM9ROUNDNESS			_T("Custom9 Roundness")
+
+#define CUSTOM10GRAY				_T("Custom10 Gray")
+#define CUSTOM10AREA				_T("Custom10 Area")
+#define CUSTOM10ROUNDNESS			_T("Custom10 Roundness")
+
+#define CUSTOM11GRAY				_T("Custom11 Gray")
+#define CUSTOM11AREA				_T("Custom11 Area")
+#define CUSTOM11ROUNDNESS			_T("Custom11 Roundness")
+
+#define CUSTOM12GRAY				_T("Custom12 Gray")
+#define CUSTOM12AREA				_T("Custom12 Area")
+#define CUSTOM12ROUNDNESS			_T("Custom12 Roundness")
+
+#define CUSTOM13GRAY				_T("Custom13 Gray")
+#define CUSTOM13AREA				_T("Custom13 Area")
+#define CUSTOM13ROUNDNESS			_T("Custom13 Roundness")
+
+#define CUSTOM14GRAY				_T("Custom14 Gray")
+#define CUSTOM14AREA				_T("Custom14 Area")
+#define CUSTOM14ROUNDNESS			_T("Custom14 Roundness")
+
+#define CUSTOM15GRAY				_T("Custom15 Gray")
+#define CUSTOM15AREA				_T("Custom15 Area")
+#define CUSTOM15ROUNDNESS			_T("Custom15 Roundness")
 
 CDetectCircularhole::CDetectCircularhole()
 	: m_MinGray(128)
@@ -261,6 +300,96 @@ void CDetectCircularhole::LoadConfig()
 		m_MaxRoundness = DataUtility::GetProfileFloat(CUSTOM5ROUNDNESS, MAXROUNDNESS, m_ConfigPath, 1.0);
 		break;
 
+	case CIRCLE_DETECT_TYPE_CUSTOM6:
+		m_MinGray = DataUtility::GetProfileInt(CUSTOM6GRAY, MINGRAY, m_ConfigPath, 0);
+		m_MaxGray = DataUtility::GetProfileInt(CUSTOM6GRAY, MAXGRAY, m_ConfigPath, 100);
+		m_MinCirleArea = DataUtility::GetProfileFloat(CUSTOM6AREA, MINAREA, m_ConfigPath, 150000.0);
+		m_MaxCirleArea = DataUtility::GetProfileFloat(CUSTOM6AREA, MAXAREA, m_ConfigPath, 300000.0);
+		m_MinRoundness = DataUtility::GetProfileFloat(CUSTOM6ROUNDNESS, MINROUNDNESS, m_ConfigPath, 0.5);
+		m_MaxRoundness = DataUtility::GetProfileFloat(CUSTOM6ROUNDNESS, MAXROUNDNESS, m_ConfigPath, 1.0);
+		break;
+
+	case CIRCLE_DETECT_TYPE_CUSTOM7:
+		m_MinGray = DataUtility::GetProfileInt(CUSTOM7GRAY, MINGRAY, m_ConfigPath, 0);
+		m_MaxGray = DataUtility::GetProfileInt(CUSTOM7GRAY, MAXGRAY, m_ConfigPath, 100);
+		m_MinCirleArea = DataUtility::GetProfileFloat(CUSTOM7AREA, MINAREA, m_ConfigPath, 150000.0);
+		m_MaxCirleArea = DataUtility::GetProfileFloat(CUSTOM7AREA, MAXAREA, m_ConfigPath, 300000.0);
+		m_MinRoundness = DataUtility::GetProfileFloat(CUSTOM7ROUNDNESS, MINROUNDNESS, m_ConfigPath, 0.5);
+		m_MaxRoundness = DataUtility::GetProfileFloat(CUSTOM7ROUNDNESS, MAXROUNDNESS, m_ConfigPath, 1.0);
+		break;
+
+	case CIRCLE_DETECT_TYPE_CUSTOM8:
+		m_MinGray = DataUtility::GetProfileInt(CUSTOM8GRAY, MINGRAY, m_ConfigPath, 0);
+		m_MaxGray = DataUtility::GetProfileInt(CUSTOM8GRAY, MAXGRAY, m_ConfigPath, 100);
+		m_MinCirleArea = DataUtility::GetProfileFloat(CUSTOM8AREA, MINAREA, m_ConfigPath, 150000.0);
+		m_MaxCirleArea = DataUtility::GetProfileFloat(CUSTOM8AREA, MAXAREA, m_ConfigPath, 300000.0);
+		m_MinRoundness = DataUtility::GetProfileFloat(CUSTOM8ROUNDNESS, MINROUNDNESS, m_ConfigPath, 0.5);
+		m_MaxRoundness = DataUtility::GetProfileFloat(CUSTOM8ROUNDNESS, MAXROUNDNESS, m_ConfigPath, 1.0);
+		break;
+
+	case CIRCLE_DETECT_TYPE_CUSTOM9:
+		m_MinGray = DataUtility::GetProfileInt(CUSTOM9GRAY, MINGRAY, m_ConfigPath, 0);
+		m_MaxGray = DataUtility::GetProfileInt(CUSTOM9GRAY, MAXGRAY, m_ConfigPath, 100);
+		m_MinCirleArea = DataUtility::GetProfileFloat(CUSTOM9AREA, MINAREA, m_ConfigPath, 150000.0);
+		m_MaxCirleArea = DataUtility::GetProfileFloat(CUSTOM9AREA, MAXAREA, m_ConfigPath, 300000.0);
+		m_MinRoundness = DataUtility::GetProfileFloat(CUSTOM9ROUNDNESS, MINROUNDNESS, m_ConfigPath, 0.5);
+		m_MaxRoundness = DataUtility::GetProfileFloat(CUSTOM9ROUNDNESS, MAXROUNDNESS, m_ConfigPath, 1.0);
+		break;
+
+	case CIRCLE_DETECT_TYPE_CUSTOM10:
+		m_MinGray = DataUtility::GetProfileInt(CUSTOM10GRAY, MINGRAY, m_ConfigPath, 0);
+		m_MaxGray = DataUtility::GetProfileInt(CUSTOM10GRAY, MAXGRAY, m_ConfigPath, 100);
+		m_MinCirleArea = DataUtility::GetProfileFloat(CUSTOM10AREA, MINAREA, m_ConfigPath, 150000.0);
+		m_MaxCirleArea = DataUtility::GetProfileFloat(CUSTOM10AREA, MAXAREA, m_ConfigPath, 300000.0);
+		m_MinRoundness = DataUtility::GetProfileFloat(CUSTOM10ROUNDNESS, MINROUNDNESS, m_ConfigPath, 0.5);
+		m_MaxRoundness = DataUtility::GetProfileFloat(CUSTOM10ROUNDNESS, MAXROUNDNESS, m_ConfigPath, 1.0);
+		break;
+
+	case CIRCLE_DETECT_TYPE_CUSTOM11:
+		m_MinGray = DataUtility::GetProfileInt(CUSTOM11GRAY, MINGRAY, m_ConfigPath, 0);
+		m_MaxGray = DataUtility::GetProfileInt(CUSTOM11GRAY, MAXGRAY, m_ConfigPath, 100);
+		m_MinCirleArea = DataUtility::GetProfileFloat(CUSTOM11AREA, MINAREA, m_ConfigPath, 150000.0);
+		m_MaxCirleArea = DataUtility::GetProfileFloat(CUSTOM11AREA, MAXAREA, m_ConfigPath, 300000.0);
+		m_MinRoundness = DataUtility::GetProfileFloat(CUSTOM11ROUNDNESS, MINROUNDNESS, m_ConfigPath, 0.5);
+		m_MaxRoundness = DataUtility::GetProfileFloat(CUSTOM11ROUNDNESS, MAXROUNDNESS, m_ConfigPath, 1.0);
+		break;
+
+	case CIRCLE_DETECT_TYPE_CUSTOM12:
+		m_MinGray = DataUtility::GetProfileInt(CUSTOM12GRAY, MINGRAY, m_ConfigPath, 0);
+		m_MaxGray = DataUtility::GetProfileInt(CUSTOM12GRAY, MAXGRAY, m_ConfigPath, 100);
+		m_MinCirleArea = DataUtility::GetProfileFloat(CUSTOM12AREA, MINAREA, m_ConfigPath, 150000.0);
+		m_MaxCirleArea = DataUtility::GetProfileFloat(CUSTOM12AREA, MAXAREA, m_ConfigPath, 300000.0);
+		m_MinRoundness = DataUtility::GetProfileFloat(CUSTOM12ROUNDNESS, MINROUNDNESS, m_ConfigPath, 0.5);
+		m_MaxRoundness = DataUtility::GetProfileFloat(CUSTOM12ROUNDNESS, MAXROUNDNESS, m_ConfigPath, 1.0);
+		break;
+
+	case CIRCLE_DETECT_TYPE_CUSTOM13:
+		m_MinGray = DataUtility::GetProfileInt(CUSTOM13GRAY, MINGRAY, m_ConfigPath, 0);
+		m_MaxGray = DataUtility::GetProfileInt(CUSTOM13GRAY, MAXGRAY, m_ConfigPath, 100);
+		m_MinCirleArea = DataUtility::GetProfileFloat(CUSTOM13AREA, MINAREA, m_ConfigPath, 150000.0);
+		m_MaxCirleArea = DataUtility::GetProfileFloat(CUSTOM13AREA, MAXAREA, m_ConfigPath, 300000.0);
+		m_MinRoundness = DataUtility::GetProfileFloat(CUSTOM13ROUNDNESS, MINROUNDNESS, m_ConfigPath, 0.5);
+		m_MaxRoundness = DataUtility::GetProfileFloat(CUSTOM13ROUNDNESS, MAXROUNDNESS, m_ConfigPath, 1.0);
+		break;
+
+	case CIRCLE_DETECT_TYPE_CUSTOM14:
+		m_MinGray = DataUtility::GetProfileInt(CUSTOM14GRAY, MINGRAY, m_ConfigPath, 0);
+		m_MaxGray = DataUtility::GetProfileInt(CUSTOM14GRAY, MAXGRAY, m_ConfigPath, 100);
+		m_MinCirleArea = DataUtility::GetProfileFloat(CUSTOM14AREA, MINAREA, m_ConfigPath, 150000.0);
+		m_MaxCirleArea = DataUtility::GetProfileFloat(CUSTOM14AREA, MAXAREA, m_ConfigPath, 300000.0);
+		m_MinRoundness = DataUtility::GetProfileFloat(CUSTOM14ROUNDNESS, MINROUNDNESS, m_ConfigPath, 0.5);
+		m_MaxRoundness = DataUtility::GetProfileFloat(CUSTOM14ROUNDNESS, MAXROUNDNESS, m_ConfigPath, 1.0);
+		break;
+
+	case CIRCLE_DETECT_TYPE_CUSTOM15:
+		m_MinGray = DataUtility::GetProfileInt(CUSTOM15GRAY, MINGRAY, m_ConfigPath, 0);
+		m_MaxGray = DataUtility::GetProfileInt(CUSTOM15GRAY, MAXGRAY, m_ConfigPath, 100);
+		m_MinCirleArea = DataUtility::GetProfileFloat(CUSTOM15AREA, MINAREA, m_ConfigPath, 150000.0);
+		m_MaxCirleArea = DataUtility::GetProfileFloat(CUSTOM15AREA, MAXAREA, m_ConfigPath, 300000.0);
+		m_MinRoundness = DataUtility::GetProfileFloat(CUSTOM15ROUNDNESS, MINROUNDNESS, m_ConfigPath, 0.5);
+		m_MaxRoundness = DataUtility::GetProfileFloat(CUSTOM15ROUNDNESS, MAXROUNDNESS, m_ConfigPath, 1.0);
+		break;
+
 	default:
 		m_MinGray = DataUtility::GetProfileInt(STANDARDCIRLEGRAY, MINGRAY, m_ConfigPath, 0);
 		m_MaxGray = DataUtility::GetProfileInt(STANDARDCIRLEGRAY, MAXGRAY, m_ConfigPath, 100);
@@ -355,6 +484,96 @@ void CDetectCircularhole::SaveConfig()
 		DataUtility::SetProfileFloat(CUSTOM5AREA, MAXAREA, m_ConfigPath, m_MaxCirleArea);
 		DataUtility::SetProfileFloat(CUSTOM5ROUNDNESS, MINROUNDNESS, m_ConfigPath, m_MinRoundness);
 		DataUtility::SetProfileFloat(CUSTOM5ROUNDNESS, MAXROUNDNESS, m_ConfigPath, m_MaxRoundness);
+		break;
+
+	case CIRCLE_DETECT_TYPE_CUSTOM6:
+		DataUtility::SetProfileInt(CUSTOM6GRAY, MINGRAY, m_ConfigPath, m_MinGray);
+		DataUtility::SetProfileInt(CUSTOM6GRAY, MAXGRAY, m_ConfigPath, m_MaxGray);
+		DataUtility::SetProfileFloat(CUSTOM6AREA, MINAREA, m_ConfigPath, m_MinCirleArea);
+		DataUtility::SetProfileFloat(CUSTOM6AREA, MAXAREA, m_ConfigPath, m_MaxCirleArea);
+		DataUtility::SetProfileFloat(CUSTOM6ROUNDNESS, MINROUNDNESS, m_ConfigPath, m_MinRoundness);
+		DataUtility::SetProfileFloat(CUSTOM6ROUNDNESS, MAXROUNDNESS, m_ConfigPath, m_MaxRoundness);
+		break;
+
+	case CIRCLE_DETECT_TYPE_CUSTOM7:
+		DataUtility::SetProfileInt(CUSTOM7GRAY, MINGRAY, m_ConfigPath, m_MinGray);
+		DataUtility::SetProfileInt(CUSTOM7GRAY, MAXGRAY, m_ConfigPath, m_MaxGray);
+		DataUtility::SetProfileFloat(CUSTOM7AREA, MINAREA, m_ConfigPath, m_MinCirleArea);
+		DataUtility::SetProfileFloat(CUSTOM7AREA, MAXAREA, m_ConfigPath, m_MaxCirleArea);
+		DataUtility::SetProfileFloat(CUSTOM7ROUNDNESS, MINROUNDNESS, m_ConfigPath, m_MinRoundness);
+		DataUtility::SetProfileFloat(CUSTOM7ROUNDNESS, MAXROUNDNESS, m_ConfigPath, m_MaxRoundness);
+		break;
+
+	case CIRCLE_DETECT_TYPE_CUSTOM8:
+		DataUtility::SetProfileInt(CUSTOM8GRAY, MINGRAY, m_ConfigPath, m_MinGray);
+		DataUtility::SetProfileInt(CUSTOM8GRAY, MAXGRAY, m_ConfigPath, m_MaxGray);
+		DataUtility::SetProfileFloat(CUSTOM8AREA, MINAREA, m_ConfigPath, m_MinCirleArea);
+		DataUtility::SetProfileFloat(CUSTOM8AREA, MAXAREA, m_ConfigPath, m_MaxCirleArea);
+		DataUtility::SetProfileFloat(CUSTOM8ROUNDNESS, MINROUNDNESS, m_ConfigPath, m_MinRoundness);
+		DataUtility::SetProfileFloat(CUSTOM8ROUNDNESS, MAXROUNDNESS, m_ConfigPath, m_MaxRoundness);
+		break;
+
+	case CIRCLE_DETECT_TYPE_CUSTOM9:
+		DataUtility::SetProfileInt(CUSTOM9GRAY, MINGRAY, m_ConfigPath, m_MinGray);
+		DataUtility::SetProfileInt(CUSTOM9GRAY, MAXGRAY, m_ConfigPath, m_MaxGray);
+		DataUtility::SetProfileFloat(CUSTOM9AREA, MINAREA, m_ConfigPath, m_MinCirleArea);
+		DataUtility::SetProfileFloat(CUSTOM9AREA, MAXAREA, m_ConfigPath, m_MaxCirleArea);
+		DataUtility::SetProfileFloat(CUSTOM9ROUNDNESS, MINROUNDNESS, m_ConfigPath, m_MinRoundness);
+		DataUtility::SetProfileFloat(CUSTOM9ROUNDNESS, MAXROUNDNESS, m_ConfigPath, m_MaxRoundness);
+		break;
+
+	case CIRCLE_DETECT_TYPE_CUSTOM10:
+		DataUtility::SetProfileInt(CUSTOM10GRAY, MINGRAY, m_ConfigPath, m_MinGray);
+		DataUtility::SetProfileInt(CUSTOM10GRAY, MAXGRAY, m_ConfigPath, m_MaxGray);
+		DataUtility::SetProfileFloat(CUSTOM10AREA, MINAREA, m_ConfigPath, m_MinCirleArea);
+		DataUtility::SetProfileFloat(CUSTOM10AREA, MAXAREA, m_ConfigPath, m_MaxCirleArea);
+		DataUtility::SetProfileFloat(CUSTOM10ROUNDNESS, MINROUNDNESS, m_ConfigPath, m_MinRoundness);
+		DataUtility::SetProfileFloat(CUSTOM10ROUNDNESS, MAXROUNDNESS, m_ConfigPath, m_MaxRoundness);
+		break;
+
+	case CIRCLE_DETECT_TYPE_CUSTOM11:
+		DataUtility::SetProfileInt(CUSTOM11GRAY, MINGRAY, m_ConfigPath, m_MinGray);
+		DataUtility::SetProfileInt(CUSTOM11GRAY, MAXGRAY, m_ConfigPath, m_MaxGray);
+		DataUtility::SetProfileFloat(CUSTOM11AREA, MINAREA, m_ConfigPath, m_MinCirleArea);
+		DataUtility::SetProfileFloat(CUSTOM11AREA, MAXAREA, m_ConfigPath, m_MaxCirleArea);
+		DataUtility::SetProfileFloat(CUSTOM11ROUNDNESS, MINROUNDNESS, m_ConfigPath, m_MinRoundness);
+		DataUtility::SetProfileFloat(CUSTOM11ROUNDNESS, MAXROUNDNESS, m_ConfigPath, m_MaxRoundness);
+		break;
+
+	case CIRCLE_DETECT_TYPE_CUSTOM12:
+		DataUtility::SetProfileInt(CUSTOM12GRAY, MINGRAY, m_ConfigPath, m_MinGray);
+		DataUtility::SetProfileInt(CUSTOM12GRAY, MAXGRAY, m_ConfigPath, m_MaxGray);
+		DataUtility::SetProfileFloat(CUSTOM12AREA, MINAREA, m_ConfigPath, m_MinCirleArea);
+		DataUtility::SetProfileFloat(CUSTOM12AREA, MAXAREA, m_ConfigPath, m_MaxCirleArea);
+		DataUtility::SetProfileFloat(CUSTOM12ROUNDNESS, MINROUNDNESS, m_ConfigPath, m_MinRoundness);
+		DataUtility::SetProfileFloat(CUSTOM12ROUNDNESS, MAXROUNDNESS, m_ConfigPath, m_MaxRoundness);
+		break;
+
+	case CIRCLE_DETECT_TYPE_CUSTOM13:
+		DataUtility::SetProfileInt(CUSTOM13GRAY, MINGRAY, m_ConfigPath, m_MinGray);
+		DataUtility::SetProfileInt(CUSTOM13GRAY, MAXGRAY, m_ConfigPath, m_MaxGray);
+		DataUtility::SetProfileFloat(CUSTOM13AREA, MINAREA, m_ConfigPath, m_MinCirleArea);
+		DataUtility::SetProfileFloat(CUSTOM13AREA, MAXAREA, m_ConfigPath, m_MaxCirleArea);
+		DataUtility::SetProfileFloat(CUSTOM13ROUNDNESS, MINROUNDNESS, m_ConfigPath, m_MinRoundness);
+		DataUtility::SetProfileFloat(CUSTOM13ROUNDNESS, MAXROUNDNESS, m_ConfigPath, m_MaxRoundness);
+		break;
+
+	case CIRCLE_DETECT_TYPE_CUSTOM14:
+		DataUtility::SetProfileInt(CUSTOM14GRAY, MINGRAY, m_ConfigPath, m_MinGray);
+		DataUtility::SetProfileInt(CUSTOM14GRAY, MAXGRAY, m_ConfigPath, m_MaxGray);
+		DataUtility::SetProfileFloat(CUSTOM14AREA, MINAREA, m_ConfigPath, m_MinCirleArea);
+		DataUtility::SetProfileFloat(CUSTOM14AREA, MAXAREA, m_ConfigPath, m_MaxCirleArea);
+		DataUtility::SetProfileFloat(CUSTOM14ROUNDNESS, MINROUNDNESS, m_ConfigPath, m_MinRoundness);
+		DataUtility::SetProfileFloat(CUSTOM14ROUNDNESS, MAXROUNDNESS, m_ConfigPath, m_MaxRoundness);
+		break;
+
+	case CIRCLE_DETECT_TYPE_CUSTOM15:
+		DataUtility::SetProfileInt(CUSTOM15GRAY, MINGRAY, m_ConfigPath, m_MinGray);
+		DataUtility::SetProfileInt(CUSTOM15GRAY, MAXGRAY, m_ConfigPath, m_MaxGray);
+		DataUtility::SetProfileFloat(CUSTOM15AREA, MINAREA, m_ConfigPath, m_MinCirleArea);
+		DataUtility::SetProfileFloat(CUSTOM15AREA, MAXAREA, m_ConfigPath, m_MaxCirleArea);
+		DataUtility::SetProfileFloat(CUSTOM15ROUNDNESS, MINROUNDNESS, m_ConfigPath, m_MinRoundness);
+		DataUtility::SetProfileFloat(CUSTOM15ROUNDNESS, MAXROUNDNESS, m_ConfigPath, m_MaxRoundness);
 		break;
 
 	default:
