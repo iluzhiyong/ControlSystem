@@ -171,6 +171,7 @@ void CControlSystemDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_EDIT_CAL_Z, m_compensationZ);
 	DDX_Control(pDX, IDC_COMBO_WORKPIECE_TYPE, m_workPieceType);
 	DDX_Text(pDX, IDC_EDIT_CAL_ANGLE, m_calAngle);
+	DDX_Control(pDX, IDC_EDIT_DATA_ITEM, m_dataItem);
 }
 
 BEGIN_MESSAGE_MAP(CControlSystemDlg, CDialogEx)
@@ -201,6 +202,7 @@ BEGIN_MESSAGE_MAP(CControlSystemDlg, CDialogEx)
 	ON_MESSAGE(WM_MAIN_THREAD_DO_CAPTURE,&CControlSystemDlg::OnMainThreadDoCapture)
 	ON_WM_ERASEBKGND()
 	ON_WM_CTLCOLOR()
+	ON_EN_KILLFOCUS(IDC_EDIT_DATA_ITEM, &CControlSystemDlg::OnEnKillfocusEditDataItem)
 END_MESSAGE_MAP()
 
 
@@ -267,6 +269,9 @@ BOOL CControlSystemDlg::OnInitDialog()
 	{
 		AfxMessageBox("用户界面线程启动失败!",MB_OK|MB_ICONERROR);
 	}
+
+	//
+	m_dataItem.ShowWindow(SW_HIDE);
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
@@ -453,9 +458,25 @@ void CControlSystemDlg::OnBnClickedSaveAs()
 				int ColCount = pHeader->GetItemCount();
 				int RowCount = m_ListData.GetItemCount();
 
-				for (int i = ROW_RESULT_START; i < RowCount; i = i + 3)
+				/*for (int i = ROW_RESULT_START; i < RowCount; i = i + 3)
 				{
 					for (int j = COLUMN_RESULT_START; j <= COLUMN_RESULT_END; j++)
+					{
+						strItemName = m_ListData.GetItemText(i, j);
+						excelApp.SetCellString(i + 1,j + 1, strItemName);
+					}
+				}*/
+				for (int i = 0; i < RowCount; i++)
+				{
+					if(m_ListData.GetItemText(i, 0) == "结束")
+					{
+						break;
+					}
+					if(m_ListData.GetItemText(i, 2) == "误差值")
+					{
+						continue;
+					}
+					for (int j = 0; j <= 9; j++)
 					{
 						strItemName = m_ListData.GetItemText(i, j);
 						excelApp.SetCellString(i + 1,j + 1, strItemName);
@@ -619,6 +640,25 @@ void CControlSystemDlg::OnDblclkList1(NMHDR *pNMHDR, LRESULT *pResult)
 
 	 try
 	{
+		//支持编辑CListCtrl功能
+		NM_LISTVIEW* pNMListView=(NM_LISTVIEW*)pNMHDR;
+		CRect rc;
+		m_listRow = pNMListView->iItem;//获得选中的行
+		m_listCol = pNMListView->iSubItem;//获得选中列
+
+		//if(pNMListView->iSubItem != 0) //如果选择的是子项;
+		{
+			m_ListData.GetSubItemRect(m_listRow,m_listCol,LVIR_LABEL,rc);//获得子项的RECT；
+			m_dataItem.SetParent(&m_ListData);//转换坐标为列表框中的坐标
+			m_dataItem.MoveWindow(rc);//移动Edit到RECT坐在的位置;
+			m_dataItem.SetWindowText(m_ListData.GetItemText(m_listRow,m_listCol));//将该子项中的值放在Edit控件中；
+			m_dataItem.ShowWindow(SW_SHOW);//显示Edit控件；
+			m_dataItem.SetFocus();//设置Edit焦点
+			m_dataItem.ShowCaret();//显示光标
+			m_dataItem.SetSel(-1);//将光标移动到最后
+		}
+		
+		//双击后，更新自定义XYZ数据
 		float x = 0.0, y = 0.0, z = 0.0;
 		CString buffer=""; 
 		buffer=m_ListData.GetItemText(pNMItemActivate->iItem,COLUMN_POS_X);
@@ -1201,4 +1241,14 @@ HBRUSH CControlSystemDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 	}
 	
 	return hbr;
+}
+
+
+void CControlSystemDlg::OnEnKillfocusEditDataItem()
+{
+	// TODO: Add your control notification handler code here
+	CString tem;
+	m_dataItem.GetWindowText(tem);						//得到用户输入的新的内容
+	m_ListData.SetItemText(m_listRow,m_listCol,tem);	//设置编辑框的新内容
+	m_dataItem.ShowWindow(SW_HIDE);						//应藏编辑框
 }

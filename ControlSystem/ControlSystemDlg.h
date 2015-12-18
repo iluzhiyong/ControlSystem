@@ -68,6 +68,7 @@ public:
 	afx_msg void OnImageParamSet();
 	afx_msg void OnCaculateAxialDeviationAngle();
 	afx_msg LRESULT OnMainThreadDoCapture(WPARAM wParam,LPARAM lParam);
+	afx_msg void OnEnKillfocusEditDataItem();
 	void ReCaculateResultByCompensation();
 
 private:
@@ -79,6 +80,9 @@ private:
 
 private:
 	CListCtrl	m_ListData;
+	CEdit		m_dataItem;
+	int			m_listRow;
+	int			m_listCol;
 	bool		m_excelLoaded;
 	int			m_columnNum;
 	int			m_rowNum;
