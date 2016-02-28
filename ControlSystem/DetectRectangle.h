@@ -29,6 +29,12 @@ public:
 	float m_minRectangularity;
 	float m_maxRectangularity;
 
+	int m_minRow;
+	int m_maxRow;
+
+	int m_minColumn;
+	int m_maxColumn;
+
 private:
 	// Local iconic variables 
 	Hobject  m_Image, m_Region, m_ConnectedRegions, m_SelectedRegions;

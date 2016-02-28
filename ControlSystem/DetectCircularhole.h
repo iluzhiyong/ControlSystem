@@ -58,6 +58,12 @@ public:
 	float m_MinRoundness;
 	float m_MaxRoundness;
 
+	int m_MinRow;
+	int m_MaxRow;
+
+	int m_MinColumn;
+	int m_MaxColumn;
+
 private:
 	CString m_ConfigPath;
 

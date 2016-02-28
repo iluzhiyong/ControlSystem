@@ -9,6 +9,10 @@ CDetectRectangle::CDetectRectangle(void)
 	, m_maxArea(300000.0f)
 	, m_minRectangularity(0.2f)
 	, m_maxRectangularity(1.0f)
+	, m_minRow(0)
+	, m_maxRow(1000)
+	, m_minColumn(0)
+	, m_maxColumn(1000)
 {
 	m_ConfigPath = DataUtility::GetExePath() + _T("\\ProcessConfig\\ImageProcess.ini");
 	LoadConfig();
@@ -23,6 +27,10 @@ void CDetectRectangle::LoadConfig()
 {
 	m_minGray = DataUtility::GetProfileInt(_T("Rectangle Threshold"), _T("MinGray"), m_ConfigPath, 100);
 	m_maxGray = DataUtility::GetProfileInt(_T("Rectangle Threshold"), _T("MaxGray"), m_ConfigPath, 255);
+	m_minRow = DataUtility::GetProfileInt(_T("Rectangle Row"), _T("MinRow"), m_ConfigPath, 0);
+	m_maxRow = DataUtility::GetProfileInt(_T("Rectangle Row"), _T("MaxRow"), m_ConfigPath, 1000);
+	m_minColumn = DataUtility::GetProfileInt(_T("Rectangle Column"), _T("MinColumn"), m_ConfigPath, 0);
+	m_maxColumn = DataUtility::GetProfileInt(_T("Rectangle Column"), _T("MaxColumn"), m_ConfigPath, 1000);
 	m_minArea = DataUtility::GetProfileFloat(_T("Rectangle Area"), _T("MinArea"), m_ConfigPath, 150000.0f);
 	m_maxArea = DataUtility::GetProfileFloat(_T("Rectangle Area"), _T("MaxArea"), m_ConfigPath, 300000.0f);
 	m_minRectangularity = DataUtility::GetProfileFloat(_T("Rectangle Rectangularity"), _T("MinRectangularity"), m_ConfigPath, 0.2f);
@@ -33,6 +41,10 @@ void CDetectRectangle::SaveConfig()
 {
 	DataUtility::SetProfileInt(_T("Rectangle Threshold"), _T("MinGray"), m_ConfigPath, m_minGray);
 	DataUtility::SetProfileInt(_T("Rectangle Threshold"), _T("MaxGray"), m_ConfigPath, m_maxGray);
+	DataUtility::SetProfileInt(_T("Rectangle Row"), _T("MinRow"), m_ConfigPath, m_minRow);
+	DataUtility::SetProfileInt(_T("Rectangle Row"), _T("MaxRow"), m_ConfigPath, m_maxRow);
+	DataUtility::SetProfileInt(_T("Rectangle Column"), _T("MinColumn"), m_ConfigPath, m_minColumn);
+	DataUtility::SetProfileInt(_T("Rectangle Column"), _T("MaxColumn"), m_ConfigPath, m_maxColumn);
 	DataUtility::SetProfileFloat(_T("Rectangle Area"), _T("MinArea"), m_ConfigPath, m_minArea);
 	DataUtility::SetProfileFloat(_T("Rectangle Area"), _T("MaxArea"), m_ConfigPath, m_maxArea);
 	DataUtility::SetProfileFloat(_T("Rectangle Rectangularity"), _T("MinRectangularity"), m_ConfigPath, m_minRectangularity);
@@ -87,7 +99,10 @@ bool CDetectRectangle::RunSelectTarget()
 	{
 		try
 		{
-			select_shape(m_ConnectedRegions, &m_SelectedRegions, (HTuple("area").Append("roundness")), "and", (HTuple(m_minArea).Append(m_minRectangularity)), (HTuple(m_maxArea).Append(m_maxRectangularity)));
+			select_shape(m_ConnectedRegions, &m_SelectedRegions, 
+				(((HTuple("area").Append("roundness")).Append("row")).Append("column")), "and", 
+				(((HTuple(m_minArea).Append(m_minRectangularity)).Append(m_minRow)).Append(m_minColumn)), 
+				(((HTuple(m_maxArea).Append(m_maxRectangularity)).Append(m_maxRow)).Append(m_maxColumn)));
 			
 			fill_up(m_SelectedRegions, &m_RegionFillUp);
 			gen_contour_region_xld(m_RegionFillUp, &m_RectangleContours, "border");

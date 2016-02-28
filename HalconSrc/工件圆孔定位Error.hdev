@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hdevelop file_version="1.0" halcon_version="10.0" cs="575952169">
+<hdevelop file_version="1.1" halcon_version="12.0">
 <procedure name="main">
 <interface/>
 <body>
 <l>dev_close_window ()</l>
-<l>*read_image (Capture1, 'E:/Work/Test_Image.PNG')</l>
-<l>read_image(Capture1,'G:/Project/ControlSystem/Debug/Image/Image.bmp')</l>
+<l>read_image (Capture1, 'E:/Work/Test_Image.PNG')</l>
+<l>* read_image(Capture1,'G:/Project/ControlSystem/Debug/Image/Image.bmp')</l>
 <l>get_image_size (Capture1, Width, Height)</l>
 <l>dev_open_window (0, 0, Width, Height, 'black', WindowID)</l>
 <l>dev_display (Capture1)</l>
@@ -14,8 +14,8 @@
 <c></c>
 <l>threshold(Capture1, Region, 0, 100)</l>
 <l>connection(Region, ConnectedRegions)</l>
-<l>select_shape (ConnectedRegions, SelectedRegions, ['area','roundness'], 'and', [100000,0.64634], [160000,1])</l>
-<c></c>
+<l>* select_shape (ConnectedRegions, SelectedRegions, ['area','roundness'], 'and', [100000,0.64634], [160000,1])</l>
+<l>select_shape (ConnectedRegions, SelectedRegions, ['area','roundness','row','column','ra','rb'], 'and', [50000,0.5,0,0,0,200], [400000,1,1000,1000,1000,1000])</l>
 <l>dilation_circle(SelectedRegions, RegionDilation, 3.5)</l>
 <l>fill_up(RegionDilation, RegionFillUp)</l>
 <c></c>

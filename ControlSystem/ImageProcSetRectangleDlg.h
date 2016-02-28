@@ -35,4 +35,9 @@ public:
 
 private:
 	CDetectRectangle*	m_detecter;
+public:
+	int m_minRow;
+	int m_maxRow;
+	int m_minColumn;
+	int m_maxColumn;
 };
