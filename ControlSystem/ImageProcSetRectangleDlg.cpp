@@ -26,6 +26,10 @@ CImageProcSetRectangleDlg::CImageProcSetRectangleDlg(CWnd* pParent /*=NULL*/)
 	m_maxRow = 1000;
 	m_minColumn = 0;
 	m_maxColumn = 1000;
+	m_maxRA = 0.0f;
+	m_minRA = 1000.0f;
+	m_maxRB = 0.0f;
+	m_minRB = 1000.0f;
 }
 
 CImageProcSetRectangleDlg::~CImageProcSetRectangleDlg()
@@ -45,6 +49,10 @@ void CImageProcSetRectangleDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_EDIT_RECT_ROW_MAX, m_maxRow);
 	DDX_Text(pDX, IDC_EDIT_RECT_COLUMN_MIN, m_minColumn);
 	DDX_Text(pDX, IDC_EDIT_RECT_COLUMN_MAX, m_maxColumn);
+	DDX_Text(pDX, IDC_EDIT_RECT_RA_MAX, m_maxRA);
+	DDX_Text(pDX, IDC_EDIT_RECT_RA_MIN, m_minRA);
+	DDX_Text(pDX, IDC_EDIT_RECT_RB_MAX, m_maxRB);
+	DDX_Text(pDX, IDC_EDIT_RECT_RB_MIN, m_minRB);
 }
 
 
@@ -122,6 +130,10 @@ void CImageProcSetRectangleDlg::SetDetecter(CDetectRectangle* detecter)
 	m_rectangularityMax = m_detecter->m_maxRectangularity;
 	m_areaMin = m_detecter->m_minArea;
 	m_areaMax = m_detecter->m_maxArea;
+	m_minRA = m_detecter->m_minRA;
+	m_maxRA = m_detecter->m_maxRA;
+	m_minRB = m_detecter->m_minRB;
+	m_maxRB = m_detecter->m_maxRB;
 
 	UpdateData(false);
 }
@@ -142,5 +154,9 @@ void CImageProcSetRectangleDlg::UpdateDetecterSetting()
 		m_detecter->m_maxRectangularity = m_rectangularityMax;
 		m_detecter->m_minArea = m_areaMin;
 		m_detecter->m_maxArea = m_areaMax;
+		m_detecter->m_minRA = m_minRA;
+		m_detecter->m_maxRA = m_maxRA;
+		m_detecter->m_minRB = m_minRB;
+		m_detecter->m_maxRB = m_maxRB;
 	}
 }

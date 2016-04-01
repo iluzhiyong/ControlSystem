@@ -58,6 +58,12 @@ public:
 	float m_MinRoundness;
 	float m_MaxRoundness;
 
+	float m_minRA;
+	float m_maxRA;
+
+	float m_minRB;
+	float m_maxRB;
+
 	int m_MinRow;
 	int m_MaxRow;
 

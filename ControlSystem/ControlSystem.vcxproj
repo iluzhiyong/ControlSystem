@@ -207,7 +207,6 @@
     <ClInclude Include="CGCamera.h" />
     <ClInclude Include="DetectLine.h" />
     <ClInclude Include="DetectRectangle.h" />
-    <ClInclude Include="DetectOblong.h" />
     <ClInclude Include="DLCCamera.h" />
     <ClInclude Include="CApplication.h" />
     <ClInclude Include="ControlSystem.h" />
@@ -249,7 +248,6 @@
     <ClCompile Include="CGCamera.cpp" />
     <ClCompile Include="DetectLine.cpp" />
     <ClCompile Include="DetectRectangle.cpp" />
-    <ClCompile Include="DetectOblong.cpp" />
     <ClCompile Include="DLCCamera.cpp" />
     <ClCompile Include="ControlSystem.cpp" />
     <ClCompile Include="ControlSystemDlg.cpp" />

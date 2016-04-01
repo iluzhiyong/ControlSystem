@@ -174,9 +174,6 @@
     <ClInclude Include="DetectRectangle.h">
       <Filter>Header Files\ImageProc</Filter>
     </ClInclude>
-    <ClInclude Include="DetectOblong.h">
-      <Filter>Header Files\ImageProc</Filter>
-    </ClInclude>
     <ClInclude Include="DetectCircularhole.h">
       <Filter>Header Files\ImageProc</Filter>
     </ClInclude>
@@ -256,9 +253,6 @@
     </ClCompile>
     <ClCompile Include="AxialDeviationAngle.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DetectOblong.cpp">
-      <Filter>Source Files\ImageProc</Filter>
     </ClCompile>
     <ClCompile Include="DetectRectangle.cpp">
       <Filter>Source Files\ImageProc</Filter>

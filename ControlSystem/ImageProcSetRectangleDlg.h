@@ -40,4 +40,8 @@ public:
 	int m_maxRow;
 	int m_minColumn;
 	int m_maxColumn;
+	float m_maxRA;
+	float m_minRA;
+	float m_maxRB;
+	float m_minRB;
 };

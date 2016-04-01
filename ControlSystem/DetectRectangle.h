@@ -35,6 +35,12 @@ public:
 	int m_minColumn;
 	int m_maxColumn;
 
+	float m_minRA;
+	float m_maxRA;
+
+	float m_minRB;
+	float m_maxRB;
+
 private:
 	// Local iconic variables 
 	Hobject  m_Image, m_Region, m_ConnectedRegions, m_SelectedRegions;

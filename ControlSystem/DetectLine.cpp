@@ -13,6 +13,10 @@ CDetectLine::CDetectLine(void)
 	, m_maxRow(1000)
 	, m_minColumn(0)
 	, m_maxColumn(1000)
+	, m_minRA(0.0)
+	, m_maxRA(1000.0)
+	, m_minRB(0.0)
+	, m_maxRB(1000.0)
 {
 	m_ConfigPath = DataUtility::GetExePath() + _T("\\ProcessConfig\\ImageProcess.ini");
 	LoadConfig();
@@ -35,6 +39,10 @@ void CDetectLine::LoadConfig()
 	m_maxArea = DataUtility::GetProfileFloat(_T("Line Area"), _T("MaxArea"), m_ConfigPath, 300000.0f);
 	m_minRectangularity = DataUtility::GetProfileFloat(_T("Line Rectangularity"), _T("MinRectangularity"), m_ConfigPath, 0.2f);
 	m_maxRectangularity = DataUtility::GetProfileFloat(_T("Line Rectangularity"), _T("MaxRectangularity"), m_ConfigPath, 1.0f);
+	m_minRA = DataUtility::GetProfileFloat(_T("Line RA"), _T("MinRA"), m_ConfigPath, 0.0f);
+	m_maxRA = DataUtility::GetProfileFloat(_T("Line RA"), _T("MaxRA"), m_ConfigPath, 1000.0f);
+	m_minRB = DataUtility::GetProfileFloat(_T("Line RB"), _T("MinRB"), m_ConfigPath, 0.0f);
+	m_maxRB = DataUtility::GetProfileFloat(_T("Line RB"), _T("MaxRB"), m_ConfigPath, 1000.0f);
 }
 
 void CDetectLine::SaveConfig()
@@ -49,6 +57,10 @@ void CDetectLine::SaveConfig()
 	DataUtility::SetProfileFloat(_T("Line Area"), _T("MaxArea"), m_ConfigPath, m_maxArea);
 	DataUtility::SetProfileFloat(_T("Line Rectangularity"), _T("MinRectangularity"), m_ConfigPath, m_minRectangularity);
 	DataUtility::SetProfileFloat(_T("Line Rectangularity"), _T("MaxRectangularity"), m_ConfigPath, m_maxRectangularity);
+	DataUtility::SetProfileFloat(_T("Line RA"), _T("MinRA"), m_ConfigPath, m_minRA);
+	DataUtility::SetProfileFloat(_T("Line RA"), _T("MaxRA"), m_ConfigPath, m_maxRA);
+	DataUtility::SetProfileFloat(_T("Line RB"), _T("MinRB"), m_ConfigPath, m_minRB);
+	DataUtility::SetProfileFloat(_T("Line RB"), _T("MaxRB"), m_ConfigPath, m_maxRB);
 }
 
 void CDetectLine::SetImageObject(Hobject image)
@@ -100,10 +112,10 @@ bool CDetectLine::RunSelectTarget()
 		try
 		{
 			select_shape(m_ConnectedRegions, &m_SelectedRegions, 
-				(((HTuple("area").Append("roundness")).Append("row")).Append("column")), "and", 
-				(((HTuple(m_minArea).Append(m_minRectangularity)).Append(m_minRow)).Append(m_minColumn)), 
-				(((HTuple(m_maxArea).Append(m_maxRectangularity)).Append(m_maxRow)).Append(m_maxColumn)));
-			
+				(((((HTuple("area").Append("roundness")).Append("row")).Append("column")).Append("ra")).Append("rb")), "and", 
+				(((((HTuple(m_minArea).Append(m_minRectangularity)).Append(m_minRow)).Append(m_minColumn)).Append(m_minRA)).Append(m_minRB)), 
+				(((((HTuple(m_maxArea).Append(m_maxRectangularity)).Append(m_maxRow)).Append(m_maxColumn)).Append(m_maxRA)).Append(m_maxRB)));
+
 			fill_up(m_SelectedRegions, &m_RegionFillUp);
 			gen_contour_region_xld(m_RegionFillUp, &m_RectangleContours, "border");
 			distance_pc(m_RectangleContours, m_ImageHeight/2, m_ImageWidth/2, &m_DistanceMin, &m_DistanceMax);
