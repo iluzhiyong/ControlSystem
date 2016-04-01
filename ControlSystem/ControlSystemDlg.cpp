@@ -580,7 +580,12 @@ void CControlSystemDlg::OnBnClickedAutoMear()
 void CControlSystemDlg::OnBnClickedCustomMear()
 {
 	UpdateData(TRUE);
-	float pos[3] = {m_CustomX, m_CustomY, -m_CustomZ};
+	//注意必须使用static，
+	//如果将pos定义为局部变量，因为PostThreadMessage发送完消息后立即返回，不能保证栈上的数据正确
+	static float pos[3] = {0};
+	pos[0] = m_CustomX;
+	pos[1] = m_CustomY;
+	pos[2] = -m_CustomZ;
 	int iPos=((CComboBox*)GetDlgItem(IDC_COMBO_WORKPIECE_TYPE))->GetCurSel();
 
 	if(NULL != m_UIProcThread)
