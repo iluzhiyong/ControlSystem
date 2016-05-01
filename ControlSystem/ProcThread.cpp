@@ -301,12 +301,6 @@ bool CProcThread::GetMeasureTargetValue(int row, float &x, float &y, float &z)
 
 void CProcThread::OnDoAutoMear(WPARAM wParam,LPARAM lParam)
 {
-	//while(!g_AutoMearCanceled)
-	//{
-	//	Sleep(3000);
-	//	AfxMessageBox("OnDoAutoMear");
-	//}
-	
 	m_pListData = (CListCtrl*)wParam;
 	int usedRowNum = (lParam & 0xFFFF0000)>>16;
 	int startRow = lParam & 0xFFFF;
@@ -541,7 +535,7 @@ int CProcThread::MoveToTargetPosXYZ(float x, float y, float z, float &retx, floa
 {
 	int ret = 0;
 
-#if 0	//for test
+#if FOR_TEST
 	//ret = ::SendMessage((HWND)(GetMainWnd()->GetSafeHwnd()),WM_MAIN_THREAD_DO_CAPTURE, 0, 0);
 	//if(ret == 0)
 	//{
@@ -549,9 +543,10 @@ int CProcThread::MoveToTargetPosXYZ(float x, float y, float z, float &retx, floa
 	//	m_IImageProcess->GetCircleDetecter()->ShowErrorMessage(false);
 	//	m_IImageProcess->Process(x, y, retx, rety);
 	//}
-	retx = x + 1;
+	retx = x;
 	rety = y;
 	retz = z;
+	return 0
 #else
 
 	//Z轴回到上限位开关处

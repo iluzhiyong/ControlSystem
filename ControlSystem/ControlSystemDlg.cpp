@@ -508,22 +508,28 @@ void CControlSystemDlg::OnBnClickedSaveAs()
 
 void CControlSystemDlg::OnBnClickedStop()
 {
+#if FOR_TEST
+#else
 	if(m_bMotorRunStatus == false)
 	{
 		AfxMessageBox("电机未连接，请连接电机.");
 		return;
 	}
+#endif
 
 	g_AutoMearCanceled = true;
 }
 
 void CControlSystemDlg::OnBnClickedStart()
 {
+#if FOR_TEST
+#else
 	if(m_bMotorRunStatus == false)
 	{
 		AfxMessageBox("电机未连接，请连接电机.");
 		return;
 	}
+#endif
 
 	UpdateData(TRUE);
 

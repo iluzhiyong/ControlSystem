@@ -20,6 +20,8 @@
 #define DETECT_MOTOR_STATUS_TIMER	1
 #define DETECTLIMIT_TIMER			2
 
+#define FOR_TEST	0
+
 
 #include "targetver.h"
 
