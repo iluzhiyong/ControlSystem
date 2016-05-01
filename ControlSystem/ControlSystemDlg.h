@@ -59,6 +59,7 @@ public:
 	afx_msg void OnBnClickedSetPosZ();
 	afx_msg void OnBnClickedLimitX();
 	afx_msg LRESULT OnUpdateMotorStatus(WPARAM wParam,LPARAM lParam);
+	afx_msg LRESULT OnAutoMearFinish(WPARAM wParam,LPARAM lParam);
 	afx_msg void OnBnClickedBtnOutputImage(UINT nID);
 	afx_msg void OnCameraConnect();
 	afx_msg void OnCameraCapture();

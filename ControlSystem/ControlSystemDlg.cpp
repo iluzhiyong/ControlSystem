@@ -24,6 +24,7 @@
 #include "Log.h"
 #include "DataUtility.h"
 #include "ProcThread.h"
+#include "vld.h" //visual leam detector for memory leak detecting
 
 using namespace std;
 
@@ -31,6 +32,7 @@ using namespace std;
 #define new DEBUG_NEW
 #endif
 
+bool g_AutoMearCanceled = false;
 
 // CAboutDlg dialog used for App About
 
@@ -39,13 +41,13 @@ class CAboutDlg : public CDialogEx
 public:
 	CAboutDlg();
 
-// Dialog Data
+	// Dialog Data
 	enum { IDD = IDD_ABOUTBOX };
 
-	protected:
+protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 
-// Implementation
+	// Implementation
 protected:
 	DECLARE_MESSAGE_MAP()
 };
@@ -85,6 +87,9 @@ CControlSystemDlg::CControlSystemDlg(CWnd* pParent /*=NULL*/)
 {
 	m_IsMeasuring = false;
 	m_IsMotroCtrlConnected = false;
+
+	m_listRow = 0;
+	m_listCol = 0;
 
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 	m_IHeightDectector = NULL;
@@ -139,7 +144,7 @@ CControlSystemDlg::~CControlSystemDlg()
 {
 	CLog::Instance()->CloseLog();
 
-	
+
 	if(m_IHeightDectector != NULL)
 	{
 		delete m_IHeightDectector;
@@ -203,6 +208,7 @@ BEGIN_MESSAGE_MAP(CControlSystemDlg, CDialogEx)
 	ON_WM_ERASEBKGND()
 	ON_WM_CTLCOLOR()
 	ON_EN_KILLFOCUS(IDC_EDIT_DATA_ITEM, &CControlSystemDlg::OnEnKillfocusEditDataItem)
+	ON_MESSAGE(WM_AUTO_MEAR_FINISH,&CControlSystemDlg::OnAutoMearFinish)
 END_MESSAGE_MAP()
 
 
@@ -322,7 +328,7 @@ void CControlSystemDlg::OnPaint()
 		bmpBackground.GetBitmap(&bitmap);
 		CBitmap* pbmpPri = dcMem.SelectObject(&bmpBackground);
 		dc.StretchBlt(0,0,rc.Width(), rc.Height(), &dcMem,0,0,bitmap.bmWidth, bitmap.bmHeight, SRCCOPY);
-		
+
 		CDialogEx::OnPaint();
 	}
 }
@@ -343,11 +349,11 @@ void CControlSystemDlg::OnBnClickedImport()
 
 	char szFilters[]= "Excel 工作薄(*.xlsx)|*.xlsx|Excel 工作薄(*.xls)|*.xls|所有文件(*.*)|*.*||";
 	CFileDialog dlg (	true, 
-							_T( "xlsx" ), 
-							"", 
-							OFN_CREATEPROMPT | OFN_HIDEREADONLY | OFN_CREATEPROMPT, 
-							szFilters, 
-							this); //TRUE为OPEN对话框，FALSE为SAVE AS对话框
+		_T( "xlsx" ), 
+		"", 
+		OFN_CREATEPROMPT | OFN_HIDEREADONLY | OFN_CREATEPROMPT, 
+		szFilters, 
+		this); //TRUE为OPEN对话框，FALSE为SAVE AS对话框
 	if(dlg.DoModal() == IDOK)
 	{
 		m_ExcelTemplateFilePathName = dlg.GetPathName();
@@ -428,6 +434,7 @@ void CControlSystemDlg::OnBnClickedSaveAs()
 	{
 		return;
 	}
+	
 	excelApp.ShowInExcel(FALSE);
 
 	CString FilePathName;
@@ -438,11 +445,11 @@ void CControlSystemDlg::OnBnClickedSaveAs()
 
 	char szFilters[]= "Excel 工作薄(*.xlsx)|*.xlsx|Excel 工作薄(*.xls)|*.xls|所有文件(*.*)|*.*||";
 	CFileDialog fileDlg (	FALSE, 
-							_T( "xlsx" ), 
-							curTimeStr, 
-							OFN_CREATEPROMPT | OFN_HIDEREADONLY | OFN_CREATEPROMPT, 
-							szFilters, 
-							this);
+		_T( "xlsx" ), 
+		curTimeStr, 
+		OFN_CREATEPROMPT | OFN_HIDEREADONLY | OFN_CREATEPROMPT, 
+		szFilters, 
+		this);
 	if(fileDlg.DoModal() == IDOK)
 	{
 		FilePathName = fileDlg.GetPathName();
@@ -460,11 +467,11 @@ void CControlSystemDlg::OnBnClickedSaveAs()
 
 				/*for (int i = ROW_RESULT_START; i < RowCount; i = i + 3)
 				{
-					for (int j = COLUMN_RESULT_START; j <= COLUMN_RESULT_END; j++)
-					{
-						strItemName = m_ListData.GetItemText(i, j);
-						excelApp.SetCellString(i + 1,j + 1, strItemName);
-					}
+				for (int j = COLUMN_RESULT_START; j <= COLUMN_RESULT_END; j++)
+				{
+				strItemName = m_ListData.GetItemText(i, j);
+				excelApp.SetCellString(i + 1,j + 1, strItemName);
+				}
 				}*/
 				for (int i = 0; i < RowCount; i++)
 				{
@@ -496,24 +503,34 @@ void CControlSystemDlg::OnBnClickedSaveAs()
 	}
 
 	excelApp.ReleaseExcel();
+	AfxMessageBox("结果保存成功！");
+}
+
+void CControlSystemDlg::OnBnClickedStop()
+{
+	if(m_bMotorRunStatus == false)
+	{
+		AfxMessageBox("电机未连接，请连接电机.");
+		return;
+	}
+
+	g_AutoMearCanceled = true;
 }
 
 void CControlSystemDlg::OnBnClickedStart()
 {
-	//if(m_bMotorRunStatus == false)
-	//{
-	//	AfxMessageBox("电机未连接，请连接电机.");
-	//	return;
-	//}
+	if(m_bMotorRunStatus == false)
+	{
+		AfxMessageBox("电机未连接，请连接电机.");
+		return;
+	}
 
 	UpdateData(TRUE);
-	if(NULL != m_UIProcThread)
-	{
-		m_UIProcThread->ResumeThread();
-	}
 
 	if(m_Process == 0)
 	{
+		g_AutoMearCanceled = false;
+		GetDlgItem(IDC_START)->EnableWindow(false);
 		OnBnClickedAutoMear();
 	}
 	else if(m_Process == 1)
@@ -526,33 +543,41 @@ void CControlSystemDlg::OnBnClickedStart()
 	}
 }
 
+LRESULT CControlSystemDlg::OnAutoMearFinish(WPARAM wParam,LPARAM lParam)
+{
+	g_AutoMearCanceled = false;
+	GetDlgItem(IDC_START)->EnableWindow(true);
+	AfxMessageBox("自动测量完成！");
+
+	return 0;
+}
+
 void CControlSystemDlg::EnableOtherControls()
 {
-	GetDlgItem( IDC_MANUAL_LEFT_X)->EnableWindow(!m_IsMeasuring);
-	GetDlgItem( IDC_MANUAL_LEFT_Y)->EnableWindow(!m_IsMeasuring);
-	GetDlgItem( IDC_MANUAL_LEFT_Z)->EnableWindow(!m_IsMeasuring);
+	GetDlgItem(IDC_MANUAL_LEFT_X)->EnableWindow(!m_IsMeasuring);
+	GetDlgItem(IDC_MANUAL_LEFT_Y)->EnableWindow(!m_IsMeasuring);
+	GetDlgItem(IDC_MANUAL_LEFT_Z)->EnableWindow(!m_IsMeasuring);
 
-	GetDlgItem( IDC_MANUAL_RIGHT_X)->EnableWindow(!m_IsMeasuring);
-	GetDlgItem( IDC_MANUAL_RIGHT_Y)->EnableWindow(!m_IsMeasuring);
-	GetDlgItem( IDC_MANUAL_RIGHT_Z)->EnableWindow(!m_IsMeasuring);
+	GetDlgItem(IDC_MANUAL_RIGHT_X)->EnableWindow(!m_IsMeasuring);
+	GetDlgItem(IDC_MANUAL_RIGHT_Y)->EnableWindow(!m_IsMeasuring);
+	GetDlgItem(IDC_MANUAL_RIGHT_Z)->EnableWindow(!m_IsMeasuring);
 
-	GetDlgItem( IDC_CLEAR_ZERO_X)->EnableWindow(!m_IsMeasuring);
-	GetDlgItem( IDC_CLEAR_ZERO_Y)->EnableWindow(!m_IsMeasuring);
-	GetDlgItem( IDC_CLEAR_ZERO_Z)->EnableWindow(!m_IsMeasuring);
-		
-	GetDlgItem( IDC_CAMERA_PARAM)->EnableWindow(!m_IsMeasuring);
-	GetDlgItem( IDC_SET_PARAM)->EnableWindow(!m_IsMeasuring);
+	GetDlgItem(IDC_CLEAR_ZERO_X)->EnableWindow(!m_IsMeasuring);
+	GetDlgItem(IDC_CLEAR_ZERO_Y)->EnableWindow(!m_IsMeasuring);
+	GetDlgItem(IDC_CLEAR_ZERO_Z)->EnableWindow(!m_IsMeasuring);
 
-	GetDlgItem( IDC_IMPORT)->EnableWindow(!m_IsMeasuring);
-	GetDlgItem( IDC_SAVE_AS)->EnableWindow(m_excelLoaded ? (!m_IsMeasuring) : false);
+	GetDlgItem(IDC_COMBO_WORKPIECE_TYPE)->EnableWindow(!m_IsMeasuring);
 
-	GetDlgItem( IDC_CUSTOM_X)->EnableWindow(!m_IsMeasuring);
-	GetDlgItem( IDC_CUSTOM_Y)->EnableWindow(!m_IsMeasuring);
-	GetDlgItem( IDC_CUSTOM_Z)->EnableWindow(!m_IsMeasuring);
+	GetDlgItem(IDC_IMPORT)->EnableWindow(!m_IsMeasuring);
+	GetDlgItem(IDC_SAVE_AS)->EnableWindow(m_excelLoaded ? (!m_IsMeasuring) : false);
 
-	GetDlgItem( IDC_RADIO1)->EnableWindow(!m_IsMeasuring);
-	GetDlgItem( IDC_RADIO2)->EnableWindow(!m_IsMeasuring);
-	GetDlgItem( IDC_RADIO3)->EnableWindow(!m_IsMeasuring);
+	GetDlgItem(IDC_CUSTOM_X)->EnableWindow(!m_IsMeasuring);
+	GetDlgItem(IDC_CUSTOM_Y)->EnableWindow(!m_IsMeasuring);
+	GetDlgItem(IDC_CUSTOM_Z)->EnableWindow(!m_IsMeasuring);
+
+	GetDlgItem(IDC_RADIO1)->EnableWindow(!m_IsMeasuring);
+	GetDlgItem(IDC_RADIO2)->EnableWindow(!m_IsMeasuring);
+	GetDlgItem(IDC_RADIO3)->EnableWindow(!m_IsMeasuring);
 }
 
 BOOL CControlSystemDlg::DestroyWindow()
@@ -573,7 +598,8 @@ void CControlSystemDlg::OnBnClickedAutoMear()
 
 	if(NULL != m_UIProcThread)
 	{
-		m_UIProcThread->PostThreadMessage(WM_DO_AUTO_MEAR, (WPARAM)&m_ListData, (LPARAM)m_rowNum);
+		long param = (m_rowNum << 16) + (m_listRow & 0xFFFF);
+		m_UIProcThread->PostThreadMessage(WM_DO_AUTO_MEAR, (WPARAM)&m_ListData, (LPARAM)param);
 	}
 }
 
@@ -620,7 +646,7 @@ void CControlSystemDlg::ReCaculateResultByCompensation()
 
 		//recaculate the measured value by angle
 		DataUtility::ConvertPosByDeviationAngle(0.0f, 0.0f, measuredX, measuredY, m_calAngle * 3.14f / 180.0f, &measuredX, &measuredY);
-		
+
 		//recaculate the measured value by position
 		measuredX = measuredX + m_compensationX;
 		measuredY = measuredY + m_compensationY;
@@ -643,7 +669,7 @@ void CControlSystemDlg::OnDblclkList1(NMHDR *pNMHDR, LRESULT *pResult)
 	// TODO: Add your control notification handler code here
 	*pResult = 0;
 
-	 try
+	try
 	{
 		//支持编辑CListCtrl功能
 		NM_LISTVIEW* pNMListView=(NM_LISTVIEW*)pNMHDR;
@@ -662,7 +688,7 @@ void CControlSystemDlg::OnDblclkList1(NMHDR *pNMHDR, LRESULT *pResult)
 			m_dataItem.ShowCaret();//显示光标
 			m_dataItem.SetSel(-1);//将光标移动到最后
 		}
-		
+
 		//双击后，更新自定义XYZ数据
 		float x = 0.0, y = 0.0, z = 0.0;
 		CString buffer=""; 
@@ -697,6 +723,7 @@ void CControlSystemDlg::OnClose()
 	//销毁线程
 	if(m_UIProcThread)
 	{
+		g_AutoMearCanceled = true;
 		//1.发一个WM_QUIT　消息结　UI　线程
 		m_UIProcThread->PostThreadMessage(WM_QUIT, NULL, NULL);
 		//2. 等待　UI　线程正常退出
@@ -768,20 +795,6 @@ LRESULT CControlSystemDlg::OnUpdateMotorStatus(WPARAM wParam,LPARAM lParam)
 	}
 
 	return 0;
-}
-
-void CControlSystemDlg::OnBnClickedStop()
-{
-	if(m_bMotorRunStatus == false)
-	{
-		AfxMessageBox("电机未连接，请连接电机.");
-		return;
-	}
-
-	if(NULL != m_UIProcThread)
-	{
-		m_UIProcThread->SuspendThread();
-	}
 }
 
 
@@ -1114,15 +1127,15 @@ void CControlSystemDlg::CameraUpdatePictureDisp(void)
 		BITMAPINFO bmpInfo = {{sizeof(BITMAPINFOHEADER), m_nImageWidth, -m_nImageHeight, 1, 24, BI_RGB, 0, 0, 0, 0, 0}};
 		m_csImageData.Lock();
 		::StretchDIBits( pDC->GetSafeHdc(), x, y, width, height, 0, 0, m_nImageWidth, m_nImageHeight,
-				m_pImageData, &bmpInfo, DIB_RGB_COLORS, SRCCOPY );
+			m_pImageData, &bmpInfo, DIB_RGB_COLORS, SRCCOPY );
 		m_csImageData.Unlock();
-		
+
 		//观察窗口中心十字线
 		CPen pen(PS_SOLID, 1, RGB(0, 255, 0));
 		pDC->SelectObject(&pen);
 		CBrush *pBrush = CBrush::FromHandle((HBRUSH)GetStockObject(NULL_BRUSH));
 		pDC->SelectObject(pBrush);
-		
+
 		pDC->MoveTo(rcClient.left + rcClient.Width()/2-60, rcClient.top + rcClient.Height()/2);
 		pDC->LineTo(rcClient.left + rcClient.Width()/2+60, rcClient.top + rcClient.Height()/2);
 
@@ -1130,10 +1143,10 @@ void CControlSystemDlg::CameraUpdatePictureDisp(void)
 		pDC->LineTo(rcClient.left + rcClient.Width()/2, rcClient.top + rcClient.Height()/2+60);
 
 		pDC->Ellipse(rcClient.left + rcClient.Width()/2 - 40,
-						rcClient.top + rcClient.Height()/2 - 40,
-						rcClient.left + rcClient.Width()/2 + 40,
-						rcClient.top + rcClient.Height()/2 + 40);
-		
+			rcClient.top + rcClient.Height()/2 - 40,
+			rcClient.left + rcClient.Width()/2 + 40,
+			rcClient.top + rcClient.Height()/2 + 40);
+
 		pWnd->ReleaseDC(pDC);
 	}
 }
@@ -1244,7 +1257,7 @@ HBRUSH CControlSystemDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 		//pDC->SelectObject(&m_font);
 		hbr = ::CreateSolidBrush(RGB(234,235,221));
 	}
-	
+
 	return hbr;
 }
 

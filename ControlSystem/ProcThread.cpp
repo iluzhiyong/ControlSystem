@@ -16,6 +16,8 @@
 #include "DetectOblong.h"
 #include <math.h>
 
+extern bool g_AutoMearCanceled;
+
 // CProcThread
 
 IMPLEMENT_DYNCREATE(CProcThread, CWinThread)
@@ -299,8 +301,16 @@ bool CProcThread::GetMeasureTargetValue(int row, float &x, float &y, float &z)
 
 void CProcThread::OnDoAutoMear(WPARAM wParam,LPARAM lParam)
 {
+	//while(!g_AutoMearCanceled)
+	//{
+	//	Sleep(3000);
+	//	AfxMessageBox("OnDoAutoMear");
+	//}
+	
 	m_pListData = (CListCtrl*)wParam;
-	int usedRowNum = (int)lParam;
+	int usedRowNum = (lParam & 0xFFFF0000)>>16;
+	int startRow = lParam & 0xFFFF;
+	if(startRow <= ROW_START) startRow = ROW_START;
 
 	CDetectCircularhole* detecter = m_IImageProcess->GetCircleDetecter();
 	if(detecter != NULL)
@@ -311,8 +321,14 @@ void CProcThread::OnDoAutoMear(WPARAM wParam,LPARAM lParam)
 	float deviationAngle = 0.0f;
 	float x = 0.0, y = 0.0, z = 0.0;
 	float retX = 0.0, retY = 0.0, retZ = 0.0;
-	for(int i = ROW_START; i < usedRowNum; i = i + 3)
+	for(int i = startRow; i < usedRowNum; i = i + 3)
 	{
+		//UI thread got canceled
+		if(g_AutoMearCanceled == true)
+		{
+			break;
+		}
+
 		if(m_pListData->GetItemText(i, COLUMN_TERMINATOR) == _T("结束"))
 		{
 			break;
@@ -443,7 +459,7 @@ void CProcThread::OnDoAutoMear(WPARAM wParam,LPARAM lParam)
 		}
 	}
 
-	AfxMessageBox("自动测量完成！");
+	::PostMessage((HWND)(GetMainWnd()->GetSafeHwnd()), WM_AUTO_MEAR_FINISH, 0, 0);
 }
 
 int CProcThread::MoveToTargetPosXY(float x, float y, float z, float &retx, float &rety, bool calX/* = false*/, bool calY/* = false*/)
