@@ -433,23 +433,32 @@ void CProcThread::OnDoAutoMear(WPARAM wParam,LPARAM lParam)
 			GetFloatItem(i, COLUMN_COMPENSATION_Y, compensationY);
 			GetFloatItem(i, COLUMN_COMPENSATION_Z, compensationZ);
 
-			//利用轴向偏离角计算实际行走尺寸
+			//无偏离角版本
 			if(0 == MoveToTargetPosXYZ((x + compensationX), (y + compensationY), -z - compensationZ, retX, retY, retZ))
 			{
-				if(i == ROW_START)
-				{
-					//第一项用于测量偏离角
-					m_DeviationAngle = (float)(atan(retY / retX) - atan((y + compensationY) / (x + compensationX)));
-					DataUtility::SetProfileFloat(_T("Axial Deviation Angle"), _T("Angle"), (DataUtility::GetExePath() + _T("\\ProcessConfig\\SysConfig.ini")), float(m_DeviationAngle * 180 / 3.14));
-				}
-
-				//利用轴向偏离角计算实测量结果
-				DataUtility::ConvertPosByDeviationAngle(x + compensationX, y + compensationY, retX, retY, m_DeviationAngle, &retX, &retY);
-				
 				SetFloatItem(i + 1, COLUMN_POS_X, retX - compensationX);
 				SetFloatItem(i + 1, COLUMN_POS_Y, retY - compensationY);
 				SetFloatItem(i + 1, COLUMN_POS_Z, -retZ - compensationZ);
 			}
+
+			//偏离角版本
+			//利用轴向偏离角计算实际行走尺寸
+			//if(0 == MoveToTargetPosXYZ((x + compensationX), (y + compensationY), -z - compensationZ, retX, retY, retZ))
+			//{
+			//	if(i == ROW_START)
+			//	{
+			//		//第一项用于测量偏离角
+			//		m_DeviationAngle = (float)(atan(retY / retX) - atan((y + compensationY) / (x + compensationX)));
+			//		DataUtility::SetProfileFloat(_T("Axial Deviation Angle"), _T("Angle"), (DataUtility::GetExePath() + _T("\\ProcessConfig\\SysConfig.ini")), float(m_DeviationAngle * 180 / 3.14));
+			//	}
+
+			//	//利用轴向偏离角计算实测量结果
+			//	DataUtility::ConvertPosByDeviationAngle(x + compensationX, y + compensationY, retX, retY, m_DeviationAngle, &retX, &retY);
+			//	
+			//	SetFloatItem(i + 1, COLUMN_POS_X, retX - compensationX);
+			//	SetFloatItem(i + 1, COLUMN_POS_Y, retY - compensationY);
+			//	SetFloatItem(i + 1, COLUMN_POS_Z, -retZ - compensationZ);
+			//}
 		}
 	}
 
@@ -543,10 +552,9 @@ int CProcThread::MoveToTargetPosXYZ(float x, float y, float z, float &retx, floa
 	//	m_IImageProcess->GetCircleDetecter()->ShowErrorMessage(false);
 	//	m_IImageProcess->Process(x, y, retx, rety);
 	//}
-	retx = x;
-	rety = y;
-	retz = z;
-	return 0
+	retx = x+0.5;
+	rety = y+0.5;
+	retz = z+0.5;
 #else
 
 	//Z轴回到上限位开关处
