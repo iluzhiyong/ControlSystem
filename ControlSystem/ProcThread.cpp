@@ -552,6 +552,7 @@ int CProcThread::MoveToTargetPosXYZ(float x, float y, float z, float &retx, floa
 	//	m_IImageProcess->GetCircleDetecter()->ShowErrorMessage(false);
 	//	m_IImageProcess->Process(x, y, retx, rety);
 	//}
+	Sleep(1000);
 	retx = x+0.5;
 	rety = y+0.5;
 	retz = z+0.5;
