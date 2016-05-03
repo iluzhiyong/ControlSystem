@@ -24,7 +24,7 @@
 #include "Log.h"
 #include "DataUtility.h"
 #include "ProcThread.h"
-#include "vld.h" //visual leam detector for memory leak detecting
+//#include "vld.h" //visual leam detector for memory leak detecting
 
 using namespace std;
 
