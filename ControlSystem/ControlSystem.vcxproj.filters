@@ -195,6 +195,9 @@
     <ClInclude Include="ImageProcSetCircleDlg.h">
       <Filter>Header Files\ImageProc</Filter>
     </ClInclude>
+    <ClInclude Include="cnComm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ControlSystem.cpp">

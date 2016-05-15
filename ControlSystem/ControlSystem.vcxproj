@@ -205,6 +205,7 @@
   <ItemGroup>
     <ClInclude Include="AxialDeviationAngle.h" />
     <ClInclude Include="CGCamera.h" />
+    <ClInclude Include="cnComm.h" />
     <ClInclude Include="DetectLine.h" />
     <ClInclude Include="DetectRectangle.h" />
     <ClInclude Include="DLCCamera.h" />

@@ -15,8 +15,11 @@
 #include "ImageProcSetAllDlg.h"
 #include "DetectOblong.h"
 #include <math.h>
+#include "cnComm.h"
 
 extern bool g_AutoMearCanceled;
+
+const BYTE comBuffer[] = { 0xFE, 0x05, 0x00, 0x00, 0x00, 0x00, 0xD9, 0xC5 };
 
 // CProcThread
 
@@ -72,6 +75,9 @@ BOOL CProcThread::InitInstance()
 	m_XCalV = DataUtility::GetProfileFloat(_T("Processing Motor V"), _T("XCalV"), (DataUtility::GetExePath() + _T("\\ProcessConfig\\MTConfig.ini")), 10.0f);
 	m_YCalV = DataUtility::GetProfileFloat(_T("Processing Motor V"), _T("YCalV"), (DataUtility::GetExePath() + _T("\\ProcessConfig\\MTConfig.ini")), 10.0f);
 
+	//m_COM.Open(5);
+	//m_COM.Write(comBuffer, 8);
+	
 	return TRUE;
 }
 
